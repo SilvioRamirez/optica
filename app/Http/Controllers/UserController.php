@@ -122,6 +122,18 @@ class UserController extends Controller
         return redirect()->route('users.index')
                         ->with('success','User updated successfully');
     }
+
+    /**
+     * Show de form to confirm the remove from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id): View
+    {
+        $user = User::find($id);
+        return view('users.delete',compact('user'));
+    }
     
     /**
      * Remove the specified resource from storage.

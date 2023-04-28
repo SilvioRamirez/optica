@@ -25,12 +25,8 @@
         <main class="py-4">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                @yield('content')
-                            </div>
-                        </div>
+                    <div class="col-md-12">                            
+                        @yield('content')                        
                     </div>
                 </div>
             </div>
@@ -39,6 +35,8 @@
         @include('layouts.footer')
           
     </div>
+<script>
 
+</script>
 </body>
 </html>

@@ -28,6 +28,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
+
+    Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     Route::resource('users', UserController::class);
+
     Route::resource('products', ProductController::class);
+});
+
+Route::get('/sidebar', function () {
+    return view('sidebar');
 });
