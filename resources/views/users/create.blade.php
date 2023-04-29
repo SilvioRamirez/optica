@@ -2,13 +2,7 @@
 
 @section('content')
 
-<div class="row">
-    <div class="col-lg-12 margin-tb">        
-        <div class="pull-right mb-2">
-            <a class="btn btn-primary btn-sm" href="{{ route('users.index') }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
-        </div>
-    </div>
-</div>
+<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
 
 @include('fragment.error')
 
@@ -28,5 +22,4 @@
 </div>
 
 <p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
-
 @endsection

@@ -14,6 +14,20 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
+
+    /**
+     * Verifica los permisos de los usuarios en el controlador
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['delete','destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -143,9 +157,14 @@ class UserController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        User::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        if ($id != 1){
+            User::find($id)->delete();
+            return redirect()->route('users.index')
+                            ->with('success','User deleted successfully');
+        }else{
+            return redirect()->route('roles.index')
+                            ->with('error','Ha ocurrido un error.');
+        }
     }
 
 }

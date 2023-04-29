@@ -14,16 +14,16 @@ class RoleController extends Controller
 {
     
     /**
-     * Display a listing of the resource.
+     * Verifica los permisos de los usuarios en el controlador
      *
      * @return \Illuminate\Http\Response
      */
     function __construct()
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','show']]);
+         $this->middleware('permission:role-create',    ['only' => ['create','store']]);
+         $this->middleware('permission:role-edit',      ['only' => ['edit','update']]);
+         $this->middleware('permission:role-delete',    ['only' => ['delete','destroy']]);
     }
     
     /**
@@ -124,6 +124,19 @@ class RoleController extends Controller
         return redirect()->route('roles.index')
                         ->with('success','Role updated successfully');
     }
+
+    /**
+     * Show de form to confirm the remove from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id): View
+    {
+        $role = Role::find($id);
+        return view('roles.delete',compact('role'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -132,9 +145,13 @@ class RoleController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        DB::table("roles")->where('id',$id)->delete();
-        return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+        if ($id != 1){
+            DB::table("roles")->where('id',$id)->delete();
+            return redirect()->route('roles.index')
+                            ->with('success','Role deleted successfully');
+        }else{
+            return redirect()->route('roles.index')->with('error','Ha ocurrido un error.');
+        }
     }
 
 }

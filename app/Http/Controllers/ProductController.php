@@ -19,7 +19,7 @@ class ProductController extends Controller
     {
          $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
          $this->middleware('permission:product-create', ['only' => ['create','store']]);
-         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
          $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
@@ -60,7 +60,7 @@ class ProductController extends Controller
         Product::create($request->all());
     
         return redirect()->route('products.index')
-                        ->with('success','Product created successfully.');
+                        ->with('success','Product created successfully');
     }
     
     /**
@@ -103,6 +103,18 @@ class ProductController extends Controller
     
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');
+    }
+
+    /**
+     * Show de form to confirm the remove from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id): View
+    {
+        $product = Product::find($id);
+        return view('products.delete',compact('product'));
     }
     
     /**

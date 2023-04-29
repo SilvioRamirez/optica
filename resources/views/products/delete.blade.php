@@ -8,15 +8,15 @@
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
             <i class="fa fa-trash-alt"></i>
-                    {{ __('Eliminar Usuario') }}
+                    {{ __('Delete') }} Producto
         </div>
         <div class="card-body">			
             @include('fragment.error')
             @include('fragment.success')
                     
-            {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}
+            {!! Form::open(['method' => 'DELETE','route' => ['products.destroy', $product->id],'style'=>'display:inline']) !!}
                     
-                <h2 class="text-center">¿Está segur@ de eliminar al usuario <strong>{{ $user->name }}</strong>?</h2>
+                <h2 class="text-center">¿Está segur@ de eliminar el Producto: <strong>{{ $product->name }}</strong>?</h2>
                 <hr>
                     
                 <div class="flex-center position-ref full-height">

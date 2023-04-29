@@ -53,9 +53,18 @@
     "Edit": "Editar",
     "Action": "Acción",
     "Create New User": "Crear Nuevo Usuario",
-    "Edit New User": "Editar Nuevo Usuario",
+    "Edit User": "Editar Usuario",
     "Show User": "Mostrar Usuario",
     "Back": "Atrás",
     "There were some problems with your input": "Hubo algunos problemas con el registro",
-    "Save": "Guardar"
+    "Save": "Guardar",
+    "Create New Role": "Crear Nuevo Rol",
+    "Permissions": "Permisos",
+    "Edit Role": "Editar Rol",
+    "Rol Name": "Nombre del Rol",
+    "Show Role": "Mostrar Rol",
+    "Delete Role": "Eliminar Rol",
+    "Details": "Detalles",
+    "Email": "Correo Electrónico",
+    "Create New": "Crear Nuevo"
 }

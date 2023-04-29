@@ -27,11 +27,17 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
+    
+    //Rutas de Roles
+    Route::get('/roles/{role}/delete', [RoleController::class, 'delete'])->name('roles.delete');
     Route::resource('roles', RoleController::class);
 
+    //Rutas de Usuarios
     Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     Route::resource('users', UserController::class);
 
+    //Rutas de Productos
+    Route::get('/products/{product}/delete', [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products', ProductController::class);
 });
 
