@@ -15,10 +15,22 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="card border-light mb-3 shadow">
+        <div class="card-header bg-primary text-white">
+            Administración de Usuarios
+        </div>
+        <div class="card-body">
+            {{ $dataTable->table() }}
+        </div>
+    </div>
+</div>
+
 @include('fragment.error')
 @include('fragment.success')
 
-<table class="table table-hover table-bordered">
+
+{{-- <table class="table table-hover table-bordered">
     <thead>
         <tr>
             <th>N</th>
@@ -57,7 +69,12 @@
     @endforeach
 </table>
 
-{!! $data->render() !!}
+{!! $data->render() !!} --}}
+
 <p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
 
 @endsection
+
+@push('scripts')
+    {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+@endpush

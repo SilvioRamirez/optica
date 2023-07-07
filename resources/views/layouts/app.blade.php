@@ -22,7 +22,7 @@
         
         @include('layouts.nav')
 
-        <main class="py-4">
+        <main class="py-4 mb-5">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-12">                            
@@ -33,7 +33,7 @@
         </main>
 
         @include('layouts.footer')
-          
+        @stack('scripts')
     </div>
 <script>
 

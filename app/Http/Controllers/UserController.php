@@ -11,6 +11,7 @@ use Hash;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\DataTables\UsersDataTable;
 
 class UserController extends Controller
 {
@@ -33,12 +34,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request): View
+    public function index(UsersDataTable $dataTable)
     {
-        $data = User::latest()->paginate(5);
-  
+        /* $data = User::latest()->paginate(5);
+
         return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i', ($request->input('page', 1) - 1) * 5); */
+
+        return $dataTable->render('users.index');
     }
 
     /**

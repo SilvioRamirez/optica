@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles', RoleController::class);
 
     //Rutas de Usuarios
+    /* Route::get('/users', [UserController::class, 'index'])->name('users.index'); */
     Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
     Route::resource('users', UserController::class);
 
