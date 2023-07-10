@@ -29,7 +29,7 @@ class UsersDataTable extends DataTable
                                         <a class="btn btn-danger btn-sm" href="'.route('users.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                                     </div>';
             })
-            ->orderColumn('id', 'true')
+            ->orderColumn('id', '')
             /* ->editColumn('action', function ($query) {                                        
                                 return '<a href="'.$query->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
                                     return view('components.buttons.mini', [
