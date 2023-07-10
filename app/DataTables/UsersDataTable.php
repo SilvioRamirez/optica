@@ -22,7 +22,21 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', '<a>Hola</a>')
+            ->addColumn('action', function($query){
+                                return '<div class="btn-group" role="group" aria-label="Opciones">
+                                        <a class="btn btn-info btn-sm" href="'.route('users.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="'.route('users.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
+                                        <a class="btn btn-danger btn-sm" href="'.route('users.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                                    </div>';
+            })
+            ->orderColumn('id', 'true')
+            /* ->editColumn('action', function ($query) {                                        
+                                return '<a href="'.$query->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                                    return view('components.buttons.mini', [
+                                        'icon' => 'edit-pencil',
+                                        'url'  => route($this->route_edit ?: strtolower(class_basename($model)) . '.edit', $model)
+                                    ]); 
+                                    }) */
             ->setRowId('id');
     }
 
@@ -44,9 +58,12 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->dom('lBftrip')
+                    ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
                     ->orderBy(1)
-                    ->selectStyleSingle()
+                    /* ->selectStyleSingle() */
+                    ->language([
+                        'url' => url('storage/js/Spanish.json')
+                    ])
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
@@ -63,16 +80,17 @@ class UsersDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre y Apellido')->data('name')->name('name'),
+            Column::make('email')->title('Correo'),
+            Column::make('created_at')->title('Creado'),
+            Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
                     ->exportable(false)
                     ->printable(false)
                     ->width(60)
+                    
                     ->addClass('text-center'),
-            Column::make('id')->title('ID'),
-            Column::make('name')->title('Nombre y Apellido'),
-            Column::make('email')->title('Correo'),
-            Column::make('created_at')->title('Creado'),
-            Column::make('updated_at')->title('Actualizado'),
         ];
     }
 
