@@ -2,6 +2,7 @@
 
 @section('content')
 
+<div class="container">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="text-center">
@@ -15,7 +16,6 @@
     </div>
 </div>
 
-<div class="container">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
             Administración de Usuarios

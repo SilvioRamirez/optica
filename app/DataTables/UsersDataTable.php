@@ -29,7 +29,6 @@ class UsersDataTable extends DataTable
                                         <a class="btn btn-danger btn-sm" href="'.route('users.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                                     </div>';
             })
-            ->orderColumn('id', '')
             /* ->editColumn('action', function ($query) {                                        
                                 return '<a href="'.$query->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
                                     return view('components.buttons.mini', [
@@ -59,7 +58,7 @@ class UsersDataTable extends DataTable
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(1)
+                    ->orderBy(0)
                     /* ->selectStyleSingle() */
                     ->language([
                         'url' => url('storage/js/Spanish.json')
