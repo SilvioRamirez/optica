@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Usuarios
     /* Route::get('/users', [UserController::class, 'index'])->name('users.index'); */
     Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
+    Route::get('/users/ajax/create', [UserController::class, 'ajax_create'])->name('users.ajax.create');
     Route::resource('users', UserController::class);
 
     //Rutas de Productos
