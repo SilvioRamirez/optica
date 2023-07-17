@@ -17,4 +17,15 @@ class Product extends Model
     protected $fillable = [
         'name', 'detail'
     ];
+
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->toDateTimeString();
+        /* return \Carbon\Carbon::parse($this->attributes['created_at'])->diffForHumans(); */
+    }
+
+    public function getUpdatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['updated_at'])->diffForHumans();
+    }
 }

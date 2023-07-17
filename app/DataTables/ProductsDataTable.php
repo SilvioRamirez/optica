@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class ProductsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,11 +23,11 @@ class UsersDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                                return '<div class="btn-group" role="group" aria-label="Opciones">
-                                            <a class="btn btn-info btn-sm" href="'.route('users.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                                            <a class="btn btn-primary btn-sm" href="'.route('users.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
-                                            <a class="btn btn-danger btn-sm" href="'.route('users.delete',$query->id).'"><i class="fa fa-trash"></i></a>
-                                        </div>';
+                            return '<div class="btn-group" role="group" aria-label="Opciones">
+                                        <a class="btn btn-info btn-sm" href="'.route('products.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="'.route('products.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
+                                        <a class="btn btn-danger btn-sm" href="'.route('products.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                                    </div>';
             })
             ->setRowId('id');
     }
@@ -35,7 +35,7 @@ class UsersDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(User $model): QueryBuilder
+    public function query(Product $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -46,7 +46,7 @@ class UsersDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('products-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
@@ -71,8 +71,8 @@ class UsersDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('name')->title('Nombre y Apellido')->data('name')->name('name'),
-            Column::make('email')->title('Correo'),
+            Column::make('name')->title('Nombre')->data('name')->name('name'),
+            Column::make('detail')->title('Detalles'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
@@ -88,6 +88,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Users_' . date('YmdHis');
+        return 'Products_' . date('YmdHis');
     }
 }
