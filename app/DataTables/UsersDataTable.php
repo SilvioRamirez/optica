@@ -22,6 +22,13 @@ class UsersDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('role', function($query){
+
+                    return $query->roles->map(function($rol){
+                        return $rol->name;
+                    })->implode(',');
+
+            })
             ->addColumn('action', function($query){
                                 return '<div class="btn-group" role="group" aria-label="Opciones">
                                             <a class="btn btn-info btn-sm" href="'.route('users.show',$query->id).'"><i class="fa fa-eye"></i></a>
@@ -29,16 +36,6 @@ class UsersDataTable extends DataTable
                                             <a class="btn btn-danger btn-sm" href="'.route('users.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                                         </div>';
             })
-<<<<<<< HEAD
-            /* ->editColumn('action', function ($query) {                                        
-                                return '<a href="'.$query->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-                                    return view('components.buttons.mini', [
-                                        'icon' => 'edit-pencil',
-                                        'url'  => route($this->route_edit ?: strtolower(class_basename($model)) . '.edit', $model)
-                                    ]); 
-                                    }) */
-=======
->>>>>>> b93efe5172eea4362300e216015a040a17194905
             ->setRowId('id');
     }
 
@@ -60,12 +57,7 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-<<<<<<< HEAD
-                    ->orderBy(0)
-                    /* ->selectStyleSingle() */
-=======
                     ->orderBy(0, 'asc')
->>>>>>> b93efe5172eea4362300e216015a040a17194905
                     ->language([
                         'url' => url('storage/js/Spanish.json')
                     ])
@@ -88,6 +80,8 @@ class UsersDataTable extends DataTable
             Column::make('id')->title('ID'),
             Column::make('name')->title('Nombre y Apellido')->data('name')->name('name'),
             Column::make('email')->title('Correo'),
+            Column::computed('role')->title('Roles')
+                        ->width(60),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
