@@ -5,3 +5,4 @@ composer require laravel-lang/common --dev
 php artisan lang:add fr
 php artisan lang:update
 
+php artisan datatables:make Users

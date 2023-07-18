@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Redirect;
+use App\DataTables\ProductsDataTable;
 
 class ProductController extends Controller
 {
@@ -23,16 +24,20 @@ class ProductController extends Controller
          $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
          $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): View
+    public function index(ProductsDataTable $dataTable)
     {
-        $products = Product::latest()->paginate(5);
-        return view('products.index',compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        /* $data = User::latest()->paginate(5);
+
+        return view('users.index',compact('data'))
+            ->with('i', ($request->input('page', 1) - 1) * 5); */
+
+        return $dataTable->render('products.index');
     }
     
     /**

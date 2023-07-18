@@ -2,7 +2,6 @@
 
 @section('content')
 
-<div class="container">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="text-center">
@@ -26,55 +25,61 @@
     </div>
 </div>
 
-@include('fragment.error')
-@include('fragment.success')
-
-
-{{-- <table class="table table-hover table-bordered">
-    <thead>
-        <tr>
-            <th>N</th>
-            <th>{{ __('Name')}}</th>
-            <th>{{ __('Email')}}</th>
-            <th>{{ __('Roles')}}</th>
-            <th width="280px">{{ __('Action')}}</th>
-        </tr>
-    </thead>
-    @foreach ($data as $key => $user)
-        <tr>
-            <td>{{ ++$i }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>
-                @if(!empty($user->getRoleNames()))
-                    @foreach($user->getRoleNames() as $v)
-                        <span class="badge bg-success">{{ $v }}</span>
-                    @endforeach
-                @endif
-            </td>
-            <td>
-                <div class="btn-group" role="group" aria-label="Opciones">
-                    @can('user-list')
-                        <a class="btn btn-info btn-sm" href="{{ route('users.show',$user->id) }}"><i class="fa fa-eye"></i> {{ __('')}}</a>
-                    @endcan
-                    @can('user-edit')
-                        <a class="btn btn-primary btn-sm" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-pen-to-square"></i> {{ __('')}}</a>
-                    @endcan
-                    @can('user-delete')
-                        <a class="btn btn-danger btn-sm" href="{{ route('users.delete',$user->id) }}"><i class="fa fa-trash"></i> {{ __('')}}</a>
-                    @endcan
-                </div>
-            </td>
-        </tr>
-    @endforeach
-</table>
-
-{!! $data->render() !!} --}}
-
 <p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
+
+<!-- Button trigger modal -->
+{{-- <button type="button" id="btnModal" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#defaultModal">
+    <i class="fa fa-user-plus"></i> {{ __('Create New User')}}
+</button> --}}
+
+<!-- Modal -->
+{{-- <div class="modal fade" id="defaultModal" tabindex="-1" aria-labelledby="defaultModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="defaultModalLabel">Modal title</h1>
+                <button type="button" id="btnClose" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12" id="update_box">
+            </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
+        </div>
+    </div>
+</div> --}}
+
+
+
+
+
+
 
 @endsection
 
 @push('scripts')
+
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+<script type="text/javascript">
+    // Get the modal
+/*     const modal = document.getElementById('defaultModal')
+    const box = document.getElementById('update_box')
+
+    modal.addEventListener('hidden.bs.modal', event =>{
+        box.innerHTML = ''
+    })
+
+    modal.addEventListener('shown.bs.modal', () => {
+        axios.get('/users/ajax/create')
+            .then(function (response) {
+                box.innerHTML = response.data
+            })
+    }) */
+
+</script>
+
 @endpush
+

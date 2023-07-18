@@ -12,9 +12,7 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
                 @include('users.partials.form-edit')
-            {!! Form::close() !!}
 
         </div>
     </div>

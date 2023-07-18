@@ -13,9 +13,7 @@
         </div>
         <div class="card-body">
 
-            {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
                 @include('users.partials.form')
-            {!! Form::close() !!}
 
         </div>
     </div>

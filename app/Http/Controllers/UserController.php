@@ -56,6 +56,17 @@ class UserController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource in ajax modal.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ajax_create()
+    {
+        $roles = Role::pluck('name','name')->all();
+        return view('users.partials.form', compact('roles'))->render();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -76,8 +87,7 @@ class UserController extends Controller
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
     
-        return redirect()->route('users.index')
-                        ->with('success','User created successfully');
+        return redirect()->route('users.index')->with('success','User created successfully');
     }
 
     /**
