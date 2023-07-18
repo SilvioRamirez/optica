@@ -23,7 +23,13 @@ class RolesDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'roles.action')
+            ->addColumn('action', function($query){
+                return '<div class="btn-group" role="group" aria-label="Opciones">
+                            <a class="btn btn-info btn-sm" href="'.route('roles.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-primary btn-sm" href="'.route('roles.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
+                            <a class="btn btn-danger btn-sm" href="'.route('roles.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                        </div>';
+            })
             ->setRowId('id');
     }
 
@@ -44,13 +50,15 @@ class RolesDataTable extends DataTable
                     ->setTableId('roles-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    ->selectStyleSingle()
+                    ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
+                    ->orderBy(0, 'asc')
+                    ->language([
+                        'url' => url('storage/js/Spanish.json')
+                    ])
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
-                        Button::make('pdf'),
+                        /* Button::make('pdf'), */
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
@@ -63,15 +71,16 @@ class RolesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::make('id')->title('ID'),
+            Column::make('name')->title('Nombre'),
+            Column::make('guard_name')->title('Guard'),
+            Column::make('created_at')->title('Creado'),
+            Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('add your columns'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
         ];
     }
 
