@@ -1,4 +1,8 @@
 import 'bootstrap';
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -6,8 +10,13 @@ import 'bootstrap';
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+//se agrega aqui el jquery para que este disponible en todo momento en las plantillas de blade
+
 import axios from 'axios';
+import $ from 'jquery';
+
 window.axios = axios;
+window.$ = $;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

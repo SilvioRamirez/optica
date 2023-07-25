@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FullCalenderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,3 +47,6 @@ Route::group(['middleware' => ['auth']], function() {
 Route::get('/sidebar', function () {
     return view('sidebar');
 });
+
+Route::get('fullcalendar', [FullCalenderController:: class, 'index']);
+Route::post('fullcalenderAjax', [FullCalenderController::class, 'ajax']);
