@@ -9,8 +9,10 @@ import 'bootstrap';
 //se agrega aqui el jquery para que este disponible en todo momento en las plantillas de blade
 
 import axios from 'axios';
+import $ from 'jquery';
 
 window.axios = axios;
+window.$ = $;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

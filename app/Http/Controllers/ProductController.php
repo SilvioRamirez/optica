@@ -19,10 +19,10 @@ class ProductController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-         $this->middleware('permission:product-create', ['only' => ['create','store']]);
-         $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
-         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -32,11 +32,6 @@ class ProductController extends Controller
      */
     public function index(ProductsDataTable $dataTable)
     {
-        /* $data = User::latest()->paginate(5);
-
-        return view('users.index',compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5); */
-
         return $dataTable->render('products.index');
     }
     

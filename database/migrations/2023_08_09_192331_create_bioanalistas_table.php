@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('apellidos');
             $table->text('direccion')->nullable();
             $table->string('telefono')->nullable();
-            $table->datetimes('fecha_nacimiento');
+            $table->date('fecha_nacimiento');
             $table->string('documento');
             $table->string('colegio');
             $table->string('fecha_ingreso');

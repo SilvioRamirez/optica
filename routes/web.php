@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
@@ -41,4 +42,10 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Productos
     Route::get('/products/{product}/delete', [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products', ProductController::class);
+
+    //Rutas de Productos
+    Route::get('/pacientes/{paciente}/delete', [PacienteController::class, 'delete'])->name('pacientes.delete');
+    Route::resource('pacientes', PacienteController::class);
+
+
 });
