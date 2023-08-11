@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\Resultados;
+use App\Models\Bioanalista;
+use App\Models\Examen;
+use App\Models\Caracteristicas;
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
@@ -7,6 +12,8 @@ use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\BioanalistaController;
+use App\Http\Controllers\ExamenController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,9 +50,27 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/products/{product}/delete', [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products', ProductController::class);
 
-    //Rutas de Productos
+    //Rutas de Pacientes
     Route::get('/pacientes/{paciente}/delete', [PacienteController::class, 'delete'])->name('pacientes.delete');
     Route::resource('pacientes', PacienteController::class);
 
+    //Rutas de Bioanalistas
+    Route::get('/bioanalistas/{bioanalista}/delete', [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
+    Route::resource('bioanalistas', BioanalistaController::class);
+
+    //Rutas de Examenes
+    Route::get('/examenes/{examen}/delete', [ExamenController::class, 'delete'])->name('examenes.delete');
+    Route::resource('examenes', ExamenController::class);
+    
+
+    route::get('/caracteristicas', function(){
+        $caracteristicas = Caracteristicas::all();
+        return view('welcome', compact('caracteristicas'));
+    });
+
+    route::get('/resultados', function(){
+        $resultados = Resultados::all();
+        return view('resultado', compact('resultados'));
+    });
 
 });

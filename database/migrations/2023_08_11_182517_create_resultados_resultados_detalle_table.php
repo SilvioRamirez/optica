@@ -1,10 +1,7 @@
 <?php
 
-use App\Models\Caracteristicas;
-use App\Models\Paciente;
-use App\Models\Bioanalista;
-use App\Models\Examen;
-
+use App\Models\Resultados;
+use App\Models\ResultadosDetalle;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,11 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resultados', function (Blueprint $table) {
+        Schema::create('resultados_resultados_detalle', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Paciente::class);
-            $table->foreignIdFor(Bioanalista::class);
-            $table->foreignIdFor(Examen::class);
+            $table->foreignIdFor(Resultados::class);
+            $table->foreignIdFor(ResultadosDetalle::class);
             $table->timestamps();
         });
     }
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resultados');
+        Schema::dropIfExists('resultados_resultados_detalle');
     }
 };

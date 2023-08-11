@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('examens', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('status');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
