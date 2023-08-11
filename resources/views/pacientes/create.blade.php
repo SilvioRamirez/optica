@@ -11,12 +11,12 @@
 
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-user-plus"></i> 
-            {{ __('Create New')}} Producto
+            {{ __('Create New')}} Paciente
         </div>
         <div class="card-body">
 
-            {!! Form::open(array('route' => 'products.store','method'=>'POST')) !!}
-                @include('products.partials.form')
+            {!! Form::open(array('route' => 'pacientes.store','method'=>'POST')) !!}
+                @include('pacientes.partials.form')
             {!! Form::close() !!}
 
         </div>

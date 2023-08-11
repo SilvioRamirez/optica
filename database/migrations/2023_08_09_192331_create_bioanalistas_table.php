@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('colegio');
             $table->string('fecha_ingreso');
             $table->text('expediente')->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
