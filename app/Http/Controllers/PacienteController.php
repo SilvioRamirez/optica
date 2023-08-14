@@ -26,7 +26,6 @@ class PacienteController extends Controller
         $this->middleware('permission:paciente-delete', ['only' => ['destroy']]);
     }
 
-
     /**
      * Display a listing of the resource.
      */
@@ -48,14 +47,14 @@ class PacienteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        request()->validate([
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
+        request()->validate(Paciente::$rules);
 
-        Paciente::create($request->all());
+        $data = $request->all();
+        $data['status'] = $request->status ? 1 : 0;
 
-        return redirect()->route('pacientes.indexp')
+        Paciente::create($data);
+
+        return redirect()->route('pacientes.index')
                             ->with('success','Paciente creado exitosamente.');
     }
 
@@ -80,12 +79,13 @@ class PacienteController extends Controller
      */
     public function update(Request $request, Paciente $paciente): RedirectResponse
     {
-        request()->validate([
-            'nombre' => 'required',
-            'apellido' => 'required'
-        ]);
 
-        $paciente->update($request->all());
+        request()->validate(Paciente::$rules);
+
+        $data = $request->all();
+        $data['status'] = $request->status ? 1 : 0;
+
+        $paciente->update($data);
 
         return redirect()->route('pacientes.index')
                             ->with('success','Paciente actualizado exitosamente.');

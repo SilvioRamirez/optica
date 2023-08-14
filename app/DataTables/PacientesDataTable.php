@@ -71,6 +71,7 @@ class PacientesDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
+            Column::make('cedula')->title('Cedula'),
             Column::make('nombres')->title('Nombres')->data('nombres')->name('nombres'),
             Column::make('apellidos')->title('Apellidos'),
             Column::make('created_at')->title('Creado'),

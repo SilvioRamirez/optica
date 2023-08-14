@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ref_inferior')->nullable();
             $table->string('ref_superior')->nullable();
             $table->string('unidad')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

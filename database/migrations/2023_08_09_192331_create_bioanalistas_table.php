@@ -13,16 +13,18 @@ return new class extends Migration
     {
         Schema::create('bioanalistas', function (Blueprint $table) {
             $table->id();
+            $table->string('cedula');
             $table->string('nombres');
             $table->string('apellidos');
             $table->text('direccion')->nullable();
             $table->string('telefono')->nullable();
             $table->date('fecha_nacimiento');
-            $table->string('documento');
             $table->string('colegio');
+            $table->string('documento');
             $table->string('fecha_ingreso');
             $table->text('expediente')->nullable();
             $table->boolean('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

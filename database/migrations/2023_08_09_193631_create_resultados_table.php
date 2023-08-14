@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Paciente::class);
             $table->foreignIdFor(Bioanalista::class);
             $table->foreignIdFor(Examen::class);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

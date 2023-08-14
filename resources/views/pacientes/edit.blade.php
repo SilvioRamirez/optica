@@ -13,12 +13,11 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($product, ['method' => 'PATCH','route' => ['products.update', $product->id]]) !!}
-                @include('products.partials.form')
+            {!! Form::model($paciente, ['method' => 'PATCH','route' => ['pacientes.update', $paciente->id]]) !!}
+                @include('pacientes.partials.form')
             {!! Form::close() !!}
 
         </div>
     </div>
 </div>
-<p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
 @endsection

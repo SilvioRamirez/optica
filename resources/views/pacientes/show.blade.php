@@ -1,29 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2> Show Product</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
-            </div>
+
+<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
+
+<div class="col-lg-12 margin-tb">
+    <div class="card border-light mb-3 shadow">
+        <div class="card-header bg-primary text-white"><i class="fa fa-eye"></i> 
+            {{ __('Show')}} Paciente
+        </div>
+        <div class="card-body">
+
+            {!! Form::model($paciente, ['method' => 'PATCH','route' => ['pacientes.update', $paciente->id]]) !!}
+                @include('pacientes.partials.form')
+            {!! Form::close() !!}
+
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Name:</strong>
-                {{ $product->name }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Details:</strong>
-                {{ $product->detail }}
-            </div>
-        </div>
-    </div>
+</div>
+
 @endsection
-<p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>

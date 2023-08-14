@@ -2,44 +2,38 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             
-            <strong>{{__('Cedula o Documento')}}: </strong>
-            {!! Form::text('cedula', null, array('placeholder' => __('Cedula o Documento'),'class' => 'form-control')) !!}
-            
-            <strong>{{__('Nombres')}}: </strong>
-            {!! Form::text('nombres', null, array('placeholder' => __('Nombres'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Apellidos')}}: </strong>
-            {!! Form::text('apellidos', null, array('placeholder' => __('Apellidos'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Fecha de Nacimiento')}}: </strong>
-            {!! Form::date('fecha_nacimiento', null, array('placeholder' => __('Fecha de Nacimiento'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Edad')}}: </strong>
-            {!! Form::text('edad', null, array('placeholder' => __('Edad'),'class' => 'form-control')) !!}
-            
-            <strong>{{__('Sexo')}}: </strong>
-            {!! Form::select('sexo', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO'], array('placeholder' => __('SEXO'),'class' => 'form-control')) !!}
-            
-            
-            <strong>{{__('Telefono')}}: </strong>
-            {!! Form::text('telefono', null, array('placeholder' => __('Telefono'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Direccion')}}: </strong>
-            {!! Form::text('direccion', null, array('placeholder' => __('Direccion'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Correo')}}: </strong>
-            {!! Form::email('correo', null, array('placeholder' => __('Correo'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Observacion')}}: </strong>
-            {!! Form::textarea('observacion', null, array('placeholder' => __('Observacion'),'class' => 'form-control')) !!}
-
-            <strong>{{__('Estatus')}}: </strong>
-            {!! Form::checkbox('status', null, array('placeholder' => __('Estatus'),'class' => 'form-control')) !!}
+            {{ Form::textComp('cedula','Cedula o Documento') }}
+            {{ Form::textComp('nombres','Nombres') }}
+            {{ Form::textComp('apellidos','Apellidos') }}
+            {{ Form::dateComp('fecha_nacimiento','Fecha de Nacimiento') }}
+            {{ Form::numberComp('edad','Edad') }}
+            {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}            
+            {{ Form::textComp('telefono','Teléfono') }}
+            {{ Form::areaComp('direccion','Dirección') }}
+            {{ Form::emailComp('correo','Correo') }}
+            {{ Form::areaComp('observacion','Observación') }}
+            {{ Form::checkboxComp('status','Estatus') }}
 
         </div>
     </div>
     
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        {!! Form::button('<i class="fa fa-save"></i> '.__('Save'), ['type' => 'submit', 'class' => 'btn btn-primary'] )  !!}
+        @if((Route::current()->getName() == 'pacientes.create') OR (Route::current()->getName() == 'pacientes.edit'))
+            {{ Form::submitComp() }}
+        @endif
     </div>
 </div>
+
+@push('scripts')
+
+    <script type="module">
+        IMask(document.getElementById('telefono'),{
+            mask: '0000-0000000'
+        })
+
+        IMask(document.getElementById('cedula'),{
+            mask: '[a]00000000-0'
+        })
+    </script>
+
+@endpush

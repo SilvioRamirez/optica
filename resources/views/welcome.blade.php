@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @foreach ($caracteristicas as $item)
+    {{-- @foreach ($caracteristicas as $item)
         <h3>Examen:</h3>
         <p>{{ $item->examen->nombre }}</p>
         <h3>Caracteristicas:</h3>
@@ -22,6 +22,6 @@
             </tbody>
             
         </table>
-    @endforeach
+    @endforeach --}}
 
 @endsection
