@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Resultados::class);
             $table->foreignIdFor(Caracteristicas::class);
             $table->text('resultado');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

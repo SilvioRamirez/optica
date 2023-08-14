@@ -11,8 +11,14 @@ import 'bootstrap';
 import axios from 'axios';
 import $ from 'jquery';
 
+//Importamos el complemento que instalamos imask
+import Imask from 'imask';
+
 window.axios = axios;
 window.$ = $;
+
+//Aqui le decimos que lo use en el documento
+window.Imask = Imask;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 

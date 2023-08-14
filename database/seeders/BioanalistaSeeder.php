@@ -24,6 +24,7 @@ class BioanalistaSeeder extends Seeder
         Bioanalista::truncate();
 
         $bioanalista = new Bioanalista();
+        $bioanalista->cedula = 'V5763645';
         $bioanalista->nombres = 'Xiomara';
         $bioanalista->apellidos = 'Molina Macias';
         $bioanalista->direccion = 'Urb. Fray Ignacio Alvarez, Calle Las Flores Casa 33-33, Parroquia Escuque, Municipio Escuque, Estado Trujillo';

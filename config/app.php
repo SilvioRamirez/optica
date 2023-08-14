@@ -198,6 +198,9 @@ return [
         //DataTables
         Yajra\DataTables\DataTablesServiceProvider::class,
 
+        //LaravelCollective Form Components
+        App\Providers\FormServiceProvider::class,
+
     ],
 
     /*

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('correo')->nullable();
             $table->text('observacion')->nullable();
             $table->boolean('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
