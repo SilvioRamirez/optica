@@ -20,8 +20,11 @@ return new class extends Migration
             $table->string('edad')->nullable();
             $table->string('sexo');
             $table->string('telefono')->nullable();
+            $table->text('direccion')->nullable();
             $table->string('correo')->nullable();
             $table->text('observacion')->nullable();
+            $table->boolean('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

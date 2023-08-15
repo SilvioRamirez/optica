@@ -19,5 +19,4 @@
     </div>
 </div>
 
-<p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
 @endsection

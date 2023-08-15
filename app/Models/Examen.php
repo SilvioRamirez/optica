@@ -4,8 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Examen extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    static $rules= [
+        'nombre' => 'required|unique:examens',
+        'status' => ''
+    ];
+
+    protected $guarded = [];
+
+    protected $casts = [
+        'status' => 'boolean',
+    ];
 }

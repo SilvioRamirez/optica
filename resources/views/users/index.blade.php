@@ -25,7 +25,6 @@
     </div>
 </div>
 
-<p class="text-center text-primary"><small>By silvio.ramirez.m@gmail.com</small></p>
 
 <!-- Button trigger modal -->
 {{-- <button type="button" id="btnModal" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#defaultModal">
