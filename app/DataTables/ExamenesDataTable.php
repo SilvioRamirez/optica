@@ -24,9 +24,10 @@ class ExamenesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                 return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-info btn-sm" href="'.route('examenes.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-primary btn-sm" href="'.route('examenes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
-                            <a class="btn btn-danger btn-sm" href="'.route('examenes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                            <a class="btn btn-info btn-sm"      href="'.route('examenes.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-primary btn-sm"   href="'.route('examenes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
+                            <a class="btn btn-success btn-sm" title="Editar Caracteristicas del Examen"  href="'.route('examenes.caracteristicas',$query->id).'"><i class="fa fa-notes-medical"></i></a>
+                            <a class="btn btn-danger btn-sm"    href="'.route('examenes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                         </div>';
             })
             ->setRowId('id');
