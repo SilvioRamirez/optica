@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Paciente;
+use App\Models\Examen;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\Redirect;
@@ -10,6 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
+use App\Models\Bioanalista;
+use App\Models\Resultados;
 
 class PacienteController extends Controller
 {
@@ -111,5 +114,31 @@ class PacienteController extends Controller
         $paciente->delete();
         return redirect()->route('pacientes.index')
                             ->with('success','Paciente eliminado exitosamente.');
+    }
+
+    public function resultados_index($id)
+    {
+        if($paciente = Paciente::find($id)){
+            $examen = Examen::all();
+            $bioanalista = Bioanalista::all();
+            return view('resultados.index', compact('paciente', 'examen', 'bioanalista'));
+        }else{
+            return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
+        }
+    }
+
+    public function resultados_store(Request $request)
+    {
+        $paciente = Paciente::find($request->paciente_id);
+
+        $resultados = new Resultados();
+        $resultados->paciente_id = $request->paciente_id;
+        $resultados->bioanalista_id = $request->bioanalista_id;
+        $resultados->examen_id = $request->examen_id;
+
+        if($resultados->save()){
+            return redirect()->back()->with('success','Resultado agregado exitosamente.');
+        }
+
     }
 }

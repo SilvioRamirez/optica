@@ -6,6 +6,7 @@ use App\Models\Examen;
 use App\Models\Caracteristicas;
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PacienteController;
@@ -14,6 +15,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ExamenController;
+use App\Http\Controllers\RelacionController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +33,8 @@ use App\Http\Controllers\ExamenController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/', [RelacionController::class, 'index']);
 
 Auth::routes();
 
@@ -50,7 +56,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/products/{product}/delete', [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products', ProductController::class);
 
-    //Rutas de Pacientes
+    //Rutas de Pacientes y Resultados
+    Route::get('/pacientes/{paciente}/resultados', [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
+    Route::post('/pacientes//resultados/store', [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
     Route::get('/pacientes/{paciente}/delete', [PacienteController::class, 'delete'])->name('pacientes.delete');
     Route::resource('pacientes', PacienteController::class);
 
@@ -58,9 +66,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/bioanalistas/{bioanalista}/delete', [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
     Route::resource('bioanalistas', BioanalistaController::class);
 
-    //Rutas de Examenes
+    //Rutas de Examenes y sus Caracteristicas
     Route::get('/examenes/{examen}/delete', [ExamenController::class, 'delete'])->name('examenes.delete');
     Route::get('/examenes/{examen}/caracteristicas', [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
+    Route::post('/examenes/caracteristicas/store', [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
+    Route::get('/examenes/caracteristicas/destroy/{id}', [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
     Route::resource('examenes', ExamenController::class);
 
     

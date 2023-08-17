@@ -9,6 +9,10 @@ use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreExamenRequest;
 use App\Http\Requests\UpdateExamenRequest;
 use App\DataTables\ExamenesDataTable;
+use App\Models\Caracteristicas;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 
 class ExamenController extends Controller
 {
@@ -78,10 +82,15 @@ class ExamenController extends Controller
      */
     public function update(Request $request, Examen $examene): RedirectResponse
     {
-
-        request()->validate(Examen::$rules);
-
         $data = $request->all();
+
+        Validator::make($data, [
+            'email' => [
+                'required',
+                Rule::unique('examens')->ignore($examene->id),
+            ]
+        ]);
+
         $data['status'] = $request->status ? 1 : 0;
 
         $examene->update($data);
@@ -112,11 +121,39 @@ class ExamenController extends Controller
                             ->with('success','Examen eliminado exitosamente.');
     }
 
-    public function caracteristicas_index($id): View
+    public function caracteristicas_index($id)
     {
         if($examen = Examen::find($id)){
-            $examen->load('examen.caracteristicas');
-            return view('caracteristicas.edit',compact('examen'));
+                return view('caracteristicas.edit', compact('examen'));
+        }else{
+            return redirect()->route('examenes.index')
+                            ->with('error','Examen no encontrado.');
+        }
+    }
+
+    public function caracteristicas_store(Request $request)
+    {
+        $examen = Examen::find($request->id);
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = $request->examen_id;
+        $caracteristicas->caracteristica = $request->caracteristica;
+        $caracteristicas->ref_inferior = $request->ref_inferior;
+        $caracteristicas->ref_superior = $request->ref_superior;
+        $caracteristicas->unidad = $request->unidad;
+
+        if($caracteristicas->save()){
+            return redirect()->back()->with('success','Caracteristica agregada exitosamente.');
+        }
+    }
+
+    public function caracteristicas_destroy($id)
+    {
+        $caracteristicas = Caracteristicas::find($id);
+        if($caracteristicas->delete()){
+            return redirect()->back()->with('success','Caracteristica eliminada exitosamente.');
+        }else{
+            return redirect()->back()->with('error','Caracteristica no eliminada.');
         }
     }
 

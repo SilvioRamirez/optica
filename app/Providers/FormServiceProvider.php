@@ -28,6 +28,7 @@ class FormServiceProvider extends ServiceProvider
         Form::component('emailComp',        'components.form.emailComp',    ['name', 'show', 'value']);
         Form::component('checkboxComp',     'components.form.checkboxComp', ['name', 'show', 'value']);
         Form::component('submitComp',       'components.form.submitComp',   []);
+        Form::component('hiddenComp',       'components.form.hiddenComp',   ['name','value']);
         
         
         Form::component('textMask',         'components.form.textmask',     ['name', 'show', 'mask', 'value']);
@@ -35,7 +36,6 @@ class FormServiceProvider extends ServiceProvider
         Form::component('textHidden',       'components.form.texthidden',   ['name', 'value']);
         Form::component('passwordGroup',    'components.form.password',     ['name', 'show']);
         Form::component('showtextGroup',    'components.form.showtext',     ['name', 'show', 'obj']);
-        Form::component('hiddentextGroup',  'components.form.hiddentext',   ['name','value']);
         Form::component('longselectGroup',  'components.form.longselect',   ['name','show','options','value','attributes']);
         Form::component('longtextGroup',    'components.form.longtext',     ['name','show','value','attributes']);
         Form::component('checkboxGroup',    'components.form.checkbox',     ['name','show','value','attributes']);

@@ -14,4 +14,10 @@ class ResultadosDetalle extends Model
     {
         return $this->belongsTo(Caracteristicas::class);
     }
+
+    /* Mucho a muchos */
+    public function resultados()
+    {
+        return $this->belongsToMany(Resultados::class, 'resultados_resultados_detalle');
+    }
 }
