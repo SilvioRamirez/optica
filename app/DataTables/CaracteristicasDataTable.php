@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Paciente;
+use App\Models\Caracteristicas;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PacientesDataTable extends DataTable
+class CaracteristicasDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -23,12 +23,9 @@ class PacientesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                            return '<div class="btn-group" role="group" aria-label="Opciones">
-                                        <a class="btn btn-info btn-sm" href="'.route('pacientes.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="'.route('pacientes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>
-                                        <a class="btn btn-success btn-sm" title="Agregar Resultados" href="'.route('pacientes.resultados.index',$query->id).'"><i class="fa fa-notes-medical"></i></a>
-                                        <a class="btn btn-danger btn-sm" href="'.route('pacientes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
-                                    </div>';
+                return '<div class="btn-group" role="group" aria-label="Opciones">
+                            <a class="btn btn-danger btn-sm"    href="'.route('examenes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                        </div>';
             })
             ->setRowId('id');
     }
@@ -36,7 +33,7 @@ class PacientesDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Paciente $model): QueryBuilder
+    public function query(Caracteristicas $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -72,11 +69,10 @@ class PacientesDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('cedula')->title('Cedula'),
-            Column::make('nombres')->title('Nombres')->data('nombres')->name('nombres'),
-            Column::make('apellidos')->title('Apellidos'),
-            Column::make('created_at')->title('Creado'),
-            Column::make('updated_at')->title('Actualizado'),
+            Column::make('caracteristica')->title('Nombre de Caracteristica'),
+            Column::make('unidad')->title('Unidad de Medida'),
+            Column::make('ref_inferior')->title('Referencia Inferior'),
+            Column::make('ref_superior')->title('Referencia Superior'),
             Column::computed('action')->title('Acción')
                     ->exportable(false)
                     ->printable(false)
@@ -90,6 +86,6 @@ class PacientesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Pacientes_' . date('YmdHis');
+        return 'Caracteristicas_' . date('YmdHis');
     }
 }

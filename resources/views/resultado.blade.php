@@ -2,6 +2,7 @@
 
 @section('content')
 
+    {{-- Resultados --}}
     @foreach ($resultados as $item)
         <h3>Paciente:</h3>
         <p>{{ $item->paciente->nombres. " " .$item->paciente->apellidos }}</p>
@@ -30,5 +31,7 @@
             @endforeach
         </table>
     @endforeach
+
+
 
 @endsection

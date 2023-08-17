@@ -10,10 +10,13 @@ class Resultados extends Model
 {
     use HasFactory, SoftDeletes;
 
+    /* Muchos a muchos */
     public function resultadosDetalle()
     {
-        return $this->belongsToMany(ResultadosDetalle::class);
-    } 
+        return $this->belongsToMany(ResultadosDetalle::class, 'resultados_resultados_detalle');
+    }
+
+
 
     public function bioanalista()
     {
