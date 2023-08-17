@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Rutas de Examenes
     Route::get('/examenes/{examen}/delete', [ExamenController::class, 'delete'])->name('examenes.delete');
-    Route::get('/examenes/{examen}/caracteristicas', [ExamenController::class, 'caracteristicas'])->name('examenes.caracteristicas');
+    Route::get('/examenes/{examen}/caracteristicas', [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
     Route::resource('examenes', ExamenController::class);
 
     

@@ -111,4 +111,13 @@ class ExamenController extends Controller
         return redirect()->route('examenes.index')
                             ->with('success','Examen eliminado exitosamente.');
     }
+
+    public function caracteristicas_index($id): View
+    {
+        if($examen = Examen::find($id)){
+            $examen->load('examen.caracteristicas');
+            return view('caracteristicas.edit',compact('examen'));
+        }
+    }
+
 }
