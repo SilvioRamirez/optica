@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Examen extends Model
@@ -20,4 +21,11 @@ class Examen extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+
+    /* En pruebas */
+    public function caracteristicas(): HasMany
+    {
+        return $this->hasMany(Caracteristicas::class);
+    }
 }
