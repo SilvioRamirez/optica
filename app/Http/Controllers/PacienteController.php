@@ -13,6 +13,7 @@ use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
 use App\Models\Resultados;
+use App\Models\ResultadosDetalle;
 
 class PacienteController extends Controller
 {
@@ -143,17 +144,36 @@ class PacienteController extends Controller
     public function resultados_detalle_index($id)
     {
         if($resultado = Resultados::find($id)){
-            dd($resultado->resultadosDetalle->caracteristicas);
-            return view('resultados.create', compact('resultado'));
-        }
+            $examen = Examen::find($resultado->examen_id);
+            $caracteristicas = $examen->caracteristicas;
 
-        if($paciente = Paciente::find($id)){
-
-            $examen = Examen::all();
-            $bioanalista = Bioanalista::all();
-            return view('resultados.index', compact('paciente', 'examen', 'bioanalista'));
-        }else{
-            return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
+            return view('resultados.create', compact('resultado', 'examen', 'caracteristicas'));
         }
+    }
+
+    public function resultados_detalle_store(Request $request){
+        $paciente = Paciente::find($request->paciente_id);
+        $examen = Examen::find($request->examen_id);
+        $resultados = Resultados::find($request->resultado_id);
+
+        /* dd($request); */
+        foreach($request->resultadosDetalle as $resultado => $value){
+                $resultadosDetalle = new ResultadosDetalle();
+                $resultadosDetalle->resultados_id = $request->resultado_id;
+                $resultadosDetalle->caracteristicas_id = $resultado;
+                $resultadosDetalle->resultado = $value;
+                $resultadosDetalle->save();
+                $resultados->resultadosDetalle()->attach([$resultadosDetalle->id]);
+        }
+        return redirect()->back()->with('success','Registro agregado exitosamente.');
+    }
+
+    public function resultados_detalle_print($id){
+        if($resultado = Resultados::find($id)){
+            $paciente = Paciente::find($resultado->paciente_id);
+            $examen = Examen::find($resultado->examen_id);
+
+        }
+        return view('resultados.print', compact('resultado', 'paciente', 'examen'));
     }
 }

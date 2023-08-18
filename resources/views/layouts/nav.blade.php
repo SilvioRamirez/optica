@@ -9,22 +9,22 @@
 			<!-- Lado Izquierdo del Navbar -->
 			<ul class="navbar-nav me-auto">
 				@can('user-list')
-					<li><a class="nav-link" href="{{ route('users.index') }}">Usuarios</a></li>
+					<li><a class="nav-link" href="{{ route('users.index') }}"><i class="fa fa-users"></i> Usuarios</a></li>
 				@endcan
 				@can('role-list')
-					<li><a class="nav-link" href="{{ route('roles.index') }}">Roles</a></li>
+					<li><a class="nav-link" href="{{ route('roles.index') }}"><i class="fa fa-users-cog"></i> Roles</a></li>
 				@endcan
 				@can('product-list')
-					<li><a class="nav-link" href="{{ route('products.index') }}">Productos</a></li>
+					<li><a class="nav-link" href="{{ route('products.index') }}"><i class="fa fa-store"></i> Productos</a></li>
 				@endcan
 				@can('paciente-list')
-					<li><a class="nav-link" href="{{ route('pacientes.index') }}">Pacientes</a></li>
+					<li><a class="nav-link" href="{{ route('pacientes.index') }}"><i class="fa fa-hospital-user"></i> Pacientes</a></li>
 				@endcan
 				@can('bioanalista-list')
-					<li><a class="nav-link" href="{{ route('bioanalistas.index') }}">Bioanalistas</a></li>
+					<li><a class="nav-link" href="{{ route('bioanalistas.index') }}"><i class="fa fa-user-doctor"></i> Bioanalistas</a></li>
 				@endcan
 				@can('examen-list')
-					<li><a class="nav-link" href="{{ route('examenes.index') }}">Examenes</a></li>
+					<li><a class="nav-link" href="{{ route('examenes.index') }}"><i class="fa fa-flask-vial"></i> Examenes</a></li>
 				@endcan
 			</ul>
 

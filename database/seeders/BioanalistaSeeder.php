@@ -10,7 +10,6 @@ use App\Models\Paciente;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
 
-
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

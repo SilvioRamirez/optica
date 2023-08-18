@@ -17,11 +17,11 @@
                     <tbody>
                         @foreach($resultado->resultadosDetalle as $registro)
                             <tr>
-                                <td>{{ $registro->caracteristicas->caracteristica }}</td>
                                 <td>{{ $registro->resultado }}</td>
-                                <th>{{ $registro->caracteristicas->unidad }}</th>
-                                <th>{{ $registro->caracteristicas->ref_inferior }}</th>
-                                <th>{{ $registro->caracteristicas->ref_superior }}</th>
+                                <td>{{ $registro->resultado }}</td>
+                                <th>{{ $registro->unidad }}</th>
+                                <th>{{ $registro->ref_inferior }}</th>
+                                <th>{{ $registro->ref_superior }}</th>
                             </tr>
                         @endforeach
                     </tbody>
@@ -50,7 +50,7 @@
                             <tr>
                                 <td>{{ $registro->bioanalista->nombres }}</td>
                                 <td>{{ $registro->paciente->nombres }}</td>
-                                <td>{{ $registro->examen->caracteristicas->caracteristica }}</td>
+                                <td>{{ $registro->examen->caracteristica }}</td>
                             </tr>
                         @endforeach
                     </tbody>
