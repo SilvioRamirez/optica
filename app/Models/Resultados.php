@@ -16,8 +16,6 @@ class Resultados extends Model
         return $this->belongsToMany(ResultadosDetalle::class, 'resultados_resultados_detalle');
     }
 
-
-
     public function bioanalista()
     {
         return $this->belongsTo(Bioanalista::class);
