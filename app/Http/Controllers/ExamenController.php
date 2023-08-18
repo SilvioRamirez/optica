@@ -136,11 +136,11 @@ class ExamenController extends Controller
         $examen = Examen::find($request->id);
 
         $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = $request->examen_id;
-        $caracteristicas->caracteristica = $request->caracteristica;
-        $caracteristicas->ref_inferior = $request->ref_inferior;
-        $caracteristicas->ref_superior = $request->ref_superior;
-        $caracteristicas->unidad = $request->unidad;
+        $caracteristicas->examen_id         = $request->examen_id;
+        $caracteristicas->caracteristica    = $request->caracteristica;
+        $caracteristicas->ref_inferior      = $request->ref_inferior;
+        $caracteristicas->ref_superior      = $request->ref_superior;
+        $caracteristicas->unidad            = $request->unidad;
 
         if($caracteristicas->save()){
             return redirect()->back()->with('success','Caracteristica agregada exitosamente.');

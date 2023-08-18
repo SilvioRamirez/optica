@@ -130,7 +130,6 @@ class PacienteController extends Controller
     public function resultados_store(Request $request)
     {
         $paciente = Paciente::find($request->paciente_id);
-
         $resultados = new Resultados();
         $resultados->paciente_id = $request->paciente_id;
         $resultados->bioanalista_id = $request->bioanalista_id;
@@ -139,6 +138,22 @@ class PacienteController extends Controller
         if($resultados->save()){
             return redirect()->back()->with('success','Resultado agregado exitosamente.');
         }
+    }
 
+    public function resultados_detalle_index($id)
+    {
+        if($resultado = Resultados::find($id)){
+            dd($resultado->resultadosDetalle->caracteristicas);
+            return view('resultados.create', compact('resultado'));
+        }
+
+        if($paciente = Paciente::find($id)){
+
+            $examen = Examen::all();
+            $bioanalista = Bioanalista::all();
+            return view('resultados.index', compact('paciente', 'examen', 'bioanalista'));
+        }else{
+            return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
+        }
     }
 }

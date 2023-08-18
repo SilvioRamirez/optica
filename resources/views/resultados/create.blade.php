@@ -6,16 +6,19 @@
 <div class="col-lg-12 margin-tb">
     @include('fragment.success')
     @include('fragment.error')
-    <h1>Resultados de Examenes de: <span class="badge bg-success">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span></h1>
+    <h3>Paciente: <span class="badge bg-success">{{ $resultado->paciente->nombres }} {{ $resultado->paciente->apellidos }}</span></h3>
+    <h3>Examen: <span class="badge bg-success">{{ $resultado->examen->nombre }}</span></h3>
+    <h3>Bioanalista: <span class="badge bg-success">{{ $resultado->bioanalista->nombres }} {{ $resultado->bioanalista->apellidos }}</span></h3>
+    <h3>Fecha: <span class="badge bg-success">{{ $resultado->created_at }} </span></h3>
     <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-notes-medical"></i> Agregar nuevo resultado al paciente
+        <div class="card-header bg-primary text-white"><i class="fa fa-notes-medical"></i> Agregar Resultados
         </div>
         <div class="card-body">
             {!! Form::open(array('route' => 'pacientes.resultados.store','method'=>'POST')) !!}
 
-                {{ form::hiddenComp('paciente_id', $paciente->id)}}
+                {{ form::hiddenComp('resultado_id', $resultado->id)}}
 
-                <div class="form-group required mb-3">
+                {{-- <div class="form-group required mb-3">
                     <p class='text-sm'> <strong>Seleccione el Examen:</strong> </p>
                         <select name="examen_id" id="examen_id" class="form-select text-sm">
                                 @foreach ($examen as $item)
@@ -31,7 +34,7 @@
                                     <option  value="{{ $item->id }}"> {{ $item->nombres }} {{ $item->apellidos }}  </option>
                                 @endforeach
                         </select>
-                </div>
+                </div> --}}
                 
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                     {{ Form::submitComp() }}
@@ -52,7 +55,7 @@
                 <th>Opciones</th>
             </thead>
             <tbody>
-                @foreach($paciente->resultados as $item)
+                {{-- @foreach($paciente->resultados as $item)
                     <tr>
                         <td class="text-center">{{ $item->examen->nombre }}</td>
                         <td class="text-center">{{ $item->paciente->nombres }} {{ $item->paciente->apellidos }}</td>
@@ -65,7 +68,7 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @endforeach --}}
             </tbody>
         </table>
     </div>

@@ -22,11 +22,11 @@
             </thead>
             @foreach ($item->resultadosDetalle as $result)
                 <tr>
-                    <td>{{ $result->caracteristicas->caracteristica }}</td>
+                    {{-- <td>{{ $result->caracteristicas->caracteristica }}</td>
                     <td><b>{{ $result->resultado }}</b></td>
                     <td>{{ $result->caracteristicas->ref_inferior }}</td>
                     <td>{{ $result->caracteristicas->ref_superior }}</td>
-                    <td>{{ $result->caracteristicas->unidad }}</td>
+                    <td>{{ $result->caracteristicas->unidad }}</td> --}}
                 </tr>
             @endforeach
         </table>
