@@ -172,8 +172,25 @@ class PacienteController extends Controller
         if($resultado = Resultados::find($id)){
             $paciente = Paciente::find($resultado->paciente_id);
             $examen = Examen::find($resultado->examen_id);
+            $caracteristicas = $examen->caracteristicas;
+            /* dd($caracteristicas);
+
+            $packages = [];
+            foreach ( $products as $product ) {
+
+                foreach ( $product->packageId as $package ) {
+                    $packages[] = [
+                            'package_id'    => $package['id'],
+                    ];
+                }  
+
+                $data[] = [
+                    'id'               => $product->id,
+                    'packages '        => $packages,
+                ];
+            } */
 
         }
-        return view('resultados.print', compact('resultado', 'paciente', 'examen'));
+        return view('resultados.print', compact('resultado', 'paciente', 'examen', 'caracteristicas'));
     }
 }
