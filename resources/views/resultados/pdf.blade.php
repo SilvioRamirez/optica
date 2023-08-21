@@ -134,19 +134,19 @@
             <table>
                 <tbody>
                     <tr>
-                        <td class="titulo-fuente"><strong>{{ $configuracion->nombre_organizacion }}</strong></td>
+                        <td class="titulo-fuente"><strong>{{ $configOrganizacion->nombre_organizacion }}</strong></td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configuracion->representante_organizacion }}</td>
+                        <td class="text-center">{{ $configOrganizacion->representante_organizacion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configuracion->representante_cargo }}</td>
+                        <td class="text-center">{{ $configOrganizacion->representante_cargo }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configuracion->direccion }}</td>
+                        <td class="text-center">{{ $configOrganizacion->direccion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">Telf. {{ $configuracion->telefono_uno }}, {{ $configuracion->telefono_dos }}</td>
+                        <td class="text-center">Telf. {{ $configOrganizacion->telefono_uno }}, {{ $configOrganizacion->telefono_dos }}</td>
                     </tr>
                 </tbody>
             </table>

@@ -29,6 +29,9 @@
 				@can('muestra-list')
 					<li><a class="nav-link" href="{{ route('muestras.index') }}"><i class="fa fa-vial"></i> Muestras</a></li>
 				@endcan
+				@can('configuracion-list')
+					<li><a class="nav-link" href="{{ route('configuracions.index') }}"><i class="fa fa-cog"></i> Configuración</a></li>
+				@endcan
 			</ul>
 
 			<!-- Right Side Of Navbar -->

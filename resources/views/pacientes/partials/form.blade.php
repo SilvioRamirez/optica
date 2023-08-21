@@ -7,13 +7,12 @@
             {{ Form::textComp('apellidos','Apellidos') }}
             {{ Form::dateComp('fecha_nacimiento','Fecha de Nacimiento') }}
             {{ Form::numberComp('edad','Edad') }}
-            {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}            
+            {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
             {{ Form::textComp('telefono','Teléfono') }}
             {{ Form::areaComp('direccion','Dirección') }}
             {{ Form::emailComp('correo','Correo') }}
             {{ Form::areaComp('observacion','Observación') }}
             {{ Form::checkboxComp('status','Estatus') }}
-
         </div>
     </div>
     

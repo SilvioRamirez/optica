@@ -57,6 +57,7 @@
                 <th>Nombre del Examen</th>
                 <th>Paciente</th>
                 <th>Bioanalista</th>
+                <th>Muestra</th>
                 <th>Fecha de Creación</th>
                 <th>Opciones</th>
             </thead>
@@ -66,6 +67,7 @@
                         <td class="text-center">{{ $item->examen->nombre }}</td>
                         <td class="text-center">{{ $item->paciente->nombres }} {{ $item->paciente->apellidos }}</td>
                         <td class="text-center">{{ $item->bioanalista->nombres }} {{ $item->bioanalista->apellidos }}</td>
+                        <td class="text-center">{{ $item->muestra->nombre }}</td>
                         <td class="text-center">{{ $item->created_at }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">

@@ -219,7 +219,7 @@ class BioanalistaSeeder extends Seeder
         $configuracion->direccion = 'Av. 10 Entre Calles 11 y 12 Edif. Ana Maria Piso 1 Valera, Edo. Trujillo';
         $configuracion->telefono_uno = '0271-2218905';
         $configuracion->telefono_dos = '0426-4277034';
-        $configuracion->correo = 'xiomara.molina.macias@gmail.com';
+        $configuracion->correo = 'laboratoriosanbenitodepalermo@gmail.com';
         $configuracion->copyright = '2023';
         $configuracion->save();
 

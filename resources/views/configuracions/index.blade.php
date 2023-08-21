@@ -9,19 +9,14 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="text-center">
-                    <h1><i class="fa fa-microscope"></i> Muestras</h1>
+                    <h1><i class="fa fa-cog"></i> Configuración</h1>
                 </div>
-                @can('product-create')
-                    <div class="pull-right mt-2 mb-2">
-                        <a class="btn btn-success btn-lg" href="{{ route('muestras.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
-                    </div>
-                @endcan
             </div>
         </div>
     
         <div class="card border-light mb-3 shadow">
             <div class="card-header bg-primary text-white">
-                Administración de Muestras
+                Administración de Configuración
             </div>
             <div class="card-body">
                 {{ $dataTable->table() }}
