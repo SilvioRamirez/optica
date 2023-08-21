@@ -14,9 +14,9 @@
 				@can('role-list')
 					<li><a class="nav-link" href="{{ route('roles.index') }}"><i class="fa fa-users-cog"></i> Roles</a></li>
 				@endcan
-				@can('product-list')
+				{{-- @can('product-list')
 					<li><a class="nav-link" href="{{ route('products.index') }}"><i class="fa fa-store"></i> Productos</a></li>
-				@endcan
+				@endcan --}}
 				@can('paciente-list')
 					<li><a class="nav-link" href="{{ route('pacientes.index') }}"><i class="fa fa-hospital-user"></i> Pacientes</a></li>
 				@endcan
@@ -29,6 +29,9 @@
 				@can('muestra-list')
 					<li><a class="nav-link" href="{{ route('muestras.index') }}"><i class="fa fa-vial"></i> Muestras</a></li>
 				@endcan
+				@can('configuracion-list')
+					<li><a class="nav-link" href="{{ route('configuracions.index') }}"><i class="fa fa-cog"></i> Configuración</a></li>
+				@endcan
 			</ul>
 
 			<!-- Right Side Of Navbar -->
@@ -36,24 +39,24 @@
 				<!-- Authentication Links -->
 				@guest
 					@if (Route::has('login'))
-						<li class="nav-item"><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ route('login') }}"><i class="fa fa-right-to-bracket"></i> {{ __('Login') }}</a></li>
 					@endif
 
 					@if (Route::has('register'))
-						<li class="nav-item"><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ route('register') }}"><i class="fa fa-user-plus"></i> {{ __('Register') }}</a></li>
 					@endif
 				@else
 
 					<li class="nav-item dropdown">
 						<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-							{{ Auth::user()->name }}
+							<i class="fa fa-user"></i> {{ Auth::user()->name }}
 						</a>
 
 						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" href="{{ route('logout') }}"
 								onclick="event.preventDefault();
 								document.getElementById('logout-form').submit();">
-								{{ __('Logout') }}
+								<i class="fa fa-arrow-right-from-bracket"></i> {{ __('Logout') }}
 							</a>
 
 							<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

@@ -17,7 +17,7 @@
                 {{ Form::textComp('unidad','Unidad de Medida') }}
                 {{ Form::textComp('ref_inferior','Referencia Inferior') }}
                 {{ Form::textComp('ref_superior','Referencia Superior') }}
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-3">
                     {{ Form::submitComp() }}
                 </div>
             {!! Form::close() !!}

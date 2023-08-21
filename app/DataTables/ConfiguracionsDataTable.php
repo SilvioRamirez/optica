@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Bioanalista;
+use App\Models\Configuracion;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class BioanalistasDataTable extends DataTable
+class ConfiguracionsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,20 +22,19 @@ class BioanalistasDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($query){
-                return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-info btn-sm" href="'.route('bioanalistas.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-primary btn-sm" href="'.route('bioanalistas.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
-                            <a class="btn btn-danger btn-sm" href="'.route('bioanalistas.delete',$query->id).'"><i class="fa fa-trash"></i></a>
-                        </div>';
-            })
-            ->setRowId('id');
+        ->addColumn('action', function($query){
+                    return '<div class="btn-group" role="group" aria-label="Opciones">
+                        <a class="btn btn-info btn-sm" href="'.route('configuracions.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-primary btn-sm" href="'.route('configuracions.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
+                    </div>';
+        })
+        ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Bioanalista $model): QueryBuilder
+    public function query(Configuracion $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -46,7 +45,7 @@ class BioanalistasDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('bioanalistas-table')
+                    ->setTableId('configuracions-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
@@ -71,9 +70,8 @@ class BioanalistasDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('cedula')->title('Cedula'),
-            Column::make('nombres')->title('Nombres')->data('nombres')->name('nombres'),
-            Column::make('apellidos')->title('Apellidos'),
+            Column::make('nombre_organizacion')->title('Organización'),
+            Column::make('representante_organizacion')->title('Representante'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
@@ -89,6 +87,6 @@ class BioanalistasDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Bioanalistas_' . date('YmdHis');
+        return 'Configuracions_' . date('YmdHis');
     }
 }

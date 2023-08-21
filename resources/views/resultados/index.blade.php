@@ -6,7 +6,7 @@
 <div class="col-lg-12 margin-tb">
     @include('fragment.success')
     @include('fragment.error')
-    <h1>Resultados de Examenes de: <span class="badge bg-success">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span></h1>
+    <h1>PACIENTE: <span class="badge bg-success">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span></h1>
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-notes-medical"></i> Agregar nuevo resultado al paciente
         </div>
@@ -57,6 +57,7 @@
                 <th>Nombre del Examen</th>
                 <th>Paciente</th>
                 <th>Bioanalista</th>
+                <th>Muestra</th>
                 <th>Fecha de Creación</th>
                 <th>Opciones</th>
             </thead>
@@ -66,10 +67,11 @@
                         <td class="text-center">{{ $item->examen->nombre }}</td>
                         <td class="text-center">{{ $item->paciente->nombres }} {{ $item->paciente->apellidos }}</td>
                         <td class="text-center">{{ $item->bioanalista->nombres }} {{ $item->bioanalista->apellidos }}</td>
+                        <td class="text-center">{{ $item->muestra->nombre }}</td>
                         <td class="text-center">{{ $item->created_at }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('examenes.caracteristicas.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
                                 <a class="btn btn-success btn-sm" title="Agregar Resultados" href="{{ route('pacientes.resultados.detalles.index', $item->id) }}"><i class="fa fa-notes-medical"></i></a>
                                 <a class="btn btn-info btn-sm" title="Imprimir Resultados" href="{{ route('pacientes.resultados.detalles.print', $item->id) }}"><i class="fa fa-print"></i></a>
                             </div>

@@ -46,10 +46,14 @@ class PermissionTableSeeder extends Seeder
             'resultado-create',
             'resultado-edit',
             'resultado-delete',
-            'musetra-list',
-            'musetra-create',
-            'musetra-edit',
-            'musetra-delete',
+            'muestra-list',
+            'muestra-create',
+            'muestra-edit',
+            'muestra-delete',
+            'configuracion-list',
+            'configuracion-create',
+            'configuracion-edit',
+            'configuracion-delete',
             
         ];
         

@@ -1,10 +1,5 @@
 <?php
 
-use App\Models\Resultados;
-use App\Models\Bioanalista;
-use App\Models\Examen;
-use App\Models\Caracteristicas;
-
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,11 +9,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
+use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\MuestraController;
-use App\Http\Controllers\RelacionController;
-
-
 
 /*
 |--------------------------------------------------------------------------
@@ -35,12 +28,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
+
+    //Rutas de Configuracion
+    Route::resource('configuracions', ConfiguracionController::class);
     
     //Rutas de Roles
     Route::get('/roles/{role}/delete',  [RoleController::class, 'delete'])->name('roles.delete');
@@ -58,6 +53,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Pacientes y Resultados
     Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
     Route::post('/pacientes/resultados/store',      [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
+    Route::get('/pacientes/resultados/destroy/{id}',[PacienteController::class, 'resultados_destroy'])->name('pacientes.resultados.destroy');
 
     //Rutas de ResultadosDetalle
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/',       [PacienteController::class, 'resultados_detalle_index'])->name('pacientes.resultados.detalles.index');

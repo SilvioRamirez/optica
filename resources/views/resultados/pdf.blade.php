@@ -134,19 +134,19 @@
             <table>
                 <tbody>
                     <tr>
-                        <td class="titulo-fuente"><strong>Laboratorio Clínico "San Benito de Palermo"</strong></td>
+                        <td class="titulo-fuente"><strong>{{ $configOrganizacion->nombre_organizacion }}</strong></td>
                     </tr>
                     <tr>
-                        <td class="text-center">Lcda. Xiomara Molina</td>
+                        <td class="text-center">{{ $configOrganizacion->representante_organizacion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">BIOANALISTA</td>
+                        <td class="text-center">{{ $configOrganizacion->representante_cargo }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">Av. 10 Entre Calles 11 y 12 Edif. Ana Maria Piso 1 Valera</td>
+                        <td class="text-center">{{ $configOrganizacion->direccion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">Estado Trujillo – Telf. 0271-2218905, 0426-4277034</td>
+                        <td class="text-center">Telf. {{ $configOrganizacion->telefono_uno }}, {{ $configOrganizacion->telefono_dos }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -179,7 +179,7 @@
                 </thead>
                 <tbody class="text-center table-border"> 
                     @foreach($resultado->resultadosDetalle as $item)
-                        @isset($item->caracteristicas->caracteristica)
+                        @isset($item->resultado)
                             <tr class="text-center table-border">
                                 <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
                                 <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
