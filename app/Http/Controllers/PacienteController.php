@@ -12,6 +12,7 @@ use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
+use App\Models\Configuracion;
 use App\Models\Muestra;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
@@ -186,9 +187,24 @@ class PacienteController extends Controller
             $paciente = Paciente::find($resultado->paciente_id);
             $examen = Examen::find($resultado->examen_id);
             $caracteristicas = $examen->caracteristicas;
+            $configuracion = Configuracion::find(1);
         }
-        $pdf = PDF::loadView('resultados.pdf', compact('resultado', 'paciente', 'examen', 'caracteristicas'));
+        $pdf = PDF::loadView('resultados.pdf', compact('resultado', 'paciente', 'examen', 'caracteristicas', 'configuracion'));
 
         return $pdf->stream();
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function resultados_destroy($id): RedirectResponse
+    {
+        
+        if($resultado = Resultados::find($id)){
+            $resultado->delete();
+            return redirect()->back()->with('success','Registro eliminado exitosamente.');
+        }
+        return redirect()->back()->with('error','Ha ocurrido un error al eliminar el registro.');
+        
     }
 }

@@ -28,7 +28,7 @@
                                     dd($resultado->resultadosDetalle);
                                 @endphp --}}
                 @foreach($resultado->resultadosDetalle as $item)
-                    @isset($item->caracteristicas->caracteristica)
+                    @isset($item->resultado)
                         <tr>
                             <td class="text-center">{{ $item->caracteristicas->caracteristica }}</td>
                             <td class="text-center"><strong>{{ $item->resultado}}</strong></td>

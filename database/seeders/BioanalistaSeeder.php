@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Bioanalista;
 use App\Models\Caracteristicas;
+use App\Models\Configuracion;
 use App\Models\Examen;
 use App\Models\Muestra;
 use Carbon\Carbon;
@@ -61,23 +62,129 @@ class BioanalistaSeeder extends Seeder
         Caracteristicas::truncate();
         $caracteristicas = new Caracteristicas();
         $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'HEMATOCRITO';
-        $caracteristicas->ref_inferior = '10';
-        $caracteristicas->ref_superior = '100';
-        $caracteristicas->unidad = 'ML';
+        $caracteristicas->caracteristica = 'HEMOGLOBINA';
+        $caracteristicas->unidad = 'gr/dl';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
         $caracteristicas->save();
 
         $caracteristicas = new Caracteristicas();
         $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'GLOBULINA';
-        $caracteristicas->ref_inferior = '30';
-        $caracteristicas->ref_superior = '10';
+        $caracteristicas->caracteristica = 'HEMATOCRITO';
+        $caracteristicas->unidad = '&';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'PLAQUETAS';
+        $caracteristicas->unidad = 'xmm3';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'PLAQUETAS';
+        $caracteristicas->unidad = 'xmm3';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'TIEMPO DE PROTOMBINA';
+        $caracteristicas->unidad = 'seg';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'TIEMPO DE CONTROL';
+        $caracteristicas->unidad = 'seg';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'TIEMPO PARCIAL DE TROMBOPLASTINA';
+        $caracteristicas->unidad = 'seg';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'TIEMPO DE CONTROL';
+        $caracteristicas->unidad = 'seg';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'ERITROSEDIMENTACION (VSG)';
+        $caracteristicas->unidad = 'mm (Wintrobe) por hora';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'LEUCOCITOS';
+        $caracteristicas->unidad = 'xmm3';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'S. NEUTROFILO';
         $caracteristicas->unidad = '%';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'S. EOSINOFILO';
+        $caracteristicas->unidad = '%';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'LINFOCITOS';
+        $caracteristicas->unidad = '%';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
+        $caracteristicas->save();
+
+        $caracteristicas = new Caracteristicas();
+        $caracteristicas->examen_id = 1;
+        $caracteristicas->caracteristica = 'MONOCITOS';
+        $caracteristicas->unidad = '&';
+        $caracteristicas->ref_inferior = '';
+        $caracteristicas->ref_superior = '';
         $caracteristicas->save();
 
         Muestra::truncate();
         $muestra = new Muestra();
         $muestra->nombre = 'SANGRE';
+        $muestra->status = 1;
+        $muestra->save();
+
+        $muestra = new Muestra();
+        $muestra->nombre = 'ORINA';
+        $muestra->status = 1;
+        $muestra->save();
+
+        $muestra = new Muestra();
+        $muestra->nombre = 'HECES';
         $muestra->status = 1;
         $muestra->save();
 
@@ -104,6 +211,17 @@ class BioanalistaSeeder extends Seeder
 
         $resultados->resultadosDetalle()->attach([1, 2]);
 
+        Configuracion::truncate();
+        $configuracion = new Configuracion();
+        $configuracion->nombre_organizacion = 'Laboratorio Clinico "San Benito de Palermo"';
+        $configuracion->representante_organizacion = 'Lcda. Xiomara Molina';
+        $configuracion->representante_cargo = 'BIOANALISTA';
+        $configuracion->direccion = 'Av. 10 Entre Calles 11 y 12 Edif. Ana Maria Piso 1 Valera, Edo. Trujillo';
+        $configuracion->telefono_uno = '0271-2218905';
+        $configuracion->telefono_dos = '0426-4277034';
+        $configuracion->correo = 'xiomara.molina.macias@gmail.com';
+        $configuracion->copyright = '2023';
+        $configuracion->save();
 
     }
 }
