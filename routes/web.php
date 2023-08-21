@@ -15,6 +15,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ExamenController;
+use App\Http\Controllers\MuestraController;
 use App\Http\Controllers\RelacionController;
 
 
@@ -34,7 +35,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/relacion', [RelacionController::class, 'index']);
 
 Auth::routes();
 
@@ -43,53 +43,44 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::group(['middleware' => ['auth']], function() {
     
     //Rutas de Roles
-    Route::get('/roles/{role}/delete', [RoleController::class, 'delete'])->name('roles.delete');
-    Route::resource('roles', RoleController::class);
+    Route::get('/roles/{role}/delete',  [RoleController::class, 'delete'])->name('roles.delete');
+    Route::resource('roles',            RoleController::class);
 
     //Rutas de Usuarios
-    /* Route::get('/users', [UserController::class, 'index'])->name('users.index'); */
-    Route::get('/users/{user}/delete', [UserController::class, 'delete'])->name('users.delete');
-    Route::get('/users/ajax/create', [UserController::class, 'ajax_create'])->name('users.ajax.create');
-    Route::resource('users', UserController::class);
+    Route::get('/users/{user}/delete',  [UserController::class, 'delete'])->name('users.delete');
+    Route::get('/users/ajax/create',    [UserController::class, 'ajax_create'])->name('users.ajax.create');
+    Route::resource('users',            UserController::class);
 
     //Rutas de Productos
-    Route::get('/products/{product}/delete', [ProductController::class, 'delete'])->name('products.delete');
-    Route::resource('products', ProductController::class);
+    Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
+    Route::resource('products',                 ProductController::class);
 
     //Rutas de Pacientes y Resultados
-    Route::get('/pacientes/{paciente}/resultados', [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
-    Route::post('/pacientes/resultados/store', [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
+    Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
+    Route::post('/pacientes/resultados/store',      [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
 
     //Rutas de ResultadosDetalle
-    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/', [PacienteController::class, 'resultados_detalle_index'])->name('pacientes.resultados.detalles.index');
-    Route::post('/pacientes/resultado/resultado_detalle/store/', [PacienteController::class, 'resultados_detalle_store'])->name('pacientes.resultados.detalles.store');
+    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/',       [PacienteController::class, 'resultados_detalle_index'])->name('pacientes.resultados.detalles.index');
+    Route::post('/pacientes/resultado/resultado_detalle/store/',            [PacienteController::class, 'resultados_detalle_store'])->name('pacientes.resultados.detalles.store');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/print/', [PacienteController::class, 'resultados_detalle_print'])->name('pacientes.resultados.detalles.print');
+    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/pdf/',   [PacienteController::class, 'resultados_detalle_pdf'])->name('pacientes.resultados.detalles.pdf');
 
-    Route::get('/pacientes/{paciente}/delete', [PacienteController::class, 'delete'])->name('pacientes.delete');
-    Route::resource('pacientes', PacienteController::class);
+    Route::get('/pacientes/{paciente}/delete',  [PacienteController::class, 'delete'])->name('pacientes.delete');
+    Route::resource('pacientes',                PacienteController::class);
 
     //Rutas de Bioanalistas
-    Route::get('/bioanalistas/{bioanalista}/delete', [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
-    Route::resource('bioanalistas', BioanalistaController::class);
+    Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
+    Route::resource('bioanalistas',                     BioanalistaController::class);
+
+    //Rutas de Muestras
+    Route::get('/muestras/{muestra}/delete',    [MuestraController::class, 'delete'])->name('muestras.delete');
+    Route::resource('muestras',                 MuestraController::class);
 
     //Rutas de Examenes y sus Caracteristicas
-    Route::get('/examenes/{examen}/delete', [ExamenController::class, 'delete'])->name('examenes.delete');
-    Route::get('/examenes/{examen}/caracteristicas', [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
-    Route::post('/examenes/caracteristicas/store', [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
-    Route::get('/examenes/caracteristicas/destroy/{id}', [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
-    Route::resource('examenes', ExamenController::class);
-
-    
-    
-
-    route::get('/caracteristicas', function(){
-        $caracteristicas = Caracteristicas::all();
-        return view('welcome', compact('caracteristicas'));
-    });
-
-    route::get('/resultados', function(){
-        $resultados = Resultados::all();
-        return view('resultado', compact('resultados'));
-    });
+    Route::get('/examenes/{examen}/delete',                 [ExamenController::class, 'delete'])->name('examenes.delete');
+    Route::get('/examenes/{examen}/caracteristicas',        [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
+    Route::post('/examenes/caracteristicas/store',          [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
+    Route::get('/examenes/caracteristicas/destroy/{id}',    [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
+    Route::resource('examenes',                             ExamenController::class);
 
 });

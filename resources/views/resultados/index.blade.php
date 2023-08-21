@@ -25,6 +25,15 @@
                 </div>
 
                 <div class="form-group required mb-3">
+                    <p class='text-sm'> <strong>Seleccione el Tipo de Muestra:</strong> </p>
+                        <select name="muestra_id" id="muestra_id" class="form-select text-sm">
+                                @foreach ($muestra as $item)
+                                    <option  value="{{ $item->id }}"> {{ $item->nombre }}  </option>
+                                @endforeach
+                        </select>
+                </div>
+
+                <div class="form-group required mb-3">
                     <p class='text-sm'> <strong>Seleccione el Bioanalista:</strong> </p>
                         <select name="bioanalista_id" id="bioanalista_id" class="form-select text-sm">
                                 @foreach($bioanalista as $item)

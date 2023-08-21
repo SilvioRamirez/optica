@@ -12,8 +12,10 @@ use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
+use App\Models\Muestra;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class PacienteController extends Controller
 {
@@ -122,7 +124,8 @@ class PacienteController extends Controller
         if($paciente = Paciente::find($id)){
             $examen = Examen::all();
             $bioanalista = Bioanalista::all();
-            return view('resultados.index', compact('paciente', 'examen', 'bioanalista'));
+            $muestra = Muestra::all();
+            return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra'));
         }else{
             return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
         }
@@ -135,6 +138,7 @@ class PacienteController extends Controller
         $resultados->paciente_id = $request->paciente_id;
         $resultados->bioanalista_id = $request->bioanalista_id;
         $resultados->examen_id = $request->examen_id;
+        $resultados->muestra_id = $request->muestra_id;
 
         if($resultados->save()){
             return redirect()->back()->with('success','Resultado agregado exitosamente.');
@@ -173,24 +177,18 @@ class PacienteController extends Controller
             $paciente = Paciente::find($resultado->paciente_id);
             $examen = Examen::find($resultado->examen_id);
             $caracteristicas = $examen->caracteristicas;
-            /* dd($caracteristicas);
-
-            $packages = [];
-            foreach ( $products as $product ) {
-
-                foreach ( $product->packageId as $package ) {
-                    $packages[] = [
-                            'package_id'    => $package['id'],
-                    ];
-                }  
-
-                $data[] = [
-                    'id'               => $product->id,
-                    'packages '        => $packages,
-                ];
-            } */
-
         }
         return view('resultados.print', compact('resultado', 'paciente', 'examen', 'caracteristicas'));
+    }
+
+    public function resultados_detalle_pdf($id){
+        if($resultado = Resultados::find($id)){
+            $paciente = Paciente::find($resultado->paciente_id);
+            $examen = Examen::find($resultado->examen_id);
+            $caracteristicas = $examen->caracteristicas;
+        }
+        $pdf = PDF::loadView('resultados.pdf', compact('resultado', 'paciente', 'examen', 'caracteristicas'));
+
+        return $pdf->stream();
     }
 }

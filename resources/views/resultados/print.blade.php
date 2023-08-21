@@ -25,22 +25,24 @@
             </thead>
             <tbody>
                                 {{-- @php
-                                        dd($resultado->resultadosDetalle);
+                                    dd($resultado->resultadosDetalle);
                                 @endphp --}}
                 @foreach($resultado->resultadosDetalle as $item)
-                    <tr>
-                        <td class="text-center">{{ $item->caracteristicas->caracteristica }}</td>
-                        <td class="text-center"><strong>{{ $item->resultado}}</strong></td>
-                        <td class="text-center">{{ $item->caracteristicas->unidad }}</td>
-                        <td class="text-center">{{ $item->caracteristicas->ref_inferior }}</td>
-                        <td class="text-center">{{ $item->caracteristicas->ref_superior }}</td>
-                    </tr>
+                    @isset($item->caracteristicas->caracteristica)
+                        <tr>
+                            <td class="text-center">{{ $item->caracteristicas->caracteristica }}</td>
+                            <td class="text-center"><strong>{{ $item->resultado}}</strong></td>
+                            <td class="text-center">{{ $item->caracteristicas->unidad }}</td>
+                            <td class="text-center">{{ $item->caracteristicas->ref_inferior }}</td>
+                            <td class="text-center">{{ $item->caracteristicas->ref_superior }}</td>
+                        </tr>
+                    @endisset
                 @endforeach
             </tbody>
         </table>
     </div>
         <div class="text-center mt-4">
-            <button class="btn btn-info btn-lg"><i class="fa fa-file-pdf"></i> Generar PDF</button>
+            <a class="btn btn-info btn-lg" href="{{ route('pacientes.resultados.detalles.pdf', $resultado->id) }}"><i class="fa fa-file-pdf"></i> Generar PDF</a>
         </div>
 </div>
 @endsection

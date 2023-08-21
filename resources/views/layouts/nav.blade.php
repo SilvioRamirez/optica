@@ -24,7 +24,10 @@
 					<li><a class="nav-link" href="{{ route('bioanalistas.index') }}"><i class="fa fa-user-doctor"></i> Bioanalistas</a></li>
 				@endcan
 				@can('examen-list')
-					<li><a class="nav-link" href="{{ route('examenes.index') }}"><i class="fa fa-flask-vial"></i> Examenes</a></li>
+					<li><a class="nav-link" href="{{ route('examenes.index') }}"><i class="fa fa-microscope"></i> Examenes</a></li>
+				@endcan
+				@can('muestra-list')
+					<li><a class="nav-link" href="{{ route('muestras.index') }}"><i class="fa fa-vial"></i> Muestras</a></li>
 				@endcan
 			</ul>
 

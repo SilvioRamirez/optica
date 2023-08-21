@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Bioanalista;
 use App\Models\Caracteristicas;
 use App\Models\Examen;
+use App\Models\Muestra;
 use Carbon\Carbon;
 use App\Models\Paciente;
 use App\Models\Resultados;
@@ -24,8 +25,8 @@ class BioanalistaSeeder extends Seeder
 
         $bioanalista = new Bioanalista();
         $bioanalista->cedula = 'V5763645';
-        $bioanalista->nombres = 'Xiomara';
-        $bioanalista->apellidos = 'Molina Macias';
+        $bioanalista->nombres = 'XIOMARA';
+        $bioanalista->apellidos = 'MOLINA MACIAS';
         $bioanalista->direccion = 'Urb. Fray Ignacio Alvarez, Calle Las Flores Casa 33-33, Parroquia Escuque, Municipio Escuque, Estado Trujillo';
         $bioanalista->telefono = '0426-4277034';
         $bioanalista->fecha_nacimiento = '1964-11-04';
@@ -39,8 +40,8 @@ class BioanalistaSeeder extends Seeder
         Paciente::truncate();
         $paciente = new Paciente();
         $paciente->cedula = 'V20428781';
-        $paciente->nombres = 'Silvio Arturo';
-        $paciente->apellidos = 'Ramírez Molina';
+        $paciente->nombres = 'SILVIO ARTURO';
+        $paciente->apellidos = 'RAMÍREZ MOLINA';
         $paciente->fecha_nacimiento = '1992-03-17';
         $paciente->edad = '31';
         $paciente->sexo = 'MASCULINO';
@@ -74,11 +75,18 @@ class BioanalistaSeeder extends Seeder
         $caracteristicas->unidad = '%';
         $caracteristicas->save();
 
+        Muestra::truncate();
+        $muestra = new Muestra();
+        $muestra->nombre = 'SANGRE';
+        $muestra->status = 1;
+        $muestra->save();
+
         Resultados::truncate();
         $resultados = new Resultados();
         $resultados->paciente_id = 1;
         $resultados->bioanalista_id = 1;
         $resultados->examen_id = 1;
+        $resultados->muestra_id = 1;
         $resultados->save();
 
         ResultadosDetalle::truncate();
