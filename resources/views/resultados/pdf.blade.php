@@ -11,7 +11,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         
-        @font-face{
+        /*@font-face{
             font-family: "Roboto";
             src: url('{{storage_path('fonts/Roboto-Light.ttf')}}') format('truetype');
             font-weight: 100;
@@ -45,7 +45,7 @@
         .bold{
             font-family: "Roboto";
             font-weight: 700;
-        }
+        }*/
 
         @page{
             margin: 3cm 0.5cm 1.5cm 0.5cm;
@@ -173,9 +173,15 @@
                 <thead class="text-center table-border">
                     <th class="text-center table-border">EXAMEN</th>
                     <th class="text-center table-border">RESULTADO</th>
-                    <th class="text-center table-border">Unidad de Medida</th>
-                    <th class="text-center table-border">Ref. Inferior</th>
-                    <th class="text-center table-border">Ref. Superior</th>
+                    @if($examen->unidad == 1)
+                        <th class="text-center table-border">Unidad de Medida</th>
+                    @endif
+                    @if($examen->ref_inferior == 1)
+                        <th class="text-center table-border">Ref. Inferior</th>
+                    @endif
+                    @if($examen->ref_superior == 1)
+                        <th class="text-center table-border">Ref. Superior</th>
+                    @endif
                 </thead>
                 <tbody class="text-center table-border"> 
                     @foreach($resultado->resultadosDetalle as $item)
@@ -183,9 +189,15 @@
                             <tr class="text-center table-border">
                                 <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
                                 <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
-                                <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
-                                <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
-                                <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
+                                @if($examen->unidad == 1)
+                                    <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
+                                @endif
+                                @if($examen->ref_inferior == 1)
+                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
+                                @endif
+                                @if($examen->ref_superior == 1)
+                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
+                                @endif
                             </tr>
                         @endisset
                     @endforeach

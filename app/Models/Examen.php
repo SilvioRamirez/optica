@@ -20,6 +20,9 @@ class Examen extends Model
 
     protected $casts = [
         'status' => 'boolean',
+        'unidad' => 'boolean',
+        'ref_inferior' => 'boolean',
+        'ref_superior' => 'boolean',
     ];
 
 

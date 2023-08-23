@@ -30,6 +30,39 @@ class ExamenesDataTable extends DataTable
                             <a class="btn btn-danger btn-sm"    href="'.route('examenes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                         </div>';
             })
+            ->addColumn('status', function($query){
+                if($query->status==false){
+                    return '<span class="badge bg-danger">Inactivo</span>';
+                }else{
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                
+            })
+            ->addColumn('unidad', function($query){
+                if($query->unidad==false){
+                    return '<span class="badge bg-danger">Inactivo</span>';
+                }else{
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                
+            })
+            ->addColumn('ref_inferior', function($query){
+                if($query->ref_inferior==false){
+                    return '<span class="badge bg-danger">Inactivo</span>';
+                }else{
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                
+            })
+            ->addColumn('ref_superior', function($query){
+                if($query->ref_superior==false){
+                    return '<span class="badge bg-danger">Inactivo</span>';
+                }else{
+                    return '<span class="badge bg-success">Activo</span>';
+                }
+                
+            })
+            ->rawColumns(['status', 'action','unidad','ref_inferior','ref_superior'])
             ->setRowId('id');
     }
 
@@ -47,7 +80,7 @@ class ExamenesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pacientes-table')
+                    ->setTableId('examenes-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
@@ -73,7 +106,26 @@ class ExamenesDataTable extends DataTable
         return [
             Column::make('id')->title('ID'),
             Column::make('nombre')->title('Nombre'),
-            Column::make('status')->title('Estatus'),
+            Column::computed('status')->title('Estatus')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            Column::computed('unidad')->title('Unidad de Ref')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            Column::computed('ref_inferior')->title('Ref Inferior')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            Column::computed('ref_superior')->title('Ref Superior')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')

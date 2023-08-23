@@ -24,10 +24,10 @@ class PacientesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                             return '<div class="btn-group" role="group" aria-label="Opciones">
-                                        <a class="btn btn-info btn-sm" href="'.route('pacientes.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="'.route('pacientes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>
-                                        <a class="btn btn-success btn-sm" title="Agregar Resultados" href="'.route('pacientes.resultados.index',$query->id).'"><i class="fa fa-notes-medical"></i></a>
-                                        <a class="btn btn-danger btn-sm" href="'.route('pacientes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-info btn-sm" title="Mostrar Paciente" href="'.route('pacientes.show',$query->id).'"><i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm" title="Editar Paciente" href="'.route('pacientes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>
+                                        <a class="btn btn-success btn-sm" title="Agregar Examenes" href="'.route('pacientes.resultados.index',$query->id).'"><i class="fa fa-notes-medical"></i></a>
+                                        <a class="btn btn-danger btn-sm" title="Eliminar Paciente" href="'.route('pacientes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
                                     </div>';
             })
             ->setRowId('id');
