@@ -54,6 +54,9 @@ class ExamenController extends Controller
 
         $data = $request->all();
         $data['status'] = $request->status ? 1 : 0;
+        $data['unidad'] = $request->unidad ? 1 : 0;
+        $data['ref_inferior'] = $request->ref_inferior ? 1 : 0;
+        $data['ref_superior'] = $request->ref_superior ? 1 : 0;
 
         Examen::create($data);
 
@@ -92,6 +95,9 @@ class ExamenController extends Controller
         ]);
 
         $data['status'] = $request->status ? 1 : 0;
+        $data['unidad'] = $request->unidad ? 1 : 0;
+        $data['ref_inferior'] = $request->ref_inferior ? 1 : 0;
+        $data['ref_superior'] = $request->ref_superior ? 1 : 0;
 
         $examene->update($data);
 
@@ -155,6 +161,30 @@ class ExamenController extends Controller
         }else{
             return redirect()->back()->with('error','Caracteristica no eliminada.');
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function caracteristicas_edit(Request $request): View
+    {
+        $caracteristicas = Caracteristicas::find($request->id);
+        return view('caracteristicas.edit-individual',compact('caracteristicas'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function caracteristicas_update(Request $request, Caracteristicas $caracteristicas)
+    {
+        $caracteristicas = Caracteristicas::find($request->id);
+
+        $data = $request->all();
+
+        $caracteristicas->update($data);
+
+        return redirect()->route('examenes.caracteristicas', $caracteristicas->examen_id)
+                            ->with('success','Caracteristica actualizada exitosamente.');
     }
 
 }

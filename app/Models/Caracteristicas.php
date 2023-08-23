@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Caracteristicas extends Model
 {
     use HasFactory, SoftDeletes;
+    
+    protected $guarded = [];
 
     public function examen(): BelongsTo
     {
