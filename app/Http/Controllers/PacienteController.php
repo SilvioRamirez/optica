@@ -170,7 +170,8 @@ class PacienteController extends Controller
                 $resultadosDetalle->save();
                 $resultados->resultadosDetalle()->attach([$resultadosDetalle->id]);
         }
-        return redirect()->back()->with('success','Registro agregado exitosamente.');
+        return redirect()->route('pacientes.resultados.index', $paciente->id)
+                            ->with('success','Resultados agregados exitosamente.');
     }
 
     public function resultados_detalle_print($id){
@@ -192,6 +193,57 @@ class PacienteController extends Controller
         $pdf = PDF::loadView('resultados.pdf', compact('resultado', 'paciente', 'examen', 'caracteristicas', 'configuracion'));
 
         return $pdf->stream();
+    }
+
+    public function resultados_detalle_cola($id){
+
+        $resultado = Resultados::find($id);
+        $examen = Examen::find($resultado->examen_id);
+
+        
+        
+        /* if(session()->has('examenes'))
+        {
+            session()->push('examenes.examen', $examen);
+        }else{
+            session()->put('examenes.examen', []);
+            session()->put('examenes.examen', $examen);
+        }
+
+        return session()->get('examenes'); */
+
+
+        /* session()->put('resultados.id', $resultado);
+        session()->put('examen.id', $examen); */
+
+        if(session()->has('resultados')){
+            session()->put('resultados', $resultado);
+            session()->put('examenes', $examen);
+        }else{
+            session()->push('resultados', $resultado);
+            session()->push('examenes', $examen);
+        }
+
+        return session()->get('examenes', 'resultados');
+
+        /* if(session()->has('resultados.id')){
+            session()->put('resultados.id', $resultado->id);
+            session()->put('examen.id', $examen->id);
+        }else{
+            session()->push('resultados.id', $resultado->id);
+            session()->push('examen.id', $examen->id);
+        }
+
+        return session()->get('examen.id'); */
+
+        return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
+    }
+
+    public function resultados_detalle_cola_delete(){
+
+        session()->forget('examenes');
+
+        return redirect()->back()->with('success','Cola de impresión eliminada.');
     }
 
     /**

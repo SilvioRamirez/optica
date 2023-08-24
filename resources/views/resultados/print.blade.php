@@ -9,6 +9,7 @@
     <h3><strong>Paciente: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</h3>
     <h3><strong>Resultado: </strong>{{ $examen->nombre }}</h3>
     <h3><strong>Bioanalista: </strong>{{ $resultado->bioanalista->nombres }} {{ $resultado->bioanalista->apellidos }}</h3>
+    <h3><strong>Muestra: </strong>{{ $resultado->muestra->nombre }}</h3>
     <h3><strong>Fecha: </strong>{{ $examen->created_at }}</h3>
     <hr>
     <h3 class="text-center"><strong>Resultados:</strong></h3>
@@ -41,8 +42,12 @@
             </tbody>
         </table>
     </div>
+
+    @isset($item->resultado)
         <div class="text-center mt-4">
             <a class="btn btn-info btn-lg" href="{{ route('pacientes.resultados.detalles.pdf', $resultado->id) }}"><i class="fa fa-file-pdf"></i> Generar PDF</a>
         </div>
+    @endisset
+        
 </div>
 @endsection

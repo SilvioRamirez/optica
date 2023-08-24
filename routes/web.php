@@ -60,6 +60,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/pacientes/resultado/resultado_detalle/store/',            [PacienteController::class, 'resultados_detalle_store'])->name('pacientes.resultados.detalles.store');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/print/', [PacienteController::class, 'resultados_detalle_print'])->name('pacientes.resultados.detalles.print');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/pdf/',   [PacienteController::class, 'resultados_detalle_pdf'])->name('pacientes.resultados.detalles.pdf');
+    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/',  [PacienteController::class, 'resultados_detalle_cola'])->name('pacientes.resultados.detalles.cola');
+    Route::get('/pacientes/resultado/resultado_detalle/cola/delete',        [PacienteController::class, 'resultados_detalle_cola_delete'])->name('pacientes.resultados.detalles.cola.delete');
 
     Route::get('/pacientes/{paciente}/delete',  [PacienteController::class, 'delete'])->name('pacientes.delete');
     Route::resource('pacientes',                PacienteController::class);
@@ -78,7 +80,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/examenes/caracteristicas/store',          [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
     Route::get('/examenes/caracteristicas/destroy/{id}',    [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
     Route::get('/examenes/caracteristicas/edit/{id}',       [ExamenController::class, 'caracteristicas_edit'])->name('examenes.caracteristicas.edit');
-    Route::patch('/examenes/caracteristicas/update/{id}',     [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
+    Route::patch('/examenes/caracteristicas/update/{id}',   [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
     Route::resource('examenes',                             ExamenController::class);
 
 });
