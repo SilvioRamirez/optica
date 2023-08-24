@@ -11,7 +11,11 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         
+<<<<<<< HEAD
+        /* @font-face{
+=======
         /*@font-face{
+>>>>>>> 53ddfcca2ee3f8cf9327d5dc351f949104baa7dd
             font-family: "Roboto";
             src: url('{{storage_path('fonts/Roboto-Light.ttf')}}') format('truetype');
             font-weight: 100;
@@ -45,7 +49,11 @@
         .bold{
             font-family: "Roboto";
             font-weight: 700;
+<<<<<<< HEAD
+        } */
+=======
         }*/
+>>>>>>> 53ddfcca2ee3f8cf9327d5dc351f949104baa7dd
 
         @page{
             margin: 3cm 0.5cm 1.5cm 0.5cm;
@@ -152,22 +160,23 @@
             </table>
         </div>
     </div>
-    <br>
-    <hr>
+    <br><br>
+    <hr >
+    <div>
         <table>
             <tbody>
                 <tr>
-                    <td class=""><strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}</td>
+                    <td class=""><strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</td>
                 </tr>
                 <tr>
-                    <td class=""><strong>FECHA: </strong>{{ $examen->created_at }}   <strong>  MUESTRA: </strong>{{ $resultado->muestra->nombre }}</td>
-                </tr>
-                <tr>
-                    <td class=""></td>
+                    <td class=""><strong>FECHA: </strong>{{ $examen->created_at }}</td>
                 </tr>
             </tbody>
         </table>
-        <div class="text-center"><strong>{{ $examen->nombre }}</strong></div>
+    </div>
+        <p class="text-center"><strong>{{ $examen->nombre }}</strong></p>
+
+        <div class="">
             <table class="table-border">
                 <thead class="text-center table-border">
                     <th class="text-center table-border">EXAMEN</th>
@@ -202,6 +211,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         <div id="">
             <p class="pie-pagina-bioanalista">BIOANALISTA</p>
         </div> 

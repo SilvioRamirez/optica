@@ -11,7 +11,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         
-        /*@font-face{
+        @font-face{
             font-family: "Roboto";
             src: url('{{storage_path('fonts/Roboto-Light.ttf')}}') format('truetype');
             font-weight: 100;
@@ -30,9 +30,9 @@
             src: url('{{storage_path('fonts/Roboto-Bold.ttf')}}') format('truetype');
             font-weight: 700;
             font-style: normal;
-        } */
+        }
 
-        /* .ligera{
+        .ligera{
             font-family: "Roboto";
             font-weight: 100;
         }
@@ -45,7 +45,7 @@
         .bold{
             font-family: "Roboto";
             font-weight: 700;
-        }*/
+        }
 
         @page{
             margin: 3cm 0.5cm 1.5cm 0.5cm;
@@ -152,35 +152,30 @@
             </table>
         </div>
     </div>
-    <br>
-    <hr>
+    <br><br>
+    <hr >
+    <div>
         <table>
             <tbody>
                 <tr>
-                    <td class=""><strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}</td>
+                    <td class=""><strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</td>
                 </tr>
                 <tr>
-                    <td class=""><strong>FECHA: </strong>{{ $examen->created_at }}   <strong>  MUESTRA: </strong>{{ $resultado->muestra->nombre }}</td>
-                </tr>
-                <tr>
-                    <td class=""></td>
+                    <td class=""><strong>FECHA: </strong>{{ $examen->created_at }}</td>
                 </tr>
             </tbody>
         </table>
-        <div class="text-center"><strong>{{ $examen->nombre }}</strong></div>
+    </div>
+        <p class="text-center"><strong>{{ $examen->nombre }}</strong></p>
+
+        <div class="">
             <table class="table-border">
                 <thead class="text-center table-border">
                     <th class="text-center table-border">EXAMEN</th>
                     <th class="text-center table-border">RESULTADO</th>
-                    @if($examen->unidad == 1)
-                        <th class="text-center table-border">Unidad de Medida</th>
-                    @endif
-                    @if($examen->ref_inferior == 1)
-                        <th class="text-center table-border">Ref. Inferior</th>
-                    @endif
-                    @if($examen->ref_superior == 1)
-                        <th class="text-center table-border">Ref. Superior</th>
-                    @endif
+                    <th class="text-center table-border">Unidad de Medida</th>
+                    <th class="text-center table-border">Ref. Inferior</th>
+                    <th class="text-center table-border">Ref. Superior</th>
                 </thead>
                 <tbody class="text-center table-border"> 
                     @foreach($resultado->resultadosDetalle as $item)
@@ -188,20 +183,15 @@
                             <tr class="text-center table-border">
                                 <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
                                 <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
-                                @if($examen->unidad == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
-                                @endif
-                                @if($examen->ref_inferior == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
-                                @endif
-                                @if($examen->ref_superior == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
-                                @endif
+                                <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
+                                <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
+                                <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
                             </tr>
                         @endisset
                     @endforeach
                 </tbody>
             </table>
+        </div>
         <div id="">
             <p class="pie-pagina-bioanalista">BIOANALISTA</p>
         </div> 
