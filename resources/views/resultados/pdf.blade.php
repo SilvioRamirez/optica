@@ -11,7 +11,7 @@
             font-family: Arial, Helvetica, sans-serif;
         }
         
-        @font-face{
+        /* @font-face{
             font-family: "Roboto";
             src: url('{{storage_path('fonts/Roboto-Light.ttf')}}') format('truetype');
             font-weight: 100;
@@ -30,9 +30,9 @@
             src: url('{{storage_path('fonts/Roboto-Bold.ttf')}}') format('truetype');
             font-weight: 700;
             font-style: normal;
-        }
+        } */
 
-        .ligera{
+        /* .ligera{
             font-family: "Roboto";
             font-weight: 100;
         }
@@ -45,7 +45,7 @@
         .bold{
             font-family: "Roboto";
             font-weight: 700;
-        }
+        } */
 
         @page{
             margin: 3cm 0.5cm 1.5cm 0.5cm;

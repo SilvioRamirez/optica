@@ -20,6 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        view()->share('configOrganizacion', $configuracion = Configuracion::find(1));
+        /* view()->share('configOrganizacion', $configuracion = Configuracion::find(1)); */
     }
 }
