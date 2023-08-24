@@ -6,7 +6,7 @@
 <div class="col-lg-12 margin-tb">
     @include('fragment.success')
     @include('fragment.error')
-    <h1>PACIENTE: <span class="badge bg-success">{{ $paciente->nombres }} {{ $paciente->apellidos }}</span></h1>
+    <h1>PACIENTE: <strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</strong></h1>
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-notes-medical"></i> Agregar nuevo resultado al paciente
         </div>
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <h1>Historico de Resultados: </h1>
+    <h1>Historico de Examenes: </h1>
 
     <div class="card border-light shadow">
         <table class="table table-striped table-hover">
@@ -74,6 +74,7 @@
                                 <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
                                 <a class="btn btn-success btn-sm" title="Agregar Resultados" href="{{ route('pacientes.resultados.detalles.index', $item->id) }}"><i class="fa fa-notes-medical"></i></a>
                                 <a class="btn btn-info btn-sm" title="Imprimir Resultados" href="{{ route('pacientes.resultados.detalles.print', $item->id) }}"><i class="fa fa-print"></i></a>
+                                <a class="btn btn-dark btn-sm" title="Agregar a cola de impresión" href="{{ route('pacientes.resultados.detalles.cola', $item->id) }}"><i class="fa fa-list-check"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -81,5 +82,17 @@
             </tbody>
         </table>
     </div>
+
+    <h1>Cola de Impresión: </h1>
+
+    {{-- @if(session()->has('resultados.id'))
+        @foreach (Session::get('resultados.id') as $resultados_id)
+            <p>Resultado Id: {{ $resultados_id }}</p>
+        @endforeach
+    @endif --}}
+        
+    
+
+    <a class="btn btn-danger btn-sm" title="Eliminar cola de impresión" href="{{ route('pacientes.resultados.detalles.cola.delete') }}"><i class="fa fa-trash"></i> Eliminar Cola de Impresión</a>
 </div>
 @endsection

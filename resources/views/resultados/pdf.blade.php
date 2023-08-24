@@ -167,6 +167,7 @@
                 </tr>
             </tbody>
         </table>
+
         <div class="text-center"><strong>{{ $examen->nombre }}</strong></div>
             <table class="table-border">
                 <thead class="text-center table-border">
@@ -204,7 +205,7 @@
             </table>
         <div id="">
             <p class="pie-pagina-bioanalista">BIOANALISTA</p>
-        </div> 
+        </div>
 
     {{-- <div id="footer">
         <p class="textFooter">BIOANALISTA</p>
