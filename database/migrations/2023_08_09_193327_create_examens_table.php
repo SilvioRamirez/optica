@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->boolean('status')->default(0);
+            $table->boolean('unidad')->default(0);
+            $table->boolean('ref_inferior')->default(0);
+            $table->boolean('ref_superior')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

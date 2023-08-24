@@ -42,7 +42,8 @@
                         <td class="text-center">{{ $item->ref_superior }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar caracteristica" href="{{ route('examenes.caracteristicas.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-primary btn-sm" title="Editar Caracteristica" href="{{ route('examenes.caracteristicas.edit', $item->id) }}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-danger btn-sm" title="Eliminar Caracteristica" href="{{ route('examenes.caracteristicas.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
                             </div>
                         </td>
                     </tr>

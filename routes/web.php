@@ -77,6 +77,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/examenes/{examen}/caracteristicas',        [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
     Route::post('/examenes/caracteristicas/store',          [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
     Route::get('/examenes/caracteristicas/destroy/{id}',    [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
+    Route::get('/examenes/caracteristicas/edit/{id}',       [ExamenController::class, 'caracteristicas_edit'])->name('examenes.caracteristicas.edit');
+    Route::patch('/examenes/caracteristicas/update/{id}',     [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
     Route::resource('examenes',                             ExamenController::class);
 
 });

@@ -57,6 +57,9 @@ class BioanalistaSeeder extends Seeder
         $examen = new Examen();
         $examen->nombre = 'HEMATOLOGIA';
         $examen->status = 1;
+        $examen->unidad = 1;
+        $examen->ref_inferior = 1;
+        $examen->ref_superior = 1;
         $examen->save();
 
         Caracteristicas::truncate();
