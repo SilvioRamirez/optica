@@ -45,4 +45,9 @@ class Resultados extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
     }
+
+    //Relationships Many to Many
+    public function colas(){
+        return $this->belongsToMany(Cola::class, 'cola_resultado');
+    }
 }

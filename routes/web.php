@@ -25,7 +25,7 @@ use App\Http\Controllers\MuestraController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing.index');
 });
 
 Auth::routes();
