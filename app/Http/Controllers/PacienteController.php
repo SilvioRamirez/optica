@@ -217,11 +217,11 @@ class PacienteController extends Controller
         session()->put('examen.id', $examen); */
 
         if(session()->has('resultados')){
-            session()->put('resultados', $resultado);
-            session()->put('examenes', $examen);
-        }else{
             session()->push('resultados', $resultado);
             session()->push('examenes', $examen);
+        }else{
+            session()->put('resultados', $resultado);
+            session()->put('examenes', $examen);
         }
 
         return session()->get('examenes', 'resultados');
