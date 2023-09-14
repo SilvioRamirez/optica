@@ -75,7 +75,7 @@
 
 <!-- Top navigation-->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm">
 	<div class="container-fluid">
 		@guest
 

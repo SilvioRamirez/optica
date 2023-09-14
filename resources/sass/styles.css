@@ -10839,6 +10839,10 @@ textarea.form-control-lg {
   font-size: 1.2rem;
 }
 
+.font-color-white {
+  color: var(--bs-white)
+}
+
 #sidebar-wrapper .list-group {
   width: 15rem;
 }

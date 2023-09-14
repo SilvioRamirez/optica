@@ -12,6 +12,7 @@ use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
+use App\Models\Cola;
 use App\Models\Configuracion;
 use App\Models\Muestra;
 use App\Models\Resultados;
@@ -126,7 +127,11 @@ class PacienteController extends Controller
             $examen = Examen::all();
             $bioanalista = Bioanalista::all();
             $muestra = Muestra::all();
-            return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra'));
+            $cola = Cola::where('paciente_id', $paciente->id);
+
+            return get_defined_vars();
+
+            return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
         }else{
             return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
         }
@@ -197,46 +202,32 @@ class PacienteController extends Controller
 
     public function resultados_detalle_cola($id){
 
+        //$resultado = Resultados::find($id);
+        //$examen = Examen::find($resultado->examen_id);
+        
         $resultado = Resultados::find($id);
-        $examen = Examen::find($resultado->examen_id);
-
+        $bioanalista = Resultados::find($id)->bioanalista;
+        $muestra = Resultados::find($id)->muestra;
+        $paciente = Resultados::find($id)->paciente;
+        $examen = Resultados::find($id)->examen;
+        $caracteristicas = $examen->caracteristicas;
         
-        
-        /* if(session()->has('examenes'))
-        {
-            session()->push('examenes.examen', $examen);
-        }else{
-            session()->put('examenes.examen', []);
-            session()->put('examenes.examen', $examen);
-        }
+        $cola = new Cola();
+        $cola->paciente_id = $paciente->id;
+        $cola->resultados_id = $resultado->id;
+        $cola->save();
 
-        return session()->get('examenes'); */
+        $cola = Cola::where('paciente_id', $paciente->id);
 
+        /* return get_defined_vars(); */
 
-        /* session()->put('resultados.id', $resultado);
-        session()->put('examen.id', $examen); */
+        //return $resultado;
 
-        if(session()->has('resultados')){
-            session()->put('resultados', $resultado);
-            session()->put('examenes', $examen);
-        }else{
-            session()->push('resultados', $resultado);
-            session()->push('examenes', $examen);
-        }
+        //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
 
-        return session()->get('examenes', 'resultados');
+        return redirect('pacientes.resultados.index');
 
-        /* if(session()->has('resultados.id')){
-            session()->put('resultados.id', $resultado->id);
-            session()->put('examen.id', $examen->id);
-        }else{
-            session()->push('resultados.id', $resultado->id);
-            session()->push('examen.id', $examen->id);
-        }
-
-        return session()->get('examen.id'); */
-
-        return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
+        //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
     }
 
     public function resultados_detalle_cola_delete(){

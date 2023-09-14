@@ -74,7 +74,11 @@ $nav-pills-link-active-color:       $gray-600 !default;
 $nav-pills-link-active-bg:          $gray-200 !default;
 
 // Navbar
-
+.navbar-custom .navbar-brand,
+        .navbar-custom .navbar-text {
+            color: green;
+        }
+        
 // Pagination
 
 $pagination-color:                  $gray-600 !default;
