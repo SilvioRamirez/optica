@@ -129,10 +129,25 @@ class PacienteController extends Controller
             $bioanalista = Bioanalista::all();
             $muestra = Muestra::all();
 
+            //$cola = Paciente::find($id)->with('resultados')->get();
 
-            $cola = Cola::where('paciente_id', $paciente->id)->with('resultados')->get();
+            $cola = Paciente::where('id', $paciente->id)
+                    ->with(['resultados' => function($query){
+                        $query->where('status_cola', false); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
+                        $query->with('examen');
+                        $query->with('examen.caracteristicas');
+                        $query->with('bioanalista');
+                        $query->with('muestra');
+                        $query->orderBy('created_at', 'desc');
+                    }])
+                    ->get();
 
-            $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+            /* $cola = Paciente::with(['controls' => function ($query) {
+                $query->whereNotNull('created_at');
+                $query->orderBy('created_at', 'desc');
+            }])->take(5)->get(); */
+
+            //$resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
             
             //return get_defined_vars();
 
@@ -226,7 +241,7 @@ class PacienteController extends Controller
 
         $cola = Cola::where('paciente_id', $resultado->paciente->id);
 
-        $cola->resultados()->attach([$cola->id, $cola->resultados_id]);
+        //$cola->resultados()->attach([$cola->id]);
 
 
         //return get_defined_vars();

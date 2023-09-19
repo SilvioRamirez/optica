@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(Bioanalista::class);
             $table->foreignIdFor(Examen::class);
             $table->foreignIdFor(Muestra::class);
+            $table->boolean('status_cola')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

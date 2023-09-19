@@ -54,6 +54,7 @@
     <div class="card border-light shadow">
         <table class="table table-striped table-hover">
             <thead class="bg-primary text-center text-white">
+                <th>N°</th>
                 <th>Nombre del Examen</th>
                 <th>Paciente</th>
                 <th>Bioanalista</th>
@@ -64,6 +65,7 @@
             <tbody>
                 @foreach($paciente->resultados as $item)
                     <tr>
+                        <td class="text-center">{{ $item->id }}</td>
                         <td class="text-center">{{ $item->examen->nombre }}</td>
                         <td class="text-center">{{ $item->paciente->nombres }} {{ $item->paciente->apellidos }}</td>
                         <td class="text-center">{{ $item->bioanalista->nombres }} {{ $item->bioanalista->apellidos }}</td>
@@ -90,7 +92,8 @@
             <thead class="bg-primary text-center text-white">
                 <th>Nº Cola</th>
                 <th>Paciente</th>
-                <th>Resultado</th>
+                <th>Nombre del Examen</th>
+                <th>Muestra</th>
                 <th>Fecha del Examen</th>
                 <th>Opciones</th>
             </thead>
@@ -98,18 +101,20 @@
                 @foreach($cola as $item)
                     <tr>
                         <td class="text-center">{{ $item->id }}</td>
-                        <td class="text-center">{{ $item->paciente->nombres }} {{ $item->paciente->apellidos }}</td>
-                        <td class="text-center">{{ $item->resultados }}</td>
+                        <td class="text-center">{{ $item->nombres }} {{ $item->apellidos }}</td>
                         {{-- @php
-                                    dd($item->resultados);
-                                @endphp  --}}
-                        <td class="text-center">{{ $item->created_at }}</td>
+                            dd($item->resultados);
+                        @endphp --}}
+                        <td class="text-center">
+                            @foreach($item->resultados as $resultado)
+                                {{ $resultado->examen->nombre }}
+                            @endforeach
+                        </td>
+                        {{-- <td class="text-center">{{ $item->muestra->nombre }}</td>
+                        <td class="text-center">{{ $item->created_at }}</td> --}}
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
-                                <a class="btn btn-success btn-sm" title="Agregar Resultados" href="{{ route('pacientes.resultados.detalles.index', $item->id) }}"><i class="fa fa-notes-medical"></i></a>
-                                <a class="btn btn-info btn-sm" title="Imprimir Resultados" href="{{ route('pacientes.resultados.detalles.print', $item->id) }}"><i class="fa fa-print"></i></a>
-                                <a class="btn btn-dark btn-sm" title="Agregar a cola de impresión" href="{{ route('pacientes.resultados.detalles.cola', $item->id) }}"><i class="fa fa-list-check"></i></a>
+                                <a class="btn btn-danger btn-sm" title="Eliminar de la Cola" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
                             </div>
                         </td>
                     </tr>
