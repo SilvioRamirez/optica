@@ -50,4 +50,8 @@ class Resultados extends Model
     public function colas(){
         return $this->belongsToMany(Cola::class, 'cola_resultado');
     }
+
+    protected $casts = [
+        'status_cola' => 'boolean'
+    ];
 }
