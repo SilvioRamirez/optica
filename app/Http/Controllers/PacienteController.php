@@ -13,6 +13,7 @@ use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
 use App\Models\Cola;
+use App\Models\ColaResultados;
 use App\Models\Configuracion;
 use App\Models\Muestra;
 use App\Models\Resultados;
@@ -127,9 +128,13 @@ class PacienteController extends Controller
             $examen = Examen::all();
             $bioanalista = Bioanalista::all();
             $muestra = Muestra::all();
-            $cola = Cola::where('paciente_id', $paciente->id);
 
-            return get_defined_vars();
+
+            $cola = Cola::where('paciente_id', $paciente->id)->with('resultados')->get();
+
+            $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+            
+            //return get_defined_vars();
 
             return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
         }else{
@@ -205,34 +210,39 @@ class PacienteController extends Controller
         //$resultado = Resultados::find($id);
         //$examen = Examen::find($resultado->examen_id);
         
-        $resultado = Resultados::find($id);
-        $bioanalista = Resultados::find($id)->bioanalista;
-        $muestra = Resultados::find($id)->muestra;
-        $paciente = Resultados::find($id)->paciente;
-        $examen = Resultados::find($id)->examen;
-        $caracteristicas = $examen->caracteristicas;
+        /* $resultado = Resultados::find($id); */
+        /* $bioanalista = Resultados::find($id)->bioanalista; */
+        /* $muestra = Resultados::find($id)->muestra; */
+        /* $paciente = Resultados::find($id)->paciente; */
+        /* $examen = Resultados::find($id)->examen->with(['caracteristicas']); */
+        $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+        /* $caracteristicas = $resultado->examen->caracteristicas; */
+        /* $user = User::with('comments')->find($id); */
         
         $cola = new Cola();
-        $cola->paciente_id = $paciente->id;
+        $cola->paciente_id = $resultado->paciente->id;
         $cola->resultados_id = $resultado->id;
         $cola->save();
 
-        $cola = Cola::where('paciente_id', $paciente->id);
+        $cola = Cola::where('paciente_id', $resultado->paciente->id);
 
-        /* return get_defined_vars(); */
+        $cola->resultados()->attach([$cola->id, $cola->resultados_id]);
+
+
+        //return get_defined_vars();
 
         //return $resultado;
 
         //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
 
-        return redirect('pacientes.resultados.index');
+        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id);
 
         //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
     }
 
     public function resultados_detalle_cola_delete(){
 
-        session()->forget('examenes');
+        
 
         return redirect()->back()->with('success','Cola de impresión eliminada.');
     }

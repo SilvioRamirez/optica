@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('cola_resultado', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Resultados::class);
             $table->foreignIdFor(Cola::class);
+            $table->foreignIdFor(Resultados::class);
             $table->timestamps();
         });
     }

@@ -14,4 +14,17 @@ class Cola extends Model
     public function resultados(){
         return $this->belongsToMany(Resultados::class, 'cola_resultado');
     }
+
+    public function paciente()
+    {
+        return $this->belongsTo(Paciente::class);
+    }
+
+    /**
+    * Return the rents' landlord
+    */
+    public function colaBioanalista()
+    {
+        return $this->hasOneThrough(Bioanalista::class, Resultados::class);
+    }
 }
