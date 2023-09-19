@@ -19,23 +19,32 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    
     <div id="app">
-        @include('layouts.nav')
+        <div class="d-flex" id="wrapper">
+            
+            @include('layouts.sidebar')
 
-        <main class="py-4 mb-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-12">                            
+            <div id="page-content-wrapper">
+
+                @include('layouts.nav')
+
+                <main class="container-fluid">
+                    <div class="pt-4">
                         @yield('content')                        
-                    </div>
-                </div>
-            </div>
-        </main>
 
-        @include('layouts.footer')
-        @stack('scripts')
+                    </div>
+                </main>
+
+
+                {{-- @include('layouts.footer') --}}
+            </div>
+
+            
+    
+            @stack('scripts')
+        </div>
     </div>
+    
 <script>
 
 </script>

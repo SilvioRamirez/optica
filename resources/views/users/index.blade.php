@@ -3,6 +3,8 @@
 @section('content')
 
 <div class="row">
+    @include('fragment.error')
+    @include('fragment.success')
     <div class="col-lg-12 margin-tb">
         <div class="text-center">
             <h1><i class="fa fa-users"></i> Administración de Usuarios</h1>

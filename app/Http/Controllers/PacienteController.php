@@ -12,6 +12,8 @@ use App\Http\Requests\StorePacienteRequest;
 use App\Http\Requests\UpdatePacienteRequest;
 use App\DataTables\PacientesDataTable;
 use App\Models\Bioanalista;
+use App\Models\Cola;
+use App\Models\ColaResultados;
 use App\Models\Configuracion;
 use App\Models\Muestra;
 use App\Models\Resultados;
@@ -126,7 +128,15 @@ class PacienteController extends Controller
             $examen = Examen::all();
             $bioanalista = Bioanalista::all();
             $muestra = Muestra::all();
-            return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra'));
+
+
+            $cola = Cola::where('paciente_id', $paciente->id)->with('resultados')->get();
+
+            $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+            
+            //return get_defined_vars();
+
+            return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
         }else{
             return redirect()->route('pacientes.index')->with('error', 'Paciente no encontrado');
         }
@@ -197,51 +207,42 @@ class PacienteController extends Controller
 
     public function resultados_detalle_cola($id){
 
-        $resultado = Resultados::find($id);
-        $examen = Examen::find($resultado->examen_id);
-
+        //$resultado = Resultados::find($id);
+        //$examen = Examen::find($resultado->examen_id);
         
+        /* $resultado = Resultados::find($id); */
+        /* $bioanalista = Resultados::find($id)->bioanalista; */
+        /* $muestra = Resultados::find($id)->muestra; */
+        /* $paciente = Resultados::find($id)->paciente; */
+        /* $examen = Resultados::find($id)->examen->with(['caracteristicas']); */
+        $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+        /* $caracteristicas = $resultado->examen->caracteristicas; */
+        /* $user = User::with('comments')->find($id); */
         
-        /* if(session()->has('examenes'))
-        {
-            session()->push('examenes.examen', $examen);
-        }else{
-            session()->put('examenes.examen', []);
-            session()->put('examenes.examen', $examen);
-        }
+        $cola = new Cola();
+        $cola->paciente_id = $resultado->paciente->id;
+        $cola->resultados_id = $resultado->id;
+        $cola->save();
 
-        return session()->get('examenes'); */
+        $cola = Cola::where('paciente_id', $resultado->paciente->id);
+
+        $cola->resultados()->attach([$cola->id, $cola->resultados_id]);
 
 
-        /* session()->put('resultados.id', $resultado);
-        session()->put('examen.id', $examen); */
+        //return get_defined_vars();
 
-        if(session()->has('resultados')){
-            session()->push('resultados', $resultado);
-            session()->push('examenes', $examen);
-        }else{
-            session()->put('resultados', $resultado);
-            session()->put('examenes', $examen);
-        }
+        //return $resultado;
 
-        return session()->get('examenes', 'resultados');
+        //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
 
-        /* if(session()->has('resultados.id')){
-            session()->put('resultados.id', $resultado->id);
-            session()->put('examen.id', $examen->id);
-        }else{
-            session()->push('resultados.id', $resultado->id);
-            session()->push('examen.id', $examen->id);
-        }
+        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id);
 
-        return session()->get('examen.id'); */
-
-        return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
+        //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
     }
 
     public function resultados_detalle_cola_delete(){
 
-        session()->forget('examenes');
+        
 
         return redirect()->back()->with('success','Cola de impresión eliminada.');
     }

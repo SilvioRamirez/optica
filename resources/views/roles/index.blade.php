@@ -2,12 +2,9 @@
 
 @section('content')
 
-<div class="container">
-    
+<div class="row">
     @include('fragment.error')
     @include('fragment.success')
-    
-    <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="text-center">
                 <h1><i class="fa fa-users"></i> Administración de Roles</h1>
@@ -18,7 +15,6 @@
                 </div>
             @endcan
         </div>
-    </div>
 
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
