@@ -61,9 +61,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/print/', [PacienteController::class, 'resultados_detalle_print'])->name('pacientes.resultados.detalles.print');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/pdf/',   [PacienteController::class, 'resultados_detalle_pdf'])->name('pacientes.resultados.detalles.pdf');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/',  [PacienteController::class, 'resultados_detalle_cola'])->name('pacientes.resultados.detalles.cola');
-    Route::get('/pacientes/resultado/resultado_detalle/cola/delete',        [PacienteController::class, 'resultados_detalle_cola_delete'])->name('pacientes.resultados.detalles.cola.delete');
-
-    Route::get('/pacientes/{paciente}/delete',  [PacienteController::class, 'delete'])->name('pacientes.delete');
+    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/delete',        [PacienteController::class, 'resultados_detalle_cola_delete'])->name('pacientes.resultados.detalles.cola.delete');
+    Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/delete',        [PacienteController::class, 'resultados_detalle_cola_delete'])->name('pacientes.resultados.detalles.cola.delete');
+    
+    Route::get('/pacientes/{paciente}/cola/delete',  [PacienteController::class, 'paciente_resultados_cola_vaciar'])->name('paciente.resultados.cola.vaciar');
     Route::resource('pacientes',                PacienteController::class);
 
     //Rutas de Bioanalistas

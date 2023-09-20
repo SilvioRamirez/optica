@@ -133,7 +133,7 @@ class PacienteController extends Controller
 
             $cola = Paciente::where('id', $paciente->id)
                     ->with(['resultados' => function($query){
-                        $query->where('status_cola', false); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
+                        $query->where('status_cola', true); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
                         $query->with('examen');
                         $query->with('examen.caracteristicas');
                         $query->with('bioanalista');
@@ -199,6 +199,69 @@ class PacienteController extends Controller
                             ->with('success','Resultados agregados exitosamente.');
     }
 
+
+
+    public function resultados_detalle_cola($id){
+
+        //$resultado = Resultados::find($id);
+        //$examen = Examen::find($resultado->examen_id);
+        
+        /* $resultado = Resultados::find($id); */
+        /* $bioanalista = Resultados::find($id)->bioanalista; */
+        /* $muestra = Resultados::find($id)->muestra; */
+        /* $paciente = Resultados::find($id)->paciente; */
+        /* $examen = Resultados::find($id)->examen->with(['caracteristicas']); */
+        // $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
+        /* $caracteristicas = $resultado->examen->caracteristicas; */
+        /* $user = User::with('comments')->find($id); */
+        
+        /* $cola = new Cola();
+        $cola->paciente_id = $resultado->paciente->id;
+        $cola->resultados_id = $resultado->id;
+        $cola->save(); */
+
+        //$cola = Cola::where('paciente_id', $resultado->paciente->id);
+
+        //$cola->resultados()->attach([$cola->id]);
+
+
+        //return get_defined_vars();
+
+        //return $resultado;
+
+        //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
+
+        if($resultado = Resultados::find($id)){
+            $resultado->status_cola = true;
+            $resultado->update();
+        }
+
+        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id)->with('success','Se ha agregado el Examen a la cola de impresión.');
+
+        //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
+    }
+
+    public function resultados_detalle_cola_delete($id){
+
+        if($resultado = Resultados::find($id)){
+            $resultado->status_cola = false;
+            $resultado->update();
+        }
+
+        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id)->with('success','Se ha eliminado el Examen a la cola de impresión.');
+    }
+
+    public function paciente_resultados_cola_vaciar($id){
+
+        if($resultado = Resultados::find($id)){
+            $resultado->status_cola = false;
+            $resultado->update();
+        }
+
+        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id)->with('success','Se ha eliminado el Examen a la cola de impresión.');
+    }
+
+
     public function resultados_detalle_print($id){
         if($resultado = Resultados::find($id)){
             $paciente = Paciente::find($resultado->paciente_id);
@@ -220,47 +283,6 @@ class PacienteController extends Controller
         return $pdf->stream();
     }
 
-    public function resultados_detalle_cola($id){
-
-        //$resultado = Resultados::find($id);
-        //$examen = Examen::find($resultado->examen_id);
-        
-        /* $resultado = Resultados::find($id); */
-        /* $bioanalista = Resultados::find($id)->bioanalista; */
-        /* $muestra = Resultados::find($id)->muestra; */
-        /* $paciente = Resultados::find($id)->paciente; */
-        /* $examen = Resultados::find($id)->examen->with(['caracteristicas']); */
-        $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
-        /* $caracteristicas = $resultado->examen->caracteristicas; */
-        /* $user = User::with('comments')->find($id); */
-        
-        $cola = new Cola();
-        $cola->paciente_id = $resultado->paciente->id;
-        $cola->resultados_id = $resultado->id;
-        $cola->save();
-
-        $cola = Cola::where('paciente_id', $resultado->paciente->id);
-
-        //$cola->resultados()->attach([$cola->id]);
-
-
-        //return get_defined_vars();
-
-        //return $resultado;
-
-        //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
-
-        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id);
-
-        //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
-    }
-
-    public function resultados_detalle_cola_delete(){
-
-        
-
-        return redirect()->back()->with('success','Cola de impresión eliminada.');
-    }
 
     /**
      * Remove the specified resource from storage.

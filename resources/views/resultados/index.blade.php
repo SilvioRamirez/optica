@@ -99,33 +99,37 @@
             </thead>
             <tbody>
                 @foreach($cola as $item)
-                    <tr>
-                        <td class="text-center">{{ $item->id }}</td>
-                        <td class="text-center">{{ $item->nombres }} {{ $item->apellidos }}</td>
-                        {{-- @php
-                            dd($item->resultados);
-                        @endphp --}}
-                        <td class="text-center">
-                            @foreach($item->resultados as $resultado)
-                                {{ $resultado->examen->nombre }}
-                            @endforeach
-                        </td>
-                        {{-- <td class="text-center">{{ $item->muestra->nombre }}</td>
-                        <td class="text-center">{{ $item->created_at }}</td> --}}
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar de la Cola" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    @foreach($item->resultados as $resultado)
+                        @if($resultado->status_cola = true)
+                            <tr>
+                                <td class="text-center">{{ $item->id }}</td>
+                                <td class="text-center">{{ $resultado->paciente->nombres }} {{ $resultado->paciente->apellidos }}</td>
+                                {{-- @php
+                                    dd($item->resultados);
+                                @endphp --}}
+                                <td class="text-center">
+                                    {{ $resultado->examen->nombre }}
+                                </td>
+                                <td class="text-center">{{ $resultado->muestra->nombre }}</td>
+                                <td class="text-center">{{ $resultado->created_at }}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Opciones">
+                                        <a class="btn btn-danger btn-sm" title="Eliminar de la Cola" href="{{ route('pacientes.resultados.detalles.cola.delete', $item->id) }}"><i class="fa fa-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
                 @endforeach
             </tbody>
         </table>
     </div>
 
     
+    <div class="mt-4 mb-4 text-center">
+        <a class="btn btn-danger btn" title="Eliminar cola de impresión" href="{{ route('pacientes.resultados.detalles.cola.delete', $paciente->id) }}"><i class="fa fa-trash"></i> Eliminar Cola de Impresión</a>
 
-    <a class="btn btn-danger btn-sm" title="Eliminar cola de impresión" href="{{ route('pacientes.resultados.detalles.cola.delete') }}"><i class="fa fa-trash"></i> Eliminar Cola de Impresión</a>
+    </div>
 </div>
 
 @endsection
