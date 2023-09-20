@@ -43,11 +43,9 @@
         </table>
     </div>
 
-    @isset($item->resultado)
         <div class="text-center mt-4">
             <a class="btn btn-info btn-lg" href="{{ route('pacientes.resultados.detalles.pdf', $resultado->id) }}"><i class="fa fa-file-pdf"></i> Generar PDF</a>
         </div>
-    @endisset
         
 </div>
 @endsection
