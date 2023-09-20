@@ -102,7 +102,7 @@
                     @foreach($item->resultados as $resultado)
                         @if($resultado->status_cola = true)
                             <tr>
-                                <td class="text-center">{{ $item->id }}</td>
+                                <td class="text-center">{{ $resultado->id }}</td>
                                 <td class="text-center">{{ $resultado->paciente->nombres }} {{ $resultado->paciente->apellidos }}</td>
                                 {{-- @php
                                     dd($item->resultados);
@@ -127,8 +127,8 @@
 
     
     <div class="mt-4 mb-4 text-center">
-        <a class="btn btn-danger btn" title="Eliminar cola de impresión" href="{{ route('pacientes.resultados.detalles.cola.delete', $paciente->id) }}"><i class="fa fa-trash"></i> Eliminar Cola de Impresión</a>
-
+        <a class="btn btn-primary btn" title="Generar PDF" href="{{ route('pacientes.resultados.cola.pdf', $paciente->id) }}"><i class="fa fa-file-pdf"></i> Generar PDF</a>
+        <a class="btn btn-danger btn" title="Eliminar cola de impresión" href="{{ route('paciente.resultados.cola.vaciar', $paciente->id) }}"><i class="fa fa-trash"></i> Eliminar Cola de Impresión</a>
     </div>
 </div>
 

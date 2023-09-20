@@ -253,12 +253,14 @@ class PacienteController extends Controller
 
     public function paciente_resultados_cola_vaciar($id){
 
-        if($resultado = Resultados::find($id)){
+        $paciente = Paciente::find($id);
+
+        foreach($paciente->resultados as $resultado){
             $resultado->status_cola = false;
             $resultado->update();
         }
 
-        return redirect()->route('pacientes.resultados.index', $resultado->paciente->id)->with('success','Se ha eliminado el Examen a la cola de impresión.');
+        return redirect()->route('pacientes.resultados.index', $paciente->id)->with('success','Se ha vaciado la cola de impresión del paciente.'); 
     }
 
 
@@ -279,6 +281,28 @@ class PacienteController extends Controller
             $configuracion = Configuracion::find(1);
         }
         $pdf = PDF::loadView('resultados.pdf', compact('resultado', 'paciente', 'examen', 'caracteristicas', 'configuracion'));
+
+        return $pdf->stream();
+    }
+
+    public function paciente_resultados_cola_pdf($id){
+
+        $paciente = Paciente::where('id', $id)
+                    ->with(['resultados' => function($query){
+                        $query->where('status_cola', true); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
+                        $query->with('examen');
+                        $query->with('examen.caracteristicas');
+                        $query->with('bioanalista');
+                        $query->with('muestra');
+                        $query->orderBy('created_at', 'desc');
+                    }])
+                    ->get();
+
+        $configuracion = Configuracion::first();
+
+        //return get_defined_vars();
+        
+        $pdf = PDF::loadView('resultados.pdf-cola', compact('paciente', 'configuracion'));
 
         return $pdf->stream();
     }
