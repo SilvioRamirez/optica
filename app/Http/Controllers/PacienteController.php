@@ -300,7 +300,7 @@ class PacienteController extends Controller
 
         $configuracion = Configuracion::first();
 
-        //return get_defined_vars();
+        get_defined_vars();
         
         $pdf = PDF::loadView('resultados.pdf-cola', compact('paciente', 'configuracion'));
 

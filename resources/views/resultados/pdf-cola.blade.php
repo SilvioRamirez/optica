@@ -34,9 +34,15 @@
 
         .text-center{
             text-align: center;
-            bottom: -1cm;
-            top: -1cm;
             /* background-color: green; */
+        }
+
+        .margint-top-10{
+            margin-top: 10px;
+        }
+
+        .margint-bottom-10{
+            margin-bottom: 10px;
         }
 
         .titulo{
@@ -119,33 +125,30 @@
     <br>
     <hr>
     @foreach($paciente as $paciente)
-        <table>
-            <tbody>
-                <tr>
-                    <td class=""><strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}</td>
-                </tr>
-                <tr>
-                    <td class=""><strong>FECHA: </strong>{{ $examen->created_at }}   <strong>  MUESTRA: </strong>{{ $resultado->muestra->nombre }}</td>
-                </tr>
-                <tr>
-                    <td class=""></td>
-                </tr>
-            </tbody>
-        </table>
-    @endforeach
+        <div class="text-center">
+            <strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}
+        </div>
+        @foreach($paciente->resultados as $resultado)
 
-        <div class="text-center"><strong>{{ $examen->nombre }}</strong></div>
-            <table class="table-border">
+            <div class="text-center margint-top-10">
+                <strong>{{ $resultado->examen->nombre }}</strong>
+            </div>
+
+            <div class="text-center  margint-bottom-10">
+                <strong>MUESTRA: </strong>{{ $resultado->muestra->nombre }}     <strong>FECHA: </strong>{{ $resultado->examen->created_at }}
+            </div>
+            
+            <table class="table table-border">
                 <thead class="text-center table-border">
                     <th class="text-center table-border">EXAMEN</th>
                     <th class="text-center table-border">RESULTADO</th>
-                    @if($examen->unidad == 1)
+                    @if($resultado->examen->unidad == 1)
                         <th class="text-center table-border">Unidad de Medida</th>
                     @endif
-                    @if($examen->ref_inferior == 1)
+                    @if($resultado->ref_inferior == 1)
                         <th class="text-center table-border">Ref. Inferior</th>
                     @endif
-                    @if($examen->ref_superior == 1)
+                    @if($resultado->ref_superior == 1)
                         <th class="text-center table-border">Ref. Superior</th>
                     @endif
                 </thead>
@@ -155,13 +158,13 @@
                             <tr class="text-center table-border">
                                 <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
                                 <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
-                                @if($examen->unidad == 1)
+                                @if($resultado->examen->unidad == 1)
                                     <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
                                 @endif
-                                @if($examen->ref_inferior == 1)
+                                @if($resultado->examen->ref_inferior == 1)
                                     <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
                                 @endif
-                                @if($examen->ref_superior == 1)
+                                @if($resultado->examen->ref_superior == 1)
                                     <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
                                 @endif
                             </tr>
@@ -169,20 +172,11 @@
                     @endforeach
                 </tbody>
             </table>
+            @endforeach
         <div id="">
             <p class="pie-pagina-bioanalista">BIOANALISTA</p>
         </div>
+    @endforeach
 
-    {{-- <div id="footer">
-        <p class="textFooter">BIOANALISTA</p>
-    </div> --}}
-
-    {{-- <div class="container">
-        @for ($i=0; $i<40; $i++)
-            <div class="hijo">
-                {{$i}}
-            </div>
-        @endfor
-    </div> --}}
 </body>
 </html>
