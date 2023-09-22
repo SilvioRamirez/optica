@@ -9,22 +9,36 @@
 
         body {
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
         }
 
         @page{
-            margin: 3cm 0.5cm 1.5cm 0.5cm;
+            margin: 4cm 0.5cm 1.5cm 0.5cm;
         }
 
         #header{
             position: fixed;
-            top: -2.8cm;
+            top: -3.8cm;
             left: 0.5cm;
+        }
+
+        .border-bottom-solid{
+            border-bottom: solid;
+            top: -1.0cm;
+        }
+
+        .page-break-auto{
+            page-break-inside: auto
+        }
+
+        .page-break-avoid{
+            page-break-inside: avoid
         }
 
         .imgHeader{
             float: left;
             width: 5cm;
-            margin-top: 0.4cm;
+            margin-top: 0.3cm;
         }
 
         .infoHeader{
@@ -54,6 +68,10 @@
 
         .titulo-fuente{
             font-size: 26px;
+        }
+
+        .subtitulo-fuente{
+            font-size: 16px;
         }
 
         .logo{
@@ -99,7 +117,6 @@
 <body>
     <div id="header">
         <img class="imgHeader" src="{{ public_path('storage/img/logo.png') }}">
-
         <div class="infoHeader">            
             <table>
                 <tbody>
@@ -107,76 +124,80 @@
                         <td class="titulo-fuente"><strong>{{ $configOrganizacion->nombre_organizacion }}</strong></td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configOrganizacion->representante_organizacion }}</td>
+                        <td class="text-center subtitulo-fuente">{{ $configOrganizacion->representante_organizacion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configOrganizacion->representante_cargo }}</td>
+                        <td class="text-center subtitulo-fuente">{{ $configOrganizacion->representante_cargo }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">{{ $configOrganizacion->direccion }}</td>
+                        <td class="text-center subtitulo-fuente">{{ $configOrganizacion->direccion }}</td>
                     </tr>
                     <tr>
-                        <td class="text-center">Telf. {{ $configOrganizacion->telefono_uno }}, {{ $configOrganizacion->telefono_dos }}</td>
+                        <td class="text-center subtitulo-fuente">Telf. {{ $configOrganizacion->telefono_uno }}, {{ $configOrganizacion->telefono_dos }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        
     </div>
-    <br>
-    <hr>
+    <div class="border-bottom-solid"> 
+    </div>
     @foreach($paciente as $paciente)
-        <div class="text-center">
+        <div class="">
             <strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}
         </div>
-        @foreach($paciente->resultados as $resultado)
-
-            <div class="text-center margint-top-10">
-                <strong>{{ $resultado->examen->nombre }}</strong>
+        @foreach($paciente->resultados as $index => $resultado)
+            <div class="{{ $index == 0 ? 'page-break-auto' : 'page-break-auto'}}">
+    
+                <div class="text-center margint-top-10">
+                    <strong>{{ $resultado->examen->nombre }} {{ $index }}</strong>
+                </div>
+    
+                <div class="text-center  margint-bottom-10">
+                    <strong>MUESTRA: </strong>{{ $resultado->muestra->nombre }}     <strong>FECHA: </strong>{{ $resultado->examen->created_at }}
+                </div>
+                
+                <table class="table table-border">
+                    <thead class="text-center table-border">
+                        <th class="text-center table-border">EXAMEN</th>
+                        <th class="text-center table-border">RESULTADO</th>
+                        @if($resultado->examen->unidad == 1)
+                            <th class="text-center table-border">Unidad de Medida</th>
+                        @endif
+                        @if($resultado->ref_inferior == 1)
+                            <th class="text-center table-border">Ref. Inferior</th>
+                        @endif
+                        @if($resultado->ref_superior == 1)
+                            <th class="text-center table-border">Ref. Superior</th>
+                        @endif
+                    </thead>
+                        <tbody class="text-center table-border"> 
+                            @foreach($resultado->resultadosDetalle as $item)
+                                @isset($item->resultado)
+                                    <tr class="text-center table-border">
+                                        <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
+                                        <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
+                                        @if($resultado->examen->unidad == 1)
+                                            <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
+                                        @endif
+                                        @if($resultado->examen->ref_inferior == 1)
+                                            <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
+                                        @endif
+                                        @if($resultado->examen->ref_superior == 1)
+                                            <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
+                                        @endif
+                                    </tr>
+                                @endisset
+                            @endforeach
+                        </tbody>
+                    </table>
+        @endforeach
+                <div id="">
+                    <p class="pie-pagina-bioanalista">BIOANALISTA</p>
+                </div>
             </div>
-
-            <div class="text-center  margint-bottom-10">
-                <strong>MUESTRA: </strong>{{ $resultado->muestra->nombre }}     <strong>FECHA: </strong>{{ $resultado->examen->created_at }}
-            </div>
-            
-            <table class="table table-border">
-                <thead class="text-center table-border">
-                    <th class="text-center table-border">EXAMEN</th>
-                    <th class="text-center table-border">RESULTADO</th>
-                    @if($resultado->examen->unidad == 1)
-                        <th class="text-center table-border">Unidad de Medida</th>
-                    @endif
-                    @if($resultado->ref_inferior == 1)
-                        <th class="text-center table-border">Ref. Inferior</th>
-                    @endif
-                    @if($resultado->ref_superior == 1)
-                        <th class="text-center table-border">Ref. Superior</th>
-                    @endif
-                </thead>
-                <tbody class="text-center table-border"> 
-                    @foreach($resultado->resultadosDetalle as $item)
-                        @isset($item->resultado)
-                            <tr class="text-center table-border">
-                                <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
-                                <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
-                                @if($resultado->examen->unidad == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
-                                @endif
-                                @if($resultado->examen->ref_inferior == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
-                                @endif
-                                @if($resultado->examen->ref_superior == 1)
-                                    <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
-                                @endif
-                            </tr>
-                        @endisset
-                    @endforeach
-                </tbody>
-            </table>
-            @endforeach
-        <div id="">
-            <p class="pie-pagina-bioanalista">BIOANALISTA</p>
-        </div>
     @endforeach
+    
 
 </body>
 </html>
