@@ -201,6 +201,9 @@ return [
         //LaravelCollective Form Components
         App\Providers\FormServiceProvider::class,
 
+        //Iseed
+        Orangehill\Iseed\IseedServiceProvider::class,
+
     ],
 
     /*

@@ -22,5 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionTableSeeder::class);
         $this->call(CreateAdminUserSeeder::class);
         $this->call(BioanalistaSeeder::class);
+        $this->call(EstadosTableSeeder::class);
+        $this->call(MunicipiosTableSeeder::class);
+        $this->call(ParroquiasTableSeeder::class);
+        $this->call(CiudadesTableSeeder::class);
     }
 }
