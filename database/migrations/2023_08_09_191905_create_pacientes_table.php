@@ -23,6 +23,7 @@ return new class extends Migration
             $table->text('direccion')->nullable();
             $table->string('correo')->nullable();
             $table->text('observacion')->nullable();
+            $table->text('lugar_registro')->nullable();
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
