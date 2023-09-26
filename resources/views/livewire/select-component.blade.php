@@ -12,13 +12,37 @@
     </div>
 
     <div class="col-md-6">
-        <label for="ciudad">Ciudad</label>
+        <label for="municipio">Municipio</label>
         <select name="" id="" class="form-control" wire:model="municipio">
             @if ($municipios->count() == 0)
                 <option value="">Debe seleccionar un Estado antes</option>
             @endif
             @foreach ($municipios as $municipio)
-                <option value="{{ $municipio->id }}">{{ $municipio->municipio }}</option>
+                <option value="{{ $municipio->id_municipio }}">{{ $municipio->municipio }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label for="parroquia">Parroquia</label>
+        <select name="" id="" class="form-control" wire:model="parroquia">
+            @if ($parroquias->count() == 0)
+                <option value="">Debe seleccionar un Municipio antes</option>
+            @endif
+            @foreach ($parroquias as $parroquia)
+                <option value="{{ $parroquia->id }}">{{ $parroquia->parroquia }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="col-md-6">
+        <label for="ciudad">Ciudad</label>
+        <select name="" id="" class="form-control" wire:model="ciudad">
+            @if ($ciudades->count() == 0)
+                <option value="">Debe seleccionar un Municipio antes</option>
+            @endif
+            @foreach ($ciudades as $ciudad)
+                <option value="{{ $ciudad->id_ciudad }}">{{ $ciudad->ciudad }}</option>
             @endforeach
         </select>
     </div>
