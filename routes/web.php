@@ -32,6 +32,11 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+Route::group(['prefix' => 'pacientes'],function () {
+    Route::get('/create', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-create");  // crear
+    Route::get('/edit/{id}', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-edit");// edit
+});
+
 Route::group(['middleware' => ['auth']], function() {
 
     //Rutas de Configuracion
@@ -86,3 +91,4 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('examenes',                             ExamenController::class);
 
 });
+

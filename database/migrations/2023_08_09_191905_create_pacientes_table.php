@@ -20,10 +20,14 @@ return new class extends Migration
             $table->string('edad')->nullable();
             $table->string('sexo');
             $table->string('telefono')->nullable();
-            $table->text('direccion')->nullable();
             $table->string('correo')->nullable();
-            $table->text('observacion')->nullable();
+            $table->text('direccion')->nullable();
+            $table->text('id_estado')->nullable();
+            $table->text('id_municipio')->nullable();
+            $table->text('id_parroquia')->nullable();
+            $table->text('sector')->nullable();
             $table->text('lugar_registro')->nullable();
+            $table->text('observacion')->nullable();
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

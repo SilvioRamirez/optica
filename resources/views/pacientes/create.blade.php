@@ -17,8 +17,8 @@
 
             {!! Form::open(array('route' => 'pacientes.store','method'=>'POST')) !!}
                 @include('pacientes.partials.form')
+                
             {!! Form::close() !!}
-            <livewire:select-component />
         </div>
     </div>
 </div>

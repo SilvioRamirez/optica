@@ -20,7 +20,7 @@ class FormServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Form::component('textComp',         'components.form.textComp',     ['name', 'show', 'value', 'attributes']);
+        Form::component('textComp',         'components.form.textComp',     ['name', 'show', 'value', 'attributes', 'placeholder']);
         Form::component('dateComp',         'components.form.dateComp',     ['name', 'show', 'value']);
         Form::component('numberComp',       'components.form.numberComp',   ['name', 'show', 'value', 'attributes']);
         Form::component('selectComp',       'components.form.selectComp',   ['name', 'show', 'value', 'options', 'attributes']);

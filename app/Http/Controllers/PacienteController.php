@@ -61,6 +61,7 @@ class PacienteController extends Controller
         $data = $request->all();
         $data['status'] = $request->status ? 1 : 0;
 
+        
         Paciente::create($data);
 
         return redirect()->route('pacientes.index')

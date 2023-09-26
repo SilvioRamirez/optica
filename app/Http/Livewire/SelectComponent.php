@@ -11,11 +11,11 @@ use Livewire\Component;
 class SelectComponent extends Component
 {
 
-    //Creamos como propiedades publicas lo que queremos mostrar, en este caso country y city
-    public $estado, $municipio, $parroquia, $ciudad;
+    //Creamos como propiedades publicas lo que queremos mostrar, en este caso estado, municipio, parroquia, ciudad
+    public $estado, $municipio, $parroquia;
     
     //Creamos dos arrays vacios que van a contener los listados
-    public $estados = [], $municipios = [], $parroquias = [], $ciudades = [];
+    public $estados = [], $municipios = [], $parroquias = [];
     
     //Se inicializan los arrays en el mount del component
     public function mount()
@@ -26,7 +26,6 @@ class SelectComponent extends Component
 
         $this->parroquias = collect();
 
-        $this->ciudades = collect();
     }
 
     //Esta funcion updated se utiliza para desencadenar cierta accion al momento de que se actualice el componente
@@ -34,18 +33,15 @@ class SelectComponent extends Component
     {
         $this->municipios = Municipio::where('id_estado', $estado)->get();
         $this->municipio = $this->municipios->first()->id ?? null;
+
+        $this->parroquias = Parroquia::where('id_municipio', $this->municipios->first()->id ?? null)->get();
+        $this->parroquia = $this->parroquias->first()->id ?? null;
     }
 
     public function updatedMunicipio($municipio)
     {
         $this->parroquias = Parroquia::where('id_municipio', $municipio)->get();
         $this->parroquia = $this->parroquias->first()->id ?? null;
-    }
-
-    public function updatedParroquia($parroquia)
-    {
-        $this->ciudades = Ciudad::where('id_estado', $parroquia)->get();
-        $this->ciudad = $this->ciudades->first()->id ?? null;
     }
 
     public function render()

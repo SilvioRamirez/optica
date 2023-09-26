@@ -21,6 +21,10 @@ class Paciente extends Model
         'sexo' => 'required',
         'telefono' => '',
         'direccion' => '',
+        'estado' => '',
+        'municipio' => '',
+        'parroquia' => '',
+        'sector' => '',
         'correo' => '',
         'observacion' => '',
         'status' => '',
@@ -45,10 +49,10 @@ class Paciente extends Model
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
     }
 
-    public function getFechaNacimientoAttribute()
+    /* public function getFechaNacimientoAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['fecha_nacimiento'])->format('d-m-Y');
-    }
+    } */
 
     /* public function getAgeAttribute()
     {
