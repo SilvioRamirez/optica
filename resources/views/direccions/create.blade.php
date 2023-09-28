@@ -6,18 +6,28 @@
 
 
 <div class="col-lg-12 margin-tb">
+
     @include('fragment.error')
+
     <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-edit"></i> 
-            {{ __('Edit')}} Paciente
+        <div class="card-header bg-primary text-white"><i class="fa fa-user-plus"></i> 
+            {{ __('Create New')}} Paciente
         </div>
         <div class="card-body">
 
-            {!! Form::model($paciente, ['method' => 'PATCH','route' => ['pacientes.update', $paciente->id]]) !!}
+            {!! Form::open(array('route' => 'pacientes.store','method'=>'POST')) !!}
                 @include('pacientes.partials.form')
+
+
             {!! Form::close() !!}
 
         </div>
     </div>
 </div>
+@push('scripts')
+    <script type="module">
+        
+
+    </script>
+@endpush
 @endsection

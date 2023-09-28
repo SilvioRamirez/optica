@@ -1,16 +1,35 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            {{ Form::textComp('cedula','Cedula o Documento', null, null, 'V12345678-0') }}
-            {{ Form::textComp('nombres','Nombres') }}
-            {{ Form::textComp('apellidos','Apellidos') }}
-            {{ Form::dateComp('fecha_nacimiento','Fecha de Nacimiento') }}
-            {{ Form::numberComp('edad','Edad') }}
-            {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
-            {{ Form::textComp('telefono','Teléfono', null, null,'+58 0412-1231234') }}
-            {{ Form::emailComp('correo','Correo') }}
-            {{ Form::areaComp('observacion','Observación') }}
-            {{ Form::checkboxComp('status','Estatus') }}
+
+            <label for="estado-dropdown mb-1"><strong>Estado</strong></label>
+            <div class="form-group mb-2">
+                <select  id="estado-dropdown" name="id_estado" class="form-control">
+                    <option value="">-- Seleccionar Estado --</option>
+                        @foreach ($estados as $data)
+                            <option value="{{$data->id_estado}}">
+                                {{$data->estado}}
+                            </option>
+                        @endforeach
+                </select>
+            </div>
+
+            <label for="municipio-dropdown" class="mb-1"><strong>Municipio</strong></label>
+            <div class="form-group mb-2">
+                <select id="municipio-dropdown" name="id_municipio" class="form-control">
+                </select>
+            </div>
+
+            <label for="parroquia-dropdown" class="mb-1"><strong>Parroquia</strong></label>
+            <div class="form-group mb-2">
+                <select id="parroquia-dropdown" name="id_parroquia" class="form-control">
+                </select>
+            </div>
+            
+            {{ Form::textComp('sector','Sector') }}
+            {{ Form::areaComp('direccion','Dirección') }}
+            {{ Form::textComp('lugar_registro','Lugar de Registro (Operativo)') }}
+
         </div>
     </div>
     

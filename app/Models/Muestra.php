@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Muestra extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     static $rules= [
         'nombre' => 'required|unique:muestras',

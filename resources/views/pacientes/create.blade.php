@@ -10,78 +10,44 @@
     @include('fragment.error')
 
     <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-user-plus"></i> 
-            {{ __('Create New')}} Paciente
+
+        <div class="card-header bg-info text-white">
+            <h5 class="card-title"><i class="fa fa-hospital-user"></i> Paciente</h5>
+            <ul class="nav nav-tabs card-header-tabs" data-bs-tabs="tabs">
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#dhcp">Datos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#static">Dirección</a>
+                </li>
+
+            </ul>
         </div>
-        <div class="card-body">
-
-            {!! Form::open(array('route' => 'pacientes.store','method'=>'POST')) !!}
-                @include('pacientes.partials.form')
 
 
-            {!! Form::close() !!}
-
+        <div class="card-body tab-content">
+            <div class="tab-pane active" id="dhcp">
+                {!! Form::open(array('route' => 'pacientes.store','method'=>'POST')) !!}
+                    @include('pacientes.partials.form')
+                {!! Form::close() !!}
+            </div>
+            <div class="tab-pane" id="static">
+                @include('pacientes.partials.direccions')
+            </div>
         </div>
+
+        {{-- <div class="card-footer text-muted">
+            <button class="btn btn-primary" type="submit">Guardar</button>
+            
+        </div> --}}
     </div>
+
 </div>
 @push('scripts')
     <script type="module">
-        $(document).ready(function () {
-            /*------------------------------------------
-            --------------------------------------------
-            Country Dropdown Change Event
-            --------------------------------------------
-            --------------------------------------------*/
-
-            $('#estado-dropdown').on('change', function () {
-                var id_estado = this.value;
-                $("#municipio-dropdown").html('');
-                $.ajax({
-                    url: "{{url('api/fetch-municipios')}}",
-                    type: "POST",
-                    data: {
-                        id_estado: id_estado,
-                        _token: '{{csrf_token()}}'
-                    },
-                    dataType: 'json',
-                    success: function (result) {
-                        $('#municipio-dropdown').html('<option value="">-- Selecciona Municipio --</option>');
-                        $.each(result.municipios, function (key, value) {
-                            $("#municipio-dropdown").append('<option value="' + value
-                                .id_municipio + '">' + value.municipio + '</option>');
-                        });
-                        $('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
-                    }
-                });
-            });
-
-            /*------------------------------------------
-            --------------------------------------------
-            State Dropdown Change Event
-            --------------------------------------------
-            --------------------------------------------*/
-
-            $('#municipio-dropdown').on('change', function () {
-                var id_municipio = this.value;
-                $("#parroquia-dropdown").html('');
-                $.ajax({
-                    url: "{{url('api/fetch-parroquias')}}",
-                    type: "POST",
-                    data: {
-                        id_municipio: id_municipio,
-                        _token: '{{csrf_token()}}'
-                    },
-                    dataType: 'json',
-                    success: function (res) {
-                        $('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
-                        $.each(res.parroquias, function (key, value) {
-                            $("#parroquia-dropdown").append('<option value="' + value
-                                .id_parroquia + '">' + value.parroquia + '</option>');
-                        });
-                    }
-                });
-            });
-        });
+        
 
     </script>
 @endpush

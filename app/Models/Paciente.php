@@ -39,6 +39,11 @@ class Paciente extends Model
         return $this->hasMany(Resultados::class);
     }
 
+    public function direccion()
+    {
+        return $this->hasOne(Direccion::class);
+    }
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');

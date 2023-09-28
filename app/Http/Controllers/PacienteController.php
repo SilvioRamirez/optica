@@ -76,8 +76,9 @@ class PacienteController extends Controller
      * Display the specified resource.
      */
     public function show(Paciente $paciente): View
-    {
-        return view('pacientes.show',compact('paciente'));
+    {   
+        $estados = Estado::get(['id_estado', 'estado']);
+        return view('pacientes.show',compact('paciente', 'estados'));
     }
 
     /**
@@ -85,7 +86,9 @@ class PacienteController extends Controller
      */
     public function edit(Paciente $paciente): View
     {
-        return view('pacientes.edit',compact('paciente'));
+        $estados = Estado::get(['id_estado', 'estado']);
+
+        return view('pacientes.edit',compact('paciente', 'estados'));
     }
 
     /**

@@ -1,2 +1,2 @@
-{!! Html::decode(Form::label($name, '<strong>'.$show.':</strong>')) !!}
-{!! Form::date($name, $value, array('placeholder' => $show, 'id' => $name, 'class' => 'form-control')) !!}
+{!! Html::decode(Form::label($name, '<strong>'.$show.':</strong>', array('class' => 'mb-1'))) !!}
+{!! Form::date($name, $value, array('placeholder' => $show, 'id' => $name, 'class' => 'form-control mb-2')) !!}
