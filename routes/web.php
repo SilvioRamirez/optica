@@ -10,8 +10,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\MuestraController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,11 @@ Route::group(['prefix' => 'pacientes'],function () {
     Route::get('/create', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-create");  // crear
     Route::get('/edit/{id}', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-edit");// edit
 });
+
+Route::get('dropdown', [DropdownController::class, 'index']);
+Route::post('api/fetch-municipios', [DropdownController::class, 'fetchMunicipio']);
+Route::post('api/fetch-parroquias', [DropdownController::class, 'fetchParroquia']);
+
 
 Route::group(['middleware' => ['auth']], function() {
 

@@ -15,6 +15,7 @@ use App\Models\Bioanalista;
 use App\Models\Cola;
 use App\Models\ColaResultados;
 use App\Models\Configuracion;
+use App\Models\Estado;
 use App\Models\Muestra;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
@@ -48,7 +49,10 @@ class PacienteController extends Controller
      */
     public function create(): View
     {
-        return view('pacientes.create');
+        $estados = Estado::get(['id_estado', 'estado']);
+        //$estados = Estado::pluck('estado', 'id_estado');
+        //dd($estados);
+        return view('pacientes.create', compact('estados'));
     }
 
     /**
