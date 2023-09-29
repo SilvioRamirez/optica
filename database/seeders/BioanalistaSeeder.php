@@ -47,7 +47,6 @@ class BioanalistaSeeder extends Seeder
         $paciente->edad = '31';
         $paciente->sexo = 'MASCULINO';
         $paciente->telefono = '0412-6713413';
-        $paciente->direccion = 'Escuque';
         $paciente->correo = 'silvio.ramirez.m@gmail.com';
         $paciente->observacion = 'Asmatico';
         $paciente->status = 1;

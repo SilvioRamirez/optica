@@ -34,11 +34,6 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::group(['prefix' => 'pacientes'],function () {
-    Route::get('/create', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-create");  // crear
-    Route::get('/edit/{id}', App\Http\Livewire\Pacientes\Form::class)->name("d-paciente-edit");// edit
-});
-
 Route::get('dropdown', [DropdownController::class, 'index']);
 Route::post('api/fetch-municipios', [DropdownController::class, 'fetchMunicipio']);
 Route::post('api/fetch-parroquias', [DropdownController::class, 'fetchParroquia']);
@@ -75,10 +70,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/',  [PacienteController::class, 'resultados_detalle_cola'])->name('pacientes.resultados.detalles.cola');
     Route::get('/pacientes/resultado/{resultado}/resultado_detalle/cola/delete',        [PacienteController::class, 'resultados_detalle_cola_delete'])->name('pacientes.resultados.detalles.cola.delete');
     
-    Route::get('/pacientes/{paciente}/cola/delete',  [PacienteController::class, 'paciente_resultados_cola_vaciar'])->name('paciente.resultados.cola.vaciar');
-    Route::get('/pacientes/{paciente}/cola/pdf',     [PacienteController::class, 'paciente_resultados_cola_pdf'])->name('pacientes.resultados.cola.pdf');
-    Route::get('/pacientes/{paciente}/delete',    [PacienteController::class, 'delete'])->name('pacientes.delete');
-    Route::resource('pacientes',                PacienteController::class);
+    Route::get('/pacientes/{paciente}/cola/delete', [PacienteController::class, 'paciente_resultados_cola_vaciar'])->name('paciente.resultados.cola.vaciar');
+    Route::get('/pacientes/{paciente}/cola/pdf',    [PacienteController::class, 'paciente_resultados_cola_pdf'])->name('pacientes.resultados.cola.pdf');
+    Route::get('/pacientes/{paciente}/delete',      [PacienteController::class, 'delete'])->name('pacientes.delete');
+    Route::get('/pacientes/{paciente}/dashboard',   [PacienteController::class, 'dashboard'])->name('pacientes.dashboard');
+    Route::resource('pacientes',                    PacienteController::class);
 
     //Rutas de Bioanalistas
     Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');

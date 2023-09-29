@@ -66,9 +66,9 @@ class PacienteController extends Controller
         $data['status'] = $request->status ? 1 : 0;
 
         
-        Paciente::create($data);
+        $paciente = Paciente::create($data);
 
-        return redirect()->route('pacientes.index')
+        return redirect()->route('pacientes.dashboard', $paciente->id)
                             ->with('success','Paciente creado exitosamente.');
     }
 
@@ -79,6 +79,27 @@ class PacienteController extends Controller
     {   
         $estados = Estado::get(['id_estado', 'estado']);
         return view('pacientes.show',compact('paciente', 'estados'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function dashboard(Paciente $paciente): View
+    {   
+    $cola = Paciente::where('id', $paciente->id)
+                    ->with(['resultados' => function($query){
+                        $query->where('status_cola', true); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
+                        $query->with('examen');
+                        $query->with('examen.caracteristicas');
+                        $query->with('bioanalista');
+                        $query->with('muestra');
+                        $query->orderBy('created_at', 'desc');
+                    }])
+                    ->get();
+                    
+        $paciente = Paciente::with('direccion')->first();
+        //dd($paciente);
+        return view('pacientes.dashboard',compact('paciente'));
     }
 
     /**

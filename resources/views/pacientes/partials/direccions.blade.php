@@ -34,9 +34,7 @@
     </div>
     
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        @if((Route::current()->getName() == 'pacientes.create') OR (Route::current()->getName() == 'pacientes.edit'))
             {{ Form::submitComp() }}
-        @endif
     </div>
 </div>
 @push('scripts')

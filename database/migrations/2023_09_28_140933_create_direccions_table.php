@@ -2,6 +2,7 @@
 
 use App\Models\Estado;
 use App\Models\Municipio;
+use App\Models\Paciente;
 use App\Models\Parroquia;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,12 +17,14 @@ return new class extends Migration
     {
         Schema::create('direccions', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Paciente::class);
             $table->foreignIdFor(Estado::class);
             $table->foreignIdFor(Municipio::class);
             $table->foreignIdFor(Parroquia::class);
             $table->text('sector');
             $table->longText('direccion');
             $table->text('lugar_registro');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
