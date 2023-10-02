@@ -6,11 +6,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\Rule;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Paciente extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, LogsActivity;
 
+    /**
+     * Implementa el registro de Logs
+     *
+     * @var array<int, string>
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+    
     protected $guarded = [];
 
     static $rules= [
