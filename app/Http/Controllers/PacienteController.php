@@ -15,6 +15,7 @@ use App\Models\Bioanalista;
 use App\Models\Cola;
 use App\Models\ColaResultados;
 use App\Models\Configuracion;
+use App\Models\Direccion;
 use App\Models\Estado;
 use App\Models\Muestra;
 use App\Models\Resultados;
@@ -65,7 +66,6 @@ class PacienteController extends Controller
         $data = $request->all();
         $data['status'] = $request->status ? 1 : 0;
 
-        
         $paciente = Paciente::create($data);
 
         return redirect()->route('pacientes.dashboard', $paciente->id)
@@ -82,27 +82,6 @@ class PacienteController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function dashboard(Paciente $paciente): View
-    {   
-    $cola = Paciente::where('id', $paciente->id)
-                    ->with(['resultados' => function($query){
-                        $query->where('status_cola', true); //Me indica sin el = si es verdadero o falso y debemos definir en el modelo que es un boleano 1 o 0
-                        $query->with('examen');
-                        $query->with('examen.caracteristicas');
-                        $query->with('bioanalista');
-                        $query->with('muestra');
-                        $query->orderBy('created_at', 'desc');
-                    }])
-                    ->get();
-                    
-        $paciente = Paciente::with('direccion')->first();
-        //dd($paciente);
-        return view('pacientes.dashboard',compact('paciente'));
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Paciente $paciente): View
@@ -115,15 +94,21 @@ class PacienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Paciente $paciente): RedirectResponse
+    public function update(UpdatePacienteRequest $request, Paciente $paciente): RedirectResponse
     {
 
-        request()->validate(Paciente::$rules);
+        /* request()->rules(Paciente::$rules); */
 
+        //dd($request);
         $data = $request->all();
         $data['status'] = $request->status ? 1 : 0;
 
-        $paciente->update($data);
+       /*  $paciente = Paciente::find($paciente->id); */
+
+        if(!$paciente->update($data)){
+            return redirect()->back()
+                            ->with('danger','Paciente no actualizado.');
+        }
 
         return redirect()->route('pacientes.index')
                             ->with('success','Paciente actualizado exitosamente.');
@@ -232,34 +217,6 @@ class PacienteController extends Controller
 
     public function resultados_detalle_cola($id){
 
-        //$resultado = Resultados::find($id);
-        //$examen = Examen::find($resultado->examen_id);
-        
-        /* $resultado = Resultados::find($id); */
-        /* $bioanalista = Resultados::find($id)->bioanalista; */
-        /* $muestra = Resultados::find($id)->muestra; */
-        /* $paciente = Resultados::find($id)->paciente; */
-        /* $examen = Resultados::find($id)->examen->with(['caracteristicas']); */
-        // $resultado = Resultados::with('examen.caracteristicas')->with('paciente')->with('bioanalista')->with('muestra')->find($id);
-        /* $caracteristicas = $resultado->examen->caracteristicas; */
-        /* $user = User::with('comments')->find($id); */
-        
-        /* $cola = new Cola();
-        $cola->paciente_id = $resultado->paciente->id;
-        $cola->resultados_id = $resultado->id;
-        $cola->save(); */
-
-        //$cola = Cola::where('paciente_id', $resultado->paciente->id);
-
-        //$cola->resultados()->attach([$cola->id]);
-
-
-        //return get_defined_vars();
-
-        //return $resultado;
-
-        //return view('resultados.index', compact('paciente', 'examen', 'bioanalista', 'muestra', 'cola'));
-
         if($resultado = Resultados::find($id)){
             $resultado->status_cola = true;
             $resultado->update();
@@ -267,7 +224,6 @@ class PacienteController extends Controller
 
         return redirect()->route('pacientes.resultados.index', $resultado->paciente->id)->with('success','Se ha agregado el Examen a la cola de impresión.');
 
-        //return redirect()->back()->with('success','Examen agregado a la cola de impresión.');
     }
 
     public function resultados_detalle_cola_delete($id){
@@ -350,4 +306,58 @@ class PacienteController extends Controller
         return redirect()->back()->with('error','Ha ocurrido un error al eliminar el registro.');
         
     }
+
+    /**
+     * Dashboard de Paciente
+     */
+    public function dashboard(Paciente $paciente): View
+    {
+        $paciente = Paciente::where('id', $paciente->id)
+            ->with(['direccion' => function($query){
+                $query->with('estado');
+                $query->with('municipio');
+                $query->with('parroquia');
+            }])->first();
+
+        dd($paciente);
+        return view('pacientes.dashboard', compact('paciente'));
+    }
+
+    /**
+     * Muestra el Formulario de Direccion de Paciente
+     */
+    public function direccion_create(Paciente $paciente): View
+    {
+        $estados = Estado::get(['id_estado', 'estado']);
+
+        return view('pacientes.create-direccions', compact('paciente', 'estados'));
+    }
+
+    public function direccion_store(Request $request)
+    {
+
+        $direccion = Direccion::updateOrCreate(
+            [
+            'paciente_id'   => $request->get('paciente_id'),
+            ],
+            [
+            'estado_id'     => $request->get('estado_id'),
+            'municipio_id'  => $request->get('municipio_id'),
+            'parroquia_id'  => $request->get("parroquia_id"),
+            'sector'        => $request->get('sector'),
+            'direccion'     => $request->get('direccion'),
+            'lugar_registro'    => $request->get('lugar_registro')
+            ],
+        );
+
+        if(!$direccion){
+            return redirect()->back()
+                                ->with('error','La dirección no ha sido guardada.');
+        }
+
+        return redirect()->route('pacientes.dashboard', $direccion->paciente_id)
+                            ->with('success','Dirección agregada exitosamente.');
+    }
+
+
 }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Municipio extends Model
 {
     use HasFactory;
+
+    public function direccion()
+    {
+        return $this->hasMany(Direccion::class);
+    }
+
 }

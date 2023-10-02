@@ -8,8 +8,7 @@
 <div class="col-lg-12 margin-tb">
 
     @include('fragment.error')
-    @include('fragment.success')
-    
+
     <div class="card border-light mb-3 shadow">
 
         <div class="card-header bg-info text-white">
@@ -17,29 +16,26 @@
             <ul class="nav nav-tabs card-header-tabs" data-bs-tabs="tabs">
 
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#dhcp">Datos</a>
+                    <a class="nav-link active" aria-current="true" data-bs-toggle="tab" href="#dhcp">Dirección</a>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="tab" href="#static">Dirección</a>
-                </li>
-
             </ul>
         </div>
 
 
         <div class="card-body tab-content">
             <div class="tab-pane active" id="dhcp">
-                @include('pacientes.partials.show-data')
-                
-            </div>
-            <div class="tab-pane" id="static">
-                @include('pacientes.partials.show-direccions')
+                {!! Form::open(array('route' => 'pacientes.direccion.store','method'=>'POST')) !!}
+
+                    {{ form::hiddenComp('paciente_id', $paciente->id)}}
+
+                    @include('pacientes.partials.direccions')
+                {!! Form::close() !!}
             </div>
         </div>
 
         {{-- <div class="card-footer text-muted">
             <button class="btn btn-primary" type="submit">Guardar</button>
+            
         </div> --}}
     </div>
 

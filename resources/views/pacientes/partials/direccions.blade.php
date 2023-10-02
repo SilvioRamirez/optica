@@ -4,7 +4,7 @@
 
             <label for="estado-dropdown mb-1"><strong>Estado</strong></label>
             <div class="form-group mb-2">
-                <select  id="estado-dropdown" name="id_estado" class="form-control">
+                <select  id="estado-dropdown" name="estado_id" class="form-control">
                     <option value="">-- Seleccionar Estado --</option>
                         @foreach ($estados as $data)
                             <option value="{{$data->id_estado}}">
@@ -16,13 +16,13 @@
 
             <label for="municipio-dropdown" class="mb-1"><strong>Municipio</strong></label>
             <div class="form-group mb-2">
-                <select id="municipio-dropdown" name="id_municipio" class="form-control">
+                <select id="municipio-dropdown" name="municipio_id" class="form-control">
                 </select>
             </div>
 
             <label for="parroquia-dropdown" class="mb-1"><strong>Parroquia</strong></label>
             <div class="form-group mb-2">
-                <select id="parroquia-dropdown" name="id_parroquia" class="form-control">
+                <select id="parroquia-dropdown" name="parroquia_id" class="form-control">
                 </select>
             </div>
             

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdatePacienteRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdatePacienteRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +20,33 @@ class UpdatePacienteRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    public function rules(): array
+    /* public function rules(): array
     {
         return [
             //
         ];
+    } */
+
+    public function rules()
+    {
+        $rules = [
+            'cedula'  => ['required', Rule::unique('pacientes')->ignore($this->cedula, 'cedula'),],
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'fecha_nacimiento' => 'required',
+            'edad' => 'required',
+            'sexo' => 'required',
+            'telefono' => '',
+            'direccion' => '',
+            'estado' => '',
+            'municipio' => '',
+            'parroquia' => '',
+            'sector' => '',
+            'correo' => '',
+            'observacion' => '',
+            'status' => '',
+        ];
+
+        return $rules;
     }
 }

@@ -57,6 +57,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products',                 ProductController::class);
 
+    
+
+
     //Rutas de Pacientes y Resultados
     Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
     Route::post('/pacientes/resultados/store',      [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
@@ -73,7 +76,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/pacientes/{paciente}/cola/delete', [PacienteController::class, 'paciente_resultados_cola_vaciar'])->name('paciente.resultados.cola.vaciar');
     Route::get('/pacientes/{paciente}/cola/pdf',    [PacienteController::class, 'paciente_resultados_cola_pdf'])->name('pacientes.resultados.cola.pdf');
     Route::get('/pacientes/{paciente}/delete',      [PacienteController::class, 'delete'])->name('pacientes.delete');
+
+    //Pacientes Dashboard
     Route::get('/pacientes/{paciente}/dashboard',   [PacienteController::class, 'dashboard'])->name('pacientes.dashboard');
+    
+    //Pacientes - Direccion
+    Route::get('/pacientes/{paciente}/direccion',   [PacienteController::class, 'direccion_create'])->name('pacientes.direccion.create');
+    Route::post('/pacientes/direccion/store',       [PacienteController::class, 'direccion_store'])->name('pacientes.direccion.store');
+    
     Route::resource('pacientes',                    PacienteController::class);
 
     //Rutas de Bioanalistas

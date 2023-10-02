@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class Paciente extends Model
 {
@@ -14,6 +15,7 @@ class Paciente extends Model
 
     static $rules= [
         'cedula' => 'required|unique:pacientes',
+        'cedula'    => 'sometimes|required|unique:pacientes,cedula',
         'nombres' => 'required',
         'apellidos' => 'required',
         'fecha_nacimiento' => 'required',
@@ -30,6 +32,7 @@ class Paciente extends Model
         'status' => '',
     ];
 
+
     protected $casts = [
         'status' => 'boolean',
     ];
@@ -42,6 +45,12 @@ class Paciente extends Model
     public function direccion()
     {
         return $this->hasOne(Direccion::class);
+    }
+
+     /** Get the user's history. */
+    public function pacienteEstado()
+    {
+        return $this->hasOneThrough('App\Estado', 'App\Direccion');
     }
 
     public function getCreatedAtAttribute()
