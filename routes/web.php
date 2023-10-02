@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +14,7 @@ use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\MuestraController;
-
+use Spatie\Activitylog\Models\Activity;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,6 +93,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/examenes/caracteristicas/edit/{id}',       [ExamenController::class, 'caracteristicas_edit'])->name('examenes.caracteristicas.edit');
     Route::patch('/examenes/caracteristicas/update/{id}',   [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
     Route::resource('examenes',                             ExamenController::class);
+
+    Route::get('/log', function () {
+        return Activity::all();
+    });
+    
+    Route::get('logs/',             [ActivityController::class, 'index'])->name('logs.index');
+    Route::get('logs/delete_all',   [ActivityController::class, 'delete_all'])->name('logs.delete.all');
 
 });
 

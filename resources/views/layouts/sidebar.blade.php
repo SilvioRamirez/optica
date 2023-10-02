@@ -8,9 +8,9 @@
 				@can('role-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('roles.index') }}"><i class="fa fa-users-cog"></i> Roles</a>
 				@endcan
-				@can('product-list')
+				{{-- @can('product-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('products.index') }}"><i class="fa fa-store"></i> Productos</a>
-				@endcan
+				@endcan --}}
 				@can('paciente-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('pacientes.index') }}"><i class="fa fa-hospital-user"></i> Pacientes</a>
 				@endcan
@@ -25,6 +25,9 @@
 				@endcan
 				@can('configuracion-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cog"></i> Configuración</a>
+				@endcan
+				@can('configuracion-list')
+					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('logs.index') }}"><i class="fa-solid fa-rectangle-list"></i> Logs</a>
 				@endcan
 	</div>
 </div>
