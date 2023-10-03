@@ -58,9 +58,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
     Route::resource('products',                 ProductController::class);
 
-    
-
-
     //Rutas de Pacientes y Resultados
     Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
     Route::post('/pacientes/resultados/store',      [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');

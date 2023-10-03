@@ -6,6 +6,7 @@ use App\Models\Bioanalista;
 use App\Models\Caracteristicas;
 use App\Models\Configuracion;
 use App\Models\Examen;
+use App\Models\Lente;
 use App\Models\Muestra;
 use Carbon\Carbon;
 use App\Models\Paciente;
@@ -25,14 +26,14 @@ class BioanalistaSeeder extends Seeder
         Bioanalista::truncate();
 
         $bioanalista = new Bioanalista();
-        $bioanalista->cedula = 'V5763645';
-        $bioanalista->nombres = 'XIOMARA';
+        $bioanalista->cedula    = 'V5763645';
+        $bioanalista->nombres   = 'XIOMARA';
         $bioanalista->apellidos = 'MOLINA MACIAS';
         $bioanalista->direccion = 'Urb. Fray Ignacio Alvarez, Calle Las Flores Casa 33-33, Parroquia Escuque, Municipio Escuque, Estado Trujillo';
-        $bioanalista->telefono = '0426-4277034';
+        $bioanalista->telefono  = '0426-4277034';
         $bioanalista->fecha_nacimiento = '1964-11-04';
         $bioanalista->documento = '123456';
-        $bioanalista->colegio = 'Colegio de Bioanalistas del Estado Trujillo';
+        $bioanalista->colegio   = 'Colegio de Bioanalistas del Estado Trujillo';
         $bioanalista->fecha_ingreso = '1990-01-01';
         $bioanalista->expediente = 'Ninguno';
         $bioanalista->status = 1;
@@ -52,166 +53,40 @@ class BioanalistaSeeder extends Seeder
         $paciente->status = 1;
         $paciente->save();
         
-        Examen::truncate();
-        $examen = new Examen();
-        $examen->nombre = 'HEMATOLOGIA';
-        $examen->status = 1;
-        $examen->unidad = 1;
-        $examen->ref_inferior = 1;
-        $examen->ref_superior = 1;
-        $examen->save();
+        Lente::truncate();
+        $lente = new Lente();
+        $lente->paciente_id = 1;
+        $lente->pago_id     = 1;
+        $lente->formula_id  = 1;
+        $lente->adicion     = 1;
+        $lente->distancia_pupilar = 1;
+        $lente->alt         = 1;
+        $lente->tipo_lente  = 1;
+        $lente->tratamiento = 1;
+        $lente->terminado   = 1;
+        $lente->tallado     = 1;
+        $lente->status      = 1;
+        $lente->save();
 
-        Caracteristicas::truncate();
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'HEMOGLOBINA';
-        $caracteristicas->unidad = 'gr/dl';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
+        $paciente->lentes()->attach([$lente->id]);
 
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'HEMATOCRITO';
-        $caracteristicas->unidad = '&';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
+        $lente = new Lente();
+        $lente->paciente_id = 1;
+        $lente->pago_id     = 2;
+        $lente->formula_id  = 2;
+        $lente->adicion     = 2;
+        $lente->distancia_pupilar = 2;
+        $lente->alt         = 2;
+        $lente->tipo_lente  = 2;
+        $lente->tratamiento = 2;
+        $lente->terminado   = 2;
+        $lente->tallado     = 2;
+        $lente->status      = 2;
+        $lente->save();
 
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'PLAQUETAS';
-        $caracteristicas->unidad = 'xmm3';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
+        $paciente->lentes()->attach([$lente->id]);
 
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'PLAQUETAS';
-        $caracteristicas->unidad = 'xmm3';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'TIEMPO DE PROTOMBINA';
-        $caracteristicas->unidad = 'seg';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'TIEMPO DE CONTROL';
-        $caracteristicas->unidad = 'seg';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'TIEMPO PARCIAL DE TROMBOPLASTINA';
-        $caracteristicas->unidad = 'seg';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'TIEMPO DE CONTROL';
-        $caracteristicas->unidad = 'seg';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'ERITROSEDIMENTACION (VSG)';
-        $caracteristicas->unidad = 'mm (Wintrobe) por hora';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'LEUCOCITOS';
-        $caracteristicas->unidad = 'xmm3';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'S. NEUTROFILO';
-        $caracteristicas->unidad = '%';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'S. EOSINOFILO';
-        $caracteristicas->unidad = '%';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'LINFOCITOS';
-        $caracteristicas->unidad = '%';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        $caracteristicas = new Caracteristicas();
-        $caracteristicas->examen_id = 1;
-        $caracteristicas->caracteristica = 'MONOCITOS';
-        $caracteristicas->unidad = '&';
-        $caracteristicas->ref_inferior = '';
-        $caracteristicas->ref_superior = '';
-        $caracteristicas->save();
-
-        Muestra::truncate();
-        $muestra = new Muestra();
-        $muestra->nombre = 'SANGRE';
-        $muestra->status = 1;
-        $muestra->save();
-
-        $muestra = new Muestra();
-        $muestra->nombre = 'ORINA';
-        $muestra->status = 1;
-        $muestra->save();
-
-        $muestra = new Muestra();
-        $muestra->nombre = 'HECES';
-        $muestra->status = 1;
-        $muestra->save();
-
-        Resultados::truncate();
-        $resultados = new Resultados();
-        $resultados->paciente_id = 1;
-        $resultados->bioanalista_id = 1;
-        $resultados->examen_id = 1;
-        $resultados->muestra_id = 1;
-        $resultados->save();
-
-        ResultadosDetalle::truncate();
-        $resultadosDetalle = new ResultadosDetalle();
-        $resultadosDetalle->resultados_id = 1;
-        $resultadosDetalle->caracteristicas_id = 1;
-        $resultadosDetalle->resultado = '300';
-        $resultadosDetalle->save();
-
-        $resultadosDetalle = new ResultadosDetalle();
-        $resultadosDetalle->resultados_id = 1;
-        $resultadosDetalle->caracteristicas_id = 2;
-        $resultadosDetalle->resultado = '10';
-        $resultadosDetalle->save();
-
-        $resultados->resultadosDetalle()->attach([1, 2]);
+        //$paciente->lentes()->attach([2]);
 
         Configuracion::truncate();
         $configuracion = new Configuracion();

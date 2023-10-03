@@ -18,6 +18,7 @@ use App\Models\Configuracion;
 use App\Models\Direccion;
 use App\Models\Estado;
 use App\Models\Muestra;
+use App\Models\Municipio;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -312,17 +313,22 @@ class PacienteController extends Controller
      */
     public function dashboard(Paciente $paciente): View
     {
+        $municipio = null;
+
         $paciente = Paciente::where('id', $paciente->id)
             ->with(['direccion' => function($query){
                 $query->with('estado');
                 $query->with('municipio');
                 $query->with('parroquia');
-            }])->first();
+                
+            }])->with('lentes')
+            ->first();
 
-        
-        
-        
-        return view('pacientes.dashboard', compact('paciente'));
+        if($paciente->direccion){
+            $municipio = Municipio::where('id_municipio', $paciente->direccion->municipio_id)->firstOrFail();
+        }
+
+        return view('pacientes.dashboard', compact('paciente', 'municipio'));
     }
 
     /**

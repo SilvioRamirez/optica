@@ -21,9 +21,9 @@ return new class extends Migration
             $table->foreignIdFor(Estado::class);
             $table->foreignIdFor(Municipio::class);
             $table->foreignIdFor(Parroquia::class);
-            $table->text('sector');
-            $table->longText('direccion');
-            $table->text('lugar_registro');
+            $table->text('sector')->nullable();
+            $table->longText('direccion')->nullable();
+            $table->text('lugar_registro')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

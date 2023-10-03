@@ -54,15 +54,17 @@ class Paciente extends Model
         return $this->hasMany(Resultados::class);
     }
 
+    /**
+     * Los lentes que pertenecen al paciente.
+     */
+    public function lentes()
+    {
+        return $this->belongsToMany(Lente::class, 'lente_paciente');
+    }
+
     public function direccion()
     {
         return $this->hasOne(Direccion::class);
-    }
-
-     /** Get the user's history. */
-    public function pacienteEstado()
-    {
-        return $this->hasOneThrough('App\Estado', 'App\Direccion');
     }
 
     public function getCreatedAtAttribute()

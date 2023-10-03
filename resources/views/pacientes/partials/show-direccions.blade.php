@@ -5,7 +5,7 @@
 
 <x-showText>
     <x-slot:label>Municipio: </x-slot>
-    <x-slot:value>{{ !empty($paciente->direccion->municipio->municipio) ? $paciente->direccion->municipio->municipio : 'N/A' }}</x-slot>
+    <x-slot:value>{{ !empty($municipio->municipio) ? $municipio->municipio : 'N/A' }}</x-slot>
 </x-showText>
     <x-showText>
     <x-slot:label>Parroquia: </x-slot>
