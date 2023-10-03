@@ -252,7 +252,7 @@ class PacienteController extends Controller
     public function resultados_detalle_print($id){
         if($resultado = Resultados::find($id)){
             $paciente = Paciente::find($resultado->paciente_id);
-            $examen = Examen::find($resultado->examen_id);
+            $examen =   Examen::find($resultado->examen_id);
             $caracteristicas = $examen->caracteristicas;
         }
         return view('resultados.print', compact('resultado', 'paciente', 'examen', 'caracteristicas'));
@@ -319,7 +319,9 @@ class PacienteController extends Controller
                 $query->with('parroquia');
             }])->first();
 
-        dd($paciente);
+        
+        
+        
         return view('pacientes.dashboard', compact('paciente'));
     }
 
