@@ -17,6 +17,8 @@ use App\Models\ColaResultados;
 use App\Models\Configuracion;
 use App\Models\Direccion;
 use App\Models\Estado;
+use App\Models\Formula;
+use App\Models\Lente;
 use App\Models\Muestra;
 use App\Models\Municipio;
 use App\Models\Resultados;
@@ -364,6 +366,60 @@ class PacienteController extends Controller
         }
 
         return redirect()->route('pacientes.dashboard', $direccion->paciente_id)
+                            ->with('success','Dirección agregada exitosamente.');
+    }
+
+    /**
+     * Muestra el Formulario de Direccion de Paciente
+     */
+    public function lente_create(Paciente $paciente): View
+    {
+
+        return view('pacientes.create-lentes', compact('paciente'));
+    }
+
+    public function lente_store(Request $request)
+    {
+
+        $paciente = Paciente::find($request->paciente_id);
+
+        $lente = new Lente();
+        $lente->paciente_id = $request->get('paciente_id');
+        $lente->pago_id = null;
+        $lente->adicion = $request->get('adicion');
+        $lente->distancia_pupilar = $request->get('distancia_pupilar');
+        $lente->alt = $request->get('alt');
+        $lente->tipo_lente = $request->get('tipo_lente');
+        $lente->tratamiento = $request->get('tratamiento');
+        $lente->terminado = $request->get('terminado');
+        $lente->tallado = $request->get('tallado');
+        $lente->save();
+
+        $paciente->lentes()->attach([$lente->id]);
+
+        $ojo = $request->get('ojo');
+        $esfera = $request->get('esfera');
+        $cilindro = $request->get('cilindro');
+        $eje = $request->get('eje');
+
+        $max = count($ojo);
+        for ($x = 0; $x <= $max; $x ++){
+            $formula = new Formula();
+            $formula[$x]['ojo']= $ojo[$x];
+            $formula[$x]['esfera']= $esfera[$x];
+            $formula[$x]['cilindro']= $cilindro[$x];
+            $formula[$x]['eje']= $eje[$x];
+            $formula->save();
+        }
+
+
+
+        if(!$request){
+            return redirect()->back()
+                                ->with('error','La dirección no ha sido guardada.');
+        }
+
+        return redirect()->route('pacientes.dashboard', $request->paciente_id)
                             ->with('success','Dirección agregada exitosamente.');
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Formula;
 use App\Models\Lente;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,13 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('formulas', function (Blueprint $table) {
-            $table->id();
-            $table->string('ojo');
-            $table->string('esfera');
-            $table->string('cilindro');
-            $table->string('eje');
-            $table->timestamps();
+        Schema::create('formula_lente', function (Blueprint $table) {
+            $table->foreignIdFor(Formula::class);
+            $table->foreignIdFor(Lente::class);
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('formulas');
+        Schema::dropIfExists('formula_lente');
     }
 };

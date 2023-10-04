@@ -17,8 +17,7 @@ return new class extends Migration
         Schema::create('lentes', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Paciente::class);
-            $table->foreignIdFor(Pago::class);
-            $table->foreignIdFor(Formula::class);
+            $table->foreignIdFor(Pago::class)->nullable();
             $table->string('adicion')->nullable();
             $table->string('distancia_pupilar')->nullable();
             $table->string('alt')->nullable();

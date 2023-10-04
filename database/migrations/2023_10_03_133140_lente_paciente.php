@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('lente_paciente', function (Blueprint $table) {
             $table->foreignIdFor(Lente::class);
             $table->foreignIdFor(Paciente::class);
-                                
         });
     }
 

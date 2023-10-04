@@ -82,6 +82,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/pacientes/{paciente}/direccion',   [PacienteController::class, 'direccion_create'])->name('pacientes.direccion.create');
     Route::post('/pacientes/direccion/store',       [PacienteController::class, 'direccion_store'])->name('pacientes.direccion.store');
     
+    //Pacientes - Lentes
+    Route::get('/pacientes/{paciente}/lente',   [PacienteController::class, 'lente_create'])->name('pacientes.lente.create');
+    Route::post('/pacientes/lente/store',       [PacienteController::class, 'lente_store'])->name('pacientes.lente.store');
+
     Route::resource('pacientes',                    PacienteController::class);
 
     //Rutas de Bioanalistas

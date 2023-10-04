@@ -6,6 +6,7 @@ use App\Models\Bioanalista;
 use App\Models\Caracteristicas;
 use App\Models\Configuracion;
 use App\Models\Examen;
+use App\Models\Formula;
 use App\Models\Lente;
 use App\Models\Muestra;
 use Carbon\Carbon;
@@ -57,7 +58,6 @@ class BioanalistaSeeder extends Seeder
         $lente = new Lente();
         $lente->paciente_id = 1;
         $lente->pago_id     = 1;
-        $lente->formula_id  = 1;
         $lente->adicion     = 1;
         $lente->distancia_pupilar = 1;
         $lente->alt         = 1;
@@ -73,7 +73,6 @@ class BioanalistaSeeder extends Seeder
         $lente = new Lente();
         $lente->paciente_id = 1;
         $lente->pago_id     = 2;
-        $lente->formula_id  = 2;
         $lente->adicion     = 2;
         $lente->distancia_pupilar = 2;
         $lente->alt         = 2;
@@ -85,6 +84,24 @@ class BioanalistaSeeder extends Seeder
         $lente->save();
 
         $paciente->lentes()->attach([$lente->id]);
+
+        Formula::truncate();
+        $formula = new Formula();
+        $formula->ojo = 'OJO IZQUIERDO';
+        $formula->esfera = '+2.00';
+        $formula->cilindro = '+1.00';
+        $formula->eje = '0.5';
+        $formula->save();
+        $lente->formulas()->attach([$formula->id]);
+
+        $formula = new Formula();
+        $formula->ojo = 'OJO DERECHO';
+        $formula->esfera = '+1.00';
+        $formula->cilindro = '+2.00';
+        $formula->eje = '0.2';
+        $formula->save();
+        $lente->formulas()->attach([$formula->id]);
+
 
         //$paciente->lentes()->attach([2]);
 
