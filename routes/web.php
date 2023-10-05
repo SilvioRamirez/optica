@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Pacientes - Lentes
     Route::get('/pacientes/{paciente}/lente',   [PacienteController::class, 'lente_create'])->name('pacientes.lente.create');
     Route::post('/pacientes/lente/store',       [PacienteController::class, 'lente_store'])->name('pacientes.lente.store');
+    Route::get('/pacientes/{lente}/delete',     [PacienteController::class, 'lente_delete'])->name('pacientes.lente.delete');
 
     Route::resource('pacientes',                    PacienteController::class);
 

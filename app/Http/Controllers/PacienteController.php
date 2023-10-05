@@ -403,24 +403,37 @@ class PacienteController extends Controller
         $eje = $request->get('eje');
 
         $max = count($ojo);
-        for ($x = 0; $x <= $max; $x ++){
+
+        for ($x = 0; $x < $max; $x ++){
             $formula = new Formula();
-            $formula[$x]['ojo']= $ojo[$x];
-            $formula[$x]['esfera']= $esfera[$x];
-            $formula[$x]['cilindro']= $cilindro[$x];
-            $formula[$x]['eje']= $eje[$x];
+            $formula->ojo = $ojo[$x];
+            $formula->esfera = $esfera[$x];
+            $formula->cilindro = $cilindro[$x];
+            $formula->eje = $eje[$x];
             $formula->save();
+            $lente->formulas()->attach([$formula->id]);
         }
-
-
 
         if(!$request){
             return redirect()->back()
-                                ->with('error','La dirección no ha sido guardada.');
+                                ->with('error','Ha ocurrido un error, la información no ha sido guardada.');
         }
 
         return redirect()->route('pacientes.dashboard', $request->paciente_id)
-                            ->with('success','Dirección agregada exitosamente.');
+                            ->with('success','Lente agregado exitosamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function lente_destroy($id): RedirectResponse
+    {
+        if($lente = Lente::find($id)){
+            if($lente->delete()){
+                return redirect()->back()->with('success','Registro eliminado exitosamente.');
+            }
+        }
+        return redirect()->back()->with('error','Ha ocurrido un error al eliminar el registro.');
     }
 
 
