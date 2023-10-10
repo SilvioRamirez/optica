@@ -393,6 +393,7 @@ class PacienteController extends Controller
         $lente->tratamiento = $request->get('tratamiento');
         $lente->terminado = $request->get('terminado');
         $lente->tallado = $request->get('tallado');
+        $lente->status = $request->get('status');
         $lente->save();
 
         $paciente->lentes()->attach([$lente->id]);
@@ -426,7 +427,7 @@ class PacienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function lente_destroy($id): RedirectResponse
+    public function lente_delete($id): RedirectResponse
     {
         if($lente = Lente::find($id)){
             if($lente->delete()){
@@ -436,5 +437,94 @@ class PacienteController extends Controller
         return redirect()->back()->with('error','Ha ocurrido un error al eliminar el registro.');
     }
 
+    /**
+     * Show de Lente - Paciente
+     */
+    public function lente_show(Lente $lente): View
+    {
+        $municipio = null;
+
+        $lente = Lente::where('id', $lente->id)
+            ->with(['pacientes' => function($query){
+                $query->with('lentes');
+            }])
+            ->first();
+        
+
+        return view('pacientes.show-lente', compact('lente'));
+    }
+
+    /**
+     * Show de Lente - Paciente
+     */
+    public function lente_edit(Lente $lente): View
+    {
+
+        $lente = Lente::where('id', $lente->id)
+            ->with(['pacientes' => function($query){
+                $query->with('lentes');
+            }])->with('formulas')
+            ->first();
+        
+        //dd($lente);
+        return view('pacientes.edit-lentes', compact('lente'));
+    }
+
+    public function lente_update(Request $request)
+    {
+
+        //dd($request);
+        $lente = Lente::updateOrCreate(
+            [
+            'id'   => $request->get('lente_id'),
+            ],
+            [
+            'paciente_id'       => $request->get('paciente_id'),
+            'pago_id'           => $request->get('pago_id'),
+            'adicion'           => $request->get('adicion'),
+            'distancia_pupilar' => $request->get('distancia_pupilar'),
+            'alt'               => $request->get('alt'),
+            'tipo_lente'        => $request->get('tipo_lente'),
+            'tratamiento'       => $request->get('tratamiento'),
+            'terminado'         => $request->get('terminado'),
+            'tallado'           => $request->get('tallado'),
+            'status'            => $request->get('status'),
+            ],
+        );
+
+        $formula_id = $request->get('formula_id');
+        $ojo        = $request->get('ojo');
+        $esfera     = $request->get('esfera');
+        $cilindro   = $request->get('cilindro');
+        $eje        = $request->get('eje');
+
+        $max        = count($ojo);
+
+        for ($x = 0; $x < $max; $x ++){
+
+            $formula = Formula::updateOrCreate(
+                [
+                    'id'   => $formula_id[$x]
+                ],
+                [
+                    'ojo'       => $ojo[$x],
+                    'esfera'    => $esfera[$x],
+                    'cilindro'  => $cilindro[$x],
+                    'eje'       => $eje[$x]
+                ],
+            );
+        }
+        
+
+
+
+        if(!$lente){
+            return redirect()->back()
+                                ->with('error','La información no ha sido guardada.');
+        }
+
+        return redirect()->route('pacientes.dashboard', $request->get('paciente_id'))
+                            ->with('success','Información actualizada exitosamente.');
+    }
 
 }

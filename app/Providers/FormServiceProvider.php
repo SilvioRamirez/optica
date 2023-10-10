@@ -29,7 +29,7 @@ class FormServiceProvider extends ServiceProvider
         Form::component('checkboxComp',     'components.form.checkboxComp', ['name', 'show', 'value']);
         Form::component('submitComp',       'components.form.submitComp',   []);
         Form::component('hiddenComp',       'components.form.hiddenComp',   ['name','value']);
-        
+        Form::component('readonlyComp',    'components.form.readonlyComp',  ['name', 'show', 'value', 'attributes', 'placeholder']);
         
         Form::component('textMask',         'components.form.textmask',     ['name', 'show', 'mask', 'value']);
         Form::component('textSearch',       'components.form.textsearch',   ['name', 'show', 'value']);

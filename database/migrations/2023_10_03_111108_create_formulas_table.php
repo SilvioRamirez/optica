@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('esfera');
             $table->string('cilindro');
             $table->string('eje');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

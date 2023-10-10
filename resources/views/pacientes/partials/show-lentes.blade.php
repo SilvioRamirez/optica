@@ -1,11 +1,11 @@
 <h1>Lentes: </h1>
 
-    <div class="card border-light shadow">
-        <table class="table table-striped table-hover">
-            <thead class="bg-primary text-center text-white">
+	<div class="card border-light shadow">
+		<table class="table table-striped table-hover">
+        	<thead class="bg-primary text-center text-white">
                 <th>N°</th>
                 <th>ID Pago</th>
-                <th>ID Formula</th>
+                <th>Formulas</th>
                 <th>Adición</th>
                 <th>Distancia Pupilar</th>
                 <th>ALT</th>
@@ -14,6 +14,7 @@
                 <th>Terminado</th>
                 <th>Tallado</th>
                 <th>Estatus</th>
+                <th>Fecha de Registro</th>
                 <th>Opciones</th>
             </thead>
             <tbody>
@@ -21,7 +22,16 @@
                     <tr>
                         <td class="text-center">{{ $item->id }}</td>
                         <td class="text-center">{{ $item->pago_id }} </td>
-                        <td class="text-center">{{ $item->formula_id }} </td>
+                        <td class="text-justify">
+							
+							@foreach($item->formulas as $formula)
+								<span class="badge bg-info">{{ $formula->ojo }}</span>
+								<span class="badge bg-info">Esfera: {{ $formula->esfera }}</span>
+								<span class="badge bg-info">Cilindro: {{ $formula->cilindro }}</span>
+								<span class="badge bg-info">Eje: {{ $formula->eje }}</span>
+								<hr>
+							@endforeach
+						</td>
                         <td class="text-center">{{ $item->adicion }}</td>
                         <td class="text-center">{{ $item->distancia_pupilar }}</td>
                         <td class="text-center">{{ $item->alt }}</td>
@@ -29,13 +39,13 @@
                         <td class="text-center">{{ $item->tratamiento }}</td>
                         <td class="text-center">{{ $item->terminado }}</td>
                         <td class="text-center">{{ $item->tallado }}</td>
-                        <td class="text-center">{{ $item->estatus }}</td>
+                        <td class="text-center">{{ $item->status }}</td>
+                        <td class="text-center">{{ $item->created_at }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
-                                <a class="btn btn-success btn-sm" title="Agregar Resultados" href="{{ route('pacientes.resultados.detalles.index', $item->id) }}"><i class="fa fa-notes-medical"></i></a>
-                                <a class="btn btn-info btn-sm" title="Imprimir Resultados" href="{{ route('pacientes.resultados.detalles.print', $item->id) }}"><i class="fa fa-print"></i></a>
-                                <a class="btn btn-dark btn-sm" title="Agregar a cola de impresión" href="{{ route('pacientes.resultados.detalles.cola', $item->id) }}"><i class="fa fa-list-check"></i></a>
+                                <a class="btn btn-danger btn-sm" title="Eliminar Lente" href="{{ route('pacientes.lente.delete', $item->id) }}"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-info btn-sm" title="Ver Lente" href="{{ route('pacientes.lente.show', $item->id) }}"><i class="fa fa-eye"></i></a>
+								<a class="btn btn-warning btn-sm" title="Editar Lente" href="{{ route('pacientes.lente.edit', $item->id) }}"><i class="fa fa-pencil"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -43,6 +53,10 @@
             </tbody>
         </table>
     </div>
+
+{{-- @php
+        dd($paciente->lentes );
+    @endphp --}}
 
 <hr>
 

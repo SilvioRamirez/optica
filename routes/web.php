@@ -83,9 +83,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/pacientes/direccion/store',       [PacienteController::class, 'direccion_store'])->name('pacientes.direccion.store');
     
     //Pacientes - Lentes
-    Route::get('/pacientes/{paciente}/lente',   [PacienteController::class, 'lente_create'])->name('pacientes.lente.create');
-    Route::post('/pacientes/lente/store',       [PacienteController::class, 'lente_store'])->name('pacientes.lente.store');
-    Route::get('/pacientes/{lente}/delete',     [PacienteController::class, 'lente_delete'])->name('pacientes.lente.delete');
+    Route::get('/pacientes/{paciente}/lente',       [PacienteController::class, 'lente_create'])->name('pacientes.lente.create');
+    Route::post('/pacientes/lente/store',           [PacienteController::class, 'lente_store'])->name('pacientes.lente.store');
+    Route::get('/pacientes/{lente}/lente/delete',   [PacienteController::class, 'lente_delete'])->name('pacientes.lente.delete');
+    Route::get('/pacientes/{lente}/lente/show',     [PacienteController::class, 'lente_show'])->name('pacientes.lente.show');
+    Route::get('/pacientes/{lente}/lente/edit',     [PacienteController::class, 'lente_edit'])->name('pacientes.lente.edit');
+    Route::patch('/pacientes/{lente}/lente/update/',[PacienteController::class, 'lente_update'])->name('pacientes.lente.update');
 
     Route::resource('pacientes',                    PacienteController::class);
 
