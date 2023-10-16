@@ -426,7 +426,7 @@ class PacienteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function lente_destroy($id): RedirectResponse
+    public function lente_delete($id): RedirectResponse
     {
         if($lente = Lente::find($id)){
             if($lente->delete()){

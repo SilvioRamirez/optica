@@ -32,7 +32,7 @@
                         <td class="text-center">{{ $item->estatus }}</td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Opciones">
-                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.resultados.destroy', $item->id) }}"><i class="fa fa-trash"></i></a>
+                                <a class="btn btn-danger btn-sm" title="Eliminar Resultados" href="{{ route('pacientes.lente.delete', $item->id) }}"><i class="fa fa-trash"></i></a>
                                 <a class="btn btn-success btn-sm" title="Agregar Resultados" href="{{ route('pacientes.resultados.detalles.index', $item->id) }}"><i class="fa fa-notes-medical"></i></a>
                                 <a class="btn btn-info btn-sm" title="Imprimir Resultados" href="{{ route('pacientes.resultados.detalles.print', $item->id) }}"><i class="fa fa-print"></i></a>
                                 <a class="btn btn-dark btn-sm" title="Agregar a cola de impresión" href="{{ route('pacientes.resultados.detalles.cola', $item->id) }}"><i class="fa fa-list-check"></i></a>
