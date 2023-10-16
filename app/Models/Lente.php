@@ -13,6 +13,8 @@ class Lente extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
+    protected $guarded = [];
+    
     /**
      * Implementa el registro de Logs
      *

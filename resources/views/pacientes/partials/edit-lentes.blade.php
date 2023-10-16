@@ -2,38 +2,26 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <h2 class="text-center">Cristales</h2>
-            {{-- Ojo Derecho --}}
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('ojo[]','Ojo Derecho', '', ['OJO DERECHO' => 'OJO DERECHO']) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('esfera[]', 'Esfera') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('cilindro[]', 'Cilindro') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('eje[]', 'Eje') }}
-                </div>
-            </div>
 
-            {{-- Ojo Izquierdo --}}
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('ojo[]','Ojo Izquierdo', '', ['OJO IZQUIERDO' => 'OJO IZQUIERDO']) }}
+            {{-- Ojos --}}
+            @foreach($lente->formulas as $formula)
+                <div class="row">
+                    {{ form::hiddenComp('formula_id[]', $formula->id)}}
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        {{ Form::readonlyComp('ojo[]','Ojo Derecho', $formula->ojo ) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        {{ Form::textComp('esfera[]', 'Esfera', $formula->esfera ) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        {{ Form::textComp('cilindro[]', 'Cilindro', $formula->esfera ) }}
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        {{ Form::textComp('eje[]', 'Eje', $formula->esfera ) }}
+                    </div>
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('esfera[]', 'Esfera') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('cilindro[]', 'Cilindro') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('eje[]', 'Eje') }}
-                </div>
-            </div>
-            
+            @endforeach
+
             <hr>
             <div class="row">
                 <div class="col-xs-2 col-sm-2 col-md-2">

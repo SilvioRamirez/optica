@@ -1,6 +1,6 @@
 <!-- Sidebar-->
 <div class="border-end bg-light font-color-white" id="sidebar-wrapper">
-	<div class="sidebar-heading border-bottom bg-primary font-color-white"><a href="{{ url('/') }}" class="nav-link">LABORATORIO</a></div>
+	<div class="sidebar-heading border-bottom bg-primary font-color-white"><a href="{{ url('/') }}" class="nav-link">OPTICA</a></div>
 	<div class="list-group list-group-flush bg-primary">
 				@can('user-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('users.index') }}"><i class="fa fa-users"></i> Usuarios</a>
