@@ -13,6 +13,7 @@ use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ExamenController;
+use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
 use Spatie\Activitylog\Models\Activity;
 
@@ -91,6 +92,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::patch('/pacientes/{lente}/lente/update/',[PacienteController::class, 'lente_update'])->name('pacientes.lente.update');
 
     Route::resource('pacientes',                    PacienteController::class);
+
+    //Rutas de Muestras
+    Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
+    Route::resource('lentes',               LenteController::class);
+
 
     //Rutas de Bioanalistas
     Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
