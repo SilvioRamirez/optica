@@ -24,20 +24,14 @@ class LentesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                 return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-info btn-sm"     title="Ver Examen" href="'.route('examenes.show',$query->id).'"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-primary btn-sm"  title="Editar Examen" href="'.route('examenes.edit',$query->id).'"><i class="fa fa-pen-to-square"></i></a>            
-                            <a class="btn btn-success btn-sm" title="Editar Caracteristicas del Examen" href="'.route('examenes.caracteristicas',$query->id).'"><i class="fa fa-notes-medical"></i></a>
-                            <a class="btn btn-danger btn-sm" title="Eliminar Caracteristicas del Examen" href="'.route('examenes.delete',$query->id).'"><i class="fa fa-trash"></i></a>
+                            <a class="btn btn-danger btn-sm"    title="Eliminar Lente"  href="'.route('pacientes.lente.delete', $query->id).'"><i class="fa fa-trash"></i></a>
+                            <a class="btn btn-info btn-sm"      title="Ver Lente"       href="'.route('pacientes.lente.show', $query->id).'"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-warning btn-sm"   title="Editar Lente"    href="'.route('pacientes.lente.edit', $query->id).'"><i class="fa fa-pencil"></i></a>
                         </div>';
             })
             ->addColumn('status', function($query){
                 //if($query->status==false){
-                    
-                if($query){
-                    return '<span class="badge bg-danger">xd</span>';
-                }else{
-                    return '<span class="badge bg-success">Activo</span>';
-                }
+                    return '<span class="badge bg-success">'.$query->status.'</span>';
                 
             })
             ->addColumn('paciente', function($query){
@@ -82,9 +76,11 @@ class LentesDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
                     ->orderBy(0, 'asc')
+                    ->lengthMenu([10, 25, 50, 100, 500])
+                    ->pageLength(25)
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
-                    ])                    ->buttons([
+                    ])->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
                         //Button::make('pdf'),
@@ -104,42 +100,62 @@ class LentesDataTable extends DataTable
             Column::computed('paciente')->title('Paciente')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('formula')->title('Formula')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('status')->title('Estatus')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('adicion')->title('Add')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('distancia_pupilar')->title('Dp')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('alt')->title('Alt')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('tipo_lente')->title('Tipo')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('tratamiento')->title('Tratamiento')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('terminado')->title('Terminado')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('tallado')->title('Tallado')
                     ->exportable(false)
                     ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
                     ->addClass('text-center'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),

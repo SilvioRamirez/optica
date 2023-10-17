@@ -46,7 +46,7 @@
                     {{ Form::textComp('alt', 'Alt') }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
-                    {{ Form::selectComp('tipo_lente','Tipo de Lente', '', ['' => '--Seleccione--', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
+                    {{ Form::selectComp('tipo_lente','Tipo de Lente', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::textComp('tratamiento', 'Tratamiento') }}
@@ -60,7 +60,15 @@
                     {{ Form::textComp('tallado', 'Tallado') }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
-                    {{ Form::textComp('status', 'Estatus') }}
+                    {{ Form::selectComp('status','Estatus', '', [
+                        '' => '-- Seleccione --',
+                        'REGISTRADO' => 'REGISTRADO',
+                        'LABORATORIO DE MONTAJE'  => 'LABORATORIO DE MONTAJE',
+                        'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO',
+                        'POR ENTREGAR' => 'POR ENTREGAR',
+                        'ENTREGADO' => 'ENTREGADO'
+                        ]) 
+                    }}
                 </div>
             </div>
 

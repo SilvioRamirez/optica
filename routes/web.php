@@ -13,6 +13,7 @@ use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ExamenController;
+use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
 use Spatie\Activitylog\Models\Activity;
@@ -93,9 +94,13 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::resource('pacientes',                    PacienteController::class);
 
-    //Rutas de Muestras
+    //Rutas de Lentes
     Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
     Route::resource('lentes',               LenteController::class);
+
+    //Rutas de Laboratorios
+    Route::get('/laboratorios/{laboratorio}/delete',    [LaboratorioController::class, 'delete'])->name('laboratorios.delete');
+    Route::resource('laboratorios',                     LaboratorioController::class);
 
 
     //Rutas de Bioanalistas

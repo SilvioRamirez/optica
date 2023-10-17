@@ -7,6 +7,7 @@ use App\Models\Caracteristicas;
 use App\Models\Configuracion;
 use App\Models\Examen;
 use App\Models\Formula;
+use App\Models\Laboratorio;
 use App\Models\Lente;
 use App\Models\Muestra;
 use Carbon\Carbon;
@@ -87,14 +88,6 @@ class BioanalistaSeeder extends Seeder
 
         Formula::truncate();
         $formula = new Formula();
-        $formula->ojo = 'OJO IZQUIERDO';
-        $formula->esfera = '+2.00';
-        $formula->cilindro = '+1.00';
-        $formula->eje = '0.5';
-        $formula->save();
-        $lente->formulas()->attach([$formula->id]);
-
-        $formula = new Formula();
         $formula->ojo = 'OJO DERECHO';
         $formula->esfera = '+1.00';
         $formula->cilindro = '+2.00';
@@ -102,20 +95,40 @@ class BioanalistaSeeder extends Seeder
         $formula->save();
         $lente->formulas()->attach([$formula->id]);
 
-
-        //$paciente->lentes()->attach([2]);
+        $formula = new Formula();
+        $formula->ojo = 'OJO IZQUIERDO';
+        $formula->esfera = '+2.00';
+        $formula->cilindro = '+1.00';
+        $formula->eje = '0.5';
+        $formula->save();
+        $lente->formulas()->attach([$formula->id]);
 
         Configuracion::truncate();
         $configuracion = new Configuracion();
-        $configuracion->nombre_organizacion = 'Laboratorio Clinico "San Benito de Palermo"';
-        $configuracion->representante_organizacion = 'Lcda. Xiomara Molina';
-        $configuracion->representante_cargo = 'BIOANALISTA';
-        $configuracion->direccion = 'Av. 10 Entre Calles 11 y 12 Edif. Ana Maria Piso 1 Valera, Edo. Trujillo';
-        $configuracion->telefono_uno = '0271-2218905';
-        $configuracion->telefono_dos = '0426-4277034';
-        $configuracion->correo = 'laboratoriosanbenitodepalermo@gmail.com';
+        $configuracion->nombre_organizacion = 'OPTIRANGO"';
+        $configuracion->representante_organizacion = 'Lcdo. Jhonny Torres';
+        $configuracion->representante_cargo = 'Gerente';
+        $configuracion->direccion = 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital';
+        $configuracion->telefono_uno = '0424-6406797';
+        $configuracion->telefono_dos = '0412-6426797';
+        $configuracion->correo = '@opti_rango';
         $configuracion->copyright = '2023';
         $configuracion->save();
+
+        Laboratorio::truncate();
+        $laboratorio = new Laboratorio();
+        $laboratorio->documento_fiscal = 'V17348394';
+        $laboratorio->razon_social = 'OPTIRANGO';
+        $laboratorio->representante_organizacion = 'Lcdo. Jhonny Torres';
+        $laboratorio->representante_cargo = 'Gerente General';
+        $laboratorio->direccion_fiscal = 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital';
+        $laboratorio->telefono_uno = '0424-6406797';
+        $laboratorio->telefono_dos = '0412-6426797';
+        $laboratorio->correo = 'xd@gmail.com';
+        $laboratorio->facebook = 'optirango';
+        $laboratorio->instagram = '@optirango';
+        $laboratorio->tiktok = 'optirango';
+        $laboratorio->save();
 
     }
 }

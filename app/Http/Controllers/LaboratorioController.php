@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\LentesDataTable;
-use App\Models\Lente;
-use App\Http\Requests\StoreLenteRequest;
-use App\Http\Requests\UpdateLenteRequest;
-use App\Models\Paciente;
-use DragonCode\Contracts\Cashier\Http\Request;
+use App\DataTables\LaboratoriosDataTable;
+use App\Models\Laboratorio;
+use App\Http\Requests\StoreLaboratorioRequest;
+use App\Http\Requests\UpdateLaboratorioRequest;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class LenteController extends Controller
+class LaboratorioController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,9 +30,9 @@ class LenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(LentesDataTable $dataTable)
+    public function index(LaboratoriosDataTable $dataTable)
     {
-        return $dataTable->render('lentes.index');
+        return $dataTable->render('laboratorios.index');
     }
     
     /**
@@ -43,8 +42,7 @@ class LenteController extends Controller
      */
     public function create(): View
     {
-        $pacientes = Paciente::all();
-        return view('lentes.create', compact('pacientes'));
+        return view('laboratorios.create');
     }
     
     /**
@@ -55,57 +53,57 @@ class LenteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        request()->validate([
+        /* request()->validate([
             'name' => 'required',
             'detail' => 'required',
-        ]);
+        ]); */
     
-        Lente::create($request->all());
+        Laboratorio::create($request->all());
     
-        return redirect()->route('lentes.index')
-                        ->with('success','Lente created successfully');
+        return redirect()->route('laboratorios.index')
+                        ->with('success','Laboratorio creado exitosamente.');
     }
     
     /**
      * Display the specified resource.
      *
-     * @param  \App\Lente  $product
+     * @param  \App\Laboratorio  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Lente $lente): View
+    public function show(Laboratorio $laboratorio): View
     {
-        return view('lentes.show',compact('lente'));
+        return view('laboratorios.show',compact('lente'));
     }
     
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Lente  $product
+     * @param  \App\Laboratorio  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lente $lente): View
+    public function edit(Laboratorio $laboratorio): View
     {
-        return view('lentes.edit',compact('lente'));
+        return view('laboratorios.edit',compact('laboratorio'));
     }
     
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lente  $lente
+     * @param  \App\Laboratorio  $laboratorio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lente $lente): RedirectResponse
+    public function update(Request $request, Laboratorio $laboratorio): RedirectResponse
     {
-        request()->validate([
+        /* request()->validate([
             'name' => 'required',
             'detail' => 'required',
-        ]);
+        ]); */
     
-        $lente->update($request->all());
+        $laboratorio->update($request->all());
     
-        return redirect()->route('lentes.index')
-                        ->with('success','Lente updated successfully');
+        return redirect()->route('laboratorios.index')
+                        ->with('success','Laboratorio actualizado exitosamente.');
     }
 
     /**
@@ -116,21 +114,21 @@ class LenteController extends Controller
      */
     public function delete($id): View
     {
-        $lente = Lente::find($id);
-        return view('lentes.delete',compact('lente'));
+        $laboratorio = Laboratorio::find($id);
+        return view('laboratorios.delete',compact('laboratorio'));
     }
     
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Lente  $lente
+     * @param  \App\Laboratorio  $laboratorio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lente $lente): RedirectResponse
+    public function destroy(Laboratorio $laboratorio): RedirectResponse
     {
-        $lente->delete();
+        $laboratorio->delete();
     
-        return redirect()->route('lentes.index')
-                        ->with('success','Lente deleted successfully');
+        return redirect()->route('laboratorios.index')
+                        ->with('success','Laboratorio eliminado exitosamente.');
     }
 }

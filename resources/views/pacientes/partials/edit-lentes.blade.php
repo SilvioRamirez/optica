@@ -48,7 +48,15 @@
                     {{ Form::textComp('tallado', 'Tallado') }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
-                    {{ Form::textComp('status', 'Estatus') }}
+                    {{ Form::selectComp('status','Estatus', '', [
+                        '' => '-- Seleccione --',
+                        'REGISTRADO' => 'REGISTRADO',
+                        'LABORATORIO DE MONTAJE'  => 'LABORATORIO DE MONTAJE',
+                        'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO',
+                        'POR ENTREGAR' => 'POR ENTREGAR',
+                        'ENTREGADO' => 'ENTREGADO'
+                        ]) 
+                    }}
                 </div>
             </div>
 

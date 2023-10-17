@@ -9,11 +9,11 @@
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-plus"></i> 
-            {{ __('Create New')}}
+            {{ __('Create New') }} Laboratorio
         </div>
         <div class="card-body">
 
-                @include('lentes.partials.form')
+                @include('laboratorios.partials.form')
 
         </div>
     </div>
