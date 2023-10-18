@@ -25,6 +25,9 @@
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-glasses"></i> Lentes</a>
 							@endcan
+							@can('user-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
+							@endcan
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
 							@endcan
@@ -32,9 +35,9 @@
 					</div>
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingOne">
-						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-							<i class="fa fa-gear"></i>&nbsp; Sistema
-						</button>
+							<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+								<i class="fa fa-gear"></i>&nbsp; Sistema
+							</button>
 						</h2>
 						<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" >
 							@can('user-list')
@@ -43,6 +46,10 @@
 							@can('role-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('roles.index') }}"><i class="fa fa-users-cog"></i> Roles y Permisos</a>
 							@endcan
+							@can('user-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('personas.index') }}"><i class="fa fa-person"></i> Personas</a>
+							@endcan
+							
 							@can('configuracion-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cogs"></i> Configuraciones</a>
 							@endcan
@@ -53,9 +60,6 @@
 					</div>
 				</div>
 				
-				
-				
-				
 				{{-- @can('bioanalista-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('bioanalistas.index') }}"><i class="fa fa-user-doctor"></i> Bioanalistas</a>
 				@endcan
@@ -65,11 +69,6 @@
 				@can('muestra-list')
 					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('muestras.index') }}"><i class="fa fa-vial"></i> Muestras</a>
 				@endcan --}}
-				
-				
-
-
-
 
 	</div>
 </div>

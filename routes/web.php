@@ -16,6 +16,8 @@ use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
+use App\Http\Controllers\OperativoController;
+use App\Http\Controllers\PersonaController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -101,6 +103,14 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Laboratorios
     Route::get('/laboratorios/{laboratorio}/delete',    [LaboratorioController::class, 'delete'])->name('laboratorios.delete');
     Route::resource('laboratorios',                     LaboratorioController::class);
+
+    //Rutas de Personas
+    Route::get('/personas/{persona}/delete',    [PersonaController::class, 'delete'])->name('personas.delete');
+    Route::resource('personas',                 PersonaController::class);
+
+    //Rutas de Operativos
+    Route::get('/operativos/{operativo}/delete',    [OperativoController::class, 'delete'])->name('operativos.delete');
+    Route::resource('operativos',                   OperativoController::class);
 
 
     //Rutas de Bioanalistas
