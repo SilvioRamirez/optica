@@ -45,7 +45,7 @@
                             <div class="btn-group" role="group" aria-label="Opciones">
                                 <a class="btn btn-danger btn-sm" title="Eliminar Lente" href="{{ route('pacientes.lente.delete', $item->id) }}"><i class="fa fa-trash"></i></a>
                                 <a class="btn btn-info btn-sm" title="Ver Lente" href="{{ route('pacientes.lente.show', $item->id) }}"><i class="fa fa-eye"></i></a>
-								<a class="btn btn-warning btn-sm" title="Editar Lente" href="{{ route('pacientes.lente.edit', $item->id) }}"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-warning btn-sm" title="Editar Lente" href="{{ route('pacientes.lente.edit', $item->id) }}"><i class="fa fa-pencil"></i></a>
                             </div>
                         </td>
                     </tr>
