@@ -127,6 +127,7 @@ class BioanalistaSeeder extends Seeder
         $tratamiento = new Tratamiento();
         $tratamiento->tratamiento = 'Otro..';
         $tratamiento->save();
+
         $formula = new Formula();
         $formula->ojo = 'OJO IZQUIERDO';
         $formula->esfera = '+2.00';
@@ -162,5 +163,5 @@ class BioanalistaSeeder extends Seeder
         $laboratorio->tiktok = 'optirango';
         $laboratorio->save();
 
-    }
+        }
 }

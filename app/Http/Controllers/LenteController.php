@@ -7,6 +7,7 @@ use App\Models\Lente;
 use App\Http\Requests\StoreLenteRequest;
 use App\Http\Requests\UpdateLenteRequest;
 use App\Models\Paciente;
+use App\Models\Tratamiento;
 use DragonCode\Contracts\Cashier\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,9 @@ class LenteController extends Controller
     public function create(): View
     {
         $pacientes = Paciente::all();
-        return view('lentes.create', compact('pacientes'));
+        $tratamiento = Tratamiento::pluck('tratamiento', 'id')->prepend('--Seleccione--', '');
+
+        return view('lentes.create', compact('pacientes', 'tratamiento'));
     }
     
     /**
@@ -55,10 +58,10 @@ class LenteController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        request()->validate([
+        /* request()->validate([
             'name' => 'required',
             'detail' => 'required',
-        ]);
+        ]); */
     
         Lente::create($request->all());
     
@@ -97,10 +100,10 @@ class LenteController extends Controller
      */
     public function update(Request $request, Lente $lente): RedirectResponse
     {
-        request()->validate([
+        /* request()->validate([
             'name' => 'required',
             'detail' => 'required',
-        ]);
+        ]); */
     
         $lente->update($request->all());
     
