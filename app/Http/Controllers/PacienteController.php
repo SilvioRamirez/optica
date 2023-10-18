@@ -23,6 +23,7 @@ use App\Models\Muestra;
 use App\Models\Municipio;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
+use App\Models\Tratamiento;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class PacienteController extends Controller
@@ -374,8 +375,9 @@ class PacienteController extends Controller
      */
     public function lente_create(Paciente $paciente): View
     {
+        $tratamiento = Tratamiento::pluck('tratamiento', 'id')->prepend('--Seleccione--', '');;
 
-        return view('pacientes.create-lentes', compact('paciente'));
+        return view('pacientes.create-lentes', compact('paciente', 'tratamiento'));
     }
 
     public function lente_store(Request $request)

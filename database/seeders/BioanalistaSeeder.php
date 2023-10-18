@@ -13,7 +13,7 @@ use Carbon\Carbon;
 use App\Models\Paciente;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
-
+use App\Models\Tratamiento;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -102,6 +102,38 @@ class BioanalistaSeeder extends Seeder
         $formula->save();
         $lente->formulas()->attach([$formula->id]);
 
+        Tratamiento::truncate();
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'CR39';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Ar';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Blue';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Fotocromatico';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Policarbonato';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Hi index ';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Coloración';
+        $tratamiento->save();
+
+        $tratamiento = new Tratamiento();
+        $tratamiento->tratamiento = 'Otro..';
+        $tratamiento->save();
 
         //$paciente->lentes()->attach([2]);
 

@@ -31,7 +31,7 @@
                         
                         <div class="card-body">
                             <div class="text-center mb-4">
-                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" alt="...">
+                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" alt="..." width="400" >
                             </div>
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf

@@ -49,7 +49,7 @@
                     {{ Form::selectComp('tipo_lente','Tipo de Lente', '', ['' => '--Seleccione--', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
-                    {{ Form::textComp('tratamiento', 'Tratamiento') }}
+                    {{ Form::selectComp('tratamiento', 'Materiales o Tratamiento', '', $tratamiento) }}
                 </div>
                 <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::textComp('terminado', 'Terminado') }}
@@ -74,7 +74,7 @@
 
 @push('scripts')
     <script type="module">
-
+        
 
     </script>
 @endpush
