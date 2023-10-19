@@ -17,6 +17,7 @@
         "maatwebsite/excel": "3.1.48",
         "orangehill/iseed": "^3.0",
         "spatie/laravel-activitylog": "^4.7",
+        "spatie/laravel-google-fonts": "^1.2",
         "spatie/laravel-permission": "^5.10",
         "yajra/laravel-datatables": "^10.0"
     },
