@@ -64,17 +64,29 @@
             <div class="row">
             <h5><strong>SELECCION DEL MATERIAL</strong></h5>
                 <div class="col-xs-3 col-sm-3 col-md-3">
+                    <div class="form-group">
+                        <strong>{{__('Tratamientos')}}:</strong>
+                        <br/>
+                        @foreach($tratamiento as $value)
+                            <label>{{ Form::checkbox('tratamiento[]', $value->id, false, array('class' => 'name')) }}
+                                {{ $value->tratamiento }}
+                            </label>
+                        <br/>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('tallado', 'Tallado') }}
                 </div>
-                <div class="col-xs-3 col-sm-2 col-md-3">
+{{--                 <div class="col-xs-3 col-sm-2 col-md-3">
                     {{ Form::selectComp('tratamiento', 'Materiales o Tratamiento', '', $tratamiento) }}
-                </div>
+                </div> --}}
                 <div class="col-xs-3 col-sm-2 col-md-3">
                     {{ Form::textComp('terminado', 'Terminado') }}
                 </div>
             </div>
+            <hr>
             <div class="row">
-                <hr>
                 <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::selectComp('status','Estatus', '', [
                         /* '' => '-- Seleccione --', */

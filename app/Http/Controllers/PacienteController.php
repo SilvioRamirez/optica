@@ -375,7 +375,9 @@ class PacienteController extends Controller
      */
     public function lente_create(Paciente $paciente): View
     {
-        $tratamiento = Tratamiento::pluck('tratamiento', 'id')->prepend('--Seleccione--', '');
+        //$tratamiento = Tratamiento::pluck('tratamiento', 'id')->prepend('-- Seleccione --', '');
+
+        $tratamiento = Tratamiento::get();
 
         return view('pacientes.create-lentes', compact('paciente', 'tratamiento'));
     }
