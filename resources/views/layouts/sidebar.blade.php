@@ -31,6 +31,9 @@
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
 							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
+							@endcan
 						</div>
 					</div>
 					<div class="accordion-item">

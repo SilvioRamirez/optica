@@ -18,6 +18,7 @@ use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
 use App\Http\Controllers\OperativoController;
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\TratamientoController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -112,6 +113,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/operativos/{operativo}/delete',    [OperativoController::class, 'delete'])->name('operativos.delete');
     Route::resource('operativos',                   OperativoController::class);
 
+    //Rutas de Tratamientos
+    Route::get('/tratamientos/{tratamiento}/delete',    [TratamientoController::class, 'delete'])->name('tratamientos.delete');
+    Route::resource('tratamientos',  TratamientoController::class);
 
     //Rutas de Bioanalistas
     Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');

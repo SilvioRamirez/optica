@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Persona;
+use App\Models\Tratamiento;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PersonasDataTable extends DataTable
+class TratamientosDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,9 +24,9 @@ class PersonasDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                             return '<div class="btn-group" role="group" aria-label="Opciones">
-                                        <a class="btn btn-info btn-sm"      title="Ver Información"     href="'.route('personas.show',$query->id).'">   <i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('personas.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
-                                        <a class="btn btn-danger btn-sm"    title="Eliminar"            href="'.route('personas.delete',$query->id).'">   <i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-info btn-sm"      title="Ver Información"     href="'.route('tratamientos.show',$query->id).'">   <i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('tratamientos.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
+                                        <a class="btn btn-danger btn-sm"    title="Eliminar"            href="'.route('tratamientos.delete',$query->id).'">   <i class="fa fa-trash"></i></a>
                                     </div>';
             })
             ->setRowId('id');
@@ -35,7 +35,7 @@ class PersonasDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Persona $model): QueryBuilder
+    public function query(Tratamiento $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -46,7 +46,7 @@ class PersonasDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('personas-table')
+                    ->setTableId('tratamientos-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
@@ -71,10 +71,7 @@ class PersonasDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('cedula')->title('Cedula'),
-            Column::make('nombres')->title('Nombres')->data('nombres')->name('nombres'),
-            Column::make('apellidos')->title('Apellidos'),
-            Column::make('type')->title('Tipo'),
+            Column::make('tratamiento')->title('Tratamiento'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
@@ -90,6 +87,6 @@ class PersonasDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Personas_' . date('YmdHis');
+        return 'Tratamientos_' . date('YmdHis');
     }
 }
