@@ -52,7 +52,7 @@ class BioanalistaSeeder extends Seeder
         $lente->alt         = 2;
         $lente->tipo_lente  = 2;
         $lente->tratamiento = 2;
-        $lente->terminado   = 2;
+        $lente->numero_orden= 00001;
         $lente->tallado     = 2;
         $lente->status      = 'REGISTRADO';
         $lente->save();

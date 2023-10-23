@@ -4,7 +4,6 @@
 
 <a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
 
-
 <div class="col-lg-12 margin-tb">
     @include('fragment.error')
     <div class="card border-light mb-3 shadow">
@@ -20,4 +19,5 @@
         </div>
     </div>
 </div>
+
 @endsection

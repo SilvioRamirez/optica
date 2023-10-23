@@ -18,12 +18,12 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Paciente::class);
             $table->foreignIdFor(Pago::class)->nullable();
+            $table->string('numero_orden');
             $table->string('adicion')->nullable();
             $table->string('distancia_pupilar')->nullable();
             $table->string('alt')->nullable();
             $table->string('tipo_lente')->nullable();
             $table->string('tratamiento')->nullable();
-            $table->string('terminado')->nullable();
             $table->string('tallado')->nullable();
             $table->string('status')->nullable();
             $table->softDeletes();

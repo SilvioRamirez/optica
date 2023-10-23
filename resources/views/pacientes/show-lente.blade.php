@@ -29,9 +29,24 @@
 
         <div class="card-body tab-content">
             <div class="tab-pane active" id="lente">
-
+            <h2 class="text-center"><i class="fa fa-eye"></i> Visualizar Orden</h2>
+                <div class="row">
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <x-showText>
+                            <x-slot:label>Nro. Orden: </x-slot>
+                            <x-slot:value>{{ !empty($lente->numero_orden) ? $lente->numero_orden : 'N/A' }}</x-slot>
+                        </x-showText>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <x-showText>
+                            <x-slot:label>Estatus: </x-slot>
+                            <x-slot:value>{{ !empty($lente->status) ? $lente->status : 'N/A' }}</x-slot>
+                        </x-showText>
+                    </div>
+                </div>
+                <hr>
+                    
                 @foreach($lente->formulas as $formula)
-                    <hr>
                     <div class="row">
                         <div class="col-xs-2 col-sm-2 col-md-2">
                             <x-showText>
@@ -41,13 +56,13 @@
                         </div>
                         <div class="col-xs-2 col-sm-2 col-md-2">
                             <x-showText>
-                                <x-slot:label>Esfera: </x-slot>
+                                <x-slot:label>Esf: </x-slot>
                                 <x-slot:value>{{ !empty($formula->esfera) ? $formula->esfera : 'N/A' }} </x-slot>
                             </x-showText>
                         </div>
                         <div class="col-xs-2 col-sm-2 col-md-2">
                             <x-showText>
-                                <x-slot:label>Cilindro: </x-slot>
+                                <x-slot:label>Cil: </x-slot>
                                 <x-slot:value>{{ !empty($formula->cilindro) ? $formula->cilindro : 'N/A' }} </x-slot>
                             </x-showText>
                         </div>
@@ -64,14 +79,20 @@
                 <div class="row">
                     <div class="col-xs-2 col-sm-2 col-md-2">
                         <x-showText>
-                            <x-slot:label>Adición: </x-slot>
+                            <x-slot:label>Tipo de Lente: </x-slot>
+                            <x-slot:value>{{ !empty($lente->tipo_lente) ? $lente->tipo_lente : 'N/A' }}</x-slot>
+                        </x-showText>
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        <x-showText>
+                            <x-slot:label>AD: </x-slot>
                             <x-slot:value>{{ !empty($lente->adicion) ? $lente->adicion : 'N/A' }}</x-slot>
                         </x-showText>
                     </div>
  
                     <div class="col-xs-2 col-sm-2 col-md-2">
                         <x-showText>
-                            <x-slot:label>Distancia Pupilar: </x-slot>
+                            <x-slot:label>DP: </x-slot>
                             <x-slot:value>{{ !empty($lente->distancia_pupilar) ? $lente->distancia_pupilar : 'N/A' }}</x-slot>
                         </x-showText>
                     </div>
@@ -82,42 +103,23 @@
                             <x-slot:value>{{ !empty($lente->alt) ? $lente->alt : 'N/A' }}</x-slot>
                         </x-showText>
                     </div>
-                    
-                    <div class="col-xs-2 col-sm-2 col-md-2">
-                        <x-showText>
-                            <x-slot:label>Tipo de Lente: </x-slot>
-                            <x-slot:value>{{ !empty($lente->tipo_lente) ? $lente->tipo_lente : 'N/A' }}</x-slot>
-                        </x-showText>
-                    </div>
-                    
-                    <div class="col-xs-2 col-sm-2 col-md-2">
-                        <x-showText>
-                            <x-slot:label>Tratamiento: </x-slot>
-                            <x-slot:value>{{ !empty($lente->tratamiento) ? $lente->tratamiento : 'N/A' }}</x-slot>
-                        </x-showText>
-                    </div>
-                    
-                    <div class="col-xs-2 col-sm-2 col-md-2">
-                        <x-showText>
-                            <x-slot:label>Terminado: </x-slot>
-                            <x-slot:value>{{ !empty($lente->terminado) ? $lente->terminado : 'N/A' }}</x-slot>
-                        </x-showText>
-                    </div>
-                    
+
                     <div class="col-xs-2 col-sm-2 col-md-2">
                         <x-showText>
                             <x-slot:label>Tallado: </x-slot>
                             <x-slot:value>{{ !empty($lente->tallado) ? $lente->tallado : 'N/A' }}</x-slot>
                         </x-showText>
                     </div>
-                    
-                    <div class="col-xs-2 col-sm-2 col-md-2">
-                        <x-showText>
-                            <x-slot:label>Estatus: </x-slot>
-                            <x-slot:value>{{ !empty($lente->status) ? $lente->status : 'N/A' }}</x-slot>
-                        </x-showText>
-                    </div>
                 </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                <h5><strong>Tratamientos: </strong></h5>
+                    @foreach($lente->tratamientos as $tratamiento)
+                        <span class="">- {{ $tratamiento->tratamiento }}</span>
+                        <br>
+                    @endforeach
+                </div>
+             
+                
             </div>
         </div>
 

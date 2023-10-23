@@ -32,5 +32,13 @@ class Tratamiento extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
     }
-    
+
+    /**
+     * Los Tratamientos que pertenecen al lente.
+     */
+    public function lentes()
+    {
+        return $this->belongsToMany(Lente::class, 'lente_tratamiento');
+    }
+
 }

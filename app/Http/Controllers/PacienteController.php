@@ -25,6 +25,7 @@ use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
 use App\Models\Tratamiento;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use DB;
 
 class PacienteController extends Controller
 {
@@ -390,18 +391,23 @@ class PacienteController extends Controller
         $lente = new Lente();
         $lente->paciente_id = $request->get('paciente_id');
         $lente->pago_id = null;
+        $lente->numero_orden = $request->get('numero_orden');
         $lente->adicion = $request->get('adicion');
         $lente->distancia_pupilar = $request->get('distancia_pupilar');
         $lente->alt = $request->get('alt');
         $lente->tipo_lente = $request->get('tipo_lente');
-        $lente->tratamiento = $request->get('tratamiento');
-        $lente->terminado = $request->get('terminado');
         $lente->tallado = $request->get('tallado');
         $lente->status = $request->get('status');
         $lente->save();
 
+        //Sincronizamos los tratamientos seleccionados
+        $lente->tratamientos()->sync($request->input('tratamiento'));
+
+        //agregamos al lente recien registrado al paciente
         $paciente->lentes()->attach([$lente->id]);
 
+        
+        //recogemos los arrays del ojo izquiero y derecho y recorremos con un for para agregarlos
         $ojo = $request->get('ojo');
         $esfera = $request->get('esfera');
         $cilindro = $request->get('cilindro');
@@ -452,6 +458,7 @@ class PacienteController extends Controller
             ->with(['pacientes' => function($query){
                 $query->with('lentes');
             }])
+            ->with('tratamientos')
             ->first();
         
 
@@ -469,9 +476,15 @@ class PacienteController extends Controller
                 $query->with('lentes');
             }])->with('formulas')
             ->first();
-        
+
+        $tratamiento = Tratamiento::get();
+
+        $lenteTratamientos = DB::table("lente_tratamiento")->where("lente_tratamiento.lente_id",$lente->id)
+            ->pluck('lente_tratamiento.tratamiento_id','lente_tratamiento.tratamiento_id')
+            ->all();
+
         //dd($lente);
-        return view('pacientes.edit-lentes', compact('lente'));
+        return view('pacientes.edit-lentes', compact('lente', 'tratamiento', 'lenteTratamientos'));
     }
 
     public function lente_update(Request $request)
@@ -485,16 +498,18 @@ class PacienteController extends Controller
             [
             'paciente_id'       => $request->get('paciente_id'),
             'pago_id'           => $request->get('pago_id'),
+            'numero_orden'         => $request->get('numero_orden'),
             'adicion'           => $request->get('adicion'),
             'distancia_pupilar' => $request->get('distancia_pupilar'),
             'alt'               => $request->get('alt'),
             'tipo_lente'        => $request->get('tipo_lente'),
-            'tratamiento'       => $request->get('tratamiento'),
-            'terminado'         => $request->get('terminado'),
+            /* 'tratamiento'       => $request->get('tratamiento'), */
             'tallado'           => $request->get('tallado'),
             'status'            => $request->get('status'),
             ],
         );
+
+        $lente->tratamientos()->sync($request->input('tratamiento'));
 
         $formula_id = $request->get('formula_id');
         $ojo        = $request->get('ojo');

@@ -2,6 +2,17 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             <h2 class="text-center"><i class="fa fa-plus"></i> Nueva Orden</h2>
+                <div class="col-md-12 row">
+                    {{-- <div class="col-xs-3 col-sm-3 col-md-3">
+                        <strong>Paciente:</strong><br>
+                        {{ $paciente->nombres }} {{ $paciente->apellidos }}
+                    </div> --}}
+                    <div class="col-xs-2 col-sm-2 col-md-2">
+                        {{ Form::textComp('numero_orden', 'Nro. Orden') }}
+                    </div>
+
+                </div>
+
             <hr>
             <div class="col-md-12 row">
                 <div class="col-md-5 row">
@@ -45,17 +56,20 @@
             <hr>
 
             <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::selectComp('tipo_lente','Tipo', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::textComp('adicion', 'AD') }}
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::textComp('distancia_pupilar', 'DP') }}
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="col-xs-2 col-sm-2 col-md-2">
                     {{ Form::textComp('alt', 'Alt') }}
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2">
+                    {{ Form::textComp('tallado', 'Tallado') }}
                 </div>
             </div>
             
@@ -75,20 +89,17 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('tallado', 'Tallado') }}
-                </div>
+                
 {{--                 <div class="col-xs-3 col-sm-2 col-md-3">
                     {{ Form::selectComp('tratamiento', 'Materiales o Tratamiento', '', $tratamiento) }}
                 </div> --}}
-                <div class="col-xs-3 col-sm-2 col-md-3">
-                    {{ Form::textComp('terminado', 'Terminado') }}
-                </div>
+                
             </div>
             <hr>
             <div class="row">
                 <div class="col-xs-2 col-sm-2 col-md-2">
-                    {{ Form::selectComp('status','Estatus', '', [
+                {{ Form::hiddenComp('status', 'REGISTRADO')}}
+                    {{-- {{ Form::selectComp('status','Estatus', '', [
                         /* '' => '-- Seleccione --', */
                         'REGISTRADO' => 'REGISTRADO',
                         /* 'LABORATORIO DE MONTAJE'  => 'LABORATORIO DE MONTAJE',
@@ -96,7 +107,7 @@
                         'POR ENTREGAR' => 'POR ENTREGAR',
                         'ENTREGADO' => 'ENTREGADO' */
                         ]) 
-                    }}
+                    }} --}}
                 </div>
             </div>
 <p id="par"></p>

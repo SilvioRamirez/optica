@@ -5,13 +5,13 @@
         	<thead class="bg-primary text-center text-white">
                 <th>N°</th>
                 <th>ID Pago</th>
+                <th>Nro. Orden</th>
                 <th>Formulas</th>
                 <th>Adición</th>
                 <th>Distancia Pupilar</th>
                 <th>ALT</th>
                 <th>Tipo Lente</th>
                 <th>Tratamiento</th>
-                <th>Terminado</th>
                 <th>Tallado</th>
                 <th>Estatus</th>
                 <th>Fecha de Registro</th>
@@ -22,22 +22,25 @@
                     <tr>
                         <td class="text-center">{{ $item->id }}</td>
                         <td class="text-center">{{ $item->pago_id }} </td>
+                        <td class="text-center">{{ $item->numero_orden }}</td>
                         <td class="text-justify">
-							
-							@foreach($item->formulas as $formula)
-								<span class="badge bg-info">{{ $formula->ojo }}</span>
-								<span class="badge bg-info">Esfera: {{ $formula->esfera }}</span>
-								<span class="badge bg-info">Cilindro: {{ $formula->cilindro }}</span>
-								<span class="badge bg-info">Eje: {{ $formula->eje }}</span>
-								<hr>
-							@endforeach
-						</td>
+                          @foreach($item->formulas as $formula)
+                            <span class="badge bg-info">{{ $formula->ojo }}</span>
+                            <span class="badge bg-info">Esf: {{ $formula->esfera }}</span>
+                            <span class="badge bg-info">Cil: {{ $formula->cilindro }}</span>
+                            <span class="badge bg-info">Eje: {{ $formula->eje }}</span>
+                            <hr>
+                          @endforeach
+                        </td>
                         <td class="text-center">{{ $item->adicion }}</td>
                         <td class="text-center">{{ $item->distancia_pupilar }}</td>
                         <td class="text-center">{{ $item->alt }}</td>
                         <td class="text-center">{{ $item->tipo_lente }}</td>
-                        <td class="text-center">{{ $item->tratamiento }}</td>
-                        <td class="text-center">{{ $item->terminado }}</td>
+                        <td class="text-center">
+                            @foreach($item->tratamientos as $tratamiento)
+                                <span class="badge bg-success">{{ $tratamiento->tratamiento }}</span>
+                            @endforeach
+                        </td>
                         <td class="text-center">{{ $item->tallado }}</td>
                         <td class="text-center">{{ $item->status }}</td>
                         <td class="text-center">{{ $item->created_at }}</td>

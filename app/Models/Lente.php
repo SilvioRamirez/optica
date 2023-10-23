@@ -34,11 +34,19 @@ class Lente extends Model
     }
 
     /**
-     * Los lentes que pertenecen al paciente.
+     * Las formulas que pertenecen al lente.
      */
     public function formulas()
     {
         return $this->belongsToMany(Formula::class, 'formula_lente');
+    }
+
+    /**
+     * Los Tratamientos que pertenecen al lente.
+     */
+    public function tratamientos()
+    {
+        return $this->belongsToMany(Tratamiento::class, 'lente_tratamiento');
     }
 
     public function getCreatedAtAttribute()
@@ -50,5 +58,14 @@ class Lente extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
     }
+
+    public function getNumeroOrdenAttribute($value)
+    {
+        if($value){
+            return str_pad($value, 6, '0', STR_PAD_LEFT);
+        }else{
+            return null;
+        }
+    }   
 
 }

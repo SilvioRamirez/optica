@@ -53,7 +53,18 @@ class LentesDataTable extends DataTable
                 }
                 return $str;
             })
-            ->rawColumns(['status', 'action', 'paciente', 'formula'])
+            ->addColumn('tratamiento', function($query){
+                //return $query->formulas;
+                $str='';
+                foreach($query->tratamientos as $tratamiento){
+                    $str .=
+                    '<span class="badge bg-primary">'.$tratamiento->tratamiento.'</span>'
+                    .'<br>'
+                    ;
+                }
+                return $str;
+            })
+            ->rawColumns(['status', 'action', 'paciente', 'formula', 'tratamiento'])
             ->setRowId('id');
     }
 
@@ -62,7 +73,7 @@ class LentesDataTable extends DataTable
      */
     public function query(Lente $model): QueryBuilder
     {
-        return $model->newQuery()->with('pacientes')->with('formulas');
+        return $model->newQuery()->with('pacientes')->with('formulas')->with('tratamientos');
     }
 
     /**
@@ -109,6 +120,12 @@ class LentesDataTable extends DataTable
                     ->searchable(true)
                     ->orderable(true)
                     ->addClass('text-center'),
+            Column::computed('numero_orden')->title('Nro. Orden')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->addClass('text-center'),
             Column::computed('status')->title('Estatus')
                     ->exportable(false)
                     ->printable(false)
@@ -140,12 +157,6 @@ class LentesDataTable extends DataTable
                     ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('tratamiento')->title('Tratamiento')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->searchable(true)
-                    ->orderable(true)
-                    ->addClass('text-center'),
-            Column::computed('terminado')->title('Terminado')
                     ->exportable(false)
                     ->printable(false)
                     ->searchable(true)

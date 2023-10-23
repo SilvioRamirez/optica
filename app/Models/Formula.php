@@ -24,9 +24,9 @@ class Formula extends Model
         return LogOptions::defaults();
     }
 
-    /*
-    * Los lentes que pertenecen al paciente.
-    */
+    /**
+     * Los lentes que pertenecen al paciente.
+     */
     public function lentes()
     {
         return $this->belongsToMany(Lente::class, 'formula_lente');

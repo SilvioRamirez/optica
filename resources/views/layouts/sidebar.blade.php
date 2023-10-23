@@ -25,15 +25,29 @@
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-glasses"></i> Lentes</a>
 							@endcan
-							@can('user-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-check"></i> Por Revisar</a>
 							@endcan
 							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-check"></i> Por Revisar</a>
 							@endcan
-							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
-							@endcan
+
+
+							{{-- <div class="accordion-item">
+								<h2 class="accordion-header" id="flush-headingLente">
+								<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseLente" aria-expanded="false" aria-controls="flush-collapseLente">
+										<i class="fa fa-glasses"></i>&nbsp; Lentes Listado
+								</button>
+								</h2>
+								<div id="flush-collapseLente" class="accordion-collapse collapse" aria-labelledby="flush-headingLente" >
+									@can('product-list')
+										<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-glasses"></i> Lentes por Revisar</a>
+									@endcan
+									
+								</div>
+							</div> --}}
+
+
 						</div>
 					</div>
 					<div class="accordion-item">
@@ -52,7 +66,15 @@
 							@can('user-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('personas.index') }}"><i class="fa fa-person"></i> Personas</a>
 							@endcan
-							
+							@can('user-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
+							@endcan
 							@can('configuracion-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cogs"></i> Configuraciones</a>
 							@endcan
