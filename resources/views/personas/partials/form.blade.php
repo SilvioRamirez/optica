@@ -9,7 +9,7 @@
             {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
             {{ Form::textComp('telefono','Teléfono', null, null,'+58 0412-1231234') }}
             {{ Form::emailComp('correo','Correo') }}
-            {{ Form::selectComp('type','Tipo', '', ['PERSONA' => 'PERSONA', 'PACIENTE' => 'PACIENTE', 'RESPONSABLE' => 'RESPONSABLE', 'ALIADO' => 'ALIADO']) }}
+            {{ Form::selectComp('type','Tipo', '', ['PERSONA' => 'PERSONA', 'PACIENTE' => 'PACIENTE', 'RESPONSABLE' => 'RESPONSABLE', 'ALIADO' => 'ALIADO', 'REPRESENTANTE DE ORGANIZACIÓN' => 'REPRESENTANTE DE ORGANIZACIÓN']) }}
             {{ Form::areaComp('observacion','Observación') }}
             {{ Form::checkboxComp('status','Estatus') }}
         </div>

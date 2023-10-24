@@ -8,12 +8,14 @@
     @include('fragment.error')
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-user-edit"></i> 
-            {{ __('Edit User')}}
+            {{ __('Edit')}} Laboratorio
         </div>
         <div class="card-body">
-
-                @include('laboratorios.partials.form-edit')
-
+            {!! Form::model($laboratorio, ['method' => 'PATCH','route' => ['laboratorios.update', $laboratorio->id]]) !!}
+                
+                @include('laboratorios.partials.form')
+            
+            {!! Form::close() !!}
         </div>
     </div>
 </div>

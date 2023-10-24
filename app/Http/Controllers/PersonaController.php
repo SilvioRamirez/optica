@@ -112,4 +112,26 @@ class PersonaController extends Controller
         return redirect()->route('personas.index')
                             ->with('success','Registro eliminado exitosamente.');
     }
+
+    /**
+    * Write code on Method
+    *
+    * @return response()
+    */
+    public function fetchPersonas()
+    {
+        $data['personas'] = Persona::get(["id", "cedula", "nombres", "apellidos"]);
+        //return response()->json($data);
+
+        /* return view('dropdown', $data);
+
+        $data['municipios'] = Municipio::where("id_estado", $request->id_estado)
+                                                    ->get(["municipio", "id_municipio"]); */
+        return response()->json($data);
+    }
+
+    public function datatablePersonas(){
+        return datatables()->eloquent(Persona::query())->toJson();
+    }
+
 }

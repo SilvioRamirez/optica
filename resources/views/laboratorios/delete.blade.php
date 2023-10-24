@@ -7,8 +7,7 @@
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
-            <i class="fa fa-trash-alt"></i>
-                    {{ __('Eliminar Usuario') }}
+            <i class="fa fa-trash-alt"></i> {{ __('Delete') }}
         </div>
         <div class="card-body">			
             @include('fragment.error')
@@ -16,7 +15,7 @@
                     
             {!! Form::open(['method' => 'DELETE','route' => ['laboratorios.destroy', $laboratorio->id],'style'=>'display:inline']) !!}
                     
-                <h2 class="text-center">¿Está segur@ de eliminar el laboratorio <strong>{{ $laboratorio->razon_social }}</strong>?</h2>
+                <h2 class="text-center">¿Está segur@ de eliminar <strong>{{ $laboratorio->razon_social }}</strong>?</h2>
                 <hr>
                     
                 <div class="flex-center position-ref full-height">

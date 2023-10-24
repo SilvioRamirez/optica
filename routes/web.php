@@ -106,6 +106,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('laboratorios',                     LaboratorioController::class);
 
     //Rutas de Personas
+
+    Route::post('api/fetch-personas',   [PersonaController::class, 'fetchPersonas']);
+    Route::get('api/datatablePersonas', [PersonaController::class, 'datatablePersonas']);
+    
     Route::get('/personas/{persona}/delete',    [PersonaController::class, 'delete'])->name('personas.delete');
     Route::resource('personas',                 PersonaController::class);
 
