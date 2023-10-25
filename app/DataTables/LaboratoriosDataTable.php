@@ -82,9 +82,6 @@ class LaboratoriosDataTable extends DataTable
             Column::make('telefono_uno')->title('Tlf. 1'),
             Column::make('telefono_dos')->title('Tlf. 2'),
             Column::make('correo')->title('Correo'),
-            Column::make('facebook')->title('Facebook'),
-            Column::make('instagram')->title('Instagram'),
-            Column::make('tiktok')->title('TikTok'),
             Column::make('created_at'),
             Column::make('updated_at'),
             Column::computed('action')

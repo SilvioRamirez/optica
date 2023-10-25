@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Persona;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('documento_fiscal')->nullable();
             $table->string('razon_social');
+            /* $table->foreignIdFor(Persona::class); */
             $table->string('representante_organizacion')->nullable();
             $table->string('representante_cargo')->nullable();
             $table->string('direccion_fiscal')->nullable();

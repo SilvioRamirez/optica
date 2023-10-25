@@ -72,7 +72,7 @@ class LaboratorioController extends Controller
      */
     public function show(Laboratorio $laboratorio): View
     {
-        return view('laboratorios.show',compact('lente'));
+        return view('laboratorios.show',compact('laboratorio'));
     }
     
     /**
@@ -99,7 +99,9 @@ class LaboratorioController extends Controller
             'name' => 'required',
             'detail' => 'required',
         ]); */
-    
+
+        $request->request->remove('personasTable_length');
+
         $laboratorio->update($request->all());
     
         return redirect()->route('laboratorios.index')

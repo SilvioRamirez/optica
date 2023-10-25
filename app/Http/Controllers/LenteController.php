@@ -11,6 +11,7 @@ use App\Models\Tratamiento;
 use DragonCode\Contracts\Cashier\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class LenteController extends Controller
 {
@@ -135,5 +136,23 @@ class LenteController extends Controller
     
         return redirect()->route('lentes.index')
                         ->with('success','Lente deleted successfully');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function prLentesIndex()
+    {
+        return view('lentes.index-pr');
+    }
+
+    public function prLentesTable(){
+        /* return datatables()->eloquent(Lente::query())->toJson(); */
+        //return datatables()->query(DB::table('lentes')->with('tratamientos'))->toJson();
+
+        return datatables()->eloquent(Lente::with(['tratamientos']))->toJson();
+        
     }
 }

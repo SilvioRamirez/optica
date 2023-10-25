@@ -5,8 +5,10 @@
             {{ Form::textComp('razon_social','Razón Social') }}
             <div class="row">
                 <div class="col-md-3">
-                    <label for="" class=""><strong>Representante de la Organización</strong></label>
-                        <input type="text" class="form-control mb-2" readonly placeholder="Seleccione representante de organización">
+                        {{-- <label for="" class="mb-1"><strong>Representante de la Organización</strong></label>
+                        <input type="text" class="form-control mb-2" id="representante_organizacion" readonly placeholder="Seleccione representante de organización">
+                         --}}
+                        {{ Form::readonlyComp('representante_organizacion', 'Representante de la Organización')}}
                 </div>
                 <div class="col-md-1">
                     <label for="" class=""><strong>&nbsp;</strong></label><br>
@@ -14,7 +16,7 @@
                 </div>
             </div>
             
-            {{ Form::textComp('representante_organizacion','Representante de la Organización') }}
+            {{-- {{ Form::textComp('representante_organizacion','Representante de la Organización') }} --}}
             {{ Form::textComp('representante_cargo','Cargo') }}
             {{ Form::textComp('direccion_fiscal','Dirección Fiscal') }}
             {{ Form::textComp('telefono_uno','Teléfono 1') }}
@@ -24,9 +26,6 @@
             {{ Form::textComp('instagram','Instagram') }}
             {{ Form::textComp('tiktok','Tiktok') }}
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personaModal" data-bs-whatever="@mdo">Open modal for @mdo</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personaModal" data-bs-whatever="@fat">Open modal for @fat</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#personaModal" data-bs-whatever="@getbootstrap">Open modal for @getbootstrap</button>
 
         </div>
     </div>
@@ -60,8 +59,8 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                {{-- <button type="button" class="btn btn-primary">Send message</button> --}}
             </div>
         </div>
     </div>
@@ -69,12 +68,24 @@
 
 @push('scripts')
     <script type="module">
+        
+        IMask(document.getElementById('telefono_uno'),{
+            mask: '000000000000'
+        })
 
-        /* import DataTable from './datatables.net-dt';
-        import './datatables.net-buttons-dt';
-        import './datatables.net-responsive-dt'; */
-        
-        
+        IMask(document.getElementById('telefono_dos'),{
+            mask: '000000000000'
+        })
+
+        IMask(document.getElementById('documento_fiscal'),{
+            mask: '{v}00000000-00000',
+            prepareChar: str => str.toUpperCase(),
+            definitions: {
+                // <any single char>: <same type as mask (RegExp, Function, etc.)>
+                // defaults are '0', 'a', '*'
+                'v': /[V,J,G,E,P]/
+            }
+        })
 
     const personaModal = document.getElementById('personaModal')
 
@@ -96,7 +107,13 @@
 
             personasTable.on('click', 'tbody tr', function () {
                 let data = personasTable.row(this).data();
-                alert('Has Seleccionado a la persona con el ID: ' + data['id'] + "'Nombres y Apellidos: "+ data['nombres'] +' '+ data['apellidos']);
+                //alert('Has Seleccionado a la persona con el ID: ' + data['id'] + "'Nombres y Apellidos: "+ data['nombres'] +' '+ data['apellidos']);
+                //getElementById('organizacion_representante').value=data['nombres']+data['apellidos'];
+                
+                document.getElementById('representante_organizacion').value=data['nombres'] +' '+ data['apellidos'];
+                
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('personaModal')).hide();
+
             });
 
             personaModal.addEventListener('hidden.bs.modal', event => {
@@ -105,19 +122,11 @@
             });
     })
         
+                document.getElementById("btn-personas").addEventListener("click", function () {
 
-    $('#t_users tbody').on( 'click', 'tr', function () {
-        var data = t_users.row(this).data();
-        $('#modal-opciones-user').modal('show');
-        $('#title-opciones-user').html('<strong>'+data['name']+'</strong>');
-        sessionStorage.setItem('userId', data['id']);
-        $('#footer-opciones-user').html(''+
-            '<a href="users/edit/'+sessionStorage.userId+'" class="btn btn-warning"><i class="fa fa-edit"></i> Editar</a>'+
-            '<a href="users/delete/'+sessionStorage.userId+'" class="btn btn-danger"><i class="fa fa-trash-alt"></i> Eliminar</a>'+
-            '<button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>');
-    });
+                });
 
-    
+
 
     $(document).ready(function () {
 

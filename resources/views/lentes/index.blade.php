@@ -10,9 +10,9 @@
             <h1><i class="fa fa-glasses"></i> Administración de Lentes</h1>
         </div>
         @can('user-create')
-            <div class="pull-right mt-2 mb-2">
-                <a class="btn btn-success btn-lg" href="{{ route('lentes.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
-            </div>
+            {{-- <div class="pull-right mt-2 mb-2">
+                <a class="btn btn-success" href="{{ route('lentes.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
+            </div> --}}
         @endcan
     </div>
 </div>
