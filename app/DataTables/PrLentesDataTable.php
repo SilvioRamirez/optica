@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class LentesDataTable extends DataTable
+class PrLentesDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -24,13 +24,14 @@ class LentesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                 return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-danger btn-sm"    title="Eliminar Lente"  href="'.route('pacientes.lente.delete', $query->id).'"><i class="fa fa-trash"></i></a>
-                            <a class="btn btn-info btn-sm"      title="Ver Lente"       href="'.route('pacientes.lente.show', $query->id).'"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-info btn-sm "     title="Ver Lente"       href="'.route('pacientes.lente.show', $query->id).'"><i class="fa fa-eye"></i></a>
                             <a class="btn btn-warning btn-sm"   title="Editar Lente"    href="'.route('pacientes.lente.edit', $query->id).'"><i class="fa fa-pencil"></i></a>
+                            <button type="button" class="btn btn-success btn-sm btn-show"><i class="fa fa-arrow-left"></i></button>
+                            <button id="btn_entrada_edit" class="btn btn-sm dropdown-item text-primary" onclick="modal_edit_entrada.edit_entrada(' . $query->id . ')" ><i class="fas fa-edit"></i> Editar</button>
                         </div>';
             })
             ->addColumn('status', function($query){
-                
+                //Helper Function
                 return statusLenteColumn($query);
 
             })
@@ -45,7 +46,7 @@ class LentesDataTable extends DataTable
 
             })
             ->addColumn('tratamiento', function($query){
-                
+
                 return tratamientoLenteColumn($query);
 
             })
@@ -58,7 +59,7 @@ class LentesDataTable extends DataTable
      */
     public function query(Lente $model): QueryBuilder
     {
-        return $model->newQuery()->with('pacientes')->with('formulas')->with('tratamientos');
+        return $model->newQuery()->where('status', 'REGISTRADO')->with('pacientes')->with('formulas')->with('tratamientos');
     }
 
     /**
@@ -168,6 +169,6 @@ class LentesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Lentes_' . date('YmdHis');
+        return 'PrLentes_' . date('YmdHis');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\LentesDataTable;
+use App\DataTables\PrLentesDataTable;
 use App\Models\Lente;
 use App\Http\Requests\StoreLenteRequest;
 use App\Http\Requests\UpdateLenteRequest;
@@ -143,9 +144,9 @@ class LenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function prLentesIndex()
+    public function prLentesIndex(PrLentesDataTable $dataTable)
     {
-        return view('lentes.index-pr');
+         return $dataTable->render('lentes.index-pr');
     }
 
     public function prLentesTable(){
