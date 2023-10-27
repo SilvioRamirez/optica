@@ -146,14 +146,23 @@ class LenteController extends Controller
      */
     public function prLentesIndex(PrLentesDataTable $dataTable)
     {
-         return $dataTable->render('lentes.index-pr');
+        return $dataTable->render('lentes.index-pr');
     }
 
-    public function prLentesTable(){
+    public function prLente(Lente $lente){
         /* return datatables()->eloquent(Lente::query())->toJson(); */
         //return datatables()->query(DB::table('lentes')->with('tratamientos'))->toJson();
 
-        return datatables()->eloquent(Lente::with(['tratamientos']))->toJson();
+        //return datatables()->eloquent(Lente::with(['tratamientos']))->toJson();
+
+        //$lente = Lente::find($id);
+        return $lente = Lente::where('id', $lente->id)
+            ->with(['pacientes' => function($query){
+                //$query->with('lentes');
+            }])
+            ->with('tratamientos')
+            ->first()->toJson();
+        //return $lente->->toJson();
         
     }
 }

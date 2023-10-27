@@ -113,7 +113,6 @@
                     }} --}}
                 </div>
             </div>
-<p id="par"></p>
 
             <div class="text-center">
                     {{ Form::submitComp() }}

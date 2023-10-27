@@ -26,8 +26,7 @@ class PrLentesDataTable extends DataTable
                 return '<div class="btn-group" role="group" aria-label="Opciones">
                             <a class="btn btn-info btn-sm "     title="Ver Lente"       href="'.route('pacientes.lente.show', $query->id).'"><i class="fa fa-eye"></i></a>
                             <a class="btn btn-warning btn-sm"   title="Editar Lente"    href="'.route('pacientes.lente.edit', $query->id).'"><i class="fa fa-pencil"></i></a>
-                            <button type="button" class="btn btn-success btn-sm btn-show"><i class="fa fa-arrow-left"></i></button>
-                            <button id="btn_entrada_edit" class="btn btn-sm dropdown-item text-primary" onclick="modal_edit_entrada.edit_entrada(' . $query->id . ')" ><i class="fas fa-edit"></i> Editar</button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="openModal(\''.$query->id.'\')"><i class="fa fa-check"></i></button>
                         </div>';
             })
             ->addColumn('status', function($query){
