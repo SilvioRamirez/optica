@@ -160,9 +160,22 @@ class LenteController extends Controller
             ->with(['pacientes' => function($query){
                 //$query->with('lentes');
             }])
+            //->with('first_paciente')
+            ->with('formulas')
             ->with('tratamientos')
             ->first()->toJson();
         //return $lente->->toJson();
+        
+    }
+
+    public function rvLente(Lente $lente){
+
+        $lente->update(['status' => 'LABORATORIO DE MONTAJE']);
+
+        return $lente;
+
+        
+        
         
     }
 }

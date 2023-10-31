@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('documento_fiscal')->nullable();
             $table->string('razon_social');
             /* $table->foreignIdFor(Persona::class); */
+            $table->string('tipo')->nullable();
             $table->string('representante_organizacion')->nullable();
             $table->string('representante_cargo')->nullable();
             $table->string('direccion_fiscal')->nullable();

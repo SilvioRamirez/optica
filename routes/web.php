@@ -99,11 +99,13 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Rutas de Lentes
     Route::post('api/prLente/{lente}',               [LenteController::class, 'prLente']);
+    Route::post('api/rvLente/{lente}',               [LenteController::class, 'rvLente']);
     Route::get('/lentes/prLentes',          [LenteController::class, 'prLentesIndex'])->name('lentes.index.pr');
     Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
     Route::resource('lentes',               LenteController::class);
 
     //Rutas de Laboratorios
+    Route::post('api/fetch-laboratorios',               [DropdownController::class, 'fetchLaboratorio']);
     Route::get('/laboratorios/{laboratorio}/delete',    [LaboratorioController::class, 'delete'])->name('laboratorios.delete');
     Route::resource('laboratorios',                     LaboratorioController::class);
 

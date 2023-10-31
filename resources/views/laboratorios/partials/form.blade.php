@@ -3,6 +3,7 @@
         <div class="form-group">
             {{ Form::textComp('documento_fiscal','Documento Fiscal') }}
             {{ Form::textComp('razon_social','Razón Social') }}
+            {{ Form::selectComp('tipo','Tipo', '', ['LABORATORIO DE MONTAJE' => 'LABORATORIO DE MONTAJE', 'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO']) }}
             <div class="row">
                 <div class="col-md-3">
                         {{-- <label for="" class="mb-1"><strong>Representante de la Organización</strong></label>

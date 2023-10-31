@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Formula;
+use App\Models\Laboratorio;
 use App\Models\Paciente;
 use App\Models\Pago;
 use Illuminate\Database\Migrations\Migration;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Paciente::class);
             $table->foreignIdFor(Pago::class)->nullable();
+            $table->foreignIdFor(Laboratorio::class)->nullable();
             $table->string('numero_orden');
             $table->string('adicion')->nullable();
             $table->string('distancia_pupilar')->nullable();

@@ -40,20 +40,25 @@
             </div>
             <div class="modal-body">
 
-
-
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            <h2 class="text-center"><i class="fa fa-check"></i> Revisar Lente</h2>
+                            <h2 class="text-center"><i class="fa fa-check mb-2"></i> Revisar Lente</h2>
                                 <div class="col-md-12 row">
                                     {{-- <div class="col-xs-3 col-sm-3 col-md-3">
                                         <strong>Paciente:</strong><br>
                                         {{ $paciente->nombres }} {{ $paciente->apellidos }}
                                     </div> --}}
+                                    <h2 id="paciente">Paciente: </h2>
+                                    <hr>
+                                    <h2><strong>Lente</strong></h2>
                                     <div class="col-xs-2 col-sm-2 col-md-2">
-                                        
-                                        {{ Form::textComp('numero_orden', 'Nro. Orden') }}
+                                        {{ Form::hiddenComp('lente_id') }}
+                                        {{ Form::readonlyComp('numero_orden', 'Nro. Orden') }}
+                                    </div>
+                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                        {{-- {{ Form::readonlyComp('status', 'Estatus ')}} --}}
+                                        <h5 id="status" class="mb-2">Estatus: </h5>
                                     </div>
 
                                 </div>
@@ -65,23 +70,23 @@
                                             {{ form::hiddenComp('formula_id[]', /* $lente->formulas[0]->id */)}}
                                             {{ Form::hiddenComp('ojo[]', /* $lente->formulas[0]->ojo */)}}
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('esfera[]', 'Esf', /* $lente->formulas[0]->esfera */) }}
+                                            {{ Form::readonlyComp('esfera[]', 'Esf', /* $lente->formulas[0]->esfera */) }}
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('cilindro[]', 'Cil', /* $lente->formulas[0]->cilindro */) }}
+                                            {{ Form::readonlyComp('cilindro[]', 'Cil', /* $lente->formulas[0]->cilindro */) }}
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('eje[]', 'Eje', /* $lente->formulas[0]->eje */) }}
+                                            {{ Form::readonlyComp('eje[]', 'Eje', /* $lente->formulas[0]->eje */) }}
                                         </div>
                                     </div>
                                 <div class="col-md-2 row">
                                 <div class="text-center mt-4 pt-4 pb-4">
-                                Copiar
+                                
                                 <br>
-                                <div class="btn-group">
+                                {{-- <div class="btn-group">
                                     <button type="button" class="btn btn-success btn-sm" data-arg1='left'><i class="fa fa-arrow-left"></i></button>
                                     <button type="button" class="btn btn-success btn-sm" data-arg1='right'><i class="fa fa-arrow-right"></i></button>
-                                </div>
+                                </div> --}}
                                 </div>
                                 </div>
                                 <div class="col-md-5 row">
@@ -89,13 +94,13 @@
                                             {{ form::hiddenComp('formula_id[]', /* $lente->formulas[1]->id */)}}
                                             {{ Form::hiddenComp('ojo[]', /* $lente->formulas[1]->ojo */)}}
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('esfera[]', 'Esf', /* $lente->formulas[1]->esfera */) }}
+                                            {{ Form::readonlyComp('esfera[]', 'Esf', /* $lente->formulas[1]->esfera */) }}
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('cilindro[]', 'Cil', /* $lente->formulas[1]->cilindro */) }}
+                                            {{ Form::readonlyComp('cilindro[]', 'Cil', /* $lente->formulas[1]->cilindro */) }}
                                         </div>
                                         <div class="col-xs-4 col-sm-4 col-md-4">
-                                            {{ Form::textComp('eje[]', 'Eje', /* $lente->formulas[1]->eje */) }}
+                                            {{ Form::readonlyComp('eje[]', 'Eje', /* $lente->formulas[1]->eje */) }}
                                         </div>
                                     </div>
                             </div>
@@ -104,19 +109,19 @@
 
                             <div class="row">
                                 <div class="col-xs-2 col-sm-2 col-md-2">
-                                    {{ Form::selectComp('tipo_lente','Tipo', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
+                                    {{ Form::readonlyComp('tipo_lente','Tipo') }}
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
-                                    {{ Form::textComp('adicion', 'AD') }}
+                                    {{ Form::readonlyComp('adicion', 'AD') }}
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
-                                    {{ Form::textComp('distancia_pupilar', 'DP') }}
+                                    {{ Form::readonlyComp('distancia_pupilar', 'DP') }}
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
-                                    {{ Form::textComp('alt', 'Alt') }}
+                                    {{ Form::readonlyComp('alt', 'Alt') }}
                                 </div>
                                 <div class="col-xs-2 col-sm-2 col-md-2">
-                                    {{ Form::textComp('tallado', 'Tallado') }}
+                                    {{ Form::readonlyComp('tallado', 'Tallado') }}
                                 </div>
                             </div>
                             
@@ -127,13 +132,9 @@
                                 <div class="col-xs-3 col-sm-3 col-md-3">
                                     <div class="form-group">
                                         <strong>{{__('Tratamientos')}}:</strong>
-                                        <br/>
-                                        {{-- @foreach($tratamiento as $value)                            
-                                            <label>{{ Form::checkbox('tratamiento[]', $value->id, in_array($value->id, $lenteTratamientos) ? true : false, array('class' => 'name')) }}
-                                                {{ $value->tratamiento }}
-                                            </label>
-                                        <br/>
-                                        @endforeach --}}
+                                        
+                                        <p id="tratamientos"></p>
+                                        
                                     </div>
                                 </div>
                                 
@@ -144,17 +145,24 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                {{ Form::hiddenComp('status', 'REGISTRADO')}}
-                                    {{-- {{ Form::selectComp('status','Estatus', '', [
-                                        /* '' => '-- Seleccione --', */
-                                        'REGISTRADO' => 'REGISTRADO',
-                                        /* 'LABORATORIO DE MONTAJE'  => 'LABORATORIO DE MONTAJE',
-                                        'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO',
-                                        'POR ENTREGAR' => 'POR ENTREGAR',
-                                        'ENTREGADO' => 'ENTREGADO' */
-                                        ]) 
-                                    }} --}}
+                                
+                            </div>
+                            <div class="row">
+                                <h5><strong>Selecionar Laboratorio</strong></h5>
+                                <label for="laboratorio-tipo-dropdown"><strong>Tipo de Laboratorio</strong></label>
+                                <div class="form-group mb-2">
+                                    <select  id="laboratorio-tipo-dropdown" name="tipo_laboratorio" class="form-control">
+                                        <option value="">-- Seleccionar --</option>
+                                        <option value="LABORATORIO DE MONTAJE">LABORATORIO DE MONTAJE</option>
+                                        <option value="LABORATORIO DE TALLADO">LABORATORIO DE TALLADO</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="laboratorio-dropdown" class="mb-1"><strong>Laboratorio</strong></label>
+                                <div class="form-group mb-2">
+                                    <select id="laboratorio-dropdown" name="laboratorio_id" class="form-control">
+                                    </select>
                                 </div>
                             </div>
 
@@ -169,7 +177,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Send message</button>
+                <button type="button" class="btn btn-success" onclick="revisarLente()"><i class="fa fa-check-double"></i> Revisar</button>
             </div>
         </div>
     </div>
@@ -202,6 +210,8 @@
 {{-- La funcion de los botones se crea dentro de estas script tag debido a que en las tipo module no funcionan --}}
 <script>
 
+const SITEURL = 'http://127.0.0.1:8000';
+
     const prLenteModal = document.getElementById('prLenteModal')
 
         prLenteModal.addEventListener('show.bs.modal', event => {
@@ -228,64 +238,53 @@
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
-        const SITEURL = 'http://127.0.0.1:8000';
-
         var url = SITEURL + '/api/prLente/'+id;
 
         axios.post(url).then(response => {
             let status = response.status;
             let message = response.statusText;
-            let data = response.data.personas;
+            let data = response.data.numero_orden;
             console.log(message, status, data);
             
-            //alert(data[0].nombres);
-            //alert(data.length);
+            let paciente_nombres =  response.data.pacientes[0].nombres + response.data.pacientes[0].apellidos;
 
-            var el = document.getElementById('demo');
-            //el.textContent = "I have changed!";
+            document.getElementById("paciente").innerHTML = '<strong>Paciente:</strong> '+ paciente_nombres;
 
-            for (var i=0, len = data.length; i < len; i++) { 
-                //alert(i);
-                //alert(data[i].apellidos);
+            document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+'<span class="badge bg-primary">'+ response.data.status+'</badge>';
 
-                var id      = data[i].id;
-                var cedula  = data[i].cedula;
-                var nombres = data[i].nombres;
-                var apellidos = data[i].apellidos;
-
-                //el.textContent = nombres+' '+apellidos;
-                rows += '<tr><td>'+id+'</td><td>'+cedula+'</td><td>'+nombres+'</td><td>'+apellidos+'</td><td>contenido de prueba</td></tr>';
-                //rows += nombres+apellidos;
-                //tr += '<select class="niceSelect form-control" name="product_id[]" id="productName' + count + '" style="display:none">' + '<option value="">Select Product</option>';
-
-        }
-
-        /* if (tableLength > 0) {
-            $("#productTable tbody tr:last").after(rows);
-        } else {
-            $("#productTable tbody").append(rows);
-        } */
-
-            //$("#productTable tbody tr:last").after(rows);
+            document.getElementById("numero_orden").value = response.data.numero_orden;
             
-            //el.textContent = rows;
+            var esfera      = document.getElementsByName('esfera[]');
+            var cilindro    = document.getElementsByName('cilindro[]');
+            var eje         = document.getElementsByName('eje[]');
+
+            var aesf = esfera[0].value = response.data.formulas[0].esfera;
+            var besf = esfera[1].value = response.data.formulas[1].esfera;
+
+            var acil = cilindro[0].value = response.data.formulas[0].cilindro;
+            var bcil = cilindro[1].value = response.data.formulas[1].cilindro;
+
+            var aeje = eje[0].value = response.data.formulas[0].eje;
+            var beje = eje[1].value = response.data.formulas[1].eje;
+
+            document.getElementById("lente_id").value = response.data.id;
+            document.getElementById("tipo_lente").value = response.data.tipo_lente;
+            document.getElementById("adicion").value = response.data.adicion;
+            document.getElementById("distancia_pupilar").value = response.data.distancia_pupilar;
+            document.getElementById("alt").value = response.data.alt;
+            document.getElementById("status").value = response.data.status;
+            document.getElementById("tallado").value = response.data.tallado;
+
+
+            var tratamientos = ''
+
+            for (var i=0, len = response.data.tratamientos.length; i < len; i++) { 
                 
-            /* for (var i=0; i < data.length; i++) {
-
-                var nombres = data[i].nombres;
-                var apellidos = data[i].apellidos;
-                alert(nombres+apellidos);
-
-                listadoPersonas.textContent = `Persona: ${nombres}`
+                tratamientos += '- '+response.data.tratamientos[i].tratamiento+'<br>';
                 
-                
-                var el = document.createElement('option');
+            }
+            document.getElementById("tratamientos").innerHTML = tratamientos;
 
-                el.textContent = opt;
-                el.value = opt;
-
-                sel.appendChild(el);
-            }  */
         }).catch(error => {                  
             if(error.response){
                 console.log(error.response.data.errors)
@@ -293,6 +292,72 @@
         });
 
     }
+
+    function revisarLente(){
+
+        var lente_id = document.getElementById("lente_id").value;
+
+        var url = SITEURL + '/api/rvLente/'+lente_id;
+        
+        axios.post(url).then(response => {
+            
+        }).catch(error => {                  
+            if(error.response){
+                console.log(error.response.data.errors)
+            }
+        });
+
+        
+    }
+
+    var laboratorioTipo = document.getElementById('laboratorio-tipo-dropdown');
+
+    laboratorioTipo.addEventListener("change", function() {
+        
+        var url = SITEURL + '/api/fetch-laboratorios/';
+
+        axios.post(url,
+            {
+            params: 
+                {
+                    tipo: this.value
+                }
+            }).then(response => {
+            
+            
+            
+            console.log(response);
+
+        }).catch(error => {                  
+            if(error.response){
+                console.log(error.response.data.errors)
+            }
+        });
+
+    });
+
+    /* $('#laboratorio-dropdown').on('change', function () {
+
+                var id_estado = this.value;
+                $("#municipio-dropdown").html('');
+                $.ajax({
+                    url: "{{url('api/fetch-municipios')}}",
+                    type: "POST",
+                    data: {
+                        id_estado: id_estado,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#municipio-dropdown').html('<option value="">-- Selecciona Municipio --</option>');
+                        $.each(result.municipios, function (key, value) {
+                            $("#municipio-dropdown").append('<option value="' + value
+                                .id_municipio + '">' + value.municipio + '</option>');
+                        });
+                        $('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
+                    }
+                }); 
+    }); */
 
 </script>
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Estado;
+use App\Models\Laboratorio;
 use App\Models\Municipio;
 use App\Models\Parroquia;
 
@@ -45,4 +46,18 @@ class DropdownController extends Controller
                                                     ->get(["parroquia", "id_parroquia"]);
         return response()->json($data);
     }
+
+    /**
+    * Write code on Method
+    *
+    * @return response()
+    */
+    public function fetchLaboratorio(Request $request)
+    {
+        //Se utiliza params por los parametros de la peticion axios
+        $data['laboratorios'] = Laboratorio::where("tipo", $request->params['tipo'])
+                                                    ->get(["razon_social", "id"]);
+        return response()->json($data);
+    }
+
 }

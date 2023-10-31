@@ -125,6 +125,7 @@ class BioanalistaSeeder extends Seeder
         $laboratorio = new Laboratorio();
         $laboratorio->documento_fiscal = 'V17348394';
         $laboratorio->razon_social = 'OPTIRANGO';
+        $laboratorio->tipo = 'LABORATORIO DE MONTAJE';
         $laboratorio->representante_organizacion = 'Lcdo. Jhonny Torres';
         $laboratorio->representante_cargo = 'Gerente General';
         $laboratorio->direccion_fiscal = 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital';

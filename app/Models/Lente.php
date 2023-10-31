@@ -33,6 +33,10 @@ class Lente extends Model
         return $this->belongsToMany(Paciente::class, 'lente_paciente');
     }
 
+    public function first_paciente() {
+        return $this->pacientes()->take(1);
+    }
+
     /**
      * Las formulas que pertenecen al lente.
      */
