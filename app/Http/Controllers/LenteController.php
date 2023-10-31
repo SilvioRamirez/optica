@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LbLentesDataTable;
 use App\DataTables\LentesDataTable;
 use App\DataTables\PrLentesDataTable;
 use App\Models\Lente;
@@ -170,14 +171,19 @@ class LenteController extends Controller
 
     public function rvLente(Lente $lente, Request $request){
 
-        return $request;
+        $lente->update(['status' => $request->params['status'], 'laboratorio_id' => $request->params['laboratorio_id']]);
 
-        $lente->update(['status' => 'LABORATORIO DE MONTAJE']);
+        return $lente->toJson();
 
-        return $lente;
+    }
 
-        
-        
-        
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function lbLentesIndex(LbLentesDataTable $dataTable)
+    {
+        return $dataTable->render('lentes.index-lb');
     }
 }

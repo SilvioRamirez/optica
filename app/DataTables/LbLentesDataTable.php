@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PrLentesDataTable extends DataTable
+class LbLentesDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -58,8 +58,7 @@ class PrLentesDataTable extends DataTable
      */
     public function query(Lente $model): QueryBuilder
     {
-        return $model->newQuery()->where('status', 'REGISTRADO')->with('pacientes')->with('formulas')->with('tratamientos');
-        
+        return $model->newQuery()->where('status', 'LABORATORIO DE TALLADO')->orWhere('status', 'LABORATORIO DE MONTAJE')->with('pacientes')->with('formulas')->with('tratamientos');
     }
 
     /**

@@ -7,7 +7,7 @@
     @include('fragment.success')
     <div class="col-lg-12 margin-tb">
         <div class="text-center">
-            <h1><i class="fa fa-check"></i> Administración de Lentes Por Revisar</h1>
+            <h1><i class="fa fa-check"></i> Administración de Lentes en Laboratorios</h1>
         </div>
         @can('user-create')
         @endcan

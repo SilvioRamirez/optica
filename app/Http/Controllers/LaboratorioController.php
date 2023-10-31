@@ -57,7 +57,8 @@ class LaboratorioController extends Controller
             'name' => 'required',
             'detail' => 'required',
         ]); */
-    
+        $request->request->remove('personasTable_length');
+        
         Laboratorio::create($request->all());
     
         return redirect()->route('laboratorios.index')
