@@ -9,7 +9,7 @@ use App\Http\Requests\StoreLenteRequest;
 use App\Http\Requests\UpdateLenteRequest;
 use App\Models\Paciente;
 use App\Models\Tratamiento;
-use DragonCode\Contracts\Cashier\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
@@ -168,7 +168,9 @@ class LenteController extends Controller
         
     }
 
-    public function rvLente(Lente $lente){
+    public function rvLente(Lente $lente, Request $request){
+
+        return $request;
 
         $lente->update(['status' => 'LABORATORIO DE MONTAJE']);
 

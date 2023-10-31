@@ -152,7 +152,7 @@
                                 <label for="laboratorio-tipo-dropdown"><strong>Tipo de Laboratorio</strong></label>
                                 <div class="form-group mb-2">
                                     <select  id="laboratorio-tipo-dropdown" name="tipo_laboratorio" class="form-control">
-                                        <option value="">-- Seleccionar --</option>
+                                        <option value="" selected>-- Seleccionar --</option>
                                         <option value="LABORATORIO DE MONTAJE">LABORATORIO DE MONTAJE</option>
                                         <option value="LABORATORIO DE TALLADO">LABORATORIO DE TALLADO</option>
                                     </select>
@@ -243,8 +243,8 @@ const SITEURL = 'http://127.0.0.1:8000';
         axios.post(url).then(response => {
             let status = response.status;
             let message = response.statusText;
-            let data = response.data.numero_orden;
-            console.log(message, status, data);
+            //let data = response.data.numero_orden;
+            console.log(message, status);
             
             let paciente_nombres =  response.data.pacientes[0].nombres + response.data.pacientes[0].apellidos;
 
@@ -299,7 +299,12 @@ const SITEURL = 'http://127.0.0.1:8000';
 
         var url = SITEURL + '/api/rvLente/'+lente_id;
         
-        axios.post(url).then(response => {
+        axios.post(url,
+            { params:
+                    {
+                        laboratorioTipo: laboratorioTipo.value
+                    }
+            }).then(response => {
             
         }).catch(error => {                  
             if(error.response){
@@ -317,16 +322,21 @@ const SITEURL = 'http://127.0.0.1:8000';
         var url = SITEURL + '/api/fetch-laboratorios/';
 
         axios.post(url,
-            {
-            params: 
-                {
-                    tipo: this.value
-                }
+            { params:
+                    {
+                        tipo: this.value
+                    }
             }).then(response => {
             
-            
-            
-            console.log(response);
+            var laboratorios = '<option value="">-- Selecciona Laboratorio --</option>'
+
+            for (var i=0, len = response.data.laboratorios.length; i < len; i++) { 
+                
+                laboratorios += '<option value="'+response.data.laboratorios[i].id+'">'+response.data.laboratorios[i].razon_social+'</option>';
+                
+            }
+            document.getElementById("laboratorio-dropdown").innerHTML = laboratorios;
+
 
         }).catch(error => {                  
             if(error.response){
@@ -336,28 +346,6 @@ const SITEURL = 'http://127.0.0.1:8000';
 
     });
 
-    /* $('#laboratorio-dropdown').on('change', function () {
-
-                var id_estado = this.value;
-                $("#municipio-dropdown").html('');
-                $.ajax({
-                    url: "{{url('api/fetch-municipios')}}",
-                    type: "POST",
-                    data: {
-                        id_estado: id_estado,
-                        _token: '{{csrf_token()}}'
-                    },
-                    dataType: 'json',
-                    success: function (result) {
-                        $('#municipio-dropdown').html('<option value="">-- Selecciona Municipio --</option>');
-                        $.each(result.municipios, function (key, value) {
-                            $("#municipio-dropdown").append('<option value="' + value
-                                .id_municipio + '">' + value.municipio + '</option>');
-                        });
-                        $('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
-                    }
-                }); 
-    }); */
 
 </script>
 
