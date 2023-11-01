@@ -136,22 +136,10 @@
                                 
                             </div>
                             <div class="row">
-                                <h5><strong>Selecionar Laboratorio</strong></h5>
-                                <label for="laboratorio-tipo-dropdown"><strong>Tipo de Laboratorio</strong></label>
-                                <div class="form-group mb-2">
-                                    <select  id="laboratorio-tipo-dropdown" name="tipo_laboratorio" class="form-control">
-                                        <option value="" selected>-- Seleccionar --</option>
-                                        <option value="LABORATORIO DE MONTAJE">LABORATORIO DE MONTAJE</option>
-                                        <option value="LABORATORIO DE TALLADO">LABORATORIO DE TALLADO</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label for="laboratorio-dropdown" class="mb-1"><strong>Laboratorio</strong></label>
-                                <div class="form-group mb-2">
-                                    <select id="laboratorio-dropdown" name="laboratorio_id" class="form-control">
-                                    </select>
-                                </div>
+                                <h5><strong>Laboratorio</strong></h5>
+                                {{ Form::readonlyComp('laboratorio_tipo', 'Tipo de Laboratorio') }}
+                                {{ Form::readonlyComp('laboratorio_razon_social', 'Laboratorio') }}
+                                
                             </div>
 
                             <div class="text-center">
@@ -165,7 +153,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success btn-revisarLente"><i class="fa fa-check-double"></i> Revisar</button>
+                <button type="button" class="btn btn-success btn-prepararLente"><i class="fa fa-right-from-bracket"></i> Lente listo para entregar</button>
             </div>
         </div>
     </div>
@@ -183,26 +171,22 @@
 
         //alert('hola');
 
-        $('.btn-revisarLente').click(function(e) {
+        $('.btn-prepararLente').click(function(e) {
             e.preventDefault();
 
             var lente_id        = document.getElementById("lente_id").value;
-            var laboratorio_id  = document.getElementById("laboratorio-dropdown").value;
-            var laboratorio_tipo  = document.getElementById("laboratorio-tipo-dropdown").value;
 
-            var url = SITEURL + '/api/rvLente/'+lente_id;
+            var url = SITEURL + '/api/prepararLente/'+lente_id;
             
             axios.post(url,
                 { params:
                         {
-                            laboratorio_id: laboratorio_id,
-                            status: laboratorio_tipo
                         }
                 }).then(response => {
 
                     bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
 
-                    var oTable = $('#pr-lentes-table').dataTable();
+                    var oTable = $('#lb-lentes-table').dataTable();
                     oTable.fnDraw(false);
 
             }).catch(error => {                  
@@ -245,12 +229,12 @@
             });
     })
 
-    function revisarLente(){
+    function prepararLente(){
 
         var lente_id        = document.getElementById("lente_id").value;
         var laboratorio_id  = document.getElementById("laboratorio-dropdown").value;
 
-        var url = SITEURL + '/api/rvLente/'+lente_id;
+        var url = SITEURL + '/api/prepararLente/'+lente_id;
         
         axios.post(url,
             { params:
@@ -282,7 +266,7 @@ const SITEURL = 'http://127.0.0.1:8000';
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
-        var url = SITEURL + '/api/prLente/'+id;
+        var url = SITEURL + '/api/lbLente/'+id;
 
         axios.post(url).then(response => {
             let status = response.status;
@@ -318,7 +302,9 @@ const SITEURL = 'http://127.0.0.1:8000';
             document.getElementById("status").value = response.data.status;
             document.getElementById("tallado").value = response.data.tallado;
 
-
+            document.getElementById("laboratorio_tipo").value = response.data.laboratorio.tipo;
+            document.getElementById("laboratorio_razon_social").value = response.data.laboratorio.razon_social;
+            
             var tratamientos = ''
 
             for (var i=0, len = response.data.tratamientos.length; i < len; i++) { 
@@ -335,36 +321,6 @@ const SITEURL = 'http://127.0.0.1:8000';
         });
 
     }
-
-
-
-    var laboratorioTipo = document.getElementById('laboratorio-tipo-dropdown');
-
-    laboratorioTipo.addEventListener("change", function() {
-        
-        var url = SITEURL + '/api/fetch-laboratorios/';
-
-        axios.post(url,
-            { params:
-                    {
-                        tipo: this.value
-                    }
-            }).then(response => {
-            
-                var laboratorios = '<option value="">-- Selecciona Laboratorio --</option>'
-
-                for (var i=0, len = response.data.laboratorios.length; i < len; i++) { 
-                    laboratorios += '<option value="'+response.data.laboratorios[i].id+'">'+response.data.laboratorios[i].razon_social+'</option>';
-                }
-                document.getElementById("laboratorio-dropdown").innerHTML = laboratorios;
-
-            }).catch(error => {                  
-                if(error.response){
-                    console.log(error.response.data.errors)
-                }
-            });
-
-    });
 
 
 </script>

@@ -34,6 +34,9 @@ class LbLentesDataTable extends DataTable
                 return statusLenteColumn($query);
 
             })
+            ->addColumn('laboratorio_id', function($query){
+                return $query->laboratorio->razon_social;
+            })
             ->addColumn('paciente', function($query){
                 foreach($query->pacientes as $paciente){
                     return $paciente->nombres.' '.$paciente->apellidos;
@@ -67,7 +70,7 @@ class LbLentesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pr-lentes-table')
+                    ->setTableId('lb-lentes-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
@@ -112,6 +115,12 @@ class LbLentesDataTable extends DataTable
                     ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('status')->title('Estatus')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->addClass('text-center'),
+            Column::computed('laboratorio_id')->title('Laboratorio')
                     ->exportable(false)
                     ->printable(false)
                     ->searchable(true)
@@ -168,6 +177,6 @@ class LbLentesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'PrLentes_' . date('YmdHis');
+        return 'LbLentes_' . date('YmdHis');
     }
 }

@@ -53,6 +53,14 @@ class Lente extends Model
         return $this->belongsToMany(Tratamiento::class, 'lente_tratamiento');
     }
 
+    /**
+     * El laboratorio asignado al lente.
+     */
+    public function laboratorio()
+    {
+        return $this->belongsTo(Laboratorio::class);
+    }
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');

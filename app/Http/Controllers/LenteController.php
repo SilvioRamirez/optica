@@ -186,4 +186,27 @@ class LenteController extends Controller
     {
         return $dataTable->render('lentes.index-lb');
     }
+
+    public function lbLente(Lente $lente){
+
+        return $lente = Lente::where('id', $lente->id)
+            ->with(['pacientes' => function($query){
+                //$query->with('lentes');
+            }])
+            //->with('first_paciente')
+            ->with('formulas')
+            ->with('tratamientos')
+            ->with('laboratorio')
+            ->first()->toJson();
+        //return $lente->->toJson();
+        
+    }
+
+    public function prepararLente(Lente $lente){
+
+        $lente->update(['status' => 'POR ENTREGAR']);
+
+        return $lente->toJson();
+
+    }
 }
