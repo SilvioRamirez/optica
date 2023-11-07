@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\EntLentesDataTable;
 use App\DataTables\LbLentesDataTable;
 use App\DataTables\LentesDataTable;
+use App\DataTables\PeLentesDataTable;
 use App\DataTables\PrLentesDataTable;
 use App\Models\Lente;
 use App\Http\Requests\StoreLenteRequest;
@@ -208,5 +210,48 @@ class LenteController extends Controller
 
         return $lente->toJson();
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function peLentesIndex(PeLentesDataTable $dataTable)
+    {
+        return $dataTable->render('lentes.index-pe');
+    }
+
+    public function peLente(Lente $lente){
+
+        return $lente = Lente::where('id', $lente->id)
+            ->with(['pacientes' => function($query){
+                //$query->with('lentes');
+            }])
+            //->with('first_paciente')
+            ->with('formulas')
+            ->with('tratamientos')
+            ->with('laboratorio')
+            ->first()->toJson();
+        //return $lente->->toJson();
+        
+    }
+
+    public function entregarLente(Lente $lente){
+
+        $lente->update(['status' => 'ENTREGADO']);
+
+        return $lente->toJson();
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function entLentesIndex(EntLentesDataTable $dataTable)
+    {
+        return $dataTable->render('lentes.index-ent');
     }
 }

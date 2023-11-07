@@ -32,10 +32,10 @@
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.lb') }}"><i class="fa fa-vial-circle-check"></i> En Laboratorio</a>
 							@endcan
 							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-person-circle-check"></i> Por Entregar</a>
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pe') }}"><i class="fa fa-person-circle-check"></i> Por Entregar</a>
 							@endcan
 							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-check-to-slot"></i> Entregados</a>
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.ent') }}"><i class="fa fa-check-to-slot"></i> Entregados</a>
 							@endcan
 
 

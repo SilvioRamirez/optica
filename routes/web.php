@@ -101,9 +101,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/prLente/{lente}',              [LenteController::class, 'prLente']);
     Route::post('api/rvLente/{lente}',              [LenteController::class, 'rvLente']);
     Route::post('api/lbLente/{lente}',              [LenteController::class, 'lbLente']);
+    Route::post('api/peLente/{lente}',              [LenteController::class, 'peLente']);
     Route::post('api/prepararLente/{lente}',        [LenteController::class, 'prepararLente']);
+    Route::post('api/entregarLente/{lente}',        [LenteController::class, 'entregarLente']);
     Route::get('/lentes/prLentes',          [LenteController::class, 'prLentesIndex'])->name('lentes.index.pr');
     Route::get('/lentes/lbLentes',          [LenteController::class, 'lbLentesIndex'])->name('lentes.index.lb');
+    Route::get('/lentes/peLentes',          [LenteController::class, 'peLentesIndex'])->name('lentes.index.pe');
+    Route::get('/lentes/entLentes',         [LenteController::class, 'EntLentesIndex'])->name('lentes.index.ent');
     Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
     Route::resource('lentes',               LenteController::class);
 
