@@ -141,8 +141,27 @@
                                 
                             </div>
 
-                            <div class="text-center">
-                                    {{-- {{ Form::submitComp() }} --}}
+                            <hr>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::readonlyComp('user_create', 'Creado por') }}
+                                    {{ Form::readonlyComp('user_create_date', '') }}
+                                </div>
+
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::readonlyComp('user_lb', 'Enviado a laboratorio por') }}
+                                    {{ Form::readonlyComp('user_lb_date', '') }}
+                                </div>
+
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::readonlyComp('user_pe', 'Preparado para entregar por') }}
+                                    {{ Form::readonlyComp('user_pe_date', '') }}
+                                </div>
+
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::readonlyComp('user_ent', 'Entregado por') }}
+                                    {{ Form::readonlyComp('user_ent_date', '') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,6 +185,8 @@
 
 <script type="module">
 
+
+
     $(document).ready(function () {
 
         //alert('hola');
@@ -187,6 +208,14 @@
 
                     var oTable = $('#pe-lentes-table').dataTable();
                     oTable.fnDraw(false);
+
+                    Swal.fire({
+                        title: 'Exito',
+                        text: 'Registro confirmado',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: "#198754",
+                    })
 
             }).catch(error => {                  
                 if(error.response){
@@ -279,6 +308,19 @@ const SITEURL = 'http://127.0.0.1:8000';
             document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+'<span class="badge bg-primary">'+ response.data.status+'</badge>';
 
             document.getElementById("numero_orden").value = response.data.numero_orden;
+
+            /* Información de Modificaciones al lente */
+            document.getElementById("user_create").value = response.data.user_create.name;
+            document.getElementById("user_create_date").value = response.data.user_create_date;
+
+            document.getElementById("user_lb").value = response.data.user_lb.name;
+            document.getElementById("user_lb_date").value = response.data.user_lb_date;
+
+            document.getElementById("user_pe").value = response.data.user_pe.name;
+            document.getElementById("user_pe_date").value = response.data.user_pe_date;
+
+            document.getElementById("user_ent").value = response.data.user_ent.name;
+            document.getElementById("user_ent_date").value = response.data.user_ent_date;
             
             var esfera      = document.getElementsByName('esfera[]');
             var cilindro    = document.getElementsByName('cilindro[]');

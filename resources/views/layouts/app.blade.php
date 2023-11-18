@@ -36,7 +36,6 @@
                     </div>
                 </main>
 
-
                 {{-- @include('layouts.footer') --}}
             </div>
 

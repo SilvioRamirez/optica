@@ -28,6 +28,14 @@ return new class extends Migration
             $table->string('tratamiento')->nullable();
             $table->string('tallado')->nullable();
             $table->string('status')->nullable();
+            $table->foreignId('user_create_id')->nullable();
+            $table->timestamp('user_create_date')->nullable();
+            $table->foreignId('user_lb_id')->nullable();
+            $table->timestamp('user_lb_date')->nullable();
+            $table->foreignId('user_pe_id')->nullable();
+            $table->timestamp('user_pe_date')->nullable();
+            $table->foreignId('user_ent_id')->nullable();
+            $table->timestamp('user_ent_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

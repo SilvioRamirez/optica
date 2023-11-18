@@ -18,6 +18,7 @@ import DataTable from 'datatables.net-dt';
 /* import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt'; */
 
+import Swal from 'sweetalert2'
 
 window.axios = axios;
 window.$ = $;
@@ -27,6 +28,8 @@ window.Imask = Imask;
 
 //DataTables
 window.DataTable = DataTable;
+
+window.Swal = Swal;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';

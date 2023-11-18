@@ -398,6 +398,8 @@ class PacienteController extends Controller
         $lente->tipo_lente = $request->get('tipo_lente');
         $lente->tallado = $request->get('tallado');
         $lente->status = $request->get('status');
+        $lente->user_create_id = $request->user()->id;
+        $lente->user_create_date = \Carbon\Carbon::now()->toDateTimeString();
         $lente->save();
 
         //Sincronizamos los tratamientos seleccionados
@@ -506,6 +508,8 @@ class PacienteController extends Controller
             /* 'tratamiento'       => $request->get('tratamiento'), */
             'tallado'           => $request->get('tallado'),
             'status'            => $request->get('status'),
+            'user_create_id'    => $request->user()->id,
+            'user_create_date'  => \Carbon\Carbon::now()->toDateTimeString()
             ],
         );
 

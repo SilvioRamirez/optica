@@ -33,7 +33,7 @@
 
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
-<script type="text/javascript">
+<script type="module">
 
 
 </script>

@@ -166,6 +166,10 @@ class LenteController extends Controller
             //->with('first_paciente')
             ->with('formulas')
             ->with('tratamientos')
+            ->with('userCreate')
+            ->with('userLb')
+            ->with('userPe')
+            ->with('userEnt')
             ->first()->toJson();
         //return $lente->->toJson();
         
@@ -173,7 +177,12 @@ class LenteController extends Controller
 
     public function rvLente(Lente $lente, Request $request){
 
-        $lente->update(['status' => $request->params['status'], 'laboratorio_id' => $request->params['laboratorio_id']]);
+        $lente->update([
+                'status' => $request->params['status'], 
+                'laboratorio_id' => $request->params['laboratorio_id'],
+                'user_lb_id' => $request->user()->id,
+                'user_lb_date' => \Carbon\Carbon::now()->toDateTimeString()
+            ]);
 
         return $lente->toJson();
 
@@ -199,14 +208,22 @@ class LenteController extends Controller
             ->with('formulas')
             ->with('tratamientos')
             ->with('laboratorio')
+            ->with('userCreate')
+            ->with('userLb')
+            ->with('userPe')
+            ->with('userEnt')
             ->first()->toJson();
         //return $lente->->toJson();
         
     }
 
-    public function prepararLente(Lente $lente){
+    public function prepararLente(Lente $lente, Request $request){
 
-        $lente->update(['status' => 'POR ENTREGAR']);
+        $lente->update([
+                'status' => 'POR ENTREGAR',
+                'user_pe_id' => $request->user()->id,
+                'user_pe_date' => \Carbon\Carbon::now()->toDateTimeString()
+            ]);
 
         return $lente->toJson();
 
@@ -232,14 +249,22 @@ class LenteController extends Controller
             ->with('formulas')
             ->with('tratamientos')
             ->with('laboratorio')
+            ->with('userCreate')
+            ->with('userLb')
+            ->with('userPe')
+            ->with('userEnt')
             ->first()->toJson();
         //return $lente->->toJson();
         
     }
 
-    public function entregarLente(Lente $lente){
+    public function entregarLente(Lente $lente, Request $request){
 
-        $lente->update(['status' => 'ENTREGADO']);
+        $lente->update([
+                'status' => 'ENTREGADO',
+                'user_ent_id' => $request->user()->id,
+                'user_ent_date' => \Carbon\Carbon::now()->toDateTimeString()
+            ]);
 
         return $lente->toJson();
 

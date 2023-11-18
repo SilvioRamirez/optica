@@ -25,6 +25,29 @@ class Lente extends Model
         return LogOptions::defaults();
     }
 
+    public function userCreate()
+    {
+        return $this->belongsTo(User::class,'user_create_id');
+    }
+
+    public function userLb()
+    {
+        return $this->belongsTo(User::class,'user_lb_id');
+    }
+
+    public function userPe()
+    {
+        return $this->belongsTo(User::class,'user_pe_id');
+    }
+
+    public function userEnt()
+    {
+        return $this->belongsTo(User::class,'user_ent_id');
+    }
+
+    
+        
+
     /**
      * Los pacientes que pertenecen a los lentes.
      */
