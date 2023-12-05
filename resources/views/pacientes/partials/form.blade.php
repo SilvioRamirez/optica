@@ -2,10 +2,10 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             {{ Form::textComp('cedula','Cedula o Documento', null, null, 'V12345678-0') }}
-            {{ Form::textComp('nombres','Nombres') }}
-            {{ Form::textComp('apellidos','Apellidos') }}
+            {{ Form::textComp('nombres','Nombres', null, null, 'Nombres') }}
+            {{ Form::textComp('apellidos','Apellidos', null, null, 'Apellidos') }}
             {{ Form::dateComp('fecha_nacimiento','Fecha de Nacimiento') }}
-            {{ Form::numberComp('edad','Edad') }}
+            {{ Form::textComp('edad','Edad', null, null, '12') }}
             {{ Form::selectComp('sexo','Sexo', '', ['MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
             {{ Form::textComp('telefono','Teléfono', null, null,'+58 0412-1231234') }}
             {{ Form::emailComp('correo','Correo') }}
@@ -35,6 +35,10 @@
                 // defaults are '0', 'a', '*'
                 'v': /[V,J,G,E,P]/
             }
+        })
+
+        IMask(document.getElementById('edad'), {
+            mask: '00'
         })
 
         $(document).ready(function () {

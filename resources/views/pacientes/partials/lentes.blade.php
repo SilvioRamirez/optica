@@ -8,7 +8,7 @@
                         {{ $paciente->nombres }} {{ $paciente->apellidos }}
                     </div> --}}
                     <div class="col-xs-2 col-sm-2 col-md-2">
-                        {{ Form::textComp('numero_orden', 'Nro. Orden') }}
+                        {{ Form::textComp('numero_orden', 'Nro. Orden', null, null, '000000') }}
                     </div>
 
                 </div>
@@ -19,13 +19,13 @@
                         <h5><strong>OJO DERECHO</strong></h5>
                         {{ Form::hiddenComp('ojo[]', 'OJO DERECHO')}}
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('esfera[]', 'Esf') }}
+                            {{ Form::textComp('esfera[]', 'Esf', null, null, 'Ejemplo: +0.75') }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('cilindro[]', 'Cil') }}
+                            {{ Form::textComp('cilindro[]', 'Cil', null, null, 'Ejemplo: -1.25') }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('eje[]', 'Eje') }}
+                            {{ Form::textComp('eje[]', 'Eje', null, null, 'Ejemplo: 120') }}
                         </div>
                     </div>
                 <div class="col-md-2 row">
@@ -42,13 +42,13 @@
                         <h5><strong>OJO IZQUIERDO</strong></h5>
                             {{ Form::hiddenComp('ojo[]','OJO IZQUIERDO')}}
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('esfera[]', 'Esf') }}
+                            {{ Form::textComp('esfera[]', 'Esf', null, null, 'Ejemplo: +0.75') }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('cilindro[]', 'Cil') }}
+                            {{ Form::textComp('cilindro[]', 'Cil', null, null, 'Ejemplo: -1.25') }}
                         </div>
                         <div class="col-xs-4 col-sm-4 col-md-4">
-                            {{ Form::textComp('eje[]', 'Eje') }}
+                            {{ Form::textComp('eje[]', 'Eje', null, null, 'Ejemplo: 120') }}
                         </div>
                     </div>
             </div>
@@ -120,6 +120,83 @@
 </div>
 
 @push('scripts')
+
+<script type="module">
+
+    IMask(document.getElementById('numero_orden'),{
+        mask: '000000'
+    })
+
+    IMask(document.getElementsByClassName('esfera[]')[0],{
+        mask: '{s}nnnnnn',
+        definitions: {
+            's': /[+,-]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementsByClassName('esfera[]')[1],{
+        mask: '{s}nnnnnn',
+        definitions: {
+            's': /[+,-]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementsByClassName('cilindro[]')[0],{
+        mask: '{s}nnnn',
+        definitions: {
+            's': /[-]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementsByClassName('cilindro[]')[1],{
+        mask: '{s}nnnn',
+        definitions: {
+            's': /[-]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementsByClassName('eje[]')[0],{
+        mask: Number,
+        min: 0,
+        max: 180,
+    })
+
+    IMask(document.getElementsByClassName('eje[]')[1],{
+        mask: '{s}nnnn',
+        definitions: {
+            's': /[+,-]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementById('adicion'),{
+        mask: '{s}nnnn',
+        definitions: {
+            's': /[+]/,
+            'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+        }
+    })
+
+    IMask(document.getElementById('distancia_pupilar'),{
+        mask: Number,
+        min: 0,
+        max: 99,
+    })
+
+    IMask(document.getElementById('alt'),{
+        mask: Number,
+        min: 0,
+        max: 40,
+    })
+
+
+
+</script>
+
     <script>
 
         var k = "";
@@ -171,8 +248,6 @@
             
 
         }
-
-        
 
     </script>
 @endpush
