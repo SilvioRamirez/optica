@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if(config('app.env') === 'production') {
-            view()->share('configOrganizacion', $configuracion = Configuracion::find(1));
+            /* view()->share('configOrganizacion', $configuracion = Configuracion::find(1)); */
         }
 
     }
