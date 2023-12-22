@@ -22,7 +22,7 @@ var rows = '';
         modalTitle.textContent = `New message to ${recipient}`
 
 
-        var url = SITEURL + '/api/fetch-personas';
+        var url = /* SITEURL + */ '/api/fetch-personas';
         
         var tableLength = $("#productTable tbody tr").length;
 

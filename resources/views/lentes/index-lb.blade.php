@@ -195,7 +195,7 @@
 
             var lente_id        = document.getElementById("lente_id").value;
 
-            var url = SITEURL + '/api/prepararLente/'+lente_id;
+            var url = /* SITEURL + */ '/api/prepararLente/'+lente_id;
             
             axios.post(url,
                 { params:
@@ -261,7 +261,7 @@
         var lente_id        = document.getElementById("lente_id").value;
         var laboratorio_id  = document.getElementById("laboratorio-dropdown").value;
 
-        var url = SITEURL + '/api/prepararLente/'+lente_id;
+        var url = /* SITEURL + */ '/api/prepararLente/'+lente_id;
         
         axios.post(url,
             { params:
@@ -287,13 +287,13 @@
 {{-- La funcion de los botones se crea dentro de estas script tag debido a que en las tipo module no funcionan --}}
 <script>
 
-const SITEURL = 'http://127.0.0.1:8000';
+const SITEURL = 'https://optirango.com';
 
     function openModal(id){
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
-        var url = SITEURL + '/api/lbLente/'+id;
+        var url = /* SITEURL + */ '/api/lbLente/'+id;
 
         axios.post(url).then(response => {
             let status = response.status;

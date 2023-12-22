@@ -4,6 +4,10 @@
     </IfModule>
 
     RewriteEngine On
+    
+    # Redirect from http to https
+    RewriteCond %{SERVER_PORT} 80
+    RewriteRule ^(.*)$ https://optirango.com/$1 [R,L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

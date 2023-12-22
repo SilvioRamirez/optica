@@ -209,7 +209,7 @@
             var laboratorio_id  = document.getElementById("laboratorio-dropdown").value;
             var laboratorio_tipo  = document.getElementById("laboratorio-tipo-dropdown").value;
 
-            var url = SITEURL + '/api/rvLente/'+lente_id;
+            var url = /* SITEURL + */ '/api/rvLente/'+lente_id;
             
             axios.post(url,
                 { params:
@@ -277,7 +277,7 @@
         var lente_id        = document.getElementById("lente_id").value;
         var laboratorio_id  = document.getElementById("laboratorio-dropdown").value;
 
-        var url = SITEURL + '/api/rvLente/'+lente_id;
+        var url = /* SITEURL + */ '/api/rvLente/'+lente_id;
         
         axios.post(url,
             { params:
@@ -310,13 +310,13 @@
 {{-- La funcion de los botones se crea dentro de estas script tag debido a que en las tipo module no funcionan --}}
 <script>
 
-const SITEURL = 'http://127.0.0.1:8000';
+const SITEURL = 'https://optirango.com';
 
     function openModal(id){
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
-        var url = SITEURL + '/api/prLente/'+id;
+        var url = /* SITEURL +  */'/api/prLente/'+id;
 
         axios.post(url).then(response => {
             let status = response.status;
@@ -392,7 +392,7 @@ const SITEURL = 'http://127.0.0.1:8000';
 
     laboratorioTipo.addEventListener("change", function() {
         
-        var url = SITEURL + '/api/fetch-laboratorios/';
+        var url = /* SITEURL + */ '/api/fetch-laboratorios';
 
         axios.post(url,
             { params:
