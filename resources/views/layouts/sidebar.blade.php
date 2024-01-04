@@ -1,8 +1,13 @@
 <!-- Sidebar-->
 <div class="border-end bg-light font-color-white" id="sidebar-wrapper">
-	<div class="sidebar-heading border-bottom bg-primary font-color-white"><a href="{{ url('/') }}" class="nav-link">OPTICA</a></div>
+	<div class="sidebar-heading border-bottom bg-primary font-color-white">
+		<a href="{{ url('/') }}" class="nav-link">OPTICA</a>
+	</div>
+
 	<div class="list-group list-group-flush">
-				<div class="accordion accordion-flush" id="accordionFlushExample">					
+		<div class="accordion accordion-flush" id="accordionFlushExample">
+
+				@can('paciente-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingTwo">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -15,6 +20,9 @@
 								@endcan
 						</div>
 					</div>
+				@endcan
+
+				@can('paciente-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingThree">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -37,25 +45,11 @@
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.ent') }}"><i class="fa fa-check-to-slot"></i> Entregados</a>
 							@endcan
-
-
-							{{-- <div class="accordion-item">
-								<h2 class="accordion-header" id="flush-headingLente">
-								<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseLente" aria-expanded="false" aria-controls="flush-collapseLente">
-										<i class="fa fa-glasses"></i>&nbsp; Lentes Listado
-								</button>
-								</h2>
-								<div id="flush-collapseLente" class="accordion-collapse collapse" aria-labelledby="flush-headingLente" >
-									@can('product-list')
-										<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-glasses"></i> Lentes por Revisar</a>
-									@endcan
-									
-								</div>
-							</div> --}}
-
-
 						</div>
 					</div>
+				@endcan
+
+				@can('paciente-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingOne">
 							<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -89,17 +83,8 @@
 							@endcan
 						</div>
 					</div>
-				</div>
-				
-				{{-- @can('bioanalista-list')
-					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('bioanalistas.index') }}"><i class="fa fa-user-doctor"></i> Bioanalistas</a>
 				@endcan
-				@can('examen-list')
-					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('examenes.index') }}"><i class="fa fa-microscope"></i> Examenes</a>
-				@endcan
-				@can('muestra-list')
-					<a class="list-group-item list-group-item-action list-group-item-primary p-3" href="{{ route('muestras.index') }}"><i class="fa fa-vial"></i> Muestras</a>
-				@endcan --}}
+		</div>
 
 	</div>
 </div>
