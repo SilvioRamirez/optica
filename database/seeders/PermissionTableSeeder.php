@@ -54,7 +54,10 @@ class PermissionTableSeeder extends Seeder
             'configuracion-create',
             'configuracion-edit',
             'configuracion-delete',
-            
+            'formulario-list',
+            'formulario-create',
+            'formulario-edit',
+            'formulario-delete'
         ];
         
         foreach ($permissions as $permission) {

@@ -18,12 +18,15 @@ use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\ExamenController;
+use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
 use App\Http\Controllers\OperativoController;
+use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\TratamientoController;
+use App\Models\Formulario;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -140,6 +143,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/lentes/entLentes',         [LenteController::class, 'EntLentesIndex'])->name('lentes.index.ent');
     Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
     Route::resource('lentes',               LenteController::class);
+
+    //Rutas de Pagos
+    Route::resource('pagos', PagoController::class);
+
+    //Rutas de Formularios
+    Route::get('/formularios/{formulario}/delete',    [FormularioController::class, 'delete'])->name('formularios.delete');
+    Route::resource('formularios', FormularioController::class); 
 
     //Rutas de Laboratorios
     Route::post('api/fetch-laboratorios',               [DropdownController::class, 'fetchLaboratorio']);

@@ -38,12 +38,12 @@ class Resultados extends Model
 
     public function getCreatedAtAttribute()
     {
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
     }
 
     public function getUpdatedAtAttribute()
     {
-        return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
+        return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
 
     //Relationships Many to Many

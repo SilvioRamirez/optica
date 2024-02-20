@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-
-class Persona extends Model
+class Formulario extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
@@ -23,10 +22,6 @@ class Persona extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'status' => 'boolean',
-    ];
-
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
@@ -36,4 +31,5 @@ class Persona extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
+    
 }

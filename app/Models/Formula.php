@@ -31,4 +31,14 @@ class Formula extends Model
     {
         return $this->belongsToMany(Lente::class, 'formula_lente');
     }
+
+    public function getCreatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
+    }
+
+    public function getUpdatedAtAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
+    }
 }

@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pagos', function (Blueprint $table) {
+        Schema::create('cuotas', function (Blueprint $table) {
             $table->id();
-            $table->decimal('monto',9,3);
-            $table->decimal('deuda',9,3)->nullable();
-            $table->decimal('pagado',9,3)->nullable();
-            $table->decimal('porcentaje',9,3)->nullable();
-            $table->string('status')->nullable();
+            $table->decimal('monto_inicial',9,3)->nullable(); /* El monto de la primera deuda al momento de pagar */
+            $table->decimal('pago_cuota',9,3);
+            $table->decimal('monto_pendiente',9,3)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pagos');
+        Schema::dropIfExists('cuotas');
     }
 };

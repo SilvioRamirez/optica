@@ -34,6 +34,34 @@ if (! function_exists('statusLenteColumn')){
     }
 }
 
+if (! function_exists('statusPagoColumn')){
+    function statusPagoColumn($query){
+        $badgeStatus='primary';
+        $iconStatus='';
+        if($query->status=='SIN PAGOS'){
+            $badgeStatus='danger';
+            $iconStatus='circle-exclamation';
+        }
+        if($query->status=='CON ABONOS'){
+            $badgeStatus='warning';
+            $iconStatus='vial-circle-check';
+        }
+        if($query->status=='LABORATORIO DE TALLADO'){
+            $badgeStatus='info';
+            $iconStatus='vial-circle-check';
+        }
+        if($query->status=='POR ENTREGAR'){
+            $badgeStatus='warning';
+            $iconStatus='person-circle-check';
+        }
+        if($query->status=='PAGADO'){
+            $badgeStatus='success';
+            $iconStatus='check-to-slot';
+        }
+        return '<span class="badge bg-'.$badgeStatus.'"><i class="fa fa-'.$iconStatus.'"></i> '.$query->status.'</span>';
+    }
+}
+
 if (! function_exists('formulaLenteColumn')){
     function formulaLenteColumn($query){
         $str='';

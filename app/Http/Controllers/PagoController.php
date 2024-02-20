@@ -5,15 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Pago;
 use App\Http\Requests\StorePagoRequest;
 use App\Http\Requests\UpdatePagoRequest;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use App\DataTables\PagosDataTable;
 
 class PagoController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    function __construct()
     {
-        //
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(PagosDataTable $dataTable)
+    {
+        return $dataTable->render('pagos.index');
     }
 
     /**

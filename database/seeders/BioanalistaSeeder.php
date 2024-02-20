@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Bioanalista;
 use App\Models\Caracteristicas;
 use App\Models\Configuracion;
+use App\Models\Cuota;
 use App\Models\Examen;
 use App\Models\Formula;
 use App\Models\Laboratorio;
@@ -13,6 +14,7 @@ use App\Models\Muestra;
 use App\Models\Operativo;
 use Carbon\Carbon;
 use App\Models\Paciente;
+use App\Models\Pago;
 use App\Models\Persona;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
@@ -42,6 +44,21 @@ class BioanalistaSeeder extends Seeder
         $paciente->status = 1;
         $paciente->save();
         
+        Pago::truncate();
+        $pago = new Pago();
+        $pago->monto = 100;
+        $pago->status = 'SIN PAGOS';
+        $pago->save();
+
+        $paciente->pagos()->attach([$pago->id]);
+
+        Cuota::truncate();
+        $cuota = new Cuota();
+        $cuota->pago_cuota = 50;
+        $cuota->save();
+
+        $pago->cuotas()->attach([$cuota->id]);
+
         Lente::truncate();
 
         $lente = new Lente();

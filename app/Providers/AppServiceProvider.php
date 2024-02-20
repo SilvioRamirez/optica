@@ -26,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
             /* view()->share('configOrganizacion', $configuracion = Configuracion::find(1)); */
         }
 
+        \Debugbar::disable(); 
+
     }
 }

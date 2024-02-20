@@ -2,30 +2,34 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Persona extends Model
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Cuota extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
     /**
      * Implementa el registro de Logs
      *
+     * @var array<int, string>
      */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
     }
 
-    protected $guarded = [];
-
-    protected $casts = [
-        'status' => 'boolean',
-    ];
+    /**
+     * Los pagos que pertenecen a las cuotas.
+     */
+    public function pagos()
+    {
+        return $this->belongsToMany(Pago::class, 'cuota_pago');
+    }
 
     public function getCreatedAtAttribute()
     {
@@ -36,4 +40,5 @@ class Persona extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
+
 }

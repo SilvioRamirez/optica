@@ -26,7 +26,7 @@ class Paciente extends Model
     protected $guarded = [];
 
     static $rules= [
-        'cedula' => 'required|unique:pacientes',
+        /* 'cedula' => 'required|unique:pacientes', */
         'cedula'    => 'sometimes|required|unique:pacientes,cedula',
         'nombres' => 'required',
         'apellidos' => 'required',
@@ -62,6 +62,16 @@ class Paciente extends Model
         return $this->belongsToMany(Lente::class, 'lente_paciente');
     }
 
+    /**
+     * Los Pagos que pertenecen al paciente.
+     */
+    public function pagos()
+    {
+        return $this->belongsToMany(Pago::class, 'paciente_pago');
+    }
+
+    
+
     public function direccion()
     {
         return $this->hasOne(Direccion::class);
@@ -69,12 +79,12 @@ class Paciente extends Model
 
     public function getCreatedAtAttribute()
     {
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
     }
 
     public function getUpdatedAtAttribute()
     {
-        return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('d-m-Y');
+        return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
 
     /* public function getFechaNacimientoAttribute()

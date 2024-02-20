@@ -9,6 +9,21 @@
 
 				@can('paciente-list')
 					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-headingFormularios">
+						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFormularios" aria-expanded="false" aria-controls="flush-collapseFormularios">
+							<i class="fa fa-pen-to-square"></i>&nbsp; Formularios
+						</button>
+						</h2>
+						<div id="flush-collapseFormularios" class="accordion-collapse collapse" aria-labelledby="flush-headingFormularios" >
+								@can('paciente-list')
+									<a class="list-group-item list-group-item-action p-3" href="{{ route('formularios.index') }}"><i class="fa fa-pen-to-square"></i> Formulario</a>
+								@endcan
+						</div>
+					</div>
+				@endcan
+
+				@can('paciente-list')
+					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingTwo">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
 							<i class="fa fa-hospital-user"></i>&nbsp; Pacientes
@@ -32,6 +47,33 @@
 						<div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" >
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index') }}"><i class="fa fa-list"></i> Listado</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pr') }}"><i class="fa fa-check"></i> Por Revisar</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.lb') }}"><i class="fa fa-vial-circle-check"></i> En Laboratorio</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pe') }}"><i class="fa fa-person-circle-check"></i> Por Entregar</a>
+							@endcan
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.ent') }}"><i class="fa fa-check-to-slot"></i> Entregados</a>
+							@endcan
+						</div>
+					</div>
+				@endcan
+
+				@can('paciente-list')
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-headingPagos">
+						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePagos" aria-expanded="false" aria-controls="flush-collapsePagos">
+							<i class="fa fa-hand-holding-dollar"></i>&nbsp; Pagos
+						</button>
+						</h2>
+						<div id="flush-collapsePagos" class="accordion-collapse collapse" aria-labelledby="flush-headingPagos" >
+							@can('product-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('pagos.index') }}"><i class="fa fa-list"></i> Listado</a>
 							@endcan
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pr') }}"><i class="fa fa-check"></i> Por Revisar</a>
