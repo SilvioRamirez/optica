@@ -71,7 +71,6 @@ class FormulariosDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('numero_orden'),
             Column::make('numero_orden')->title('Numero de Orden'),
             Column::make('fecha')->title('Fecha'),
             Column::make('paciente')->title('Paciente'),

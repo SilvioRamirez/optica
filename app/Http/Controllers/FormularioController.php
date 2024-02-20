@@ -94,7 +94,7 @@ class FormularioController extends Controller
      * Show de form to confirm the remove from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\View
+     * @return \Illuminate\View\View
      */
     public function delete($id): View
     {
