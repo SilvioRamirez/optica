@@ -22,7 +22,7 @@ class FormularioController extends Controller
         $this->middleware('permission:formulario-list|formulario-create|formulario-edit|formulario-delete', ['only' => ['index','show']]);
         $this->middleware('permission:formulario-create', ['only' => ['create','store']]);
         $this->middleware('permission:formulario-edit',   ['only' => ['edit','update']]);
-        $this->middleware('permission:formulario-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:formulario-delete', ['only' => ['delete','destroy']]);
     }
 
     /**

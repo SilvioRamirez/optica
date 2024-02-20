@@ -7,7 +7,7 @@
 	<div class="list-group list-group-flush">
 		<div class="accordion accordion-flush" id="accordionFlushExample">
 
-				@can('paciente-list')
+				@can('formulario-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingFormularios">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFormularios" aria-expanded="false" aria-controls="flush-collapseFormularios">
@@ -15,7 +15,7 @@
 						</button>
 						</h2>
 						<div id="flush-collapseFormularios" class="accordion-collapse collapse" aria-labelledby="flush-headingFormularios" >
-								@can('paciente-list')
+								@can('formulario-list')
 									<a class="list-group-item list-group-item-action p-3" href="{{ route('formularios.index') }}"><i class="fa fa-pen-to-square"></i> Formulario</a>
 								@endcan
 						</div>
