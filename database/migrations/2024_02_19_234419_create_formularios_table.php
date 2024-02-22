@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('formularios', function (Blueprint $table) {
             $table->id();
             $table->string('numero_orden')->nullable();
+            $table->string('estatus')->nullable();
             $table->string('fecha')->nullable();
             $table->string('paciente')->nullable();
             $table->string('direccion_operativo')->nullable();
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('cedula')->nullable();
             $table->string('edad')->nullable();
             $table->string('tipo')->nullable();
+            $table->string('observaciones_extras')->nullable();
             $table->string('od_esf')->nullable();
             $table->string('od_cil')->nullable();
             $table->string('od_eje')->nullable();
@@ -30,10 +32,18 @@ return new class extends Migration
             $table->string('add')->nullable();
             $table->string('dp')->nullable();
             $table->string('alt')->nullable();
-            $table->string('observaciones_extras')->nullable();
             $table->string('total')->nullable();
-            $table->string('abono')->nullable();
             $table->string('saldo')->nullable();
+            $table->string('abono_1')->nullable();
+            $table->string('abono_fecha_1')->nullable();
+            $table->string('abono_2')->nullable();
+            $table->string('abono_fecha_2')->nullable();
+            $table->string('abono_3')->nullable();
+            $table->string('abono_fecha_3')->nullable();
+            $table->string('abono_4')->nullable();
+            $table->string('abono_fecha_4')->nullable();
+            $table->string('abono_5')->nullable();
+            $table->string('abono_fecha_5')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

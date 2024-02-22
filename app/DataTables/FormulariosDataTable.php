@@ -21,6 +21,18 @@ class FormulariosDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        if(auth()->user()->hasRole('Super Admin')){
+            return (new EloquentDataTable($query))
+                ->addColumn('action', function($query){
+                                return '<div class="btn-group" role="group" aria-label="Opciones">
+                                        <a class="btn btn-info btn-sm"      title="Ver Información"     href="'.route('formularios.show',$query->id).'">   <i class="fa fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('formularios.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
+                                        <a class="btn btn-danger btn-sm"    title="Eliminar"            href="'.route('formularios.delete',$query->id).'">   <i class="fa fa-trash"></i></a>
+                                    </div>';
+                })
+                ->setRowId('id');
+        }
+
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                             return '<div class="btn-group" role="group" aria-label="Opciones">
@@ -50,7 +62,7 @@ class FormulariosDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(0, 'asc')
+                    ->orderBy(1, 'asc')
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
                     ])
@@ -70,14 +82,20 @@ class FormulariosDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('action')->title('Acción')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
             Column::make('id')->title('ID'),
             Column::make('numero_orden')->title('Numero de Orden'),
+            Column::make('estatus')->title('Estatus'),
             Column::make('fecha')->title('Fecha'),
             Column::make('paciente')->title('Paciente'),
-            Column::make('direccion_operativo')->title('Direccion / Operativo'),
-            Column::make('telefono')->title('Telefono'),
             Column::make('cedula')->title('Cedula'),
             Column::make('edad')->title('Edad'),
+            Column::make('telefono')->title('Telefono'),
+            Column::make('direccion_operativo')->title('Direccion / Operativo'),
             Column::make('tipo')->title('Tipo'),
             Column::make('od_esf')->title('OD Esf'),
             Column::make('od_cil')->title('OD Cil'),
@@ -90,15 +108,20 @@ class FormulariosDataTable extends DataTable
             Column::make('alt')->title('Alt'),
             Column::make('observaciones_extras')->title('Observaciones Extras'),
             Column::make('total')->title('Total'),
-            Column::make('abono')->title('Abono'),
             Column::make('saldo')->title('Saldo'),
+            Column::make('abono_1')->title('abono_1'),
+            Column::make('abono_fecha_1')->title('abono_fecha_1'),
+            Column::make('abono_2')->title('abono_2'),
+            Column::make('abono_fecha_2')->title('abono_fecha_2'),
+            Column::make('abono_3')->title('abono_3'),
+            Column::make('abono_fecha_3')->title('abono_fecha_3'),
+            Column::make('abono_4')->title('abono_4'),
+            Column::make('abono_fecha_4')->title('abono_fecha_4'),
+            Column::make('abono_5')->title('abono_5'),
+            Column::make('abono_fecha_5')->title('abono_fecha_5'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
-            Column::computed('action')->title('Acción')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->width(60)
-                    ->addClass('text-center'),
+            
         ];
     }
 
