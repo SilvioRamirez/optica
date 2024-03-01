@@ -66,7 +66,7 @@ class RoleController extends Controller
         $role->syncPermissions($request->input('permission'));
     
         return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+                        ->with('success','Registro creado con éxito.');
     }
     /**
      * Display the specified resource.
@@ -121,8 +121,10 @@ class RoleController extends Controller
     
         $role->syncPermissions($request->input('permission'));
     
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+        /* return redirect()->route('roles.index')
+                        ->with('success','Role updated successfully'); */
+
+        return back()->withInput()->with('success','Registro actualizado con éxito.');
     }
 
     /**

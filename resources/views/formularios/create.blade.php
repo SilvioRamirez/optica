@@ -13,7 +13,7 @@
     <div class="card border-light mb-3 shadow">
 
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title"><i class="fa fa-eye-dropper"></i> Formulario</h5>
+            <h5 class="card-title"><i class="fa fa-pen-to-square"></i> Formulario</h5>
         </div>
         
         <div class="card-body tab-content">

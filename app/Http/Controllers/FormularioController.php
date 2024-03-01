@@ -23,6 +23,7 @@ class FormularioController extends Controller
         $this->middleware('permission:formulario-create', ['only' => ['create','store']]);
         $this->middleware('permission:formulario-edit',   ['only' => ['edit','update']]);
         $this->middleware('permission:formulario-delete', ['only' => ['delete','destroy']]);
+        $this->middleware('permission:formulario-estatus',['only' => ['estatusFormulario','cambiarEstatus']]);
     }
 
     /**
@@ -54,7 +55,7 @@ class FormularioController extends Controller
         $formulario = Formulario::create($data);
 
         return redirect()->route('formularios.index', $formulario->id)
-                            ->with('success','Registro creado exitosamente.');
+                            ->with('success','Registro creado exitosamente. Orden Nro. '.$formulario->numero_orden.'.');
 
     }
 
@@ -111,4 +112,32 @@ class FormularioController extends Controller
         return redirect()->route('formularios.index')
                             ->with('success','Registro eliminado exitosamente.');
     }
+
+    public function estatusFormulario(Formulario $formulario){
+        return $formulario = Formulario::where('id', $formulario->id)
+            ->get([
+                'id',
+                'numero_orden',
+                'paciente',
+                'estatus',
+                'total',
+                'saldo',
+                'direccion_operativo',
+                'observaciones_extras',
+                'edad',
+                'fecha',
+            ])
+            ->first()->toJson();
+    }
+
+    public function cambiarEstatus(Formulario $formulario, Request $request){
+
+        $formulario->update([
+            'estatus' => $request->params['estatus'], 
+        ]);
+
+        return $formulario->toJson();
+
+    }
+
 }

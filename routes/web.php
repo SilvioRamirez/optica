@@ -148,6 +148,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('pagos', PagoController::class);
 
     //Rutas de Formularios
+    Route::post('api/estatusFormulario/{formulario}',   [FormularioController::class, 'estatusFormulario']);
+    Route::post('api/cambiarEstatus/{formulario}',  [FormularioController::class, 'cambiarEstatus']);
+
     Route::get('/formularios/{formulario}/delete',    [FormularioController::class, 'delete'])->name('formularios.delete');
     Route::resource('formularios', FormularioController::class); 
 

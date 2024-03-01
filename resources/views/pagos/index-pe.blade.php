@@ -18,7 +18,7 @@
         <div class="card-header bg-primary text-white">
             Administración de Lentes por Entregar
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
                 
         
             {{ $dataTable->table() }}

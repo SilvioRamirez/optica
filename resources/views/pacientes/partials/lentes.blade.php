@@ -197,26 +197,6 @@
 
     <script>
 
-        var k = "";
-
-        function Geeks() {
-            var esfera = document.getElementsByName('esfera[]');
-
-            for (var i = 0; i < esfera.length; i++) {
-                var a = esfera[0];
-
-                alert(a.value);
-                alert(esfera[i].value);
-
-                k = k + "esfera[" + i + "].value= "
-                                    + a.value + " ";
-            }
-            /* var a = esfera[0];
-            alert(a.value); */
-            document.getElementById("par").innerHTML = k;
-
-        }
-
         function copy(side){
 
             var esfera      = document.getElementsByName('esfera[]');
@@ -243,8 +223,6 @@
                 acil.value = bcil.value
                 aeje.value = beje.value
             }
-            
-
         }
 
     </script>

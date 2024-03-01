@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('add')->nullable();
             $table->string('dp')->nullable();
             $table->string('alt')->nullable();
+            $table->string('especialista')->nullable();
             $table->string('total')->nullable();
             $table->string('saldo')->nullable();
             $table->string('abono_1')->nullable();

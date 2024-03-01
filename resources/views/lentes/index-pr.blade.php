@@ -18,7 +18,7 @@
         <div class="card-header bg-primary text-white">
             Administración de Lentes
         </div>
-        <div class="card-body">
+                <div class="card-body table-responsive">
                 
         
             {{ $dataTable->table() }}
@@ -310,7 +310,7 @@
 {{-- La funcion de los botones se crea dentro de estas script tag debido a que en las tipo module no funcionan --}}
 <script>
 
-const SITEURL = 'https://optirango.com';
+    const SITEURL = 'https://optirango.com';
 
     function openModal(id){
 

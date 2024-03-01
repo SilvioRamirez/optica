@@ -20,7 +20,7 @@
         <div class="card-header bg-primary text-white">
             Administración de Roles
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive">
             {{ $dataTable->table() }}
         </div>
     </div>
