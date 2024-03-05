@@ -27,15 +27,15 @@ class RefractantesDataTable extends DataTable
                     $buttons = '';
 
                     if(auth()->user()->can('refractante-list')){
-                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('formularios.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
+                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('refractantes.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
                     }
 
                     if(auth()->user()->can('refractante-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('formularios.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('refractantes.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
                     if(auth()->user()->can('refractante-delete')){
-                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('formularios.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
+                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('refractantes.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
@@ -73,7 +73,7 @@ class RefractantesDataTable extends DataTable
     {
         $buttons = [];
         
-        if(auth()->user()->can('refractantes-download')){
+        if(auth()->user()->can('refractante-download')){
             $buttons[] = Button::make('excel');
             $buttons[] = Button::make('csv');
             $buttons[] = Button::make('print');
@@ -101,11 +101,10 @@ class RefractantesDataTable extends DataTable
         $columns[] = Column::make('direccion')->title('Dirección/Operativo');
         $columns[] = Column::make('nombre_apellido')->title('Nombre Apellido');
         
-        if(auth()->user()->can('formulario-telefono')){
+        if(auth()->user()->can('refractante-telefono')){
             $columns[] = Column::make('telefono')->title('Teléfono');
         }
         
-        $columns[] = Column::make('paciente')->title('Paciente');
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
 

@@ -7,12 +7,12 @@
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-eye-dropper"></i> 
-            {{ __('Show')}} Formulario
+            {{ __('Show')}} Refractado
         </div>
         <div class="card-body">
 
-            {!! Form::model($formulario, ['method' => 'PATCH','route' => ['formularios.update', $formulario->id]]) !!}
-                @include('formularios.partials.form')
+            {!! Form::model($refractante, ['method' => 'PATCH','route' => ['refractantes.update', $refractante->id]]) !!}
+                @include('refractantes.partials.form')
             {!! Form::close() !!}
 
         </div>

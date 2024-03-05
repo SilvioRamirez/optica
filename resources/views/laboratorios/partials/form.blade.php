@@ -3,12 +3,19 @@
         <div class="form-group">
             {{ Form::textComp('documento_fiscal','Documento Fiscal') }}
             {{ Form::textComp('razon_social','Razón Social') }}
-            {{ Form::selectComp('tipo','Tipo', '', ['LABORATORIO DE MONTAJE' => 'LABORATORIO DE MONTAJE', 'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO']) }}
+            {{ Form::selectComp('tipo','Tipo', '', 
+                [
+                    'LABORATORIO DE MONTAJE'    => 'LABORATORIO DE MONTAJE',
+                    'LABORATORIO DE TALLADO'    => 'LABORATORIO DE TALLADO',
+                    'AGENCIA DE CRISTALES'      => 'AGENCIA DE CRISTALES',
+                    'LABORATORIO DE TINTAJE'    => 'LABORATORIO DE TINTAJE'
+                ]) 
+            }}
             <div class="row">
                 <div class="col-md-3">
                         {{-- <label for="" class="mb-1"><strong>Representante de la Organización</strong></label>
                         <input type="text" class="form-control mb-2" id="representante_organizacion" readonly placeholder="Seleccione representante de organización">
-                         --}}
+                        --}}
                         {{ Form::readonlyComp('representante_organizacion', 'Representante de la Organización')}}
                 </div>
                 <div class="col-md-1">

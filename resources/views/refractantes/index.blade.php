@@ -8,11 +8,11 @@
                 @include('fragment.success')
 
                 <div class="text-center">
-                    <h1><i class="fa fa-square-pen"></i> Refractados</h1>
+                    <h1><i class="fa fa-people-group"></i> Refractados</h1>
                 </div>
                 @can('refracante-create')
-                    <div class="d-grid gap-2 mt-2 mb-2">
-                        <a class="btn btn-success btn-sm" href="{{ route('refractante.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
+                    <div class="mt-2 mb-2">
+                        <a class="btn btn-success btn-sm" href="{{ route('refractantes.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
                     </div>
                 @endcan
             </div>
@@ -21,7 +21,7 @@
                 <div class="card-header bg-primary text-white">
                     Administración de Refractados
                 </div>
-                <div class="card-body table-responsive">
+                <div class="card-body table-responsive table-sm">
                     {{ $dataTable->table() }}
                 </div>
             </div>

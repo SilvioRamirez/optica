@@ -25,6 +25,7 @@ use App\Http\Controllers\MuestraController;
 use App\Http\Controllers\OperativoController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\RefractanteController;
 use App\Http\Controllers\TratamientoController;
 use App\Models\Formulario;
 use Spatie\Activitylog\Models\Activity;
@@ -152,7 +153,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/cambiarEstatus/{formulario}',  [FormularioController::class, 'cambiarEstatus']);
 
     Route::get('/formularios/{formulario}/delete',    [FormularioController::class, 'delete'])->name('formularios.delete');
-    Route::resource('formularios', FormularioController::class); 
+    Route::resource('formularios', FormularioController::class);
+
+    //Refractantes
+    Route::get('/refractantes/{refractante}/delete',    [RefractanteController::class, 'delete'])->name('refractantes.delete');
+    Route::resource('refractantes', RefractanteController::class); 
+
 
     //Rutas de Laboratorios
     Route::post('api/fetch-laboratorios',               [DropdownController::class, 'fetchLaboratorio']);

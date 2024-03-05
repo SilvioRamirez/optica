@@ -6,6 +6,7 @@ use App\DataTables\RefractantesDataTable;
 use App\Models\Refractante;
 use App\Http\Requests\StoreRefractanteRequest;
 use App\Http\Requests\UpdateRefractanteRequest;
+use App\Models\Operativo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -37,7 +38,9 @@ class RefractanteController extends Controller
      */
     public function create()
     {
-        return view('refractantes.create');
+        $operativos = Operativo::get(['id', 'nombre_operativo']);
+
+        return view('refractantes.create', compact('operativos'));
     }
 
     /**
@@ -50,7 +53,7 @@ class RefractanteController extends Controller
 
         $refractante = Refractante::create($data);
 
-        return redirect()->route('refractante.index', $refractante->id)
+        return redirect()->route('refractantes.index', $refractante->id)
                             ->with('success','Registro creado exitosamente.');
 
     }
@@ -58,9 +61,11 @@ class RefractanteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Refractante $formulario): View
+    public function show(Refractante $refractante): View
     {
-        return view('refractantes.show', compact('refractante'));
+        $operativos = Operativo::get(['id', 'nombre_operativo']);
+
+        return view('refractantes.show', compact('refractante', 'operativos'));
     }
 
     /**
@@ -68,7 +73,9 @@ class RefractanteController extends Controller
      */
     public function edit(Refractante $refractante): View
     {
-        return view('refractantes.edit',compact('refractante'));
+        $operativos = Operativo::get(['id', 'nombre_operativo']);
+
+        return view('refractantes.edit',compact('refractante', 'operativos'));
     }
 
     /**

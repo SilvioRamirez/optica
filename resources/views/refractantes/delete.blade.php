@@ -2,21 +2,21 @@
 
 @section('content')
 
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
+<a class="btn btn-primary btn-sm mb-2" href="{{ route('refractantes.index') }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
 
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
             <i class="fa fa-trash-alt"></i>
-                    {{ __('Delete') }} Formulario
+                    {{ __('Delete') }} Refractado
         </div>
         <div class="card-body">			
             @include('fragment.error')
             @include('fragment.success')
                     
-            {!! Form::open(['method' => 'DELETE','route' => ['formularios.destroy', $formulario->id],'style'=>'display:inline']) !!}
+            {!! Form::open(['method' => 'DELETE','route' => ['refractantes.destroy', $refractante->id],'style'=>'display:inline']) !!}
                     
-                <h2 class="text-center">¿Está segur@ de eliminar el Formulario: <strong>{{ $formulario->formulario }}</strong>?</h2>
+                <h2 class="text-center">¿Está segur@ de eliminar el Refractante: <strong>{{ $refractante->nombre_apellido }}</strong>?</h2>
                 <hr>
                     
                 <div class="flex-center position-ref full-height">
