@@ -13,6 +13,8 @@ class PermissionTableSeeder extends Seeder
      */
     public function run(): void
     {
+        Permission::truncate();
+
         $permissions = [
             'role-list',
             'role-create',
