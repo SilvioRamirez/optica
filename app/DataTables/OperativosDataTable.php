@@ -29,13 +29,31 @@ class OperativosDataTable extends DataTable
                                     </div>';
             })
             ->addColumn('estado', function($query){
-                return $query->estado->estado;
+                $estado = '';
+
+                if(!$query->estado){
+                    return $estado;
+                }
+                $estado = $query->estado->estado;
+
+                return $estado;
+
             })
             ->addColumn('municipio', function($query){
-                return $query->municipio->municipio;
+                $municipio = '';
+                if(!$query->municipio){
+                    return $municipio;
+                }
+                $municipio = $query->municipio->municipio;
+                return $municipio;
             })
             ->addColumn('parroquia', function($query){
-                return $query->parroquia->parroquia;
+                $parroquia = '';
+                if(!$query->parroquia){
+                    return $parroquia;
+                }
+                $parroquia = $query->parroquia->parroquia;
+                return $parroquia;
             })
             ->setRowId('id');
     }
