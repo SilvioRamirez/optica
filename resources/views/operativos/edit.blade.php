@@ -13,7 +13,7 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($operativo, ['method' => 'PATCH','route' => ['personas.update', $operativo->id]]) !!}
+            {!! Form::model($operativo, ['method' => 'PATCH','route' => ['operativos.update', $operativo->id]]) !!}
                 @include('operativos.partials.form')
             {!! Form::close() !!}
 

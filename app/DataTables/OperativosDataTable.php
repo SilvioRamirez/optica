@@ -55,6 +55,7 @@ class OperativosDataTable extends DataTable
                 $parroquia = $query->parroquia->parroquia;
                 return $parroquia;
             })
+            ->rawColumns(['action','estado', 'municipio', 'parroquia'])
             ->setRowId('id');
     }
 
@@ -99,20 +100,20 @@ class OperativosDataTable extends DataTable
         return [
             Column::make('id')->title('ID'),
             Column::computed('estado')->title('Estado')
-                    ->exportable(false)
-                    ->printable(false)
+                    ->exportable(true)
+                    ->printable(true)
                     ->searchable(true)
                     ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('municipio')->title('Municipio')
-                    ->exportable(false)
-                    ->printable(false)
+                    ->exportable(true)
+                    ->printable(true)
                     ->searchable(true)
                     ->orderable(true)
                     ->addClass('text-center'),
             Column::computed('parroquia')->title('Parroquia')
-                    ->exportable(false)
-                    ->printable(false)
+                    ->exportable(true)
+                    ->printable(true)
                     ->searchable(true)
                     ->orderable(true)
                     ->addClass('text-center'),
