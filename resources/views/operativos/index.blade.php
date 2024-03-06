@@ -8,7 +8,7 @@
         
             <div class="col-lg-12 margin-tb">
                 <div class="text-center">
-                    <h1><i class="fa fa-users"></i> Operativos</h1>
+                    <h1><i class="fa fa-map-location-dot"></i> Operativos</h1>
                 </div>
                 @can('product-create')
                     <div class="pull-right mt-2 mb-2">

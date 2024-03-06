@@ -14,4 +14,9 @@ class Parroquia extends Model
         return $this->hasMany(Direccion::class);
     }
 
+    public function operativo()
+    {
+        return $this->hasMany(Operativo::class);
+    }
+
 }

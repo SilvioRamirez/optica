@@ -27,6 +27,22 @@ class Operativo extends Model
         'status' => 'boolean',
     ];
 
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class);
+    }
+
+    /* Se coloca primero el id asociado q contiene Operativo y luego en que id se asocia en la tabla municipio */
+    public function municipio()
+    {
+        return $this->belongsTo(Municipio::class, 'municipio_id', 'id_municipio');
+    }
+
+    public function parroquia()
+    {
+        return $this->belongsTo(Parroquia::class);
+    }
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');

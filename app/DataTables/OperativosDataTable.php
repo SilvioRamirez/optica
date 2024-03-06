@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Municipio;
 use App\Models\Operativo;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -24,10 +25,17 @@ class OperativosDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                             return '<div class="btn-group" role="group" aria-label="Opciones">
-                                        <a class="btn btn-info btn-sm"      title="Ver Información"     href="'.route('personas.show',$query->id).'">   <i class="fa fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('personas.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
-                                        <a class="btn btn-danger btn-sm"    title="Eliminar"            href="'.route('personas.edit',$query->id).'">   <i class="fa fa-trash"></i></a>
+                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('operativos.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
                                     </div>';
+            })
+            ->addColumn('estado', function($query){
+                return $query->estado->estado;
+            })
+            ->addColumn('municipio', function($query){
+                return $query->municipio->municipio;
+            })
+            ->addColumn('parroquia', function($query){
+                return $query->parroquia->parroquia;
             })
             ->setRowId('id');
     }
@@ -37,7 +45,8 @@ class OperativosDataTable extends DataTable
      */
     public function query(Operativo $model): QueryBuilder
     {
-        return $model->newQuery();
+
+        return $model->newQuery()->with('estado')->with('municipio')->with('parroquia');
     }
 
     /**
@@ -71,9 +80,24 @@ class OperativosDataTable extends DataTable
     {
         return [
             Column::make('id')->title('ID'),
-            Column::make('estado_id')->title('Estado'),
-            Column::make('municipio_id')->title('Municipio'),
-            Column::make('parroquia_id')->title('Parroquia'),
+            Column::computed('estado')->title('Estado')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->addClass('text-center'),
+            Column::computed('municipio')->title('Municipio')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->addClass('text-center'),
+            Column::computed('parroquia')->title('Parroquia')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->searchable(true)
+                    ->orderable(true)
+                    ->addClass('text-center'),
             Column::make('sector')->title('Sector'),
             Column::make('direccion')->title('Direccion'),
             Column::make('lugar')->title('Lugar'),

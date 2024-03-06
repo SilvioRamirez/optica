@@ -69,7 +69,9 @@ class OperativoController extends Controller
      */
     public function edit(Operativo $operativo): View
     {
-        return view('operativos.edit',compact('operativo'));
+        $estados = Estado::get(['id_estado', 'estado']);
+
+        return view('operativos.edit',compact('operativo', 'estados'));
     }
 
     /**

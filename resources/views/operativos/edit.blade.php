@@ -9,12 +9,12 @@
     @include('fragment.error')
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-edit"></i> 
-            {{ __('Edit')}} Persona
+            {{ __('Edit')}} Operativo
         </div>
         <div class="card-body">
 
-            {!! Form::model($persona, ['method' => 'PATCH','route' => ['personas.update', $persona->id]]) !!}
-                @include('personas.partials.form')
+            {!! Form::model($operativo, ['method' => 'PATCH','route' => ['personas.update', $operativo->id]]) !!}
+                @include('operativos.partials.form')
             {!! Form::close() !!}
 
         </div>
