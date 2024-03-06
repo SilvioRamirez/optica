@@ -6,6 +6,7 @@ use App\DataTables\FormulariosDataTable;
 use App\Models\Formulario;
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
+use App\Models\Operativo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -39,7 +40,13 @@ class FormularioController extends Controller
      */
     public function create()
     {
-        return view('formularios.create');
+        $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+
+        return view('formularios.create',compact('operativos'));
+
+        /* $operativos = Operativo::get(['id', 'nombre_operativo']); */
+
+        /* return view('formularios.create', compact('operativos')); */
     }
 
     /**
@@ -72,7 +79,9 @@ class FormularioController extends Controller
      */
     public function edit(Formulario $formulario): View
     {
-        return view('formularios.edit',compact('formulario'));
+        $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        
+        return view('formularios.edit',compact('formulario', 'operativos'));
     }
 
     /**

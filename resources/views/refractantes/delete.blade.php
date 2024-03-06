@@ -16,7 +16,7 @@
                     
             {!! Form::open(['method' => 'DELETE','route' => ['refractantes.destroy', $refractante->id],'style'=>'display:inline']) !!}
                     
-                <h2 class="text-center">¿Está segur@ de eliminar el Refractante: <strong>{{ $refractante->nombre_apellido }}</strong>?</h2>
+                <h2 class="text-center">¿Está segur@ de eliminar el Refractado: <strong>{{ $refractante->nombre_apellido }}</strong>?</h2>
                 <hr>
                     
                 <div class="flex-center position-ref full-height">

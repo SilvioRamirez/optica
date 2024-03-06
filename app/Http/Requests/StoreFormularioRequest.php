@@ -22,7 +22,7 @@ class StoreFormularioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'numero_orden'    => 'sometimes|required|unique:formularios,numero_orden',
         ];
     }
 }

@@ -11,7 +11,7 @@
                     <h1><i class="fa fa-square-pen"></i> Formulario</h1>
                 </div>
                 @can('formulario-create')
-                    <div class="d-grid gap-2 mt-2 mb-2">
+                    <div class="mt-2 mb-2">
                         <a class="btn btn-success btn-sm" href="{{ route('formularios.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
                     </div>
                 @endcan

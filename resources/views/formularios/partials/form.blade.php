@@ -26,7 +26,16 @@
             <hr>
 
             {{ Form::textComp('paciente','Paciente', null, null, '') }}
-            {{ Form::textComp('direccion_operativo','Direccion / Operativo', null, null, '') }}
+            {{-- {{ Form::textComp('direccion_operativo','Direccion / Operativo', null, null, '') }} --}}
+
+            {{ Form::selectComp('direccion_operativo', 'Dirección / Operativo', '', $operativos) }}
+
+            {{-- {{ Form::label('Vehicle Type', 'Vehicle Type') }}
+            <select name="vehicle_type" class="form-control">
+                @foreach($operativos as $operativo) 
+                    <option value="{{ $operativo}}" {{ $operativo == $operativo->nombre_operativo ? 'selected' : ''}}>{{ $operativo}}</option>
+                @endforeach
+            </select> --}}
 
             @canany(['formulario-telefono','formulario-create','formulario-edit'])
                 {{ Form::textComp('telefono','Telefono', null, null, '') }}

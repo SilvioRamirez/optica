@@ -9,7 +9,7 @@
     @include('fragment.success')
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-edit"></i> 
-            {{ __('Edit')}} Refractante
+            {{ __('Edit')}} Refractado
         </div>
         <div class="card-body">
 

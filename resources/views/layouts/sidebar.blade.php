@@ -19,7 +19,7 @@
 									<a class="list-group-item list-group-item-action p-3" href="{{ route('formularios.index') }}"><i class="fa fa-pen-to-square"></i> Formulario</a>
 								@endcanany
 								@canany(['refractante-list', 'refractante-create'])
-									<a class="list-group-item list-group-item-action p-3" href="{{ route('refractantes.index') }}"><i class="fa fa-people-group"></i> Refractantes</a>
+									<a class="list-group-item list-group-item-action p-3" href="{{ route('refractantes.index') }}"><i class="fa fa-people-group"></i> Refractados</a>
 								@endcanany
 						</div>
 					</div>
