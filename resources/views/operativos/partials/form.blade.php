@@ -30,6 +30,7 @@
             {{ Form::areaComp('direccion','Dirección') }}
             {{ Form::textComp('lugar','Lugar') }}
             {{ Form::textComp('nombre_operativo','Nombre del Operativo') }}
+            {{ Form::dateComp('fecha', 'Fecha del Operativo') }}
 
         </div>
     </div>

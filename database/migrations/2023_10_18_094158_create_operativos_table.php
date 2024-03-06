@@ -16,9 +16,9 @@ return new class extends Migration
     {
         Schema::create('operativos', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Estado::class);
-            $table->foreignIdFor(Municipio::class);
-            $table->foreignIdFor(Parroquia::class);
+            $table->foreignIdFor(Estado::class)->nullable();
+            $table->foreignIdFor(Municipio::class)->nullable();
+            $table->foreignIdFor(Parroquia::class)->nullable();
             $table->text('sector')->nullable();
             $table->longText('direccion')->nullable();
             $table->text('lugar')->nullable();

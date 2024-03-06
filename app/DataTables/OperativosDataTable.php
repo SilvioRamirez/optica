@@ -121,6 +121,7 @@ class OperativosDataTable extends DataTable
             Column::make('direccion')->title('Direccion'),
             Column::make('lugar')->title('Lugar'),
             Column::make('nombre_operativo')->title('Nombre del Operativo'),
+            Column::make('fecha')->title('Fecha del Operativo'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')
