@@ -110,7 +110,7 @@
                     {{ Form::textComp('oi_eje','Oi Eje', null, null, '') }}
                 </div>
             </div> --}}
-
+            <hr>
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4">
                     {{ Form::textComp('add','Add', null, null, 'Ej. +000') }}
@@ -132,46 +132,76 @@
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             <hr>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('abono_1','Abono 1', null, null, '',) }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_1','Abono Fecha 1', null, null, '') }}
                 </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::selectComp('tipo_pago_1', 'Tipo Pago 1', '', $tipos) }}                    
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::textComp('ref_pago_1','Ref. Pago 1', null, null, '',) }}
+                </div>
             </div>
+
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('abono_2','Abono 2', null, null, '') }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_2','Abono Fecha 2', null, null, '') }}
                 </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::selectComp('tipo_pago_2', 'Tipo Pago 2', '', $tipos) }}                    
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::textComp('ref_pago_2','Ref. Pago 2', null, null, '',) }}
+                </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('abono_3','Abono 3', null, null, '') }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_3','Abono Fecha 3', null, null, '') }}
                 </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::selectComp('tipo_pago_3', 'Tipo Pago 3', '', $tipos) }}                    
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::textComp('ref_pago_3','Ref. Pago 3', null, null, '',) }}
+                </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('abono_4','Abono 4', null, null, '') }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_4','Abono Fecha 4', null, null, '') }}
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::selectComp('tipo_pago_4', 'Tipo Pago 4', '', $tipos) }}                    
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::textComp('ref_pago_4','Ref. Pago 4', null, null, '',) }}
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::textComp('abono_5','Abono 5', null, null, '') }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_5','Abono Fecha 5', null, null, '') }}
                 </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::selectComp('tipo_pago_5', 'Tipo Pago 5', '', $tipos) }}                    
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3">
+                    {{ Form::textComp('ref_pago_5','Ref. Pago 5', null, null, '',) }}
+                </div>
             </div>
-            
 
         </div>
     </div>

@@ -49,7 +49,12 @@ class PermissionTableSeeder extends Seeder
             'refractante-delete',
             'refractante-download',
             'refractante-telefono',
-            'refractante-estatus'
+            'refractante-estatus',
+            'tipo-list',
+            'tipo-create',
+            'tipo-edit',
+            'tipo-delete',
+            'tipo-download'
         ];
         
         foreach ($permissions as $permission) {

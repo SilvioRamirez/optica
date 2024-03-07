@@ -7,6 +7,7 @@ use App\Models\Formulario;
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
 use App\Models\Operativo;
+use App\Models\Tipo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -42,11 +43,11 @@ class FormularioController extends Controller
     {
         $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos'));
+        $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
-        /* $operativos = Operativo::get(['id', 'nombre_operativo']); */
+        return view('formularios.create',compact('operativos', 'tipos'));
 
-        /* return view('formularios.create', compact('operativos')); */
+
     }
 
     /**
@@ -80,8 +81,10 @@ class FormularioController extends Controller
     public function edit(Formulario $formulario): View
     {
         $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
-        
-        return view('formularios.edit',compact('formulario', 'operativos'));
+
+        $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
+
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos'));
     }
 
     /**

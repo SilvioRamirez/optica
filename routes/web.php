@@ -26,6 +26,7 @@ use App\Http\Controllers\OperativoController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
+use App\Http\Controllers\TipoController;
 use App\Http\Controllers\TratamientoController;
 use App\Models\Formulario;
 use Spatie\Activitylog\Models\Activity;
@@ -157,7 +158,11 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Refractantes
     Route::get('/refractantes/{refractante}/delete',    [RefractanteController::class, 'delete'])->name('refractantes.delete');
-    Route::resource('refractantes', RefractanteController::class); 
+    Route::resource('refractantes', RefractanteController::class);
+
+    //Tipos de Pago
+    Route::get('/tipos/{tipo}/delete',    [TipoController::class, 'delete'])->name('tipos.delete');
+    Route::resource('tipos', TipoController::class); 
 
 
     //Rutas de Laboratorios
