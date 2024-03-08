@@ -215,7 +215,18 @@
     </div>
 </div>
 @push('scripts')
+
     <script type="module">
+
+        /* Mayusculas */
+        const $inputsAndTextareas = document.querySelectorAll('input, textarea')
+        const handleKeyup = (event) => {
+            event.target.value = event.target.value.toUpperCase()
+        }
+        const addHandleKeyup = ($element) => {
+            $element.addEventListener('keyup', handleKeyup)
+        }
+        $inputsAndTextareas.forEach(addHandleKeyup)
 
         IMask(document.getElementById('numero_orden'),{
             mask: '000000'
@@ -307,6 +318,7 @@
     </script>
 
     <script>
+
         function copy(side){
 
             var oi_esf = document.getElementById('oi_esf');
@@ -362,15 +374,6 @@
             var total   = document.getElementById('total').value; 
             
             saldo.value = suma-parseFloat(total);
-            /* 
-            var abono_3 = document.getElementById('abono_3');
-            var abono_4 = document.getElementById('abono_4');
-            var abono_5 = document.getElementById('abono_5');
-             */
-
-
-
-            /* alert (saldo.value); */
 
         }
 
@@ -379,24 +382,29 @@
         var abono_3 = document.getElementById('abono_3');
         var abono_4 = document.getElementById('abono_4');
         var abono_5 = document.getElementById('abono_5');
+        var total   = document.getElementById('total');
 
-        abono_1.addEventListener("focusout", (event) => {
+        total.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_2.addEventListener("focusout", (event) => {
+        abono_1.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_3.addEventListener("focusout", (event) => {
+        abono_2.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_4.addEventListener("focusout", (event) => {
+        abono_3.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_5.addEventListener("focusout", (event) => {
+        abono_4.addEventListener("keyup", (event) => {
+            suma();
+        });
+
+        abono_5.addEventListener("keyup", (event) => {
             suma();
         });
 

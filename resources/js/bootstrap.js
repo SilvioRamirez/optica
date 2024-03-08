@@ -6,8 +6,6 @@ import 'bootstrap';
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-//se agrega aqui el jquery para que este disponible en todo momento en las plantillas de blade
-
 import axios from 'axios';
 import $ from 'jquery';
 

@@ -32,6 +32,16 @@
 
 @push('scripts')
     <script type="module">
+    
+        /* Mayusculas */
+        const $inputsAndTextareas = document.querySelectorAll('input, textarea')
+        const handleKeyup = (event) => {
+            event.target.value = event.target.value.toUpperCase()
+        }
+        const addHandleKeyup = ($element) => {
+            $element.addEventListener('keyup', handleKeyup)
+        }
+        $inputsAndTextareas.forEach(addHandleKeyup)
 
         IMask(document.getElementById('telefono'),{
             mask: '000000000000'
