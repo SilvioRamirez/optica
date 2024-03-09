@@ -19,10 +19,10 @@ class OperativoController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:paciente-list|paciente-create|paciente-edit|paciente-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:paciente-create', ['only' => ['create','store']]);
-        $this->middleware('permission:paciente-edit',   ['only' => ['edit','update']]);
-        $this->middleware('permission:paciente-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:operativo-list|operativo-create|operativo-edit|operativo-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:operativo-create', ['only' => ['create','store']]);
+        $this->middleware('permission:operativo-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:operativo-delete', ['only' => ['destroy']]);
     }
 
     /**

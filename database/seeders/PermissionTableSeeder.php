@@ -13,8 +13,6 @@ class PermissionTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::truncate();
-
         $permissions = [
             'role-list',
             'role-create',
@@ -54,7 +52,12 @@ class PermissionTableSeeder extends Seeder
             'tipo-create',
             'tipo-edit',
             'tipo-delete',
-            'tipo-download'
+            'tipo-download',
+            'operativo-list',
+            'operativo-create',
+            'operativo-edit',
+            'operativo-delete',
+            'operativo-download'
         ];
         
         foreach ($permissions as $permission) {

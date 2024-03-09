@@ -3,16 +3,9 @@
         <div class="form-group">
             <h5 class="">Datos del Refractante</h5>
             <hr>
-            <label for="direccion-dropdown mb-3"><strong>Operativo / Dirección</strong></label>
-            <select  id="direccion-dropdown" name="direccion" class="form-control mb-2">
-                    <option value="">-- Seleccionar --</option>
-                        @foreach ($operativos as $data)
-                            <option value="{{$data->nombre_operativo}}">
-                                {{$data->nombre_operativo}}
-                            </option>
-                        @endforeach
-                </select>
-            
+
+            {{ Form::selectComp('direccion', 'Dirección / Operativo', '', $operativos) }}
+
             {{ Form::textComp('nombre_apellido','Nombre y Apellido', null, null, '') }}
 
 

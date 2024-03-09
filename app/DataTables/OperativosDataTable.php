@@ -24,10 +24,16 @@ class OperativosDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                            return '<div class="btn-group" role="group" aria-label="Opciones">
-                                        <a class="btn btn-primary btn-sm"   title="Editar Información"  href="'.route('operativos.edit',$query->id).'">   <i class="fa fa-pen-to-square"></i></a>
-                                    </div>';
-            })
+
+                    $buttons = '';
+
+                    if(auth()->user()->can('operativo-edit')){
+                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                    }
+
+                    return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
+
+                })
             ->addColumn('estado', function($query){
                 $estado = '';
 
@@ -78,26 +84,40 @@ class OperativosDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(0, 'asc')
+                    ->orderBy(1, 'desc')
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
                     ])
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        //Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+                    ->buttons($this->getButtons());
+
     }
 
+    public function getButtons(): array
+    {
+        $buttons = [];
+        
+        if(auth()->user()->can('operativo-download')){
+            $buttons[] = Button::make('excel');
+            $buttons[] = Button::make('csv');
+            $buttons[] = Button::make('print');
+        }
+
+        $buttons[] = Button::make('reset');
+        $buttons[] = Button::make('reload');
+
+        return $buttons;
+    }
     /**
      * Get the dataTable columns definition.
      */
     public function getColumns(): array
     {
         return [
+            Column::computed('action')->title('Acción')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
             Column::make('id')->title('ID'),
             Column::computed('estado')->title('Estado')
                     ->exportable(true)
@@ -124,11 +144,7 @@ class OperativosDataTable extends DataTable
             Column::make('fecha')->title('Fecha del Operativo'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
-            Column::computed('action')->title('Acción')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->width(60)
-                    ->addClass('text-center'),
+            
         ];
     }
 

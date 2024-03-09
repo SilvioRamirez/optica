@@ -61,7 +61,6 @@ class FormulariosDataTable extends DataTable
      */
     public function html(): HtmlBuilder
     {
-
             return $this->builder()
                     ->setTableId('formularios-table')
                     ->columns($this->getColumns())
@@ -72,9 +71,6 @@ class FormulariosDataTable extends DataTable
                         'url' => url('storage/js/datatables/Spanish.json')
                     ])
                     ->buttons($this->getButtons());
-        
-
-        
     }
 
     public function getButtons(): array

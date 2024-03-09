@@ -41,7 +41,7 @@ class FormularioController extends Controller
      */
     public function create()
     {
-        $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
@@ -80,8 +80,8 @@ class FormularioController extends Controller
      */
     public function edit(Formulario $formulario): View
     {
-        $operativos = Operativo::pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
-
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         return view('formularios.edit',compact('formulario', 'operativos', 'tipos'));
