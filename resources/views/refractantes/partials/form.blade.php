@@ -9,7 +9,7 @@
             {{ Form::textComp('nombre_apellido','Nombre y Apellido', null, null, '') }}
 
 
-            @canany(['refractantes-telefono','refractantes-create','refractantes-edit'])
+            @canany(['refractante-telefono','refractante-create','refractante-edit'])
                 {{ Form::textComp('telefono','Telefono', null, null, '') }}
             @endcanany
             
