@@ -10,7 +10,7 @@
                 <div class="text-center">
                     <h1><i class="fa fa-people-group"></i> Refractados</h1>
                 </div>
-                @can('refracante-create')
+                @can('refractante-create')
                     <div class="mt-2 mb-2">
                         <a class="btn btn-success btn-sm" href="{{ route('refractantes.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
                     </div>
