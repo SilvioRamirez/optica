@@ -60,22 +60,11 @@
                                     <select  id="estatus-dropdown" name="estatus" class="form-control">
                                         <option value="" selected>-- Seleccionar --</option>
                                         <option value="REGISTRADO">REGISTRADO</option>
-                                        <option value="LABORATORIO DE MONTAJE">LABORATORIO DE MONTAJE</option>
-                                        <option value="LABORATORIO DE TALLADO">LABORATORIO DE TALLADO</option>
                                         <option value="POR ENTREGAR">POR ENTREGAR</option>
                                         <option value="ENTREGADO">ENTREGADO</option>
                                     </select>
                                     {{ Form::selectComp('laboratorio-dropdown', 'Laboratorio', '', $laboratorios) }}
                                 </div>
-
-
-                                {{-- <label for="estatus-dropdown"><strong>Laboratorio:</strong></label>
-                                <div class="form-group mb-2">
-                                    <select  id="laboratorio-dropdown" name="laboratorio" class="form-control">
-                                        <option value="" selected>-- Seleccionar --</option>
-
-                                    </select>
-                                </div> --}}
                             </div>
                         </div>
                     </div>

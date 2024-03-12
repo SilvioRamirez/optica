@@ -38,7 +38,7 @@ class StoreFormularioRequest extends FormRequest
     public function messages():array
     {
         return [
-            'numero_orden'          => 'El campo Numero de Ordes es obligatorio y único.',
+            'numero_orden'          => 'El campo Numero de Orde es obligatorio y único.',
             'fecha'                 => 'El campo Fecha es obligatorio.',
             'estatus'               => 'El campo Estatus es obligatorio.',
             'paciente'              => 'El campo Paciente es obligatorio.',

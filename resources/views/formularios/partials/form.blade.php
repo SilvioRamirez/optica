@@ -15,8 +15,6 @@
             {{ Form::selectComp('estatus','Estatus', '', [
                         '' => '-- Seleccione --',
                         'REGISTRADO' => 'REGISTRADO',
-                        'LABORATORIO DE MONTAJE'  => 'LABORATORIO DE MONTAJE',
-                        'LABORATORIO DE TALLADO' => 'LABORATORIO DE TALLADO',
                         'POR ENTREGAR' => 'POR ENTREGAR',
                         'ENTREGADO' => 'ENTREGADO' 
                         ])
@@ -228,18 +226,22 @@
         })
 
         IMask(document.getElementsByClassName('oi_esf')[0],{
-            mask: '{s}nnnnn',
+            type:'fixed',
+            mask: 'snnnnn',
+            stripMask: false,
             definitions: {
-                's': /[+,-]/,
-                'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+                's': /[+,-,P,L]/,
+                'n': /[P,L,'.',1,2,3,4,5,6,7,8,9,0]/,
             }
         })
 
         IMask(document.getElementsByClassName('od_esf')[0],{
-            mask: '{s}nnnnn',
+            type:'fixed',
+            mask: 'snnnnn',
+            stripMask: false,
             definitions: {
-                's': /[+,-]/,
-                'n': /['.',1,2,3,4,5,6,7,8,9,0]/,
+                's': /[+,-,P,L]/,
+                'n': /[P,L,'.',1,2,3,4,5,6,7,8,9,0]/,
             }
         })
 
@@ -326,6 +328,10 @@
         })
 
         IMask(document.getElementById('abono_5'),{
+            mask: Number,
+        })
+
+        IMask(document.getElementById('total'),{
             mask: Number,
         })
 
