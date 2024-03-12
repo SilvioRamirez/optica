@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UpdateFormularioRequest extends FormRequest
 {
@@ -22,7 +24,7 @@ class UpdateFormularioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_orden'          => 'sometimes|required|unique:formularios,numero_orden',
+            'numero_orden' => ['max:255', Rule::unique('formularios')->ignore($this->user()->id)],
             'fecha'                 => 'required',
             'estatus'               => 'required',
             'paciente'              => 'required',
@@ -38,7 +40,7 @@ class UpdateFormularioRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'numero_orden'          => 'El campo Numero de Orde es obligatorio y único.',
+            'numero_orden'          => 'El campo Numero de Orden es obligatorio y único.',
             'fecha'                 => 'El campo Fecha es obligatorio.',
             'estatus'               => 'El campo Estatus es obligatorio.',
             'paciente'              => 'El campo Paciente es obligatorio.',

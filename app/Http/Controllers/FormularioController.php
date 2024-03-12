@@ -106,6 +106,7 @@ class FormularioController extends Controller
      */
     public function update(UpdateFormularioRequest $request, Formulario $formulario): RedirectResponse
     {
+
         $data = $request->all();
 
         if(!$formulario->update($data)){
