@@ -24,7 +24,7 @@ class UpdateFormularioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_orden' => ['max:255', Rule::unique('formularios')->ignore($this->user()->id)],
+            /* 'numero_orden' =>       [Rule::unique('formularios')->ignore($request->id)], */
             'fecha'                 => 'required',
             'estatus'               => 'required',
             'paciente'              => 'required',
