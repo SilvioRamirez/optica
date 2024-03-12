@@ -46,6 +46,7 @@
                                     <h2 id="paciente">Paciente: </h2>
                                     <h2 id="numero_orden" >Numero de Orden: </h2>
                                     <h2 id="status">Estatus: </h2>
+                                    <h2 id="laboratorio">Laboratorio: </h2>
                                     <h2 id="total">Total: </h2>
                                     <h2 id="saldo">Saldo: </h2>
 
@@ -64,7 +65,17 @@
                                         <option value="POR ENTREGAR">POR ENTREGAR</option>
                                         <option value="ENTREGADO">ENTREGADO</option>
                                     </select>
+                                    {{ Form::selectComp('laboratorio-dropdown', 'Laboratorio', '', $laboratorios) }}
                                 </div>
+
+
+                                {{-- <label for="estatus-dropdown"><strong>Laboratorio:</strong></label>
+                                <div class="form-group mb-2">
+                                    <select  id="laboratorio-dropdown" name="laboratorio" class="form-control">
+                                        <option value="" selected>-- Seleccionar --</option>
+
+                                    </select>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -97,6 +108,7 @@
 
             var formulario_id   = document.getElementById("formulario_id").value;
             var estatus         = document.getElementById("estatus-dropdown").value;
+            var laboratorio     = document.getElementById("laboratorio-dropdown").value;
             
             console.log(estatus);
 
@@ -106,14 +118,16 @@
                 { params:
                         {
                             formulario_id: formulario_id,
-                            estatus: estatus
+                            estatus: estatus,
+                            laboratorio: laboratorio
                         }
                 }).then(response => {
 
                     bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
 
                     document.getElementById('estatus-dropdown').value="";
-
+                    document.getElementById('laboratorio-dropdown').value="";
+                    
                     var oTable = $('#formularios-table').dataTable();
                     oTable.fnDraw(false);
 
@@ -132,6 +146,29 @@
             });
         });
 
+        /*
+        * Dropdown de Parroquias
+        */
+        /* $('#municipio-dropdown').on('change', function () {
+            var id_municipio = this.value;
+            $("#laboratorio-dropdown").html('');
+            $.ajax({
+                url: "{{url('api/fetch-parroquias')}}",
+                type: "POST",
+                data: {
+                    id_municipio: id_municipio,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function (res) {
+                    $('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
+                    $.each(res.parroquias, function (key, value) {
+                        $("#parroquia-dropdown").append('<option value="' + value
+                            .id_parroquia + '">' + value.parroquia + '</option>');
+                    });
+                }
+            });
+        }); */
     });
 
 </script>
@@ -143,6 +180,7 @@
     function openModal(id){
         
         document.getElementById('estatus-dropdown').value="";
+        document.getElementById('laboratorio-dropdown').value="";
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
@@ -157,21 +195,25 @@
 
             document.getElementById("formulario_id").value = formulario_id
 
-            let numero_orden = response.data.numero_orden
-            let paciente = response.data.paciente
-            let estatus = response.data.estatus
-            let total = response.data.total
-            let saldo = response.data.saldo
-            let direccion_operativo = response.data.direccion_operativo
-            let observaciones_extras = response.data.observaciones_extras
-            let edad = response.data.edad
-            let fecha = response.data.fecha
+            let numero_orden            = response.data.numero_orden
+            let paciente                = response.data.paciente
+            let estatus                 = response.data.estatus
+            let total                   = response.data.total
+            let saldo                   = response.data.saldo
+            let direccion_operativo     = response.data.direccion_operativo
+            let observaciones_extras    = response.data.observaciones_extras
+            let edad                    = response.data.edad
+            let fecha                   = response.data.fecha
+            let laboratorio             = response.data.laboratorio
 
             document.getElementById("paciente").innerHTML = '<strong>Paciente:</strong> '+ paciente;
-            document.getElementById("numero_orden").innerHTML = '<strong>Numero de Orden:</strong> '+''+ response.data.numero_orden+'';
-            document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+''+ response.data.estatus+'';
-            document.getElementById("total").innerHTML = '<strong>Total:</strong> '+''+ response.data.total+'';
-            document.getElementById("saldo").innerHTML = '<strong>Saldo:</strong> '+''+ response.data.saldo+'';
+            document.getElementById("numero_orden").innerHTML = '<strong>Numero de Orden:</strong> '+''+ numero_orden+'';
+            document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+''+ estatus+'';
+            document.getElementById("laboratorio").innerHTML = '<strong>Laboratorio:</strong> '+''+ laboratorio+'';
+            document.getElementById('estatus-dropdown').value=estatus;
+            document.getElementById('laboratorio-dropdown').value=laboratorio;
+            document.getElementById("total").innerHTML = '<strong>Total:</strong> '+''+ total+'';
+            document.getElementById("saldo").innerHTML = '<strong>Saldo:</strong> '+''+ saldo+'';
 
         }).catch(error => {                  
             if(error.response){

@@ -21,24 +21,19 @@
                         'ENTREGADO' => 'ENTREGADO' 
                         ])
                     }}
+
+            {{ Form::selectComp('laboratorio', 'Laboratorio', '', $laboratorios) }}
+
             <br>
             <h5 class="">Datos del Paciente</h5>
             <hr>
 
             {{ Form::textComp('paciente','Paciente', null, null, '') }}
-            {{-- {{ Form::textComp('direccion_operativo','Direccion / Operativo', null, null, '') }} --}}
 
             {{ Form::selectComp('direccion_operativo', 'Dirección / Operativo', '', $operativos) }}
 
-            {{-- {{ Form::label('Vehicle Type', 'Vehicle Type') }}
-            <select name="vehicle_type" class="form-control">
-                @foreach($operativos as $operativo) 
-                    <option value="{{ $operativo}}" {{ $operativo == $operativo->nombre_operativo ? 'selected' : ''}}>{{ $operativo}}</option>
-                @endforeach
-            </select> --}}
-
             @canany(['formulario-telefono','formulario-create','formulario-edit'])
-                {{ Form::textComp('telefono','Telefono', null, null, '') }}
+                {{ Form::textComp('telefono','Telefono', null, null, '+584121234567') }}
             @endcanany
 
             {{ Form::textComp('cedula','Cedula', null, null, '') }}
@@ -297,7 +292,7 @@
         })
 
         IMask(document.getElementById('telefono'),{
-            mask: '000000000000'
+            mask: '+{00}0000000000'
         })
 
         IMask(document.getElementById('cedula'),{
@@ -314,6 +309,31 @@
             mask: '00'
         })
 
+        IMask(document.getElementById('abono_1'),{
+            mask: Number,
+        })
+
+        IMask(document.getElementById('abono_2'),{
+            mask: Number,
+        })
+
+        IMask(document.getElementById('abono_3'),{
+            mask: Number,
+        })
+
+        IMask(document.getElementById('abono_4'),{
+            mask: Number,
+        })
+
+        IMask(document.getElementById('abono_5'),{
+            mask: Number,
+        })
+
+        
+        
+        
+        
+        
 
     </script>
 

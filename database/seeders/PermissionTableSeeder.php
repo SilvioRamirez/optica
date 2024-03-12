@@ -57,7 +57,12 @@ class PermissionTableSeeder extends Seeder
             'operativo-create',
             'operativo-edit',
             'operativo-delete',
-            'operativo-download'
+            'operativo-download',
+            'laboratorio-list',
+            'laboratorio-create',
+            'laboratorio-edit',
+            'laboratorio-delete',
+            'laboratorio-download'
         ];
         
         foreach ($permissions as $permission) {

@@ -6,6 +6,7 @@ use App\DataTables\FormulariosDataTable;
 use App\Models\Formulario;
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
+use App\Models\Laboratorio;
 use App\Models\Operativo;
 use App\Models\Tipo;
 use Illuminate\Http\RedirectResponse;
@@ -33,7 +34,10 @@ class FormularioController extends Controller
      */
     public function index(FormulariosDataTable $dataTable)
     {
-        return $dataTable->render('formularios.index');
+
+        $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios'));
     }
 
     /**
@@ -45,7 +49,9 @@ class FormularioController extends Controller
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos', 'tipos'));
+        $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios'));
 
 
     }
@@ -72,7 +78,13 @@ class FormularioController extends Controller
      */
     public function show(Formulario $formulario): View
     {
-        return view('formularios.show', compact('formulario'));
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+
+        $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
+
+        $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos'));
     }
 
     /**
@@ -84,7 +96,9 @@ class FormularioController extends Controller
         
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos'));
+        $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios'));
     }
 
     /**
@@ -132,6 +146,7 @@ class FormularioController extends Controller
                 'numero_orden',
                 'paciente',
                 'estatus',
+                'laboratorio',
                 'total',
                 'saldo',
                 'direccion_operativo',
@@ -145,11 +160,24 @@ class FormularioController extends Controller
     public function cambiarEstatus(Formulario $formulario, Request $request){
 
         $formulario->update([
-            'estatus' => $request->params['estatus'], 
+            'estatus'       => $request->params['estatus'],
+            'laboratorio'   => $request->params['laboratorio']
         ]);
 
         return $formulario->toJson();
 
+    }
+
+    /**
+    * Write code on Method
+    *
+    * @return response()
+    */
+    public function fetchLaboratorio(Request $request)
+    {
+        //Se utiliza params por los parametros de la peticion axios
+        $data['laboratorios'] = Laboratorio::get(["razon_social", "razon_social"]);
+        return response()->json($data);
     }
 
 }

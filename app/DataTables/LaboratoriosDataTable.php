@@ -23,12 +23,24 @@ class LaboratoriosDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-info btn-sm"      title="Ver"       href="'.route('laboratorios.show', $query->id).'"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-warning btn-sm"   title="Editar"    href="'.route('laboratorios.edit', $query->id).'"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-danger btn-sm"    title="Eliminar"  href="'.route('laboratorios.delete', $query->id).'"><i class="fa fa-trash"></i></a>
-                        </div>';
-            })
+
+                    $buttons = '';
+
+                    if(auth()->user()->can('laboratorio-list')){
+                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('laboratorios.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
+                    }
+
+                    if(auth()->user()->can('laboratorio-edit')){
+                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('laboratorios.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                    }
+
+                    if(auth()->user()->can('laboratorio-delete')){
+                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('laboratorios.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
+                    }
+
+                    return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
+
+                })
             ->rawColumns(['action'])
             ->setRowId('id');
     }
@@ -51,28 +63,41 @@ class LaboratoriosDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(0, 'asc')
+                    ->orderBy(1, 'desc')
                     ->lengthMenu([10, 25, 50, 100, 500])
                     ->pageLength(25)
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
                     ])
-                    ->buttons([
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        //Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ]);
+                    ->buttons($this->getButtons());
     }
 
+    public function getButtons(): array
+    {
+        $buttons = [];
+        
+        if(auth()->user()->can('laboratorio-download')){
+            $buttons[] = Button::make('excel');
+            $buttons[] = Button::make('csv');
+            $buttons[] = Button::make('print');
+        }
+
+        $buttons[] = Button::make('reset');
+        $buttons[] = Button::make('reload');
+
+        return $buttons;
+    }
     /**
      * Get the dataTable columns definition.
      */
     public function getColumns(): array
     {
         return [
+            Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
             Column::make('id'),
             Column::make('documento_fiscal')->title('Doc. Fiscal'),
             Column::make('razon_social')->title('R. Social'),
@@ -84,11 +109,7 @@ class LaboratoriosDataTable extends DataTable
             Column::make('correo')->title('Correo'),
             Column::make('created_at'),
             Column::make('updated_at'),
-            Column::computed('action')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->width(60)
-                    ->addClass('text-center'),
+            
         ];
     }
 

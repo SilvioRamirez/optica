@@ -94,7 +94,7 @@
 					</div>
 				@endcan
 
-				@canany(['paciente-list', 'operativo-list', 'role-list', 'user-list', 'configuracion-list', 'tipo-list', 'operativo-create'])
+				@canany(['paciente-list', 'operativo-list', 'role-list', 'user-list', 'configuracion-list', 'tipo-list', 'operativo-create', 'laboratorio-list', 'laboratorio-create'])
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingOne">
 							<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -114,9 +114,9 @@
 							@canany(['operativo-list', 'operativo-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
 							@endcanany
-							@can('product-list')
+							@canany(['laboratorio-list', 'laboratorio-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
-							@endcan
+							@endcanany
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
 							@endcan

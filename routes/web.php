@@ -28,7 +28,6 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
 use App\Http\Controllers\TipoController;
 use App\Http\Controllers\TratamientoController;
-use App\Models\Formulario;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -78,6 +77,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('dropdown', [DropdownController::class, 'index']);
 Route::post('api/fetch-municipios', [DropdownController::class, 'fetchMunicipio']);
 Route::post('api/fetch-parroquias', [DropdownController::class, 'fetchParroquia']);
+Route::post('api/fetch-laboratorios', [FormularioController::class, 'fetchLaboratorio']);
 
 
 Route::group(['middleware' => ['auth']], function() {

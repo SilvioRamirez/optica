@@ -103,6 +103,7 @@ class FormulariosDataTable extends DataTable
                     ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
         $columns[] = Column::make('numero_orden')->title('Numero de Orden');
+        $columns[] = Column::make('laboratorio')->title('Laboratorio');
         $columns[] = Column::make('direccion_operativo')->title('Direccion / Operativo');
         $columns[] = Column::make('estatus')->title('Estatus');
         $columns[] = Column::make('paciente')->title('Paciente');
