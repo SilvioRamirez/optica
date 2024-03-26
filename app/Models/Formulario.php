@@ -25,11 +25,25 @@ class Formulario extends Model
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
+        /* return \Carbon\Carbon::parse($this->attributes['created_at'])->diffForHumans(now()); */
+
+        /* return \Carbon\Carbon::parse($this->attributes['created_at'])->diffInDays(now(), 2); */
+
     }
 
     public function getUpdatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
+
+    /* public function getFechaAttribute()
+    {
+        return \Carbon\Carbon::parse($this->attributes['fecha'])->diffInDays(now(), 2);
+    } */
+
+    /* public function Days()
+    {
+        return \Carbon\Carbon::parse($this->attributes['fecha'])->diffInDays(now(), 2);
+    } */
     
 }

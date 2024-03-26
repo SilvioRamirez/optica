@@ -172,7 +172,7 @@ class FormularioController extends Controller
     /**
     * Write code on Method
     *
-    * @return response()
+    * @return Laboratorio
     */
     public function fetchLaboratorio(Request $request)
     {

@@ -45,6 +45,10 @@ class FormulariosDataTable extends DataTable
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
 
                 })
+                ->addColumn('pasados', function($query){
+                    return \Carbon\Carbon::parse($query->fecha)->diffInDays(now(), 2);
+                })
+                ->rawColumns(['action', 'pasados'])
                 ->setRowId('id');
     }
 
@@ -159,6 +163,12 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('edad')->title('Edad');
         $columns[] = Column::make('fecha')->title('Fecha');
+        $columns[] = Column::computed('pasados')->title('Días Pasados')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
 
