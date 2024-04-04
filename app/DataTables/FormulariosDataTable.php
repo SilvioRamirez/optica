@@ -31,7 +31,7 @@ class FormulariosDataTable extends DataTable
                     }
 
                     if(auth()->user()->can('formulario-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('formularios.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                        $buttons .= '<a class="btn btn-warning btn-sm" title="Editar Información" href="'.route('formularios.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
                     if(auth()->user()->can('formulario-delete')){
@@ -39,7 +39,11 @@ class FormulariosDataTable extends DataTable
                     }
 
                     if(auth()->user()->can('formulario-estatus')){
-                        $buttons .= '<button type="button" class="btn btn-success btn-sm" title="Cambiar Estatus" data-argid="'.$query->id.'" onclick="openModal(\''.$query->id.'\')"><i class="fa fa-clipboard-check"></i></button>';
+                        $buttons .= '<a class="btn btn-success btn-sm" title="Envíar WhatsApp" href="https://api.whatsapp.com/send?phone='.$query->telefono.'&text=Hola Mi Loco" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-whatsapp"></i></a>';
+                    }
+
+                    if(auth()->user()->can('formulario-estatus')){
+                        $buttons .= '<button type="button" class="btn btn-primary btn-sm" title="Cambiar Estatus" data-argid="'.$query->id.'" onclick="openModal(\''.$query->id.'\')"><i class="fa fa-clipboard-check"></i></button>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
@@ -48,6 +52,8 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('pasados', function($query){
                     return \Carbon\Carbon::parse($query->fecha)->diffInDays(now(), 2);
                 })
+                
+                
                 ->rawColumns(['action', 'pasados'])
                 ->setRowId('id');
     }
@@ -107,19 +113,26 @@ class FormulariosDataTable extends DataTable
                     ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
         $columns[] = Column::make('numero_orden')->title('Numero de Orden');
-        $columns[] = Column::make('direccion_operativo')->title('Direccion / Operativo');
-        $columns[] = Column::make('estatus')->title('Estatus');
-        $columns[] = Column::make('laboratorio')->title('Laboratorio');
         $columns[] = Column::make('paciente')->title('Paciente');
-
         if(auth()->user()->can('formulario-telefono')){
             $columns[] = Column::make('telefono')->title('Telefono');
         }
-
+        $columns[] = Column::make('estatus')->title('Estatus');
         $columns[] = Column::make('tipo')->title('Tipo');
         $columns[] = Column::make('observaciones_extras')->title('Observaciones Extras');
         $columns[] = Column::make('total')->title('Total');
         $columns[] = Column::make('saldo')->title('Saldo');
+        $columns[] = Column::computed('pasados')->title('Días Pasados')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
+        $columns[] = Column::make('fecha')->title('Fecha');
+        $columns[] = Column::make('direccion_operativo')->title('Direccion / Operativo');
+        $columns[] = Column::make('laboratorio')->title('Laboratorio');
+
+
         $columns[] = Column::make('od_esf')->title('OD Esf');
         $columns[] = Column::make('od_cil')->title('OD Cil');
         $columns[] = Column::make('od_eje')->title('OD Eje');
@@ -162,13 +175,6 @@ class FormulariosDataTable extends DataTable
         
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('edad')->title('Edad');
-        $columns[] = Column::make('fecha')->title('Fecha');
-        $columns[] = Column::computed('pasados')->title('Días Pasados')
-                    ->orderable(true)
-                    ->exportable(true)
-                    ->printable(true)
-                    ->width(60)
-                    ->addClass('text-center');
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
 
