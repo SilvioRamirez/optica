@@ -39,7 +39,7 @@ class FormulariosDataTable extends DataTable
                     }
 
                     if(auth()->user()->can('formulario-estatus')){
-                        $buttons .= '<a class="btn btn-success btn-sm" title="Envíar WhatsApp" href="https://api.whatsapp.com/send?phone='.$query->telefono.'&text=Hola Mi Loco" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-whatsapp"></i></a>';
+                        $buttons .= '<a class="btn btn-success btn-sm" title="Envíar WhatsApp" href="https://api.whatsapp.com/send?phone='.$query->telefono.'&text=¡Hola!" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-whatsapp"></i></a>';
                     }
 
                     if(auth()->user()->can('formulario-estatus')){
