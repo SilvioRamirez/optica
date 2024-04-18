@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations. TIPOS DE PAGO
+     * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('tipos', function (Blueprint $table) {
+        Schema::create('tipo_lentes', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo');
+            $table->string('tipo_lente');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tipos');
+        Schema::dropIfExists('tipo_lentes');
     }
 };

@@ -52,9 +52,11 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('pasados', function($query){
                     return \Carbon\Carbon::parse($query->fecha)->diffInDays(now(), 2);
                 })
-                
-                
-                ->rawColumns(['action', 'pasados'])
+                ->addColumn('tipo', function($query){
+                    return $query->tipoLente->tipo_lente;
+                    
+                })
+                ->rawColumns(['action', 'pasados', 'tipo'])
                 ->setRowId('id');
     }
 
@@ -63,7 +65,7 @@ class FormulariosDataTable extends DataTable
      */
     public function query(Formulario $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('tipoLente');
     }
 
     /**
@@ -119,6 +121,12 @@ class FormulariosDataTable extends DataTable
         }
         $columns[] = Column::make('estatus')->title('Estatus');
         $columns[] = Column::make('tipo')->title('Tipo');
+        $columns[] = Column::computed('tipo')->title('Tipo de Lente')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::make('observaciones_extras')->title('Observaciones Extras');
         $columns[] = Column::make('total')->title('Total');
         $columns[] = Column::make('saldo')->title('Saldo');
@@ -186,6 +194,6 @@ class FormulariosDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Formularios ' . date('Y.m.d H.i.s');
+        return 'Formularios.' . date('Y.m.d.h.i.s.A');
     }
 }

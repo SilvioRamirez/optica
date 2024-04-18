@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\EstatusController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\LaboratorioController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\TipoLenteController;
 use App\Http\Controllers\TratamientoController;
 use Spatie\Activitylog\Models\Activity;
 
@@ -95,8 +97,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users',            UserController::class);
 
     //Rutas de Productos
-    Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
-    Route::resource('products',                 ProductController::class);
+    /* Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
+    Route::resource('products',                  ProductController::class); */
 
     //Rutas de Pacientes y Resultados
     Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
@@ -186,22 +188,30 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/tratamientos/{tratamiento}/delete',    [TratamientoController::class, 'delete'])->name('tratamientos.delete');
     Route::resource('tratamientos',  TratamientoController::class);
 
+    //Rutas de Estatus
+    Route::get('/estatus/{estatus}/delete',    [EstatusController::class, 'delete'])->name('estatus.delete');
+    Route::resource('estatus',  EstatusController::class);
+
+    //Rutas de Tipo de Lentes
+    Route::get('/tipoLentes/{tipoLente}/delete',    [TipoLenteController::class, 'delete'])->name('tipoLentes.delete');
+    Route::resource('tipoLentes',  TipoLenteController::class);
+
     //Rutas de Bioanalistas
-    Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
-    Route::resource('bioanalistas',                     BioanalistaController::class);
+    /* Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
+    Route::resource('bioanalistas',                     BioanalistaController::class); */
 
     //Rutas de Muestras
-    Route::get('/muestras/{muestra}/delete',    [MuestraController::class, 'delete'])->name('muestras.delete');
-    Route::resource('muestras',                 MuestraController::class);
+    /* Route::get('/muestras/{muestra}/delete',    [MuestraController::class, 'delete'])->name('muestras.delete');
+    Route::resource('muestras',                 MuestraController::class); */
 
     //Rutas de Examenes y sus Caracteristicas
-    Route::get('/examenes/{examen}/delete',                 [ExamenController::class, 'delete'])->name('examenes.delete');
+    /* Route::get('/examenes/{examen}/delete',                 [ExamenController::class, 'delete'])->name('examenes.delete');
     Route::get('/examenes/{examen}/caracteristicas',        [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
     Route::post('/examenes/caracteristicas/store',          [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
     Route::get('/examenes/caracteristicas/destroy/{id}',    [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
     Route::get('/examenes/caracteristicas/edit/{id}',       [ExamenController::class, 'caracteristicas_edit'])->name('examenes.caracteristicas.edit');
     Route::patch('/examenes/caracteristicas/update/{id}',   [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
-    Route::resource('examenes',                             ExamenController::class);
+    Route::resource('examenes',                             ExamenController::class); */
 
     Route::get('/log', function () {
         return Activity::all();

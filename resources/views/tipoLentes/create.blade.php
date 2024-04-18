@@ -8,18 +8,17 @@
 <div class="col-lg-12 margin-tb">
 
     @include('fragment.error')
-    @include('fragment.success')
 
     <div class="card border-light mb-3 shadow">
 
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title"><i class="fa fa-pen-to-square"></i> Formulario</h5>
+            <h5 class="card-title"><i class="fa fa-glasses"></i> Tipo de Lente</h5>
         </div>
         
         <div class="card-body tab-content">
             <div class="tab-pane active" id="dhcp">
-                {!! Form::open(array('route' => 'formularios.store','method'=>'POST', 'id' => 'formularios.store')) !!}
-                    @include('formularios.partials.form')
+                {!! Form::open(array('route' => 'tipoLentes.store','method'=>'POST')) !!}
+                    @include('tipoLentes.partials.form')
                 {!! Form::close() !!}
             </div>
         </div>
@@ -29,18 +28,6 @@
 @push('scripts')
     <script type="module">
         
-
-    </script>
-
-    <script>
-    
-        var submitedForm = document.getElementById('formularios.store');
-        var submitedButton = document.getElementById('formularios.store.submitButton')
-
-        submitedForm.addEventListener("submit", (event) => {
-            submitedButton.disabled = true;
-            
-        });
 
     </script>
 @endpush

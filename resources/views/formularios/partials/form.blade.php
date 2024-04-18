@@ -12,13 +12,15 @@
                 </div>
             </div>
 
-            {{ Form::selectComp('estatus','Estatus', '', [
+            {{-- {{ Form::selectComp('estatus','Estatus', '', [
                         '' => '-- Seleccione --',
                         'REGISTRADO' => 'REGISTRADO',
                         'POR ENTREGAR' => 'POR ENTREGAR',
                         'ENTREGADO' => 'ENTREGADO' 
                         ])
-                    }}
+                    }} --}}
+
+            {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
 
             {{ Form::selectComp('laboratorio', 'Laboratorio', '', $laboratorios) }}
 
@@ -41,7 +43,10 @@
             <h5 class="">Datos del Lente</h5>
             <hr>
 
-            {{ Form::selectComp('tipo','Tipo', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }}
+            {{-- {{ Form::selectComp('tipo','Tipo', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }} --}}
+
+            {{ Form::selectComp('tipo', 'Tipo de Lente', '', $tipoLentes) }}
+
             {{ Form::textComp('observaciones_extras','Tratamiento y Observaciones Extras', null, null, '') }}
             <div class="col-md-12 row">
                 <div class="col-md-5 row">
@@ -203,7 +208,7 @@
     
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         @if((Route::current()->getName() == 'formularios.create') OR (Route::current()->getName() == 'formularios.edit'))
-            {{ Form::submitComp() }}
+            {{ Form::submitComp('formularios.store.submitButton') }}
         @endif
     </div>
 </div>

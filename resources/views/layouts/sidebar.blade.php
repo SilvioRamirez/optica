@@ -120,8 +120,14 @@
 							@can('product-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
 							@endcan
-							@can('user-list')
+							@can('tipo-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipos.index') }}"><i class="fa-solid fa-hand-holding-dollar"></i> Tipos de Pago</a>
+							@endcan
+							@can('estatus-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('estatus.index') }}"><i class="fa-solid fa-layer-group"></i> Estatus</a>
+							@endcan
+							@can('tipo-lente-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipoLentes.index') }}"><i class="fa-solid fa-glasses"></i> Tipos de Lentes</a>
 							@endcan
 							@can('configuracion-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cogs"></i> Configuraciones</a>

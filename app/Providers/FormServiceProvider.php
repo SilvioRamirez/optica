@@ -27,9 +27,9 @@ class FormServiceProvider extends ServiceProvider
         Form::component('areaComp',         'components.form.areaComp',     ['name', 'show', 'value']);
         Form::component('emailComp',        'components.form.emailComp',    ['name', 'show', 'value']);
         Form::component('checkboxComp',     'components.form.checkboxComp', ['name', 'show', 'value']);
-        Form::component('submitComp',       'components.form.submitComp',   []);
+        Form::component('submitComp',       'components.form.submitComp',   ['id']);
         Form::component('hiddenComp',       'components.form.hiddenComp',   ['name','value']);
-        Form::component('readonlyComp',    'components.form.readonlyComp',  ['name', 'show', 'value', 'attributes', 'placeholder']);
+        Form::component('readonlyComp',     'components.form.readonlyComp',  ['name', 'show', 'value', 'attributes', 'placeholder']);
         
         Form::component('textMask',         'components.form.textmask',     ['name', 'show', 'mask', 'value']);
         Form::component('textSearch',       'components.form.textsearch',   ['name', 'show', 'value']);

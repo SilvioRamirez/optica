@@ -55,14 +55,9 @@
 
                             <div class="row">
                                 <h5><strong>Actualizar Estatus</strong></h5>
-                                <label for="estatus-dropdown"><strong>Estatus:</strong></label>
+                                <label for="estatus"><strong>Estatus:</strong></label>
                                 <div class="form-group mb-2">
-                                    <select  id="estatus-dropdown" name="estatus" class="form-control">
-                                        <option value="" selected>-- Seleccionar --</option>
-                                        <option value="REGISTRADO">REGISTRADO</option>
-                                        <option value="POR ENTREGAR">POR ENTREGAR</option>
-                                        <option value="ENTREGADO">ENTREGADO</option>
-                                    </select>
+                                    {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
                                     {{ Form::selectComp('laboratorio-dropdown', 'Laboratorio', '', $laboratorios) }}
                                 </div>
                             </div>
@@ -96,7 +91,7 @@
             e.preventDefault();
 
             var formulario_id   = document.getElementById("formulario_id").value;
-            var estatus         = document.getElementById("estatus-dropdown").value;
+            var estatus         = document.getElementById("estatus").value;
             var laboratorio     = document.getElementById("laboratorio-dropdown").value;
             
             console.log(estatus);
@@ -114,7 +109,7 @@
 
                     bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
 
-                    document.getElementById('estatus-dropdown').value="";
+                    document.getElementById('estatus').value="";
                     document.getElementById('laboratorio-dropdown').value="";
                     
                     var oTable = $('#formularios-table').dataTable();
@@ -168,7 +163,7 @@
 
     function openModal(id){
         
-        document.getElementById('estatus-dropdown').value="";
+        document.getElementById('estatus').value="";
         document.getElementById('laboratorio-dropdown').value="";
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
@@ -199,7 +194,7 @@
             document.getElementById("numero_orden").innerHTML = '<strong>Numero de Orden:</strong> '+''+ numero_orden+'';
             document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+''+ estatus+'';
             document.getElementById("laboratorio").innerHTML = '<strong>Laboratorio:</strong> '+''+ laboratorio+'';
-            document.getElementById('estatus-dropdown').value=estatus;
+            document.getElementById('estatus').value=estatus;
             document.getElementById('laboratorio-dropdown').value=laboratorio;
             document.getElementById("total").innerHTML = '<strong>Total:</strong> '+''+ total+'';
             document.getElementById("saldo").innerHTML = '<strong>Saldo:</strong> '+''+ saldo+'';

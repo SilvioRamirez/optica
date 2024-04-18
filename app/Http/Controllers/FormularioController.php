@@ -6,9 +6,11 @@ use App\DataTables\FormulariosDataTable;
 use App\Models\Formulario;
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
+use App\Models\Estatus;
 use App\Models\Laboratorio;
 use App\Models\Operativo;
 use App\Models\Tipo;
+use App\Models\TipoLente;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -37,7 +39,9 @@ class FormularioController extends Controller
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
 
-        return $dataTable->render('formularios.index', compact('laboratorios'));
+        $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses'));
     }
 
     /**
@@ -45,14 +49,19 @@ class FormularioController extends Controller
      */
     public function create()
     {
+        /* Se llenan los Desplegables */
+
         $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios'));
+        $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes'));
 
     }
 
@@ -83,8 +92,12 @@ class FormularioController extends Controller
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+        
+        $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos'));
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes'));
     }
 
     /**
@@ -97,8 +110,12 @@ class FormularioController extends Controller
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
+        
+        $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios'));
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes'));
     }
 
     /**

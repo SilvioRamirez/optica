@@ -62,7 +62,17 @@ class PermissionTableSeeder extends Seeder
             'laboratorio-create',
             'laboratorio-edit',
             'laboratorio-delete',
-            'laboratorio-download'
+            'laboratorio-download',
+            'estatus-list',
+            'estatus-create',
+            'estatus-edit',
+            'estatus-delete',
+            'estatus-download',
+            'tipo-lente-list',
+            'tipo-lente-create',
+            'tipo-lente-edit',
+            'tipo-lente-delete',
+            'tipo-lente-download'
         ];
         
         foreach ($permissions as $permission) {

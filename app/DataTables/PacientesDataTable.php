@@ -26,7 +26,6 @@ class PacientesDataTable extends DataTable
                             return '<div class="btn-group" role="group" aria-label="Opciones">
                                         <a class="btn btn-info btn-sm"      title="Administración de Paciente"    href="'.route('pacientes.dashboard',$query->id).'">         <i class="fa fa-hospital-user"></i></a>
                                         <a class="btn btn-primary btn-sm"   title="Editar Información Basica"     href="'.route('pacientes.edit',$query->id).'">              <i class="fa fa-pen-to-square"></i></a>
-                                        <a class="btn btn-success btn-sm"   title="Agregar Examenes"    href="'.route('pacientes.resultados.index',$query->id).'">  <i class="fa fa-prescription-bottle-medical"></i></a>
                                         <a class="btn btn-danger btn-sm"    title="Eliminar Paciente"   href="'.route('pacientes.delete',$query->id).'">            <i class="fa fa-trash"></i></a>
                                     </div>';
             })

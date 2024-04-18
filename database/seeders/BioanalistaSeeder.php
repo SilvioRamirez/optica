@@ -31,7 +31,7 @@ class BioanalistaSeeder extends Seeder
     public function run(): void
     {
 
-        Paciente::truncate();
+/*         Paciente::truncate();
         $paciente = new Paciente();
         $paciente->cedula = 'V20428781';
         $paciente->nombres = 'SILVIO ARTURO';
@@ -160,7 +160,7 @@ class BioanalistaSeeder extends Seeder
         $formula->cilindro = '+1.00';
         $formula->eje = '0.5';
         $formula->save();
-        $lente->formulas()->attach([$formula->id]);
+        $lente->formulas()->attach([$formula->id]); */
 
         Configuracion::truncate();
         $configuracion = new Configuracion();
