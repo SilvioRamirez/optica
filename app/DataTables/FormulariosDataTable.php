@@ -54,18 +54,27 @@ class FormulariosDataTable extends DataTable
                 })
                 ->addColumn('tipo', function($query){
                     return $query->tipoLente->tipo_lente;
-                    
                 })
-                ->rawColumns(['action', 'pasados', 'tipo'])
+                ->addColumn('tipoTratamiento', function($query){
+                    $tipoTratamiento = '';
+                    if(!$query->tipoTratamiento){
+                        return $tipoTratamiento;
+                    }
+                    $tipoTratamiento = $query->tipoTratamiento->tipo_tratamiento;
+                    return $tipoTratamiento;
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento'])
                 ->setRowId('id');
     }
+
+
 
     /**
      * Get the query source of dataTable.
      */
     public function query(Formulario $model): QueryBuilder
     {
-        return $model->newQuery()->with('tipoLente');
+        return $model->newQuery()->with('tipoLente')->with('tipoTratamiento');
     }
 
     /**
@@ -77,6 +86,7 @@ class FormulariosDataTable extends DataTable
                     ->setTableId('formularios-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->lengthMenu([10, 25, 50, 100, 500, 1000])
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
                     ->orderBy(1, 'desc')
                     ->language([
@@ -120,8 +130,13 @@ class FormulariosDataTable extends DataTable
             $columns[] = Column::make('telefono')->title('Telefono');
         }
         $columns[] = Column::make('estatus')->title('Estatus');
-        $columns[] = Column::make('tipo')->title('Tipo');
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
+        $columns[] = Column::computed('tipoTratamiento')->title('Tipo de Tratamiento')
                     ->orderable(true)
                     ->exportable(true)
                     ->printable(true)

@@ -29,6 +29,7 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
 use App\Http\Controllers\TipoController;
 use App\Http\Controllers\TipoLenteController;
+use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TratamientoController;
 use Spatie\Activitylog\Models\Activity;
 
@@ -195,6 +196,10 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Tipo de Lentes
     Route::get('/tipoLentes/{tipoLente}/delete',    [TipoLenteController::class, 'delete'])->name('tipoLentes.delete');
     Route::resource('tipoLentes',  TipoLenteController::class);
+
+    //Rutas de Tipo de Tratamientos
+    Route::get('/tipoTratamientos/{tipoTratamiento}/delete',    [TipoTratamientoController::class, 'delete'])->name('tipoTratamientos.delete');
+    Route::resource('tipoTratamientos',  TipoTratamientoController::class);
 
     //Rutas de Bioanalistas
     /* Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');

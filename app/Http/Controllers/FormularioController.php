@@ -11,6 +11,7 @@ use App\Models\Laboratorio;
 use App\Models\Operativo;
 use App\Models\Tipo;
 use App\Models\TipoLente;
+use App\Models\TipoTratamiento;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -61,7 +62,9 @@ class FormularioController extends Controller
 
         $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes'));
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
 
     }
 
@@ -97,7 +100,9 @@ class FormularioController extends Controller
 
         $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes'));
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
     }
 
     /**
@@ -114,8 +119,10 @@ class FormularioController extends Controller
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
         $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
         
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes'));
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
     }
 
     /**

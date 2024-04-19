@@ -72,7 +72,12 @@ class PermissionTableSeeder extends Seeder
             'tipo-lente-create',
             'tipo-lente-edit',
             'tipo-lente-delete',
-            'tipo-lente-download'
+            'tipo-lente-download',
+            'tipo-tratamiento-list',
+            'tipo-tratamiento-create',
+            'tipo-tratamiento-edit',
+            'tipo-tratamiento-delete',
+            'tipo-tratamiento-download'
         ];
         
         foreach ($permissions as $permission) {

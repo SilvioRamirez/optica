@@ -47,7 +47,9 @@
 
             {{ Form::selectComp('tipo', 'Tipo de Lente', '', $tipoLentes) }}
 
-            {{ Form::textComp('observaciones_extras','Tratamiento y Observaciones Extras', null, null, '') }}
+            {{ Form::selectComp('tipo_tratamiento_id', 'Tipo de Tratamiento', '', $tipoTratamientos) }}
+
+            {{ Form::textComp('observaciones_extras','Observaciones Extras', null, null, '') }}
             <div class="col-md-12 row">
                 <div class="col-md-5 row">
                         <h5><strong>[R] OJO DERECHO</strong></h5>

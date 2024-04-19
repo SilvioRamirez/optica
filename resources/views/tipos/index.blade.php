@@ -8,7 +8,7 @@
                 @include('fragment.success')
 
                 <div class="text-center">
-                    <h1><i class="fa fa-people-group"></i> Tipos de Pago</h1>
+                    <h1><i class="fa fa-hand-holding-dollar"></i> Tipos de Pago</h1>
                 </div>
                 @can('refracante-create')
                     <div class="mt-2 mb-2">
