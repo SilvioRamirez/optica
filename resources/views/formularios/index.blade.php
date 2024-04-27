@@ -58,6 +58,7 @@
                                 <label for="estatus"><strong>Estatus:</strong></label>
                                 <div class="form-group mb-2">
                                     {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
+                                    {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
                                     {{ Form::selectComp('laboratorio-dropdown', 'Laboratorio', '', $laboratorios) }}
                                 </div>
                             </div>
@@ -92,6 +93,7 @@
 
             var formulario_id   = document.getElementById("formulario_id").value;
             var estatus         = document.getElementById("estatus").value;
+            var ruta_entrega_id = document.getElementById("ruta_entrega_id").value;
             var laboratorio     = document.getElementById("laboratorio-dropdown").value;
             
             console.log(estatus);
@@ -103,6 +105,7 @@
                         {
                             formulario_id: formulario_id,
                             estatus: estatus,
+                            ruta_entrega_id: ruta_entrega_id,
                             laboratorio: laboratorio
                         }
                 }).then(response => {
@@ -110,6 +113,7 @@
                     bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
 
                     document.getElementById('estatus').value="";
+                    document.getElementById('ruta_entrega_id').value="";
                     document.getElementById('laboratorio-dropdown').value="";
                     
                     var oTable = $('#formularios-table').dataTable();
@@ -164,6 +168,7 @@
     function openModal(id){
         
         document.getElementById('estatus').value="";
+        document.getElementById('ruta_entrega_id').value="";
         document.getElementById('laboratorio-dropdown').value="";
 
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
@@ -182,6 +187,7 @@
             let numero_orden            = response.data.numero_orden
             let paciente                = response.data.paciente
             let estatus                 = response.data.estatus
+            let ruta_entrega_id         = response.data.ruta_entrega_id
             let total                   = response.data.total
             let saldo                   = response.data.saldo
             let direccion_operativo     = response.data.direccion_operativo
@@ -195,6 +201,7 @@
             document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+''+ estatus+'';
             document.getElementById("laboratorio").innerHTML = '<strong>Laboratorio:</strong> '+''+ laboratorio+'';
             document.getElementById('estatus').value=estatus;
+            document.getElementById('ruta_entrega_id').value=ruta_entrega_id;
             document.getElementById('laboratorio-dropdown').value=laboratorio;
             document.getElementById("total").innerHTML = '<strong>Total:</strong> '+''+ total+'';
             document.getElementById("saldo").innerHTML = '<strong>Saldo:</strong> '+''+ saldo+'';

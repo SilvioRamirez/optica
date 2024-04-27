@@ -180,6 +180,7 @@ class FormularioController extends Controller
                 'numero_orden',
                 'paciente',
                 'estatus',
+                'ruta_entrega_id',
                 'laboratorio',
                 'total',
                 'saldo',
@@ -194,8 +195,9 @@ class FormularioController extends Controller
     public function cambiarEstatus(Formulario $formulario, Request $request){
 
         $formulario->update([
-            'estatus'       => $request->params['estatus'],
-            'laboratorio'   => $request->params['laboratorio']
+            'estatus'           => $request->params['estatus'],
+            'ruta_entrega_id'   => $request->params['ruta_entrega_id'],
+            'laboratorio'       => $request->params['laboratorio']
         ]);
 
         return $formulario->toJson();
