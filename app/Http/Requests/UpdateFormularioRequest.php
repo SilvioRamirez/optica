@@ -32,7 +32,7 @@ class UpdateFormularioRequest extends FormRequest
             'telefono'              => 'required',
             'edad'                  => 'required',
             'tipo'                  => 'required',
-            'observaciones_extras'  => 'required',
+            'observaciones_extras'  => '',
             'total'                 => 'required'
         ];
     }

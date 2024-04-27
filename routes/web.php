@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
+use App\Http\Controllers\FormularioPdfController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,6 +83,7 @@ Route::post('api/fetch-municipios', [DropdownController::class, 'fetchMunicipio'
 Route::post('api/fetch-parroquias', [DropdownController::class, 'fetchParroquia']);
 Route::post('api/fetch-laboratorios', [FormularioController::class, 'fetchLaboratorio']);
 
+Route::get('test', fn () => phpinfo());
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -156,8 +158,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/estatusFormulario/{formulario}',   [FormularioController::class, 'estatusFormulario']);
     Route::post('api/cambiarEstatus/{formulario}',  [FormularioController::class, 'cambiarEstatus']);
 
+    Route::get('/formularios/{formulario}/orden/pdf/',   [FormularioPdfController::class, 'orden_pdf'])->name('formulario.orden.pdf');
+    Route::get('/formularios/{formulario}/orden/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
+
     Route::get('/formularios/{formulario}/delete',    [FormularioController::class, 'delete'])->name('formularios.delete');
     Route::resource('formularios', FormularioController::class);
+
 
     //Refractantes
     Route::get('/refractantes/{refractante}/delete',    [RefractanteController::class, 'delete'])->name('refractantes.delete');
