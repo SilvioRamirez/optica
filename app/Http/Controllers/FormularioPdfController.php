@@ -26,8 +26,18 @@ class FormularioPdfController extends Controller
         return $pdf->stream();
     }
 
-    public function orden_qrcode($id){
-        
+    public function orden_qrcode($formId, $numeroOrden){
+
+        $orden = Formulario::findOrFail($formId);
+
+        if($orden->numero_orden == $numeroOrden){
+            $tipoLente = $orden->tipoLente;
+            $tipoTratamiento = $orden->tipoTratamiento;
+
+            return view('formularios.web', compact('orden', 'tipoLente', 'tipoTratamiento'));
+        }
+        return response([], 404);
+
     }
 
     /**

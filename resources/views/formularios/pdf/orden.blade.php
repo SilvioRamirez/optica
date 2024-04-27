@@ -285,7 +285,7 @@
     </div>
 
     <div id="img-qrcode">
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(60)->generate('https://OptiRango.Com')) !!} ">
+        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(60)->generate('https://optirango.com/formularios/'."$orden->id".'/'."$orden->numero_orden".'/qrcode')) !!} ">
     </div>
 
     <div id="info-header">

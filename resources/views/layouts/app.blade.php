@@ -39,8 +39,6 @@
                 {{-- @include('layouts.footer') --}}
             </div>
 
-            
-    
             @stack('scripts')
         </div>
     </div>

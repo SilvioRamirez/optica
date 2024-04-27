@@ -46,10 +46,6 @@ class FormulariosDataTable extends DataTable
                         $buttons .= '<a class="btn btn-secondary btn-sm" title="Generar PDF" href="'.route('formulario.orden.pdf',$query->id).'" target="_blank" rel="noopener noreferrer"> <i class="fa fa-file-pdf"></i></a>';
                     }
 
-                    if(auth()->user()->can('formulario-list')){
-                        $buttons .= '<a class="btn btn-dark btn-sm" title="Generar QrCode" href="'.route('formulario.orden.qrcode',$query->id).'" target="_blank" rel="noopener noreferrer"> <i class="fa fa-qrcode"></i></a>';
-                    }
-
                     if(auth()->user()->can('formulario-estatus')){
                         $buttons .= '<button type="button" class="btn btn-primary btn-sm" title="Cambiar Estatus" data-argid="'.$query->id.'" onclick="openModal(\''.$query->id.'\')"><i class="fa fa-clipboard-check"></i></button>';
                     }
