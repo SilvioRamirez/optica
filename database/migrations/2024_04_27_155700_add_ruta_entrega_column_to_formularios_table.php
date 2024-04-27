@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('formularios', function (Blueprint $table) {
-            //
+            $table->string('ruta_entrega_id')->nullable()->after('estatus');
         });
     }
 

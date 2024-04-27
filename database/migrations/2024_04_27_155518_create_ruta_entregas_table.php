@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('ruta_entregas', function (Blueprint $table) {
             $table->id();
+            $table->string('ruta_entrega');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

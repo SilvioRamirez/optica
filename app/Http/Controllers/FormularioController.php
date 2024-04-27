@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateFormularioRequest;
 use App\Models\Estatus;
 use App\Models\Laboratorio;
 use App\Models\Operativo;
+use App\Models\RutaEntrega;
 use App\Models\Tipo;
 use App\Models\TipoLente;
 use App\Models\TipoTratamiento;
@@ -42,7 +43,9 @@ class FormularioController extends Controller
 
         $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses'));
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas'));
     }
 
     /**
@@ -64,7 +67,9 @@ class FormularioController extends Controller
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+        
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
 
     }
 
@@ -102,7 +107,9 @@ class FormularioController extends Controller
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
     }
 
     /**
@@ -121,8 +128,10 @@ class FormularioController extends Controller
         $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
         
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos'));
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
     }
 
     /**

@@ -28,6 +28,7 @@ use App\Http\Controllers\OperativoController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
+use App\Http\Controllers\RutaEntregaController;
 use App\Http\Controllers\TipoController;
 use App\Http\Controllers\TipoLenteController;
 use App\Http\Controllers\TipoTratamientoController;
@@ -208,6 +209,9 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Tipo de Tratamientos
     Route::get('/tipoTratamientos/{tipoTratamiento}/delete',    [TipoTratamientoController::class, 'delete'])->name('tipoTratamientos.delete');
     Route::resource('tipoTratamientos',  TipoTratamientoController::class);
+
+    Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
+    Route::resource('rutaEntregas',  RutaEntregaController::class);
 
     //Rutas de Bioanalistas
     /* Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');

@@ -24,6 +24,8 @@
 
             {{ Form::selectComp('laboratorio', 'Laboratorio', '', $laboratorios) }}
 
+            {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
+            
             <br>
             <h5 class="">Datos del Paciente</h5>
             <hr>

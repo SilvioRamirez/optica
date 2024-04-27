@@ -132,6 +132,9 @@
 							@can('tipo-tratamiento-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipoTratamientos.index') }}"><i class="fa-solid fa-flask-vial"></i> Tipos de Tratamientos</a>
 							@endcan
+							@can('ruta-entrega-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('rutaEntregas.index') }}"><i class="fa-solid fa-truck"></i> Rutas de Entrega</a>
+							@endcan
 							@can('configuracion-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cogs"></i> Configuraciones</a>
 							@endcan

@@ -55,4 +55,9 @@ class Formulario extends Model
     {
         return $this->belongsTo(TipoTratamiento::class, 'tipo_tratamiento_id');
     }
+
+    public function rutaEntrega()
+    {
+        return $this->belongsTo(RutaEntrega::class, 'ruta_entrega_id');
+    }
 }
