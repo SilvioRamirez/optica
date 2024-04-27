@@ -67,7 +67,15 @@ class FormulariosDataTable extends DataTable
                     $tipoTratamiento = $query->tipoTratamiento->tipo_tratamiento;
                     return $tipoTratamiento;
                 })
-                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento'])
+                ->addColumn('rutaEntrega', function($query){
+                    $rutaEntrega = '';
+                    if(!$query->rutaEntrega){
+                        return $rutaEntrega;
+                    }
+                    $rutaEntrega = $query->rutaEntrega->ruta_entrega;
+                    return $rutaEntrega;
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega'])
                 ->setRowId('id');
     }
 
@@ -134,6 +142,12 @@ class FormulariosDataTable extends DataTable
             $columns[] = Column::make('telefono')->title('Telefono');
         }
         $columns[] = Column::make('estatus')->title('Estatus');
+        $columns[] = Column::computed('rutaEntrega')->title('Ruta de Entrega')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
                     ->orderable(true)
                     ->exportable(true)
