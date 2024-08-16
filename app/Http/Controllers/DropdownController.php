@@ -8,6 +8,7 @@ use App\Models\Estado;
 use App\Models\Laboratorio;
 use App\Models\Municipio;
 use App\Models\Parroquia;
+use App\Models\TipoTratamiento;
 
 class DropdownController extends Controller
 {
@@ -57,6 +58,19 @@ class DropdownController extends Controller
         //Se utiliza params por los parametros de la peticion axios
         $data['laboratorios'] = Laboratorio::where("tipo", $request->params['tipo'])
                                                     ->get(["razon_social", "id"]);
+        return response()->json($data);
+    }
+
+    /**
+    * Write code on Method
+    *
+    * @return response()
+    */
+    public function fetchTipoTratamientos(Request $request)
+    {
+        //Se utiliza params por los parametros de la peticion axios
+        $data['tipotratamientos'] = TipoTratamiento::where("tipo_lente_id", $request->tipo_lente_id)
+                                                    ->get(["tipo_tratamiento", "id"]);
         return response()->json($data);
     }
 

@@ -6,6 +6,7 @@ use App\DataTables\TipoTratamientosDataTable;
 use App\Models\TipoTratamiento;
 use App\Http\Requests\StoreTipoTratamientoRequest;
 use App\Http\Requests\UpdateTipoTratamientoRequest;
+use App\Models\TipoLente;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -37,7 +38,9 @@ class TipoTratamientoController extends Controller
      */
     public function create(): View
     {
-        return view('tipoTratamientos.create');
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+
+        return view('tipoTratamientos.create', compact('tipoLentes'));
     }
 
     /**
@@ -67,7 +70,9 @@ class TipoTratamientoController extends Controller
      */
     public function edit(TipoTratamiento $tipoTratamiento): View
     {
-        return view('tipoTratamientos.edit', compact('tipoTratamiento'));
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+
+        return view('tipoTratamientos.edit', compact('tipoTratamiento', 'tipoLentes'));
     }
 
     /**

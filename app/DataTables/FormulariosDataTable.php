@@ -75,7 +75,26 @@ class FormulariosDataTable extends DataTable
                     $rutaEntrega = $query->rutaEntrega->ruta_entrega;
                     return $rutaEntrega;
                 })
-                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega'])
+                ->addColumn('porcentaje_pago', function($query){
+                    $calc = '';
+
+                    $total_abonos = $query->abono_1 + $query->abono_2 + $query->abono_3 + $query->abono_4 + $query->abono_5;
+
+                    /* Verificamos primero que el $query-total no sea 0 */
+
+                    $calc = $query->total == 0 ? 0 : round(($total_abonos*100)/($query->total));
+                    
+                    return $calc . '%';
+                })
+                ->addColumn('especialista', function($query){
+                    $especialistaLente = '';
+                    if(!$query->especialistaLente){
+                        return $especialistaLente;
+                    }
+                    $especialistaLente = $query->especialistaLente->nombre;
+                    return $especialistaLente;
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'porcentaje_pago', 'especialista'])
                 ->setRowId('id');
     }
 
@@ -86,7 +105,7 @@ class FormulariosDataTable extends DataTable
      */
     public function query(Formulario $model): QueryBuilder
     {
-        return $model->newQuery()->with('tipoLente')->with('tipoTratamiento');
+        return $model->newQuery()->with('tipoLente')->with('tipoTratamiento')->with('especialistaLente');
     }
 
     /**
@@ -148,6 +167,7 @@ class FormulariosDataTable extends DataTable
                     ->printable(true)
                     ->width(60)
                     ->addClass('text-center');
+        $columns[] = Column::make('fecha_entrega')->title('Fecha de Entrega');
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
                     ->orderable(true)
                     ->exportable(true)
@@ -163,6 +183,12 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('observaciones_extras')->title('Observaciones Extras');
         $columns[] = Column::make('total')->title('Total');
         $columns[] = Column::make('saldo')->title('Saldo');
+        $columns[] = Column::computed('porcentaje_pago')->title('%')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::computed('pasados')->title('Días Pasados')
                     ->orderable(true)
                     ->exportable(true)
@@ -172,8 +198,6 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('fecha')->title('Fecha');
         $columns[] = Column::make('direccion_operativo')->title('Direccion / Operativo');
         $columns[] = Column::make('laboratorio')->title('Laboratorio');
-
-
         $columns[] = Column::make('od_esf')->title('OD Esf');
         $columns[] = Column::make('od_cil')->title('OD Cil');
         $columns[] = Column::make('od_eje')->title('OD Eje');
@@ -183,7 +207,12 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('add')->title('Add');
         $columns[] = Column::make('dp')->title('Dp');
         $columns[] = Column::make('alt')->title('Alt');
-        $columns[] = Column::make('especialista')->title('Especialista');
+        $columns[] = Column::computed('especialista')->title('Especialista')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::make('abono_1')->title('Abono 1');
         $columns[] = Column::make('abono_fecha_1')->title('Abono Fecha 1');
 

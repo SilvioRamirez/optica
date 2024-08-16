@@ -24,7 +24,14 @@
 
             {{ Form::selectComp('laboratorio', 'Laboratorio', '', $laboratorios) }}
 
-            {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    {{ Form::dateComp('fecha_entrega','Fecha de Entrega', null, null, '') }}
+                </div>
+            </div>
             
             <br>
             <h5 class="">Datos del Paciente</h5>
@@ -39,6 +46,7 @@
             @endcanany
 
             {{ Form::textComp('cedula','Cedula', null, null, '') }}
+
             {{ Form::textComp('edad','Edad', null, null, '') }}
 
             <br>
@@ -46,10 +54,38 @@
             <hr>
 
             {{-- {{ Form::selectComp('tipo','Tipo', '', ['' => '-- Seleccione --', 'MONOFOCAL' => 'MONOFOCAL', 'BIFOCAL' => 'BIFOCAL', 'MULTIFOCAL' => 'MULTIFOCAL']) }} --}}
+            
+            {{-- Se revisa si la variable formulario contiene o no contiene información al momento de llegar para saber q valor tendra el select --}}
+            @php
+                    if(!$formulario){
+                        $tipo = "";
+                        $tipo_tratamiendo_id = "";
+                    }
+                    if($formulario){
+                        $tipo = $formulario->tipo;
+                        $tipo_tratamiendo_id = $formulario->tipo_tratamiento_id;
+                    }                    
+            @endphp
 
-            {{ Form::selectComp('tipo', 'Tipo de Lente', '', $tipoLentes) }}
+            <label for="tipo-lente-dropdown mb-1"><strong>Tipo de Lente</strong></label>
+            <div class="form-group mb-2">
+                <select  id="tipo-lente-dropdown" name="tipo" class="form-control">
+                    <option value="">-- Seleccione --</option>
+                        @foreach ($tipoLentes as $data)
+                            {{-- Esta parte del codigo nos permite preseleccionar el valor q tiene guardado el usuario en el tipo de lente --}}
+                            <option value="{{ $data->id }}" {{ $data->id == $tipo ? 'selected' : '' }}>{{ $data->tipo_lente }}</option>
+                        @endforeach
+                </select>
+            </div>
+            
 
-            {{ Form::selectComp('tipo_tratamiento_id', 'Tipo de Tratamiento', '', $tipoTratamientos) }}
+            {{ Form::hiddenComp('tipo_tratamiento_hidden_id', $tipo_tratamiendo_id) }}
+            
+            <label for="tipo-tratamiento-dropdown" class="mb-1"><strong>Tipo de Tratamiento</strong></label>
+            <div class="form-group mb-2">
+                <select id="tipo-tratamiento-dropdown" name="tipo_tratamiento_id" class="form-control">
+                </select>
+            </div>
 
             {{ Form::textComp('observaciones_extras','Observaciones Extras', null, null, '') }}
             <div class="col-md-12 row">
@@ -125,13 +161,16 @@
                 </div>
             </div> 
 
-            {{ Form::textComp('especialista','Especialista', null, null, '') }}
+            {{-- {{ Form::textComp('especialista','Especialista', null, null, '') }} --}}
+
+            {{ Form::selectComp('especialista', 'Especialista', '', $especialistas) }}
 
             <br>
             <h5 class="">Datos del Pago y Abonos</h5>
             <hr>
             {{ Form::textComp('total','Total', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
+            {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
             <hr>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
@@ -344,15 +383,79 @@
             mask: Number,
         })
 
+        $(document).ready(function () {
+                
+            /*
+            * Dropdown de Municipios 
+            */
+
+            $('#tipo-lente-dropdown').on('change', function () {
+                var tipo = this.value;
+                $("#tipo-tratamiento-dropdown").html('');
+                $.ajax({
+                    url: "{{url('api/fetch-tipo-tratamientos')}}",
+                    type: "POST",
+                    data: {
+                        tipo_lente_id: tipo,
+                        _token: '{{csrf_token()}}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        $('#tipo-tratamiento-dropdown').html('<option value="">-- Selecciona Tipo de Tratamiento --</option>');
+                        $.each(result.tipotratamientos, function (key, value) {
+                            $("#tipo-tratamiento-dropdown").append('<option value="' + value
+                                .id + '">' + value.tipo_tratamiento + '</option>');
+                        });
+                        //$('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
+                    }
+                });
+            });
+
+            /* Funcion q rellena el edit del select */
+
+                var tipo_preselect = document.getElementById('tipo-lente-dropdown').value;
+
+                if(tipo_preselect === ""){
+                    console.log('strValue was empty string')
+
+                }else{
+                    console.log(tipo_preselect);
+                    $("#tipo-tratamiento-dropdown").html('');
+                    $.ajax({
+                        url: "{{url('api/fetch-tipo-tratamientos')}}",
+                        type: "POST",
+                        data: {
+                            tipo_lente_id: tipo_preselect,
+                            _token: '{{csrf_token()}}'
+                        },
+                        dataType: 'json',
+                        success: function (result) {
+                            $('#tipo-tratamiento-dropdown').html('<option value="">-- Selecciona Tipo de Tratamiento --</option>');
+                            $.each(result.tipotratamientos, function (key, value) {
+                                $("#tipo-tratamiento-dropdown").append('<option value="' + value
+                                    .id + '">' + value.tipo_tratamiento + '</option>');
+                            });
+
+                            var tipo_tratamiento_hidden_id = document.getElementById('tipo_tratamiento_hidden_id').value;
+
+                            document.getElementById('tipo-tratamiento-dropdown').value=tipo_tratamiento_hidden_id;
+                        }
+                    });
+                }
+                
+
+
+
         
-        
-        
+        });
         
         
 
     </script>
 
     <script>
+
+    /* Funcion que se utiliza para copiar los valores del ojo izquierdo y derecho */
 
         function copy(side){
 
@@ -387,6 +490,8 @@
             }
         }
 
+        /* Se realiza el calculo del Abono, Saldo y Total - Porcentaje */
+
         function suma(){
             var suma = 0;
 
@@ -405,10 +510,15 @@
 
             suma = parseFloat(abono_1)+parseFloat(abono_2)+parseFloat(abono_3)+parseFloat(abono_4)+parseFloat(abono_5);
 
-            var saldo   = document.getElementById('saldo');
-            var total   = document.getElementById('total').value; 
+            var total   = document.getElementById('total').value;
+            var calc    = Math.round((suma*100)/parseFloat(total));
+
+            var saldo       = document.getElementById('saldo');
+            var porcentaje  = document.getElementById('porcentaje_pago');
+            
             
             saldo.value = suma-parseFloat(total);
+            porcentaje.value = calc + '%'
 
         }
 

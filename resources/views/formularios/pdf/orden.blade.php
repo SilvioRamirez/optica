@@ -15,40 +15,58 @@
         }
 
         @page{
-            margin: 0cm 0.0cm 0.0cm 0.0cm;
+            margin-top: 0cm;
+            margin-bottom: 0cm;
+            margin-left: 0.5cm;
+            margin-right: 0.5cm;
+
         }
 
         #header{
             position: fixed;
             top: -0.0cm;
-            left: 0.0cm;
+            left: 1.0cm;
         }
 
         .border-bottom-solid{
-            border-bottom: 1px solid;
+            border-bottom: 3px solid;
             top: -0.0cm;
         }
 
-        .page-break-auto{
-            page-break-inside: auto
-        }
+        .line-block{
+            border-bottom: 3px solid;
+            margin-top: 0.1cm;
+            margin-bottom: 0.3cm;
 
-        .page-break-avoid{
-            page-break-inside: avoid
         }
 
         .imgHeader{
             float: inherit;
-            width: 1.4cm;
+            width: 3cm;
             margin-top: 0.0cm;
         }
+
+        #img-logo{
+            float: fixed;
+            margin-left: 0.87cm;
+            margin-top: 0.0cm;
+            /* border: 0.5px solid red; */
+        }
+
+        /* .center-img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        } */
+
 
         #info-header{
             float: inherit;
             width: 100%;
             /* height: 100%; */
-            margin-left: 0.5cm;
-            margin-top: 0.1cm;
+            margin-left: 0.0cm;
+            margin-top: 2.3cm;
             /* border: 0.5px solid red; */
         }
 
@@ -83,19 +101,18 @@
             width: 100%;
             margin-left: 0.0cm;
             margin-top: 0.05cm;
-            /* border: 0.5px solid red; */
         }
 
         #img-qrcode{
             float: fixed;
-            margin-left: 2.5cm;
-            margin-top: 5.3cm;
+            margin-left: 0.25cm;
+            margin-top: 16.0cm;
             /* border: 0.5px solid red; */
         }
         
 
         th, td {
-            border: 0.5px solid black;
+            border: 2.5px solid black;
         }
 
         table {
@@ -130,7 +147,7 @@
         }
 
         td {
-            height: 0.3cm;
+            height: 0.8cm;
             vertical-align: middle;
             text-align: center;
         }
@@ -173,6 +190,10 @@
             font-size: 5px;
             margin-top: -10px;
             margin-bottom: -10px;
+        }
+
+        .font-size-15{
+            font-size: 15px;
         }
 
         .font-size-10{
@@ -279,57 +300,57 @@
         }
     </style>
 </head>
-<body class="page-break-avoid">
-    <div id="header">
-        <img class="imgHeader" src="{{ public_path('storage/img/logo.png') }}">
+<body class="">
+    <div id="img-logo">
+        <img class="imgHeader" src="{{ public_path('storage/img/logo_negro.png') }}">
     </div>
-
+    
     <div id="img-qrcode">
-        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(60)->generate('https://optirango.com/formularios/'."$orden->id".'/'."$orden->numero_orden".'/qrcode')) !!} ">
+        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(250)->generate('https://optirango.com/formularios/'."$orden->id".'/'."$orden->numero_orden".'/qrcode')) !!} ">
     </div>
 
     <div id="info-header">
-        <div class="font-size-10 text-center"><strong>{{ 'OPTIRANGO, C.A.' }}</strong></div>
-        <div class="font-size-5 text-center "><strong>{{ 'VISIÓN SALUD Y FUTURO' }}</strong></div>
-        <div class="font-size-4 text-center "><strong>{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta' }}</strong></div>
-        <div class="font-size-4 text-center "><strong>{{ 'Piso 7 Of D Urb Catedral Caracas Distrito Capital' }}</strong></div>
-        <div class="font-size-4 text-center "><strong>{{ 'Telefono: 0412-642.67.97 /0424-640.67.97 IG: @opti_rango' }}</strong></div>
+        <div class="font-size-15 text-center"><strong>{{ 'OPTIRANGO, C.A.' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'VISIÓN SALUD Y FUTURO' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Piso 7 Of D Urb Catedral Caracas Distrito Capital' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Telefono: 0424-640.67.97 IG: @opti_rango' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'WEB: optirango.com' }}</strong></div>
     </div>
-    <hr class="">
+    <div class="line-block"></div>
     <div id="body-1" class="">
-        <p class="font-size-5">Número de Orden: <strong>{{ $orden->numero_orden }}</strong></p>
-        <p class="font-size-5">Fecha: <strong>{{ $orden->fecha }}</strong></p>
-        <p class="font-size-5">Paciente: <strong>{{ $orden->paciente }}</strong></p>
-        <p class="font-size-5">Dirección / Operativo: <strong>{{ $orden->direccion_operativo }}</strong></p>
-        <p class="font-size-5">Teléfono: <strong>{{ $orden->telefono }}</strong></p>
-        <p class="font-size-5">Cedula: <strong>{{ $orden->cedula }}</strong></p>
-        <p class="font-size-5">Edad: <strong>{{ $orden->edad }}</strong></p>
-        <p class="font-size-5">Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
+        <p class="font-size-15">Número de Orden: <strong>{{ $orden->numero_orden }}</strong></p>
+        <p class="font-size-15">Fecha: <strong>{{ $orden->fecha }}</strong></p>
+        <p class="font-size-15">Paciente: <strong>{{ $orden->paciente }}</strong></p>
+        <p class="font-size-15">Dirección / Operativo: <strong>{{ $orden->direccion_operativo }}</strong></p>
+        <p class="font-size-15">Teléfono: <strong>{{ $orden->telefono }}</strong></p>
+        <p class="font-size-15">Cedula: <strong>{{ $orden->cedula }}</strong></p>
+        <p class="font-size-15">Edad: <strong>{{ $orden->edad }}</strong></p>
+        <p class="font-size-15">Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
     </div>
 
     <div id="table-formula-1" style="width:100%" class="table">
         <table>
             <thead>
-                
             </thead>
             <tbody>
                 <tr>
-                    <td class="font-size-5"></td>
-                    <td class="font-size-5"><strong>Esf.</strong></td>
-                    <td class="font-size-5"><strong>Cil.</strong></td>
-                    <td class="font-size-5"><strong>Eje.</strong></td>
+                    <td class="font-size-15"></td>
+                    <td class="font-size-15"><strong>Esf.</strong></td>
+                    <td class="font-size-15"><strong>Cil.</strong></td>
+                    <td class="font-size-15"><strong>Eje.</strong></td>
                 </tr>
                 <tr>
-                    <td class="font-size-4"><strong>OD</strong></td>
-                    <td class="font-size-4">{{ $orden->od_esf }}</td>
-                    <td class="font-size-4">{{ $orden->od_cil }}</td>
-                    <td class="font-size-4">{{ $orden->od_eje }}</td>
+                    <td class="font-size-15"><strong>OD</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_esf }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_cil }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_eje }}</strong></td>
                 </tr>
                 <tr>
-                    <td class="font-size-4"><strong>OI</strong></td>
-                    <td class="font-size-4">{{ $orden->oi_esf }}</td>
-                    <td class="font-size-4">{{ $orden->oi_cil }}</td>
-                    <td class="font-size-4">{{ $orden->oi_eje }}</td>
+                    <td class="font-size-15"><strong>OI</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_esf }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_cil }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_eje }}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -339,118 +360,26 @@
         <table>
             <tbody>
                 <tr>
-                    <td class="font-size-4"><strong>ADD</strong></td>
-                    <td class="font-size-4">{{ $orden->add }}</td>
-                    <td class="font-size-4"><strong>DP</strong></td>
-                    <td class="font-size-4">{{ $orden->dp }}</td>
-                    <td class="font-size-4"><strong>ALT</strong></td>
-                    <td class="font-size-4">{{ $orden->alt }}</td>
+                    <td class="font-size-15"><strong>ADD</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->add }}</strong></td>
+                    <td class="font-size-15"><strong>DP</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->dp }}</strong></td>
+                    <td class="font-size-15"><strong>ALT</strong></td>
+                    <td class="font-size-15"><strong><{{ $orden->alt }}</strong></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div id="body-2" class="">
-        <p class="font-size-5">Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong></p>
-        <p class="font-size-5">Total: <strong>{{ $orden->total }}</strong></p>
+        <p class="font-size-15">Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong></p>
+{{--         <p class="font-size-5">Total: <strong>{{ $orden->total }}</strong></p>
         <p class="font-size-5">Abono: <strong>{{ $orden->abono_1 }}</strong></p>
-        <p class="font-size-5">Saldo: <strong>{{ $orden->saldo }}</strong></p>
-        <p class="font-size-5">Especialista: <strong>{{ $orden->especialista }}</strong></p>
+        <p class="font-size-5">Saldo: <strong>{{ $orden->saldo }}</strong></p> --}}
+        <p class="font-size-15">Especialista: <strong>{{ $orden->especialista }}</strong></p>
+        <p class="font-size-15">Fecha de Entrega: <strong>{{ $orden->fecha_entrega }}</strong></p>
     </div>
 
-    
-    
-    {{-- <img src="{!!$orden->embedData(QrCode::format('png')->generate('Embed me into an e-mail!'), 'QrCode.png', 'image/png')!!}"> --}}
-        
-        {{-- <div class="infoHeader">            
-            <table>
-                <tbody class="table-border">
-                    <tr>
-                        <td class="text-center titulo-fuente"><strong>{{ 'OPTIRANGO, C.A.' }}</strong></td>
-                    </tr>
-                    <tr>
-                        <td class="text-center subtitulo-fuente">{{ 'VISIÓN SALUD Y FUTURO' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center subtitulo-fuente">{{ 'AV. URDANETA ESQ PELOTA EDIF PROFESIONAL URDANETA PISO 7' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center subtitulo-fuente">{{ ' OF D URB CATEDRAL CARACAS DISTRITO CAPITAL' }}</td>
-                    </tr>
-                    <tr>
-                        <td class="text-center subtitulo-fuente">Telf. {{ '0212-642.67.97' }}, {{ '0424-640.67.97' }} {{'IG: @opti_rango'}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div> --}}
-    
-
-    {{-- <div class="border-bottom-solid"> 
-    </div> --}}
-
-    {{-- <div class="mt-1">
-        <strong>Fecha: </strong>{{ $orden->fecha }} <strong>Numero de Orden: </strong>{{ $orden->numero_orden }}
-    </div>
-
-    <div class="mt-1">
-        <strong>PACIENTE: </strong>{{ $orden->paciente }} <strong> FECHA DE NACIMIENTO: </strong> {{ $orden->edad }}
-    </div> --}}
-    {{-- @foreach($paciente as $paciente)
-        <div class="">
-            <strong>PACIENTE: </strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}   <strong>     FECHA DE NACIMIENTO: </strong>{{ $paciente->fechaNacimiento }}
-        </div>
-        @foreach($paciente->resultados as $index => $resultado)
-            <div class="{{ $index == 0 ? 'page-break-auto' : 'page-break-auto'}}">
-    
-                <div class="text-center margint-top-10">
-                    <strong>{{ $resultado->examen->nombre }} {{ $index }}</strong>
-                </div>
-    
-                <div class="text-center  margint-bottom-10">
-                    <strong>MUESTRA: </strong>{{ $resultado->muestra->nombre }}     <strong>FECHA: </strong>{{ $resultado->examen->created_at }}
-                </div>
-                
-                <table class="table table-border">
-                    <thead class="text-center table-border">
-                        <th class="text-center table-border">EXAMEN</th>
-                        <th class="text-center table-border">RESULTADO</th>
-                        @if($resultado->examen->unidad == 1)
-                            <th class="text-center table-border">Unidad de Medida</th>
-                        @endif
-                        @if($resultado->ref_inferior == 1)
-                            <th class="text-center table-border">Ref. Inferior</th>
-                        @endif
-                        @if($resultado->ref_superior == 1)
-                            <th class="text-center table-border">Ref. Superior</th>
-                        @endif
-                    </thead>
-                        <tbody class="text-center table-border"> 
-                            @foreach($resultado->resultadosDetalle as $item)
-                                @isset($item->resultado)
-                                    <tr class="text-center table-border">
-                                        <td class="text-center table-border">{{ $item->caracteristicas->caracteristica }}</td>
-                                        <td class="text-center table-border"><strong>{{ $item->resultado}}</strong></td>
-                                        @if($resultado->examen->unidad == 1)
-                                            <td class="text-center table-border">{{ $item->caracteristicas->unidad }}</td>
-                                        @endif
-                                        @if($resultado->examen->ref_inferior == 1)
-                                            <td class="text-center table-border">{{ $item->caracteristicas->ref_inferior }}</td>
-                                        @endif
-                                        @if($resultado->examen->ref_superior == 1)
-                                            <td class="text-center table-border">{{ $item->caracteristicas->ref_superior }}</td>
-                                        @endif
-                                    </tr>
-                                @endisset
-                            @endforeach
-                        </tbody>
-                    </table>
-        @endforeach
-                <div id="">
-                    <p class="pie-pagina-bioanalista">BIOANALISTA</p>
-                </div>
-            </div>
-    @endforeach --}}
-    
 
 </body>
 </html>

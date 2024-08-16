@@ -27,4 +27,8 @@ class TipoTratamiento extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
+
+    public function tipoLente(){
+        return $this->belongsTo(TipoLente::class);
+    }
 }

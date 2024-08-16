@@ -18,9 +18,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\DropdownController;
+use App\Http\Controllers\EspecialistaController;
 use App\Http\Controllers\EstatusController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\FormularioController;
+use App\Http\Controllers\GastoOperativoController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
@@ -83,6 +85,7 @@ Route::get('dropdown', [DropdownController::class, 'index']);
 Route::post('api/fetch-municipios', [DropdownController::class, 'fetchMunicipio']);
 Route::post('api/fetch-parroquias', [DropdownController::class, 'fetchParroquia']);
 Route::post('api/fetch-laboratorios', [FormularioController::class, 'fetchLaboratorio']);
+Route::post('api/fetch-tipo-tratamientos', [DropdownController::class, 'fetchTipoTratamientos']);
 
 Route::get('/formularios/{formulario}/{orden}/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
 
@@ -194,6 +197,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/operativos/{operativo}/delete',    [OperativoController::class, 'delete'])->name('operativos.delete');
     Route::resource('operativos',                   OperativoController::class);
 
+    //Rutas de Operativos
+    Route::get('/especialistas/{especialista}/delete',  [EspecialistaController::class, 'delete'])->name('especialistas.delete');
+    Route::resource('especialistas',                    EspecialistaController::class);
+
     //Rutas de Tratamientos
     Route::get('/tratamientos/{tratamiento}/delete',    [TratamientoController::class, 'delete'])->name('tratamientos.delete');
     Route::resource('tratamientos',  TratamientoController::class);
@@ -212,6 +219,10 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
     Route::resource('rutaEntregas',  RutaEntregaController::class);
+
+    Route::get('/gastoOperativos/{gastoOperativo}/delete',    [GastoOperativoController::class, 'delete'])->name('gastoOperativos.delete');
+    Route::get('/gastoOperativos/{operativo}/index', [GastoOperativoController::class, 'index'])->name('gastoOperativos.index');
+    /* Route::resource('gastoOperativos',  GastoOperativoController::class); */
 
     //Rutas de Bioanalistas
     /* Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');

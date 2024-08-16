@@ -82,7 +82,17 @@ class PermissionTableSeeder extends Seeder
             'ruta-entrega-create',
             'ruta-entrega-edit',
             'ruta-entrega-delete',
-            'ruta-entrega-download'
+            'ruta-entrega-download',
+            'gasto-operativo-list',
+            'gasto-operativo-create',
+            'gasto-operativo-edit',
+            'gasto-operativo-delete',
+            'gasto-operativo-download',
+            'tipo-gasto-list',
+            'tipo-gasto-create',
+            'tipo-gasto-edit',
+            'tipo-gasto-delete',
+            'tipo-gasto-download'
         ];
         
         foreach ($permissions as $permission) {

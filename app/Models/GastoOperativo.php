@@ -7,21 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-class TipoLente extends Model
+class GastoOperativo extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
-    /**
-     * Implementa el registro de Logs
-     *
-     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
     }
 
     protected $guarded = [];
-
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');
@@ -32,13 +27,12 @@ class TipoLente extends Model
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
 
-    /**
-     * Los pacientes que pertenecen a los lentes.
-     */
-    public function tratamientos()
-    {
-        return $this->hasMany(TipoTratamiento::class);
+    public function tipoGastos(){
+        return $this->hasMany(TipoGasto::class);
     }
 
-    
+    public function operativo()
+    {
+        return $this->belongsTo(Operativo::class);
+    }
 }

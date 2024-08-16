@@ -6,6 +6,7 @@ use App\DataTables\FormulariosDataTable;
 use App\Models\Formulario;
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
+use App\Models\Especialista;
 use App\Models\Estatus;
 use App\Models\Laboratorio;
 use App\Models\Operativo;
@@ -63,13 +64,16 @@ class FormularioController extends Controller
 
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        //$tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
         $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
         
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
+        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
 
     }
 
@@ -80,7 +84,8 @@ class FormularioController extends Controller
     {
         //request()->validate(Persona::$rules);
 
-        $data = $request->all();
+        /* $data = $request->all(); */
+        $data = $request->except('tipo_tratamiento_hidden_id');
         //$data['status'] = $request->status ? 1 : 0;
 
         $formulario = Formulario::create($data);
@@ -109,7 +114,9 @@ class FormularioController extends Controller
 
         $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
+        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
     }
 
     /**
@@ -122,16 +129,20 @@ class FormularioController extends Controller
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
-        
+
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        /* $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id'); */
+
+        $tipoLentes = TipoLente::get(['id','tipo_lente']);
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
         $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
-        
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas'));
+
+        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
     }
 
     /**
@@ -140,7 +151,7 @@ class FormularioController extends Controller
     public function update(UpdateFormularioRequest $request, Formulario $formulario): RedirectResponse
     {
 
-        $data = $request->all();
+        $data = $request->except('tipo_tratamiento_hidden_id');
 
         if(!$formulario->update($data)){
             return redirect()->back()
@@ -184,6 +195,7 @@ class FormularioController extends Controller
                 'laboratorio',
                 'total',
                 'saldo',
+                'porcentaje_pago',
                 'direccion_operativo',
                 'observaciones_extras',
                 'edad',

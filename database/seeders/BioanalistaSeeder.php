@@ -9,6 +9,7 @@ use App\Models\Cuota;
 use App\Models\Examen;
 use App\Models\Formula;
 use App\Models\Formulario;
+use App\Models\GastoOperativo;
 use App\Models\Laboratorio;
 use App\Models\Lente;
 use App\Models\Muestra;
@@ -19,6 +20,7 @@ use App\Models\Pago;
 use App\Models\Persona;
 use App\Models\Resultados;
 use App\Models\ResultadosDetalle;
+use App\Models\TipoGasto;
 use App\Models\Tratamiento;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -31,7 +33,7 @@ class BioanalistaSeeder extends Seeder
     public function run(): void
     {
 
-/*         Paciente::truncate();
+/*      Paciente::truncate();
         $paciente = new Paciente();
         $paciente->cedula = 'V20428781';
         $paciente->nombres = 'SILVIO ARTURO';
@@ -174,7 +176,7 @@ class BioanalistaSeeder extends Seeder
         $configuracion->copyright = '2023';
         $configuracion->save();
 
-        Laboratorio::truncate();
+        /* Laboratorio::truncate();
         $laboratorio = new Laboratorio();
         $laboratorio->documento_fiscal = 'V17348394';
         $laboratorio->razon_social = 'OPTIRANGO';
@@ -188,9 +190,9 @@ class BioanalistaSeeder extends Seeder
         $laboratorio->facebook = 'optirango';
         $laboratorio->instagram = '@optirango';
         $laboratorio->tiktok = 'optirango';
-        $laboratorio->save();
+        $laboratorio->save(); */
 
-        Persona::truncate();
+        /* Persona::truncate();
         $paciente = new Persona();
         $paciente->cedula = 'V20428781';
         $paciente->nombres = 'SILVIO ARTURO';
@@ -203,7 +205,7 @@ class BioanalistaSeeder extends Seeder
         $paciente->type = 'PERSONA';
         $paciente->observacion = 'Asmatico';
         $paciente->status = 1;
-        $paciente->save();
+        $paciente->save(); */
 
         Operativo::truncate();
         $operativo = new Operativo();
@@ -215,6 +217,28 @@ class BioanalistaSeeder extends Seeder
         $operativo->lugar = 'CANCHA DE LAS RURALES';
         $operativo->nombre_operativo = 'CANCHA DE LAS RURALES';
         $operativo->save();
+
+        TipoGasto::truncate();
+        $tipoGasto = new TipoGasto();
+        $tipoGasto->tipo_gasto = 'TRANSPORTE';
+        $tipoGasto->save();
+
+        $tipoGasto2 = new TipoGasto();
+        $tipoGasto2->tipo_gasto = 'LOGISTICA';
+        $tipoGasto2->save();
+
+        $gastoOperativo = new GastoOperativo();
+        $gastoOperativo->operativo_id = 1;
+        $gastoOperativo->tipo_gasto_id = 1;
+        $gastoOperativo->monto = 100;
+        $gastoOperativo->save();
+
+        /* $gastoOperativo->tipoGastos()->attach([$tipoGasto->id]);
+
+        $gastoOperativo->tipoGastos()->attach([$tipoGasto2->id]); */
+
+        /* GastoOperativo
+        TipoGasto */
 
         }
 }

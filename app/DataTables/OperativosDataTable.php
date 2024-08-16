@@ -31,6 +31,10 @@ class OperativosDataTable extends DataTable
                         $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
+                    if(auth()->user()->can('gasto-operativo-list')){
+                        $buttons .= '<a class="btn btn-success btn-sm" title="Gastos de Operativo" href="'.route('gastoOperativos.index',$query->id).'"> <i class="fa fa-magnifying-glass-dollar"></i></a>';
+                    }
+
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
 
                 })

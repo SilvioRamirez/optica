@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
-            {{ Form::selectComp('tipo_lente_id', 'Tipo de Lente', '', $tipoLentes) }}
             {{ Form::textComp('tipo_tratamiento','Nombre del Tipo de Tratamiento', null, null, '') }}
             {{ Form::textComp('cantidad_stock','Cantidad en Stock', null, null, '') }}
         </div>

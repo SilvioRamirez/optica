@@ -60,4 +60,9 @@ class Formulario extends Model
     {
         return $this->belongsTo(RutaEntrega::class, 'ruta_entrega_id');
     }
+
+    public function especialistaLente()
+    {
+        return $this->belongsTo(Especialista::class, 'especialista');
+    }
 }

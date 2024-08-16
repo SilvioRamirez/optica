@@ -114,6 +114,9 @@
 							@canany(['operativo-list', 'operativo-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
 							@endcanany
+							@canany(['especialista-list', 'especialista-create'])
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('especialistas.index') }}"><i class="fa-solid fa-id-badge"></i> Especialistas</a>
+							@endcanany
 							@canany(['laboratorio-list', 'laboratorio-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
 							@endcanany

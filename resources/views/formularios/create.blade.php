@@ -18,6 +18,9 @@
         
         <div class="card-body tab-content">
             <div class="tab-pane active" id="dhcp">
+                @php
+                    $formulario="";
+                @endphp
                 {!! Form::open(array('route' => 'formularios.store','method'=>'POST', 'id' => 'formularios.store')) !!}
                     @include('formularios.partials.form')
                 {!! Form::close() !!}
