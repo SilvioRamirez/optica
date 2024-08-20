@@ -105,8 +105,8 @@
 
         #img-qrcode{
             float: fixed;
-            margin-left: 0.25cm;
-            margin-top: 16.0cm;
+            margin-left: 0.26cm;
+            margin-top: 16.5cm;
             /* border: 0.5px solid red; */
         }
         
@@ -147,7 +147,7 @@
         }
 
         td {
-            height: 0.8cm;
+            height: 0.5cm;
             vertical-align: middle;
             text-align: center;
         }
@@ -312,7 +312,7 @@
     <div id="info-header">
         <div class="font-size-15 text-center"><strong>{{ 'OPTIRANGO, C.A.' }}</strong></div>
         <div class="font-size-15 text-center "><strong>{{ 'VISIÓN SALUD Y FUTURO' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Av. Urdaneta Esq Pelota Edif Centro Profesional Urdaneta' }}</strong></div>
         <div class="font-size-15 text-center "><strong>{{ 'Piso 7 Of D Urb Catedral Caracas Distrito Capital' }}</strong></div>
         <div class="font-size-15 text-center "><strong>{{ 'Telefono: 0424-640.67.97 IG: @opti_rango' }}</strong></div>
         <div class="font-size-15 text-center "><strong>{{ 'WEB: optirango.com' }}</strong></div>
@@ -321,12 +321,14 @@
     <div id="body-1" class="">
         <p class="font-size-15">Número de Orden: <strong>{{ $orden->numero_orden }}</strong></p>
         <p class="font-size-15">Fecha: <strong>{{ $orden->fecha }}</strong></p>
+        <p class="font-size-15">Prox. Cita Gratuita: <strong>{{ $orden->fecha_proxima_cita }}</strong></p>
         <p class="font-size-15">Paciente: <strong>{{ $orden->paciente }}</strong></p>
         <p class="font-size-15">Dirección / Operativo: <strong>{{ $orden->direccion_operativo }}</strong></p>
         <p class="font-size-15">Teléfono: <strong>{{ $orden->telefono }}</strong></p>
         <p class="font-size-15">Cedula: <strong>{{ $orden->cedula }}</strong></p>
         <p class="font-size-15">Edad: <strong>{{ $orden->edad }}</strong></p>
         <p class="font-size-15">Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
+        <p class="font-size-15">Tipo de Tratamiento: <strong>{{ $tipoTratamiento->tipo_tratamiento }}</strong></p>
     </div>
 
     <div id="table-formula-1" style="width:100%" class="table">
@@ -376,7 +378,7 @@
 {{--         <p class="font-size-5">Total: <strong>{{ $orden->total }}</strong></p>
         <p class="font-size-5">Abono: <strong>{{ $orden->abono_1 }}</strong></p>
         <p class="font-size-5">Saldo: <strong>{{ $orden->saldo }}</strong></p> --}}
-        <p class="font-size-15">Especialista: <strong>{{ $orden->especialista }}</strong></p>
+        <p class="font-size-15">Especialista: <strong>{{ $especialista->nombre }}</strong></p>
         <p class="font-size-15">Fecha de Entrega: <strong>{{ $orden->fecha_entrega }}</strong></p>
     </div>
 

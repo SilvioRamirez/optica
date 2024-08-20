@@ -168,6 +168,7 @@ class FormulariosDataTable extends DataTable
                     ->width(60)
                     ->addClass('text-center');
         $columns[] = Column::make('fecha_entrega')->title('Fecha de Entrega');
+        $columns[] = Column::make('fecha_proxima_cita')->title('Fecha de Prox. Cita');
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
                     ->orderable(true)
                     ->exportable(true)
@@ -207,6 +208,7 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('add')->title('Add');
         $columns[] = Column::make('dp')->title('Dp');
         $columns[] = Column::make('alt')->title('Alt');
+        $columns[] = Column::make('tipo_formula')->title('Tipo de Formula');
         $columns[] = Column::computed('especialista')->title('Especialista')
                     ->orderable(true)
                     ->exportable(true)

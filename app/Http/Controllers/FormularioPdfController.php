@@ -13,6 +13,8 @@ class FormularioPdfController extends Controller
         if($orden = Formulario::find($id)){
             $tipoLente = $orden->tipoLente;
             $tipoTratamiento = $orden->tipoTratamiento;
+            $especialista = $orden->especialistaLente;
+            
             /* $paciente = Paciente::find($resultado->paciente_id);
             $examen = Examen::find($resultado->examen_id);
             $caracteristicas = $examen->caracteristicas;
@@ -21,7 +23,7 @@ class FormularioPdfController extends Controller
 
         /* dd($tipoTratamiento); */
 
-        $pdf = PDF::loadView('formularios.pdf.orden', compact('orden', 'tipoLente', 'tipoTratamiento'))
+        $pdf = PDF::loadView('formularios.pdf.orden', compact('orden', 'tipoLente', 'tipoTratamiento', 'especialista'))
                     ->setOption(['dpi' => 150, 'isRemoteEnabled' => true])
                     ->setPaper([0, 0, 164.409448819, 595.275590551]);
                     /* ->setPaper('A8','portrait'); */

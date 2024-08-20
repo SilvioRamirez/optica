@@ -4,11 +4,14 @@
             <h5 class="">Datos de la Orden</h5>
             <hr>
             <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     {{ Form::textComp('numero_orden','Numero de Orden', null, null, '') }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="col-xs-4 col-sm-4 col-md-4">
                     {{ Form::dateComp('fecha','Fecha', null, null, '') }}
+                </div>
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    {{ Form::dateComp('fecha_proxima_cita','Fecha Proxima Cita Gratuita', null, null, '') }}
                 </div>
             </div>
 
@@ -125,29 +128,6 @@
                 </div>
             </div>
 
-
-
-            {{-- <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    <br>
-                    <h4><strong>Ojo Derecho</strong></h4>
-                    <br>
-                    <h4><strong>Ojo Izquierdo</strong></h4>
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('od_esf','OD Esf', null, null, '') }}
-                    {{ Form::textComp('oi_esf','OI Esf', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('od_cil','OD Cil', null, null, '') }}
-                    {{ Form::textComp('oi_cil','OI Cil', null, null, '') }}
-                </div>
-
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('od_eje','OD Eje', null, null, '') }}
-                    {{ Form::textComp('oi_eje','Oi Eje', null, null, '') }}
-                </div>
-            </div> --}}
             <hr>
             <div class="row">
                 <div class="col-xs-4 col-sm-4 col-md-4">
@@ -161,7 +141,7 @@
                 </div>
             </div> 
 
-            {{-- {{ Form::textComp('especialista','Especialista', null, null, '') }} --}}
+            {{ Form::selectComp('tipo_formula','Tipo de Formula', '', ['TERMINADA' => 'TERMINADA', 'TALLADA' => 'TALLADA']) }}
 
             {{ Form::selectComp('especialista', 'Especialista', '', $especialistas) }}
 
@@ -553,6 +533,26 @@
             suma();
         });
 
+        /* Funcion que agrega un año a la fecha seleccionada */
+
+        var fecha = document.getElementById('fecha');
+
+        fecha.addEventListener("change", (event) => {
+            console.log(fecha.value);
+
+            const aYearFromNow = new Date(fecha.value);
+            aYearFromNow.setFullYear(aYearFromNow.getFullYear() + 1);
+            console.log(aYearFromNow);
+
+            var toDate = aYearFromNow.toISOString().slice(0, 10);
+
+            fecha_proxima_cita = document.getElementById('fecha_proxima_cita');
+            fecha_proxima_cita.value = toDate;
+
+             
+
+
+        });
 
     </script>
 @endpush
