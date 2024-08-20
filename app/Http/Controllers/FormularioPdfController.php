@@ -28,7 +28,7 @@ class FormularioPdfController extends Controller
                     ->setPaper([0, 0, 164.409448819, 595.275590551]);
                     /* ->setPaper('A8','portrait'); */
 
-        return $pdf->stream();
+        return $pdf->download('Orden Nro. '.$orden->numero_orden.'.pdf');
     }
 
     public function orden_qrcode($formId, $numeroOrden){
