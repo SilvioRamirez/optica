@@ -310,12 +310,12 @@
     </div>
 
     <div id="info-header">
-        <div class="font-size-15 text-center"><strong>{{ 'OPTIRANGO, C.A.' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'VISIÓN SALUD Y FUTURO' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'Av. Urdaneta Esq Pelota Edif Centro Profesional Urdaneta' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'Piso 7 Of D Urb Catedral Caracas Distrito Capital' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'Telefono: 0424-640.67.97 IG: @opti_rango' }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'WEB: optirango.com' }}</strong></div>
+        <div class="font-size-15 text-center"><strong>{{ $configuracion->nombre_organizacion }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->descripcion_1 }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion}}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion_2 }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Teléfono: '.$configuracion->telefono_uno }} {{'IG: '.$configuracion->instagram }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'WEB: '.$configuracion->pagina_web }}</strong></div>
     </div>
     <div class="line-block"></div>
     <div id="body-1" class="">

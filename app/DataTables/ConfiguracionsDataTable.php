@@ -71,7 +71,13 @@ class ConfiguracionsDataTable extends DataTable
         return [
             Column::make('id')->title('ID'),
             Column::make('nombre_organizacion')->title('Organización'),
+            Column::make('descripcion_1')->title('Descripcion 1'),
+            Column::make('descripcion_2')->title('Descripcion 2'),
             Column::make('representante_organizacion')->title('Representante'),
+            Column::make('direccion')->title('Direccion 1'),
+            Column::make('direccion_2')->title('Descripcion 2'),
+            Column::make('telefono_uno')->title('Teléfono 1'),
+            Column::make('telefono_dos')->title('Teléfono 2'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             Column::computed('action')->title('Acción')

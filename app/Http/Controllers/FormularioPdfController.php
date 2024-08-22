@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Configuracion;
 use App\Models\Formulario;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
@@ -14,16 +15,16 @@ class FormularioPdfController extends Controller
             $tipoLente = $orden->tipoLente;
             $tipoTratamiento = $orden->tipoTratamiento;
             $especialista = $orden->especialistaLente;
-            
+            $configuracion = Configuracion::find(1);
             /* $paciente = Paciente::find($resultado->paciente_id);
             $examen = Examen::find($resultado->examen_id);
             $caracteristicas = $examen->caracteristicas;
-            $configuracion = Configuracion::find(1); */
+             */
         }
 
         /* dd($tipoTratamiento); */
 
-        $pdf = PDF::loadView('formularios.pdf.orden', compact('orden', 'tipoLente', 'tipoTratamiento', 'especialista'))
+        $pdf = PDF::loadView('formularios.pdf.orden', compact('orden', 'tipoLente', 'tipoTratamiento', 'especialista', 'configuracion'))
                     ->setOption(['dpi' => 150, 'isRemoteEnabled' => true])
                     ->setPaper([0, 0, 164.409448819, 595.275590551]);
                     /* ->setPaper('A8','portrait'); */

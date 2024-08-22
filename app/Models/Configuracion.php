@@ -27,8 +27,8 @@ class Configuracion extends Model
         'representante_cargo' => 'required',
         'direccion' => 'required',
         'telefono_uno' => 'required',
-        'telefono_dos' => 'required',
-        'correo' => 'required',
+        'telefono_dos' => '',
+        'correo' => '',
         'copyright' => 'required',
     ];
 
