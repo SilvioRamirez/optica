@@ -108,7 +108,9 @@ class FormularioController extends Controller
         
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        /* $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', ''); */
+
+        $tipoLentes = TipoLente::get(['id','tipo_lente']);
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
