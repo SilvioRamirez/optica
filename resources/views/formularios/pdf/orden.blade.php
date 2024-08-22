@@ -310,25 +310,25 @@
     </div>
 
     <div id="info-header">
-        <div class="font-size-15 text-center"><strong>{{ $configuracion->nombre_organizacion }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ $configuracion->descripcion_1 }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion}}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion_2 }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'Teléfono: '.$configuracion->telefono_uno }} {{'IG: '.$configuracion->instagram }}</strong></div>
-        <div class="font-size-15 text-center "><strong>{{ 'WEB: '.$configuracion->pagina_web }}</strong></div>
+        <div class="font-size-15 text-center"><strong>{{ $configuracion->nombre_organizacion ?? '' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->descripcion_1 ?? '' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion ?? '' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ $configuracion->direccion_2 ?? '' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'Teléfono: '.$configuracion->telefono_uno ?? '' }} {{'IG: '.$configuracion->instagram ?? '' }}</strong></div>
+        <div class="font-size-15 text-center "><strong>{{ 'WEB: '.$configuracion->pagina_web ?? '' }}</strong></div>
     </div>
     <div class="line-block"></div>
     <div id="body-1" class="">
-        <p class="font-size-15">Número de Orden: <strong>{{ $orden->numero_orden }}</strong></p>
-        <p class="font-size-15">Fecha: <strong>{{ $orden->fecha }}</strong></p>
-        <p class="font-size-15">Prox. Cita Gratuita: <strong>{{ $orden->fecha_proxima_cita }}</strong></p>
-        <p class="font-size-15">Paciente: <strong>{{ $orden->paciente }}</strong></p>
-        <p class="font-size-15">Dirección / Operativo: <strong>{{ $orden->direccion_operativo }}</strong></p>
-        <p class="font-size-15">Teléfono: <strong>{{ $orden->telefono }}</strong></p>
-        <p class="font-size-15">Cedula: <strong>{{ $orden->cedula }}</strong></p>
-        <p class="font-size-15">Edad: <strong>{{ $orden->edad }}</strong></p>
-        <p class="font-size-15">Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
-        <p class="font-size-15">Tipo de Tratamiento: <strong>{{ $tipoTratamiento->tipo_tratamiento }}</strong></p>
+        <p class="font-size-15">Número de Orden: <strong>{{ $orden->numero_orden ?? '' }}</strong></p>
+        <p class="font-size-15">Fecha: <strong>{{ $orden->fecha ?? '' }}</strong></p>
+        <p class="font-size-15">Prox. Cita Gratuita: <strong>{{ $orden->fecha_proxima_cita ?? '' }}</strong></p>
+        <p class="font-size-15">Paciente: <strong>{{ $orden->paciente ?? '' }}</strong></p>
+        <p class="font-size-15">Dirección / Operativo: <strong>{{ $orden->direccion_operativo ?? '' }}</strong></p>
+        <p class="font-size-15">Teléfono: <strong>{{ $orden->telefono ?? '' }}</strong></p>
+        <p class="font-size-15">Cedula: <strong>{{ $orden->cedula ?? '' }}</strong></p>
+        <p class="font-size-15">Edad: <strong>{{ $orden->edad ?? '' }}</strong></p>
+        <p class="font-size-15">Tipo de Lente: <strong>{{ $tipoLente->tipo_lente ?? '' }}</strong></p>
+        <p class="font-size-15">Tipo de Tratamiento: <strong>{{ $tipoTratamiento->tipo_tratamiento ?? '' }}</strong></p>
     </div>
 
     <div id="table-formula-1" style="width:100%" class="table">
@@ -344,15 +344,15 @@
                 </tr>
                 <tr>
                     <td class="font-size-15"><strong>OD</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->od_esf }}</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->od_cil }}</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->od_eje }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_esf ?? '' }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_cil ?? '' }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->od_eje ?? '' }}</strong></td>
                 </tr>
                 <tr>
                     <td class="font-size-15"><strong>OI</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->oi_esf }}</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->oi_cil }}</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->oi_eje }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_esf ?? '' }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_cil ?? '' }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->oi_eje ?? '' }}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -363,23 +363,23 @@
             <tbody>
                 <tr>
                     <td class="font-size-15"><strong>ADD</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->add }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->add ?? '' }}</strong></td>
                     <td class="font-size-15"><strong>DP</strong></td>
-                    <td class="font-size-15"><strong>{{ $orden->dp }}</strong></td>
+                    <td class="font-size-15"><strong>{{ $orden->dp ?? '' }}</strong></td>
                     <td class="font-size-15"><strong>ALT</strong></td>
-                    <td class="font-size-15"><strong><{{ $orden->alt }}</strong></td>
+                    <td class="font-size-15"><strong><{{ $orden->alt ?? '' }}</strong></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div id="body-2" class="">
-        <p class="font-size-15">Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong></p>
+        <p class="font-size-15">Observaciones Extras: <strong>{{ $orden->observaciones_extras ?? '' }}</strong></p>
 {{--         <p class="font-size-5">Total: <strong>{{ $orden->total }}</strong></p>
         <p class="font-size-5">Abono: <strong>{{ $orden->abono_1 }}</strong></p>
         <p class="font-size-5">Saldo: <strong>{{ $orden->saldo }}</strong></p> --}}
-        <p class="font-size-15">Especialista: <strong>{{ $especialista->nombre }}</strong></p>
-        <p class="font-size-15">Fecha de Entrega: <strong>{{ $orden->fecha_entrega }}</strong></p>
+        <p class="font-size-15">Especialista: <strong>{{ $especialista->nombre ?? '' }}</strong></p>
+        <p class="font-size-15">Fecha de Entrega: <strong>{{ $orden->fecha_entrega ?? '' }}</strong></p>
     </div>
 
 
