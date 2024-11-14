@@ -39,7 +39,8 @@
                                     @foreach($orden as $item)
                                         <hr>
                                         <h3>Información de la Orden Nro: <strong>{{ $item->numero_orden }}</strong></h3>
-                                        <p>Paciente: <strong>{{ $item->paciente }}</strong>
+                                        <p>Estatus: <strong>{{ $item->estatus }}</strong>
+                                        <br>Paciente: <strong>{{ $item->paciente }}</strong>
                                         <br>Cedula: <strong>{{ $item->cedula }}</strong>
                                         <br>Edad: <strong>{{ $item->edad }}</strong>
                                         <br>Teléfono: <strong>{{ $item->telefono }}</strong>
