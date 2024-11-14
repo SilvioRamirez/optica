@@ -23,15 +23,15 @@
 
 <body>
     <div id="app">
-
         <div class="container mt-4">
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card border-light mb-3 mt-4 shadow">
-                        
                         <div class="card-body">
                             <div class="text-center mb-4">
-                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" alt="..." width="300" >
+                                    <div class="text-center mb-4">
+                                        <img src="{{ asset('storage/img/logo.png') }}" class="rounded" style="display: inline-block" alt="..." width="300" >
+                                    </div>
                                 <p class="mt-2">{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital'}} <br>{{'Telefono: 0412-642.67.97 /0424-640.67.97 ' }}</p>
                                 <a class="btn btn-primary" href="https://www.instagram.com/opti_rango/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i> Instagram</a>
                                 <a class="btn btn-primary" href="https://www.facebook.com/profile.php?id=61551175972400" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook"></i> Facebook</a>
@@ -91,6 +91,8 @@
                                         <br>Abono: <strong>{{ $orden->abono_1 }}</strong>
                                         <br>Saldo: <strong>{{ $orden->saldo }}</strong> --}}
                                         <br>Especialista: <strong>{{ $orden->especialista }}</strong></p>
+
+                                        <a href="{{ url('/') }}" class="btn btn-success btn-sm"><i class="fa fa-home"></i> Inicio</a>
                             </div>
 
                         </div>

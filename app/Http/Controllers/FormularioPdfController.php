@@ -46,4 +46,29 @@ class FormularioPdfController extends Controller
 
     }
 
+    public function orden_cedula(Request $request){
+        
+        /* $orden = Formulario::where('cedula', $request->cedula)->get(); */
+
+        $orden = Formulario::where('cedula', $request->cedula)
+                    ->with('tipoLente')
+                    ->with('tipoTratamiento')
+                    ->with('rutaEntrega')
+                    ->with('especialistaLente')
+        ->get();
+
+        /* dd($orden); */
+
+        /* return $orden; */
+
+        if($orden){
+            /* $tipoLente = $orden->tipoLente;
+            $tipoTratamiento = $orden->tipoTratamiento; */
+
+            return view('formularios.web_consulta', compact('orden'));
+        }
+        return response([], 404);
+
+    }
+
 }

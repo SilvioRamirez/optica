@@ -52,6 +52,12 @@ Route::get('/', function () {
     return view('landing.index');
 });
 
+/* Route::get('/', [HomeController::class, 'index'])->name('index'); */
+
+Route::get('/landing', function () {
+    return view('landing.landing');
+});
+
 /* Auth::routes(['register' => false]); */
 
 // Login and Logout Routes...
@@ -88,7 +94,7 @@ Route::post('api/fetch-laboratorios', [FormularioController::class, 'fetchLabora
 Route::post('api/fetch-tipo-tratamientos', [DropdownController::class, 'fetchTipoTratamientos']);
 
 Route::get('/formularios/{formulario}/{orden}/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
-
+Route::get('/formularios/cedula/',   [FormularioPdfController::class, 'orden_cedula'])->name('formulario.orden.cedula');
 /* Route::get('test', fn () => phpinfo()); */
 
 Route::group(['middleware' => ['auth']], function() {

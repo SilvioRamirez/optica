@@ -5,6 +5,10 @@
 // Variables
 //@import 'variables';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 
@@ -19,3 +23,5 @@
 
 //SideBar
 @import 'styles.css';
+
+
