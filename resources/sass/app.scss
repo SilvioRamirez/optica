@@ -3,11 +3,7 @@
 //@import url('fonts.scss');
 
 // Variables
-//@import 'variables';
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'variables';
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
