@@ -27,7 +27,7 @@
                 <div class="container-fluid">
                     <div class="container">
                         <a class="navbar-brand" href="#">
-                            <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..." width="30" height="24" >
+                            <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..." width="30" height="30">
                             <a href="{{ url('/') }}" class="text-reset text-decoration-none">OptiRango</a>
                         </a>
                     </div>

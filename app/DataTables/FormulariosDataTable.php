@@ -122,8 +122,7 @@ class FormulariosDataTable extends DataTable
                     ->orderBy(1, 'desc')
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
-                    ])
-                    ->buttons($this->getButtons());
+                    ])->buttons($this->getButtons());
     }
 
     public function getButtons(): array

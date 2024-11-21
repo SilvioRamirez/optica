@@ -13,8 +13,16 @@ import $ from 'jquery';
 import Imask from 'imask';
 
 import DataTable from 'datatables.net-dt';
-/* import 'datatables.net-buttons-dt';
-import 'datatables.net-responsive-dt'; */
+import 'datatables.net-buttons-dt';
+import 'datatables.net-responsive-dt';
+import 'datatables.net-buttons-bs5';
+/* import 'datatables.net-buttons/js/buttons.html5.js'; */
+/* import 'datatables.net-buttons/js/buttons.print.js'; */
+/* import 'datatables.net-buttons/js/dataTables.buttons.js'; */
+/* import 'datatables.net-buttons/js/buttons.colVis.js'; */
+/* import 'datatables.net-buttons/js/buttons.flash.js'; */
+/* import 'datatables.net-buttons/js/buttons.bootstrap5.js'; */
+
 
 import Swal from 'sweetalert2'
 
