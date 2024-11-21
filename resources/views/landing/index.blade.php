@@ -91,6 +91,10 @@
                                 <div class="alert alert-dismissible alert-info" bis_skin_checked="1">
                                     Por favor, revisa el estatus de tu lente ingresando tu <strong>Cédula</strong> aquí. 
                                 </div>
+                                
+                                <div class="alert alert-dismissible alert-light" bis_skin_checked="1">
+                                    Si eres Venezolano coloca la letra <strong>V</strong> y si eres extranjero coloca la letra <strong>E</strong> al comienzo de la <strong>Cedula</strong>
+                                </div>
                             </form>
                         </div>
                     </div>

@@ -60,10 +60,10 @@
 
                                         <div class="alert alert-dismissible alert-info" bis_skin_checked="1">
                                             <p class="text-center">Si deseas realizar un <strong>ABONO</strong> presiona este Link para comunicarte con nosotros <i class="fa fa-arrow-down"></i></p>
-                                            <a class="btn btn-lg btn-primary" href="https://wa.link/cdtl37" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                                            <a class="btn btn-lg btn-primary" href="https://wa.link/s5jouq" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
                                         </div>
 
-                                        <p class="text-center lead">¡Gracias por confiar su salud visual en nosotros! <i class="fa fa-heart"></i></p>
+                                        <p class="text-center lead">¡Gracias por confiar su salud visual en nosotros! <span style="color: Green"><i class="fa fa-heart"></i></span></p>
 
 
 
