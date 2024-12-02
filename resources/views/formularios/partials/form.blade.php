@@ -169,7 +169,7 @@
 
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::numberComp('abono_2_decimal','Abono 2', null, null, '') }}
+                    {{ Form::textComp('abono_2_decimal','Abono 2', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_2','Abono Fecha 2', null, null, '') }}
@@ -183,7 +183,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::numberComp('abono_3_decimal','Abono 3', null, null, '') }}
+                    {{ Form::textComp('abono_3_decimal','Abono 3', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_3','Abono Fecha 3', null, null, '') }}
@@ -197,7 +197,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::numberComp('abono_4_decimal','Abono 4', null, null, '') }}
+                    {{ Form::textComp('abono_4_decimal','Abono 4', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_4','Abono Fecha 4', null, null, '') }}
@@ -211,7 +211,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::numberComp('abono_5_decimal','Abono 5', null, null, '') }}
+                    {{ Form::textComp('abono_5_decimal','Abono 5', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_5','Abono Fecha 5', null, null, '') }}
