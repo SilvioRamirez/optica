@@ -88,7 +88,7 @@
 
                                         <p>Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong>
                                         {{-- <br>Total: <strong>{{ $orden->total }}</strong>
-                                        <br>Abono: <strong>{{ $orden->abono_1 }}</strong>
+                                        <br>Abono: <strong>{{ $orden->abono_1_decimal }}</strong>
                                         <br>Saldo: <strong>{{ $orden->saldo }}</strong> --}}
                                         <br>Especialista: <strong>{{ $orden->especialista }}</strong></p>
 

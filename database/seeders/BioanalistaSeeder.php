@@ -70,15 +70,15 @@ class BioanalistaSeeder extends Seeder
         $formulario->especialista = 'JOSE PEREZ';
         $formulario->total = '80';
         $formulario->saldo = '-20';
-        $formulario->abono_1 = '20';
+        $formulario->abono_1_decimal = '20';
         $formulario->abono_fecha_1 = '24/02/2024';
-        $formulario->abono_2 = '10';
+        $formulario->abono_2_decimal = '10';
         $formulario->abono_fecha_2 = '24/02/2024';
-        $formulario->abono_3 = '10';
+        $formulario->abono_3_decimal = '10';
         $formulario->abono_fecha_3 = '24/02/2024';
-        $formulario->abono_4 = '10';
+        $formulario->abono_4_decimal = '10';
         $formulario->abono_fecha_4 = '24/02/2024';
-        $formulario->abono_5 = '10';
+        $formulario->abono_5_decimal = '10';
         $formulario->abono_fecha_5 = '24/02/2024';
         $formulario->save();
 

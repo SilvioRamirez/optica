@@ -61,7 +61,7 @@
                     <div class="card border-light mb-3 mt-4 shadow">
                         <div class="card-body">
                             <div class="text-center mb-4">
-                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" style="display: inline-block" alt="..." width="400" >
+                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" style="display: inline-block" alt="..." width="300" >
                             </div>
                             <form method="GET" action="{{ route('formulario.orden.cedula') }}">
                                 @csrf

@@ -148,13 +148,13 @@
             <br>
             <h5 class="">Datos del Pago y Abonos</h5>
             <hr>
-            {{ Form::textComp('total','Total', null, null, '') }}
+            {{ Form::numberComp('total','Total', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
             <hr>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_1','Abono 1', null, null, '',) }}
+                    {{ Form::textComp('abono_1_decimal','Abono 1', null, null, '',) }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_1','Abono Fecha 1', null, null, '') }}
@@ -169,7 +169,7 @@
 
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_2','Abono 2', null, null, '') }}
+                    {{ Form::numberComp('abono_2_decimal','Abono 2', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_2','Abono Fecha 2', null, null, '') }}
@@ -183,7 +183,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_3','Abono 3', null, null, '') }}
+                    {{ Form::numberComp('abono_3_decimal','Abono 3', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_3','Abono Fecha 3', null, null, '') }}
@@ -197,7 +197,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_4','Abono 4', null, null, '') }}
+                    {{ Form::numberComp('abono_4_decimal','Abono 4', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_4','Abono Fecha 4', null, null, '') }}
@@ -211,7 +211,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_5','Abono 5', null, null, '') }}
+                    {{ Form::numberComp('abono_5_decimal','Abono 5', null, null, '') }}
                 </div>
                 <div class="col-xs-3 col-sm-3 col-md-3">
                     {{ Form::dateComp('abono_fecha_5','Abono Fecha 5', null, null, '') }}
@@ -339,28 +339,52 @@
             mask: '00'
         })
 
-        IMask(document.getElementById('abono_1'),{
+        IMask(document.getElementById('abono_1_decimal'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
-        IMask(document.getElementById('abono_2'),{
+        IMask(document.getElementById('abono_2_decimal'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
-        IMask(document.getElementById('abono_3'),{
+        IMask(document.getElementById('abono_3_decimal'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
-        IMask(document.getElementById('abono_4'),{
+        IMask(document.getElementById('abono_4_decimal'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
-        IMask(document.getElementById('abono_5'),{
+        IMask(document.getElementById('abono_5_decimal'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
         IMask(document.getElementById('total'),{
             mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
         })
 
         $(document).ready(function () {
@@ -475,20 +499,20 @@
         function suma(){
             var suma = 0;
 
-            var abono_1 = document.getElementById('abono_1').value;
-            var abono_2 = document.getElementById('abono_2').value;
-            var abono_3 = document.getElementById('abono_3').value;
-            var abono_4 = document.getElementById('abono_4').value;
-            var abono_5 = document.getElementById('abono_5').value;
+            var abono_1_decimal = document.getElementById('abono_1_decimal').value;
+            var abono_2_decimal = document.getElementById('abono_2_decimal').value;
+            var abono_3_decimal = document.getElementById('abono_3_decimal').value;
+            var abono_4_decimal = document.getElementById('abono_4_decimal').value;
+            var abono_5_decimal = document.getElementById('abono_5_decimal').value;
 
-            abono_1 = (abono_1 == null || abono_1 == undefined || abono_1 == "") ? 0 : abono_1;
-            abono_2 = (abono_2 == null || abono_2 == undefined || abono_2 == "") ? 0 : abono_2;
-            abono_3 = (abono_3 == null || abono_3 == undefined || abono_3 == "") ? 0 : abono_3;
-            abono_4 = (abono_4 == null || abono_4 == undefined || abono_4 == "") ? 0 : abono_4;
-            abono_5 = (abono_5 == null || abono_5 == undefined || abono_5 == "") ? 0 : abono_5;
-            abono_5 = (abono_5 == null || abono_5 == undefined || abono_5 == "") ? 0 : abono_5;
+            abono_1_decimal = (abono_1_decimal == null || abono_1_decimal == undefined || abono_1_decimal == "") ? 0 : abono_1_decimal;
+            abono_2_decimal = (abono_2_decimal == null || abono_2_decimal == undefined || abono_2_decimal == "") ? 0 : abono_2_decimal;
+            abono_3_decimal = (abono_3_decimal == null || abono_3_decimal == undefined || abono_3_decimal == "") ? 0 : abono_3_decimal;
+            abono_4_decimal = (abono_4_decimal == null || abono_4_decimal == undefined || abono_4_decimal == "") ? 0 : abono_4_decimal;
+            abono_5_decimal = (abono_5_decimal == null || abono_5_decimal == undefined || abono_5_decimal == "") ? 0 : abono_5_decimal;
+            abono_5_decimal = (abono_5_decimal == null || abono_5_decimal == undefined || abono_5_decimal == "") ? 0 : abono_5_decimal;
 
-            suma = parseFloat(abono_1)+parseFloat(abono_2)+parseFloat(abono_3)+parseFloat(abono_4)+parseFloat(abono_5);
+            suma = parseFloat(abono_1_decimal)+parseFloat(abono_2_decimal)+parseFloat(abono_3_decimal)+parseFloat(abono_4_decimal)+parseFloat(abono_5_decimal);
 
             var total   = document.getElementById('total').value;
             var calc    = Math.round((suma*100)/parseFloat(total));
@@ -502,34 +526,34 @@
 
         }
 
-        var abono_1 = document.getElementById('abono_1');
-        var abono_2 = document.getElementById('abono_2');
-        var abono_3 = document.getElementById('abono_3');
-        var abono_4 = document.getElementById('abono_4');
-        var abono_5 = document.getElementById('abono_5');
+        var abono_1_decimal = document.getElementById('abono_1_decimal');
+        var abono_2_decimal = document.getElementById('abono_2_decimal');
+        var abono_3_decimal = document.getElementById('abono_3_decimal');
+        var abono_4_decimal = document.getElementById('abono_4_decimal');
+        var abono_5_decimal = document.getElementById('abono_5_decimal');
         var total   = document.getElementById('total');
 
         total.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_1.addEventListener("keyup", (event) => {
+        abono_1_decimal.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_2.addEventListener("keyup", (event) => {
+        abono_2_decimal.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_3.addEventListener("keyup", (event) => {
+        abono_3_decimal.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_4.addEventListener("keyup", (event) => {
+        abono_4_decimal.addEventListener("keyup", (event) => {
             suma();
         });
 
-        abono_5.addEventListener("keyup", (event) => {
+        abono_5_decimal.addEventListener("keyup", (event) => {
             suma();
         });
 
@@ -548,9 +572,6 @@
 
             fecha_proxima_cita = document.getElementById('fecha_proxima_cita');
             fecha_proxima_cita.value = toDate;
-
-             
-
 
         });
 

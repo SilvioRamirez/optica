@@ -376,7 +376,7 @@
     <div id="body-2" class="">
         <p class="font-size-15">Observaciones Extras: <strong>{{ $orden->observaciones_extras ?? '' }}</strong></p>
 {{--         <p class="font-size-5">Total: <strong>{{ $orden->total }}</strong></p>
-        <p class="font-size-5">Abono: <strong>{{ $orden->abono_1 }}</strong></p>
+        <p class="font-size-5">Abono: <strong>{{ $orden->abono_1_decimal }}</strong></p>
         <p class="font-size-5">Saldo: <strong>{{ $orden->saldo }}</strong></p> --}}
         <p class="font-size-15">Especialista: <strong>{{ $especialista->nombre ?? '' }}</strong></p>
         <p class="font-size-15">Fecha de Entrega: <strong>{{ $orden->fecha_entrega ?? '' }}</strong></p>
