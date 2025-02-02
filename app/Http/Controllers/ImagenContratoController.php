@@ -39,7 +39,7 @@ class ImagenContratoController extends Controller
 
         $nombre = Str::random(10) . $request->file('file')->getClientOriginalName();
 
-        $ruta = storage_path() . '\app\public\img\contratos/' . $nombre;
+        $ruta = public_path() . '/storage/img/contratos/' . $nombre;
 
         Image::read($request->file('file'))
                 ->scaleDown(height: 1000)
