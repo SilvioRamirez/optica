@@ -23,6 +23,7 @@ use App\Http\Controllers\EstatusController;
 use App\Http\Controllers\ExamenController;
 use App\Http\Controllers\FormularioController;
 use App\Http\Controllers\GastoOperativoController;
+use App\Http\Controllers\ImagenContratoController;
 use App\Http\Controllers\LaboratorioController;
 use App\Http\Controllers\LenteController;
 use App\Http\Controllers\MuestraController;
@@ -170,6 +171,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/estatusFormulario/{formulario}',   [FormularioController::class, 'estatusFormulario']);
     Route::post('api/cambiarEstatus/{formulario}',  [FormularioController::class, 'cambiarEstatus']);
 
+    Route::post('api/imagenesContrato/{formulario}',   [ImagenContratoController::class, 'show']);
+
     Route::get('/formularios/{formulario}/orden/pdf/',   [FormularioPdfController::class, 'orden_pdf'])->name('formulario.orden.pdf');
     
 
@@ -222,6 +225,10 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Tipo de Tratamientos
     Route::get('/tipoTratamientos/{tipoTratamiento}/delete',    [TipoTratamientoController::class, 'delete'])->name('tipoTratamientos.delete');
     Route::resource('tipoTratamientos',  TipoTratamientoController::class);
+
+    //Rutas Carga Imagenes Contratos
+    Route::resource('imagenContratos',  ImagenContratoController::class);
+
 
     Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
     Route::resource('rutaEntregas',  RutaEntregaController::class);

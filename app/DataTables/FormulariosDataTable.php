@@ -50,6 +50,10 @@ class FormulariosDataTable extends DataTable
                         $buttons .= '<button type="button" class="btn btn-primary btn-sm" title="Cambiar Estatus" data-argid="'.$query->id.'" onclick="openModal(\''.$query->id.'\')"><i class="fa fa-clipboard-check"></i></button>';
                     }
 
+                    if(auth()->user()->can('formulario-estatus')){
+                        $buttons .= '<button type="button" class="btn btn-dark btn-sm" title="Fotografías Contrato" data-argid="'.$query->id.'" onclick="openModalFotografiasContrato(\''.$query->id.'\')"><i class="fa fa-camera"></i></button>';
+                    }
+
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
 
                 })

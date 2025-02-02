@@ -12,6 +12,12 @@ import $ from 'jquery';
 //Importamos el complemento que instalamos imask
 import Imask from 'imask';
 
+//Importamos el complemento que instalamos Dropzone
+import Dropzone from 'dropzone';
+
+//Importamos el complemento SweetAlert2
+import Swal from 'sweetalert2';
+
 import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
 import 'datatables.net-responsive-dt';
@@ -23,18 +29,18 @@ import 'datatables.net-buttons-bs5';
 /* import 'datatables.net-buttons/js/buttons.flash.js'; */
 /* import 'datatables.net-buttons/js/buttons.bootstrap5.js'; */
 
-
-import Swal from 'sweetalert2'
-
 window.axios = axios;
 window.$ = $;
 
 //Aqui le decimos que lo use en el documento
 window.Imask = Imask;
 
+window.Dropzone = Dropzone;
+
 //DataTables
 window.DataTable = DataTable;
 
+//SweetAlert
 window.Swal = Swal;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

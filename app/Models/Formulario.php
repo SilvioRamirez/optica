@@ -65,4 +65,10 @@ class Formulario extends Model
     {
         return $this->belongsTo(Especialista::class, 'especialista');
     }
+
+    //Relacion de uno a muchos
+    public function imagenContratos()
+    {
+        return $this->hasMany(ImagenContrato::class);
+    }
 }

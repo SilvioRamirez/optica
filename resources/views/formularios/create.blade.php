@@ -21,7 +21,7 @@
                 @php
                     $formulario="";
                 @endphp
-                {!! Form::open(array('route' => 'formularios.store','method'=>'POST', 'id' => 'formularios.store')) !!}
+                {!! Form::open(array('route' => 'formularios.store','method'=>'POST', 'id' => 'formularios.store', 'enctype' => 'multipart/form-data')) !!}
                     @include('formularios.partials.form')
                 {!! Form::close() !!}
             </div>

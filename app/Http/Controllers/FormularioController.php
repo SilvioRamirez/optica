@@ -82,9 +82,7 @@ class FormularioController extends Controller
      */
     public function store(StoreFormularioRequest $request): RedirectResponse
     {
-        //request()->validate(Persona::$rules);
 
-        /* $data = $request->all(); */
         $data = $request->except('tipo_tratamiento_hidden_id');
         //$data['status'] = $request->status ? 1 : 0;
 
