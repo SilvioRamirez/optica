@@ -4,6 +4,7 @@
     </IfModule>
 
     RewriteEngine On
+    DirectoryIndex index.php # <--- This line
     
     # Redirect from http to https
     RewriteCond %{SERVER_PORT} 80

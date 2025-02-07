@@ -172,6 +172,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/cambiarEstatus/{formulario}',  [FormularioController::class, 'cambiarEstatus']);
 
     Route::post('api/imagenesContrato/{formulario}',   [ImagenContratoController::class, 'show']);
+    Route::post('api/imagenesContratoDelete/{formulario}',   [ImagenContratoController::class, 'destroy']);
 
     Route::get('/formularios/{formulario}/orden/pdf/',   [FormularioPdfController::class, 'orden_pdf'])->name('formulario.orden.pdf');
     

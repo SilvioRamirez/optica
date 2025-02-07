@@ -97,13 +97,18 @@ class ImagenContratoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ImagenContrato $imagenContrato)
+    public function destroy($id)
     {
-        Storage::delete(str_replace('/storage/', 'public/', $imagenContrato->path)) ;
+
+        $imagenContrato= ImagenContrato::find($id);
+        
         $imagenContrato->delete();
+
+        Storage::delete(str_replace('/storage/', 'public/', $imagenContrato->path)) ;
         
         return response()->json([
             'message' => 'Imagen eliminada'
         ]);
+        
     }
 }

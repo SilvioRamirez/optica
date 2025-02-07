@@ -363,9 +363,11 @@ myDropzone.on("addedfile", file => {
                         }).then((result) => {
                         if (result.isConfirmed) {
 
-                            var urdDelete = /* SITEURL +  */'imagenContratos/'+`${imagen.id}`;
+                            var urlDelete = /* SITEURL +  */'/api/imagenesContratoDelete/'+`${imagen.id}`;
 
-                            axios.delete(urdDelete).then(response => {
+                            alert(urlDelete);
+
+                            axios.post(urlDelete).then(response => {
                                 let status = response.status;
                                 let message = response.statusText;
                                 console.log(response.data);
