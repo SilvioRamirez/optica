@@ -7,5 +7,10 @@ php artisan lang:update
 
 php artisan datatables:make Users
 
+php artisan make:model Product -mcr
+
+php artisan make:model Category -a
+
+php artisan make:migration add_foreign_key_to_products_table --table=products
 
 npm run build && php artisan config:cache && php artisan event:cache && php artisan route:cache && php artisan view:cache
