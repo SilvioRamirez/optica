@@ -187,7 +187,7 @@
                                             <th>FECHA</th>
                                             <th>TIPO</th>
                                             <th>REFERENCIA</th>
-                                            <th>IMAGEN</th>
+                                            <th>COMPROBANTE</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -557,6 +557,7 @@ Dropzone.options.myDropzone = {
             console.log(response.data);
             
             const tbody = document.querySelector('#tablaPagos tbody');
+            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
 
             response.data.forEach(pago => {
 
@@ -579,7 +580,7 @@ Dropzone.options.myDropzone = {
                 fila.appendChild(celdaPagoFecha);
 
                 const celdaTipoId = document.createElement('td');
-                celdaTipoId.textContent = pago.tipo_id;
+                celdaTipoId.textContent = pago.tipo;
                 fila.appendChild(celdaTipoId);
 
                 const celdaReferencia = document.createElement('td');
@@ -587,20 +588,84 @@ Dropzone.options.myDropzone = {
                 fila.appendChild(celdaReferencia);
 
                 const celdaImagePath = document.createElement('td');
-                celdaImagePath.textContent = pago.image_path;
+                if (pago.image_path) {
+                    const img = document.createElement('img');
+                    img.src = `${pago.image_path}`;
+                    img.style.width = '50px';
+                    img.style.height = '50px';
+                    img.className = 'img-fluid m-1';
+                    celdaImagePath.appendChild(img);
+
+                    const btnVer = document.createElement('a');
+                    btnVer.className = 'btn btn-primary btn-sm m-1';
+                    btnVer.href = `${pago.image_path}`;
+                    btnVer.target = '_blank';
+                    btnVer.innerHTML = '<i class="fa fa-magnifying-glass-plus"></i>';
+                    celdaImagePath.appendChild(btnVer);
+                }
+                
+                // Agregar botón de carga
+                const inputFile = document.createElement('input');
+                inputFile.type = 'file';
+                inputFile.accept = 'image/*';
+                inputFile.style.display = 'none';
+                inputFile.id = `file-input-${pago.id}`;
+
+                
+                const btnCargar = document.createElement('button');
+                btnCargar.className = 'btn btn-primary btn-sm m-1';
+                btnCargar.innerHTML = '<i class="fa fa-upload"></i> Cargar';
+                btnCargar.onclick = function() {
+                    inputFile.click();
+                };
+
+                inputFile.onchange = function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        formData.append('pago_id', pago.id);
+
+                        axios.post('/api/cargar-imagen-pago', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .then(response => {
+                            if (response.data.success) {
+                                // Actualizar la imagen en la tabla
+                                consultaPagosTable(id); // Recargar la tabla
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Éxito',
+                                    text: 'Imagen cargada correctamente'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error al cargar la imagen'
+                            });
+                        });
+                    }
+                };
+
+                celdaImagePath.appendChild(inputFile);
+                
+                celdaImagePath.appendChild(btnCargar);
                 fila.appendChild(celdaImagePath);
 
                 tbody.appendChild(fila);
-
             });
 
         }).catch(error => {
             if(error.response){
-                /* document.getElementById('mensaje').innerText = 'Error al enviar formulario'; */
                 console.log(error.response.data.errors)
             }
         });
-
     }
 
 

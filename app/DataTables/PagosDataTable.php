@@ -55,7 +55,10 @@ class PagosDataTable extends DataTable
                     $query->where('tipo', 'like', "%$keyword%");
                 });
             })
-            ->rawColumns(['action', 'paciente', 'numero_orden', 'tipo'])
+            ->addColumn('image_path', function($query){
+                return $query->image_path ? '<img src="'.$query->image_path.'" class="img-fluid m-1" style="width: 50px; height: 50px;"> <a href="'.$query->image_path.'" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-magnifying-glass-plus"></i></a>' : '';
+            })
+            ->rawColumns(['action', 'paciente', 'numero_orden', 'tipo', 'image_path'])
             ->setRowId('id');
     }
 
@@ -77,7 +80,7 @@ class PagosDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(0, 'asc')
+                    ->orderBy(1, 'desc')
                     ->lengthMenu([10, 25, 50, 100, 500])
                     ->pageLength(25)
                     ->language([

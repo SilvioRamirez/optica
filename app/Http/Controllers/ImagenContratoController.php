@@ -79,22 +79,6 @@ class ImagenContratoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ImagenContrato $imagenContrato)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateImagenContratoRequest $request, ImagenContrato $imagenContrato)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)

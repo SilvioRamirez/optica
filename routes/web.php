@@ -231,6 +231,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/consultaPagos/{formulario}',   [PagoController::class, 'consultaPagos']);
     Route::post('api/calculoPagos/{formulario}',   [PagoController::class, 'calculoPagos']);
     Route::post('api/pagoDelete/{pago}',   [PagoController::class, 'destroy']);
+    Route::post('api/cargar-imagen-pago', [PagoController::class, 'cargarImagen']);
     Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
     Route::resource('rutaEntregas',  RutaEntregaController::class);
 
