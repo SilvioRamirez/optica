@@ -13,7 +13,6 @@
                 <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
                     {{ $value->name }}
                 </label>
-                
             <br/>
             @endforeach
         </div>

@@ -112,10 +112,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/users/ajax/create',    [UserController::class, 'ajax_create'])->name('users.ajax.create');
     Route::resource('users',            UserController::class);
 
-    //Rutas de Productos
-    /* Route::get('/products/{product}/delete',    [ProductController::class, 'delete'])->name('products.delete');
-    Route::resource('products',                  ProductController::class); */
-
     //Rutas de Pacientes y Resultados
     Route::get('/pacientes/{paciente}/resultados',  [PacienteController::class, 'resultados_index'])->name('pacientes.resultados.index');
     Route::post('/pacientes/resultados/store',      [PacienteController::class, 'resultados_store'])->name('pacientes.resultados.store');
@@ -163,9 +159,6 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/lentes/entLentes',         [LenteController::class, 'EntLentesIndex'])->name('lentes.index.ent');
     Route::get('/lentes/{lente}/delete',    [LenteController::class, 'delete'])->name('lentes.delete');
     Route::resource('lentes',               LenteController::class);
-
-    //Rutas de Pagos
-    Route::resource('pagos', PagoController::class);
 
     //Rutas de Formularios
     Route::post('api/estatusFormulario/{formulario}',   [FormularioController::class, 'estatusFormulario']);
@@ -230,30 +223,20 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas Carga Imagenes Contratos
     Route::resource('imagenContratos',  ImagenContratoController::class);
 
+    //Consulta de pago
+    Route::post('api/saldoFormulario/{formulario}',   [FormularioController::class, 'saldoFormulario']);
 
+    //Rutas Pagos
+    Route::resource('pagos',  PagoController::class);
+    Route::post('api/consultaPagos/{formulario}',   [PagoController::class, 'consultaPagos']);
+    Route::post('api/calculoPagos/{formulario}',   [PagoController::class, 'calculoPagos']);
+    Route::post('api/pagoDelete/{pago}',   [PagoController::class, 'destroy']);
     Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
     Route::resource('rutaEntregas',  RutaEntregaController::class);
 
     Route::get('/gastoOperativos/{gastoOperativo}/delete',    [GastoOperativoController::class, 'delete'])->name('gastoOperativos.delete');
     Route::get('/gastoOperativos/{operativo}/index', [GastoOperativoController::class, 'index'])->name('gastoOperativos.index');
-    /* Route::resource('gastoOperativos',  GastoOperativoController::class); */
 
-    //Rutas de Bioanalistas
-    /* Route::get('/bioanalistas/{bioanalista}/delete',    [BioanalistaController::class, 'delete'])->name('bioanalistas.delete');
-    Route::resource('bioanalistas',                     BioanalistaController::class); */
-
-    //Rutas de Muestras
-    /* Route::get('/muestras/{muestra}/delete',    [MuestraController::class, 'delete'])->name('muestras.delete');
-    Route::resource('muestras',                 MuestraController::class); */
-
-    //Rutas de Examenes y sus Caracteristicas
-    /* Route::get('/examenes/{examen}/delete',                 [ExamenController::class, 'delete'])->name('examenes.delete');
-    Route::get('/examenes/{examen}/caracteristicas',        [ExamenController::class, 'caracteristicas_index'])->name('examenes.caracteristicas');
-    Route::post('/examenes/caracteristicas/store',          [ExamenController::class, 'caracteristicas_store'])->name('examenes.caracteristicas.store');
-    Route::get('/examenes/caracteristicas/destroy/{id}',    [ExamenController::class, 'caracteristicas_destroy'])->name('examenes.caracteristicas.destroy');
-    Route::get('/examenes/caracteristicas/edit/{id}',       [ExamenController::class, 'caracteristicas_edit'])->name('examenes.caracteristicas.edit');
-    Route::patch('/examenes/caracteristicas/update/{id}',   [ExamenController::class, 'caracteristicas_update'])->name('examenes.caracteristicas.update');
-    Route::resource('examenes',                             ExamenController::class); */
 
     Route::get('/log', function () {
         return Activity::all();

@@ -23,23 +23,39 @@ class PagosDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                return '<div class="btn-group" role="group" aria-label="Opciones">
-                            <a class="btn btn-danger btn-sm"    title="Eliminar Lente"  href="'.route('pacientes.lente.delete', $query->id).'"><i class="fa fa-trash"></i></a>
-                            <a class="btn btn-info btn-sm"      title="Ver Lente"       href="'.route('pacientes.lente.show', $query->id).'"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-warning btn-sm"   title="Editar Lente"    href="'.route('pacientes.lente.edit', $query->id).'"><i class="fa fa-pencil"></i></a>
-                        </div>';
-            })
-            ->addColumn('status', function($query){
-                
-                return statusPagoColumn($query);
+                $buttons = '';
 
+                    if(auth()->user()->can('pago-delete')){
+                        $buttons .= '<button class="btn btn-danger btn-sm" title="Eliminar" data-argid="'.$query->id.'" onclick="openModalDelete(\''.$query->id.'\')"> <i class="fa fa-trash"></i></button>';
+                    }
+
+                return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
+            })
+            ->addColumn('numero_orden', function($query){
+                return $query->formulario->numero_orden;
+            })
+            ->filterColumn('numero_orden', function($query, $keyword){
+                $query->whereHas('formulario', function($query) use ($keyword){
+                    $query->where('numero_orden', 'like', "%$keyword%");
+                });
             })
             ->addColumn('paciente', function($query){
-                foreach($query->pacientes as $paciente){
-                    return $paciente->nombres.' '.$paciente->apellidos;
-                }
+                return $query->formulario->paciente;
             })
-            ->rawColumns(['action', 'paciente', 'status'])
+            ->filterColumn('paciente', function($query, $keyword){
+                $query->whereHas('formulario', function($query) use ($keyword){
+                    $query->where('paciente', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('tipo', function($query){
+                return $query->tipo ? $query->tipo->tipo : 'N/A';
+            })
+            ->filterColumn('tipo', function($query, $keyword){
+                $query->whereHas('tipo', function($query) use ($keyword){
+                    $query->where('tipo', 'like', "%$keyword%");
+                });
+            })
+            ->rawColumns(['action', 'paciente', 'numero_orden', 'tipo'])
             ->setRowId('id');
     }
 
@@ -48,7 +64,7 @@ class PagosDataTable extends DataTable
      */
     public function query(Pago $model): QueryBuilder
     {
-        return $model->newQuery()->with('pacientes');
+        return $model->newQuery();
     }
 
     /**
@@ -82,32 +98,28 @@ class PagosDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::make('id')->title('ID'),
-            Column::computed('paciente')->title('Paciente')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->searchable(true)
-                    ->orderable(true)
-                    ->addClass('text-center'),
-            Column::make('monto')->title('Monto'),
-            Column::make('deuda')->title('Deuda'),
-            Column::make('pagado')->title('Pago'),
-            Column::make('porcentaje')->title('Porcentaje'),
-            Column::computed('status')->title('Estatus')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->searchable(true)
-                    ->orderable(true)
-                    ->addClass('text-center'),
-            Column::make('created_at')->title('Creado'),
-            Column::make('updated_at')->title('Actualizado'),
-            Column::computed('action')->title('Acción')
+        $columns = [];
+
+        $columns[] = Column::computed('action')->title('Acción')
                     ->exportable(false)
                     ->printable(false)
                     ->width(60)
-                    ->addClass('text-center'),
-        ];
+                    ->addClass('text-center');
+        $columns[] = Column::make('id')->title('ID');
+        $columns[] = Column::make('formulario_id')->title('Formulario ID');
+        $columns[] = Column::make('numero_orden')->title('Numero Orden');
+        $columns[] = Column::make('paciente')->title('Paciente');
+        $columns[] = Column::make('monto')->title('Monto');
+        $columns[] = Column::make('pago_fecha')->title('Fecha Pago');
+        $columns[] = Column::make('tipo')->title('Tipo Pago');
+        $columns[] = Column::make('referencia')->title('Referencia');
+        if(auth()->user()->can('pago-list')){
+            $columns[] = Column::make('image_path')->title('Imagen');
+        }
+        $columns[] = Column::make('created_at')->title('Creado');
+        $columns[] = Column::make('updated_at')->title('Actualizado');
+
+        return $columns;
     }
 
     /**

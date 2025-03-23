@@ -46,7 +46,9 @@ class FormularioController extends Controller
 
         $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas'));
+        $tipos = Tipo::orderBy('tipo','asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos'));
     }
 
     /**
@@ -64,7 +66,6 @@ class FormularioController extends Controller
 
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        //$tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
         $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
 
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
@@ -83,7 +84,32 @@ class FormularioController extends Controller
     public function store(StoreFormularioRequest $request): RedirectResponse
     {
 
-        $data = $request->except('tipo_tratamiento_hidden_id');
+        $data = $request->except(
+            'tipo_tratamiento_hidden_id',
+            'saldo',
+            'porcentaje_pago',
+            'abono_1_decimal',
+            'abono_2_decimal',
+            'abono_3_decimal',
+            'abono_4_decimal',
+            'abono_5_decimal',
+            'abono_fecha_1',
+            'abono_fecha_2',
+            'abono_fecha_3',
+            'abono_fecha_4',
+            'abono_fecha_5',
+            'tipo_pago_1',
+            'tipo_pago_2',
+            'tipo_pago_3',
+            'tipo_pago_4',
+            'tipo_pago_5',
+            'ref_pago_1',
+            'ref_pago_2',
+            'ref_pago_3',
+            'ref_pago_4',
+            'ref_pago_5'
+
+        );
         //$data['status'] = $request->status ? 1 : 0;
 
         $formulario = Formulario::create($data);
@@ -105,8 +131,6 @@ class FormularioController extends Controller
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
         
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
-
-        /* $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', ''); */
 
         $tipoLentes = TipoLente::get(['id','tipo_lente']);
 
@@ -131,8 +155,6 @@ class FormularioController extends Controller
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
 
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
-
-        /* $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id'); */
 
         $tipoLentes = TipoLente::get(['id','tipo_lente']);
 
@@ -226,6 +248,22 @@ class FormularioController extends Controller
         //Se utiliza params por los parametros de la peticion axios
         $data['laboratorios'] = Laboratorio::get(["razon_social", "razon_social"]);
         return response()->json($data);
+    }
+
+    /* Consulta de Pagos Formulario */
+    public function saldoFormulario(Formulario $formulario){
+        return $formulario = Formulario::where('id', $formulario->id)
+            ->get([
+                'id',
+                'numero_orden',
+                'paciente',
+                'estatus',
+                'total',
+                'saldo',
+                'porcentaje_pago',
+                'direccion_operativo',
+            ])
+            ->first()->toJson();
     }
 
 }

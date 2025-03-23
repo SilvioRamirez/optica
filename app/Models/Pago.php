@@ -23,6 +23,18 @@ class Pago extends Model
         return LogOptions::defaults();
     }
 
+    protected $guarded = [];
+
+    public function formulario()
+    {
+        return $this->belongsTo(Formulario::class);
+    }
+
+    public function tipo()
+    {
+        return $this->belongsTo(Tipo::class);
+    }
+
     /**
      * Los pacientes que pertenecen a los lentes.
      */

@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\DataTables\PagosDataTable;
+use App\Models\Formulario;
 
 class PagoController extends Controller
 {
@@ -19,10 +20,10 @@ class PagoController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
-        $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:pago-list|pago-create|pago-edit|pago-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:pago-create', ['only' => ['create','store']]);
+        $this->middleware('permission:pago-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:pago-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -48,7 +49,48 @@ class PagoController extends Controller
      */
     public function store(StorePagoRequest $request)
     {
-        //
+
+        $formulario_id = $request->saldo_formulario_id; // Asigna el valor a una variable
+        $data = $request->except('saldo_formulario_id'); // Excluye el campo saldo_formulario_id
+        $data['formulario_id'] = $formulario_id;
+
+        $pago = Pago::create($data);
+
+        return response()->json(['message' => 'Pago registrado correctamente', 'formulario_id' => $formulario_id]);
+    }
+
+    public function consultaPagos($id)
+    {
+        $pagos = Pago::where('formulario_id', $id)->get();
+
+        return response()->json($pagos);
+    
+    }
+
+    public function calculoPagos($id)
+    {
+        $pagos = Pago::where('formulario_id', $id)->get();
+
+        $formulario = Formulario::where('id', $id)->first();
+
+        $totalPagos = $pagos->sum('monto');
+
+        $totalFormulario = $formulario->total;
+
+        $saldo = $totalFormulario - $totalPagos;
+
+        $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+
+        // Actualizar los campos en el modelo Formulario
+        $formulario->saldo = $saldo;
+        $formulario->porcentaje_pago = $porcentaje;
+        $formulario->save();
+
+        return response()->json([
+            'porcentaje' => $porcentaje,
+            'saldo' => $saldo
+        ]);
+    
     }
 
     /**
@@ -80,6 +122,47 @@ class PagoController extends Controller
      */
     public function destroy(Pago $pago)
     {
-        //
+        try {
+            $pago->delete();
+
+            $pagos = Pago::where('formulario_id', $pago->formulario_id)->get();
+
+            $formulario = Formulario::where('id', $pago->formulario_id)->first();
+
+            $totalPagos = $pagos->sum('monto');
+
+            $totalFormulario = $formulario->total;
+
+            $saldo = $totalFormulario - $totalPagos;
+
+            $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+
+            // Actualizar los campos en el modelo Formulario
+            $formulario->saldo = $saldo;
+            $formulario->porcentaje_pago = $porcentaje;
+            $formulario->save();
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Pago eliminado exitosamente.',
+                'data' => [
+                    'id' => $pago->id,
+                    'monto' => $pago->monto,
+                    'tipo' => $pago->tipo,
+                    'referencia' => $pago->referencia,
+                    'image_path' => $pago->image_path,
+                    'created_at' => $pago->created_at,
+                    'updated_at' => $pago->updated_at
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al eliminar el pago.',
+                'details' => $e->getMessage(),
+                'code' => 'ERROR'
+            ], 500);
+        }
     }
+    
 }

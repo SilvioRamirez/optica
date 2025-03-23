@@ -2,9 +2,6 @@
 
 @section('content')
 
-
-
-
     <div class="row">
             <div class="col-lg-12 margin-tb">
 
@@ -32,6 +29,7 @@
         @endcanany
     </div>
 
+{{-- Modal Cambiar Estatus del Lente --}}
 <div class="modal fade" id="prLenteModal" tabindex="-1" aria-labelledby="prLenteModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -80,6 +78,7 @@
     </div>
 </div>
 
+{{-- Modal Cargar Fotografias de Contrato --}}
 <div class="modal fade" id="uploadImageModal" tabindex="-1" aria-labelledby="uploadImageModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -128,6 +127,86 @@
     </div>
 </div>
 
+{{-- Modal Pagos de Contrato --}}
+<div class="modal fade" id="pagosModal" tabindex="-1" aria-labelledby="pagosModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h1 class="modal-title fs-5" id="pagosModalLabel"><i class="fa fa-file-invoice-dollar"></i> Pagos de Contrato</h1>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <h1 class="text-center"><i class="fa fa-file-invoice-dollar mb-2"></i> Información de Pagos</h1>
+                                <div class="col-md-12 row">
+
+                                    <h3 id="saldoPaciente">Paciente: </h3>
+                                    <h3 id="saldoNumeroOrden" >Numero de Orden: </h3>
+                                    <h3 id="saldoEstatus">Estatus: </h3>
+                                    <h3 id="saldoTotal">Total: </h3>
+                                    <h3 id="saldoSaldo">Saldo: </h3>
+                                    <h3 id="saldoPorcentajePago">Saldo: </h3>
+                                    
+                                </div>
+                                <hr>
+
+                                <form action="{{route('pagos.store')}}" method="POST" id="pagoForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <h2 class="text-center">Registrar Nuevo Pago</h2>
+                                            {{ Form::hiddenComp('saldo_formulario_id') }}
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
+                                            {{ Form::textComp('monto','Monto', null, null, '',) }}
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            {{ Form::dateComp('pago_fecha','Fecha', null, null, '') }}
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                            {{ Form::selectComp('tipo_id', 'Tipo', '', $tipos) }}                    
+                                        </div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
+                                            {{ Form::textComp('referencia','Ref', null, null, '',) }}
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                        <br>
+                                            <button type="submit" class="btn btn-primary" title="Guardar"><i class="fa fa-floppy-disk"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="mensaje">
+                                </div>
+                                <hr>
+                                <table id="tablaPagos" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>ID PAGO</th>
+                                            <th>ID FORMULARIO</th>
+                                            <th>MONTO</th>
+                                            <th>FECHA</th>
+                                            <th>TIPO</th>
+                                            <th>REFERENCIA</th>
+                                            <th>IMAGEN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                
+                                </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -150,30 +229,12 @@ Dropzone.options.myDropzone = {
 
 </script>
 
-<script type="module">
-
-    lightbox.option({
-        'resizeDuration': 200,
-        'wrapAround': true
-    })
-
-</script>
 
 <script type="module">
 
-/* import Dropzone from "dropzone";
 
-let myDropzone = new Dropzone("#my-form");
-
-myDropzone.on("addedfile", file => {
-    console.log(`File added: ${file.name}`);
-}); */
 
     $(document).ready(function () {
-
-        //alert('hola');
-
-        
 
         $('.btn-revisarLente').click(function(e) {
             e.preventDefault();
@@ -365,8 +426,6 @@ myDropzone.on("addedfile", file => {
 
                             var urlDelete = /* SITEURL +  */'/api/imagenesContratoDelete/'+`${imagen.id}`;
 
-                            alert(urlDelete);
-
                             axios.post(urlDelete).then(response => {
                                 let status = response.status;
                                 let message = response.statusText;
@@ -403,6 +462,147 @@ myDropzone.on("addedfile", file => {
         });
 
     }
+
+    function openModalPagosContrato(id){
+
+        document.getElementById("saldoPaciente").innerHTML = '';
+        document.getElementById("saldoNumeroOrden").innerHTML = '';
+        document.getElementById("saldoEstatus").innerHTML = '';
+        document.getElementById("saldoTotal").innerHTML = '';
+        document.getElementById("saldoSaldo").innerHTML = '';
+        document.getElementById("saldoPorcentajePago").innerHTML = '';
+
+        limpiarPagoForm();
+
+        document.getElementById('saldo_formulario_id').value = id;
+
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('pagosModal')).show();
+
+        var url = '/api/saldoFormulario/'+id;
+
+        axios.post(url).then(response => {
+            let status = response.status;
+            let message = response.statusText;
+            console.log(response.data);
+
+            document.getElementById("saldoPaciente").innerHTML = '<strong>Paciente:</strong> '+''+ response.data.paciente+'';
+            document.getElementById("saldoNumeroOrden").innerHTML = '<strong>Nro. Orden:</strong> '+''+ response.data.numero_orden+'';
+            document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> '+''+ response.data.estatus+'';
+            document.getElementById("saldoTotal").innerHTML = '<strong>Total:</strong> '+''+ response.data.total+'';
+
+        }).catch(error => {                  
+            if(error.response){
+                console.log(error.response.data.errors)
+            }
+        });
+
+        consultaPagosTable(id);
+
+    }
+
+    /* Evento que envia el formulario para registrar un nuevo pago */
+    document.getElementById('pagoForm').addEventListener('submit', function(event){
+        event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
+
+        const formData = new FormData(this); //Obtiene los datos del formulario
+
+        axios.post('/pagos', formData).then(response => {
+            let status = response.status;
+            let message = response.statusText;
+            console.log(response.data);
+            /* document.getElementById('mensaje').innerText = 'Formulario enviado correctamente'; */
+            limpiarPagoForm();
+            consultaPagosTable(response.data.formulario_id);
+
+        }).catch(error => {
+            if(error.response){
+                /* document.getElementById('mensaje').innerText = 'Error al enviar formulario'; */
+                console.log(error.response.data.errors)
+            }
+        });
+
+    });
+
+    function limpiarPagoForm(){
+        document.getElementById('monto').value = '';
+        document.getElementById('pago_fecha').value = '';
+        document.getElementById('tipo_id').value = '';
+        document.getElementById('referencia').value = '';
+
+        const tbody = document.querySelector('#tablaPagos tbody');
+        tbody.innerHTML = '';
+    }
+
+    function calculoPagos(id){
+
+        var url = '/api/calculoPagos/'+id;
+
+        axios.post(url).then(response => {
+            console.log(response.data);
+            document.getElementById("saldoSaldo").innerHTML = '<strong>Saldo:</strong> '+''+ response.data.saldo+'';
+            document.getElementById("saldoPorcentajePago").innerHTML = '<strong>Porcentaje Pagado:</strong> '+''+ response.data.porcentaje+'%';
+        });
+
+    }
+
+    function consultaPagosTable(id){
+
+        calculoPagos(id);
+
+        var url = /* SITEURL +  */'/api/consultaPagos/'+id;
+
+        axios.post(url).then(response => {
+            let status = response.status;
+            let message = response.statusText;
+            console.log(response.data);
+            
+            const tbody = document.querySelector('#tablaPagos tbody');
+
+            response.data.forEach(pago => {
+
+                const fila = document.createElement('tr'); // Crear una nueva fila
+
+                const celdaId = document.createElement('td');
+                celdaId.textContent = pago.id;
+                fila.appendChild(celdaId);
+
+                const celdaFormularioId = document.createElement('td');
+                celdaFormularioId.textContent = pago.formulario_id;
+                fila.appendChild(celdaFormularioId);
+
+                const celdaMonto = document.createElement('td');
+                celdaMonto.textContent = pago.monto;
+                fila.appendChild(celdaMonto);
+
+                const celdaPagoFecha = document.createElement('td');
+                celdaPagoFecha.textContent = pago.pago_fecha;
+                fila.appendChild(celdaPagoFecha);
+
+                const celdaTipoId = document.createElement('td');
+                celdaTipoId.textContent = pago.tipo_id;
+                fila.appendChild(celdaTipoId);
+
+                const celdaReferencia = document.createElement('td');
+                celdaReferencia.textContent = pago.referencia;
+                fila.appendChild(celdaReferencia);
+
+                const celdaImagePath = document.createElement('td');
+                celdaImagePath.textContent = pago.image_path;
+                fila.appendChild(celdaImagePath);
+
+                tbody.appendChild(fila);
+
+            });
+
+        }).catch(error => {
+            if(error.response){
+                /* document.getElementById('mensaje').innerText = 'Error al enviar formulario'; */
+                console.log(error.response.data.errors)
+            }
+        });
+
+    }
+
 
 
 </script>

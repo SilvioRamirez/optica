@@ -25,7 +25,7 @@
 					</div>
 				@endcanany
 
-				@can('paciente-list')
+				{{-- @can('paciente-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingTwo">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
@@ -38,9 +38,9 @@
 								@endcan
 						</div>
 					</div>
-				@endcan
+				@endcan --}}
 
-				@can('paciente-list')
+				{{-- @can('paciente-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingThree">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
@@ -65,9 +65,9 @@
 							@endcan
 						</div>
 					</div>
-				@endcan
+				@endcan --}}
 
-				@can('paciente-list')
+				@can('pago-list')
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingPagos">
 						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePagos" aria-expanded="false" aria-controls="flush-collapsePagos">
@@ -75,20 +75,8 @@
 						</button>
 						</h2>
 						<div id="flush-collapsePagos" class="accordion-collapse collapse" aria-labelledby="flush-headingPagos" >
-							@can('product-list')
+							@can('pago-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('pagos.index') }}"><i class="fa fa-list"></i> Listado</a>
-							@endcan
-							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pr') }}"><i class="fa fa-check"></i> Por Revisar</a>
-							@endcan
-							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.lb') }}"><i class="fa fa-vial-circle-check"></i> En Laboratorio</a>
-							@endcan
-							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.pe') }}"><i class="fa fa-person-circle-check"></i> Por Entregar</a>
-							@endcan
-							@can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('lentes.index.ent') }}"><i class="fa fa-check-to-slot"></i> Entregados</a>
 							@endcan
 						</div>
 					</div>

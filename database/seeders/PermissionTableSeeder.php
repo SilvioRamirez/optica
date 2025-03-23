@@ -92,7 +92,12 @@ class PermissionTableSeeder extends Seeder
             'tipo-gasto-create',
             'tipo-gasto-edit',
             'tipo-gasto-delete',
-            'tipo-gasto-download'
+            'tipo-gasto-download',
+            'pago-list',
+            'pago-create',
+            'pago-edit',
+            'pago-delete',
+            'pago-download'
         ];
         
         foreach ($permissions as $permission) {

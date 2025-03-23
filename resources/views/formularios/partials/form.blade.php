@@ -148,7 +148,8 @@
             <br>
             <h5 class="">Datos del Pago y Abonos</h5>
             <hr>
-            {{ Form::numberComp('total','Total', null, null, '') }}
+            {{ Form::numberComp('precio_montura','Precio Montura', null, null, '') }}
+            {{ Form::numberComp('total','Total Lente', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
             <hr>
@@ -387,10 +388,18 @@
             max: 10000,
         })
 
+        IMask(document.getElementById('precio_montura'),{
+            mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
+        })
+
         $(document).ready(function () {
                 
             /*
-            * Dropdown de Municipios 
+            * Dropdown de tipos de Tratamiento 
             */
 
             $('#tipo-lente-dropdown').on('change', function () {
@@ -496,7 +505,7 @@
 
         /* Se realiza el calculo del Abono, Saldo y Total - Porcentaje */
 
-        function suma(){
+        /* function suma(){
             var suma = 0;
 
             var abono_1_decimal = document.getElementById('abono_1_decimal').value;
@@ -555,7 +564,7 @@
 
         abono_5_decimal.addEventListener("keyup", (event) => {
             suma();
-        });
+        }); */
 
         /* Funcion que agrega un año a la fecha seleccionada */
 
@@ -574,6 +583,38 @@
             fecha_proxima_cita.value = toDate;
 
         });
+
+        function deshabilitarInputs(arrayDeIds) {
+            arrayDeIds.forEach(id => {
+                document.getElementById(id).disabled = true;
+            });
+        }
+
+        deshabilitarInputs([
+            'saldo',
+            'porcentaje_pago',
+            'abono_1_decimal',
+            'abono_fecha_1',
+            'tipo_pago_1',
+            'ref_pago_1',
+            'abono_2_decimal',
+            'abono_fecha_2',
+            'tipo_pago_2',
+            'ref_pago_2',
+            'abono_3_decimal',
+            'abono_fecha_3',
+            'tipo_pago_3',
+            'ref_pago_3',
+            'abono_4_decimal',
+            'abono_fecha_4',
+            'tipo_pago_4',
+            'ref_pago_4',
+            'abono_5_decimal',
+            'abono_fecha_5',
+            'tipo_pago_5',
+            'ref_pago_5'
+        ]);
+    
 
     </script>
 @endpush

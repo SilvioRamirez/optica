@@ -54,6 +54,11 @@ class FormulariosDataTable extends DataTable
                         $buttons .= '<button type="button" class="btn btn-dark btn-sm" title="Fotografías Contrato" data-argid="'.$query->id.'" onclick="openModalFotografiasContrato(\''.$query->id.'\')"><i class="fa fa-camera"></i></button>';
                     }
 
+                    if(auth()->user()->can('formulario-estatus')){
+                        $buttons .= '<button type="button" class="btn btn-light btn-sm" title="Registro de Pagos" data-argid="'.$query->id.'" onclick="openModalPagosContrato(\''.$query->id.'\')"><i class="fa fa-file-invoice-dollar"></i></button>';
+                    }
+
+
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
 
                 })
@@ -61,44 +66,38 @@ class FormulariosDataTable extends DataTable
                     return \Carbon\Carbon::parse($query->fecha)->diffInDays(now(), 2);
                 })
                 ->addColumn('tipo', function($query){
-                    return $query->tipoLente->tipo_lente;
+                    return $query->tipoLente ? $query->tipoLente->tipo_lente : '';
+                })
+                ->filterColumn('tipo', function($query, $keyword){
+                    $query->whereHas('tipoLente', function($query) use ($keyword){
+                        $query->where('tipo_lente', 'like', "%$keyword%");
+                    });
                 })
                 ->addColumn('tipoTratamiento', function($query){
-                    $tipoTratamiento = '';
-                    if(!$query->tipoTratamiento){
-                        return $tipoTratamiento;
-                    }
-                    $tipoTratamiento = $query->tipoTratamiento->tipo_tratamiento;
-                    return $tipoTratamiento;
+                    return $query->tipoTratamiento ? $query->tipoTratamiento->tipo_tratamiento : '';
+                })
+                ->filterColumn('tipoTratamiento', function($query, $keyword){
+                    $query->whereHas('tipoTratamiento', function($query) use ($keyword){
+                        $query->where('tipo_tratamiento', 'like', "%$keyword%");
+                    });
                 })
                 ->addColumn('rutaEntrega', function($query){
-                    $rutaEntrega = '';
-                    if(!$query->rutaEntrega){
-                        return $rutaEntrega;
-                    }
-                    $rutaEntrega = $query->rutaEntrega->ruta_entrega;
-                    return $rutaEntrega;
+                    return $query->rutaEntrega ? $query->rutaEntrega->ruta_entrega : '';
                 })
-                ->addColumn('porcentaje_pago', function($query){
-                    $calc = '';
-
-                    $total_abonos = $query->abono_1_decimal + $query->abono_2_decimal + $query->abono_3_decimal + $query->abono_4_decimal + $query->abono_5_decimal;
-
-                    /* Verificamos primero que el $query-total no sea 0 */
-
-                    $calc = $query->total == 0 ? 0 : round(($total_abonos*100)/($query->total));
-                    
-                    return $calc . '%';
+                ->filterColumn('rutaEntrega', function($query, $keyword){
+                    $query->whereHas('rutaEntrega', function($query) use ($keyword){
+                        $query->where('ruta_entrega', 'like', "%$keyword%");
+                    });
                 })
                 ->addColumn('especialista', function($query){
-                    $especialistaLente = '';
-                    if(!$query->especialistaLente){
-                        return $especialistaLente;
-                    }
-                    $especialistaLente = $query->especialistaLente->nombre;
-                    return $especialistaLente;
+                    return $query->especialistaLente ? $query->especialistaLente->nombre : '';
                 })
-                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'porcentaje_pago', 'especialista'])
+                ->filterColumn('especialista', function($query, $keyword){
+                    $query->whereHas('especialistaLente', function($query) use ($keyword){
+                        $query->where('nombre', 'like', "%$keyword%");
+                    });
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista'])
                 ->setRowId('id');
     }
 
@@ -166,6 +165,7 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('estatus')->title('Estatus');
         $columns[] = Column::computed('rutaEntrega')->title('Ruta de Entrega')
                     ->orderable(true)
+                    ->searchable(true)
                     ->exportable(true)
                     ->printable(true)
                     ->width(60)
@@ -174,17 +174,20 @@ class FormulariosDataTable extends DataTable
         
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
                     ->orderable(true)
+                    ->searchable(true)
                     ->exportable(true)
                     ->printable(true)
                     ->width(60)
                     ->addClass('text-center');
         $columns[] = Column::computed('tipoTratamiento')->title('Tipo de Tratamiento')
                     ->orderable(true)
+                    ->searchable(true)
                     ->exportable(true)
                     ->printable(true)
                     ->width(60)
                     ->addClass('text-center');
         $columns[] = Column::make('observaciones_extras')->title('Observaciones Extras');
+        $columns[] = Column::make('precio_montura')->title('Precio Montura');
         $columns[] = Column::make('total')->title('Total');
         $columns[] = Column::make('saldo')->title('Saldo');
         $columns[] = Column::computed('porcentaje_pago')->title('%')
@@ -215,6 +218,7 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('tipo_formula')->title('Tipo de Formula');
         $columns[] = Column::computed('especialista')->title('Especialista')
                     ->orderable(true)
+                    ->searchable(true)
                     ->exportable(true)
                     ->printable(true)
                     ->width(60)
