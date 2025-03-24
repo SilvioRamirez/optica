@@ -24,13 +24,11 @@
 <body>
     <div id="app">
             <nav class="navbar navbar-expand-lg bg-light border-light shadow" data-bs-theme="light">
-                <div class="container-fluid">
-                    <div class="container">
+                <div class="container">
                         <a class="navbar-brand" href="#">
                             <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..." width="30" height="30">
                             <a href="{{ url('/') }}" class="text-reset text-decoration-none">OptiRango</a>
                         </a>
-                    </div>
                     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
