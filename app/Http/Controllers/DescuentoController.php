@@ -5,15 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Descuento;
 use App\Http\Requests\StoreDescuentoRequest;
 use App\Http\Requests\UpdateDescuentoRequest;
-
+use App\DataTables\DescuentosDataTable;
 class DescuentoController extends Controller
 {
     /**
+     * Check Spatie Permissions
+     *
+     */
+    function __construct()
+    {
+        $this->middleware('permission:descuento-list|descuento-create|descuento-edit|descuento-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:descuento-create', ['only' => ['create','store']]);
+        $this->middleware('permission:descuento-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:descuento-delete', ['only' => ['delete','destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DescuentosDataTable $dataTable)
     {
-        //
+        return $dataTable->render('descuentos.index');
     }
 
     /**
@@ -21,7 +33,7 @@ class DescuentoController extends Controller
      */
     public function create()
     {
-        //
+        return view('descuentos.create');
     }
 
     /**
@@ -29,7 +41,11 @@ class DescuentoController extends Controller
      */
     public function store(StoreDescuentoRequest $request)
     {
-        //
+        $data = $request->all();
+        $descuento = Descuento::create($data);
+
+        return redirect()->route('descuentos.index', $descuento->id)
+                            ->with('success','Registro creado exitosamente: '.$descuento->nombre.'.');
     }
 
     /**
@@ -37,7 +53,7 @@ class DescuentoController extends Controller
      */
     public function show(Descuento $descuento)
     {
-        //
+        return view('descuentos.show', compact('descuento'));
     }
 
     /**
@@ -45,7 +61,7 @@ class DescuentoController extends Controller
      */
     public function edit(Descuento $descuento)
     {
-        //
+        return view('descuentos.edit', compact('descuento'));
     }
 
     /**
@@ -53,7 +69,15 @@ class DescuentoController extends Controller
      */
     public function update(UpdateDescuentoRequest $request, Descuento $descuento)
     {
-        //
+        $data = $request->all();
+
+        if(!$descuento->update($data)){
+            return redirect()->back()
+                            ->with('danger','Registro no actualizado.');
+        }
+
+        return redirect()->route('descuentos.index')
+                            ->with('success','Registro actualizado exitosamente.');
     }
 
     /**
@@ -61,6 +85,9 @@ class DescuentoController extends Controller
      */
     public function destroy(Descuento $descuento)
     {
-        //
+        $descuento->delete();
+
+        return redirect()->route('descuentos.index')
+                            ->with('success','Registro eliminado exitosamente.');
     }
 }

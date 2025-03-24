@@ -17,6 +17,7 @@ use App\Models\TipoTratamiento;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Models\Descuento;
 
 class FormularioController extends Controller
 {
@@ -74,7 +75,19 @@ class FormularioController extends Controller
         
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
+        $descuentos = Descuento::orderBy('id','asc')
+            ->select('id', 'nombre', 'porcentaje')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre . ' (' . $item->porcentaje . '%)',
+                    'porcentaje' => $item->porcentaje
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
+
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
 
     }
 
@@ -140,7 +153,19 @@ class FormularioController extends Controller
 
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
+        $descuentos = Descuento::orderBy('id','asc')
+            ->select('id', 'nombre', 'porcentaje')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre . ' (' . $item->porcentaje . '%)',
+                    'porcentaje' => $item->porcentaje
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
+
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
     }
 
     /**
@@ -164,7 +189,19 @@ class FormularioController extends Controller
 
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas'));
+        $descuentos = Descuento::orderBy('id','asc')
+            ->select('id', 'nombre', 'porcentaje')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre . ' (' . $item->porcentaje . '%)',
+                    'porcentaje' => $item->porcentaje
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
+            
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
     }
 
     /**

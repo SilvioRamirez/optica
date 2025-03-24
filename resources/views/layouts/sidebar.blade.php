@@ -114,6 +114,9 @@
 							@can('tipo-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipos.index') }}"><i class="fa-solid fa-hand-holding-dollar"></i> Tipos de Pago</a>
 							@endcan
+							@can('descuento-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('descuentos.index') }}"><i class="fa-solid fa-coins"></i> Descuentos</a>
+							@endcan
 							@can('estatus-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('estatus.index') }}"><i class="fa-solid fa-layer-group"></i> Estatus</a>
 							@endcan

@@ -181,12 +181,11 @@
                                 <table id="tablaPagos" class="table table-responsive">
                                     <thead>
                                         <tr>
-                                            <th>ID PAGO</th>
-                                            <th>ID FORMULARIO</th>
+                                            <th>ID</th>
                                             <th>MONTO</th>
                                             <th>FECHA</th>
                                             <th>TIPO</th>
-                                            <th>REFERENCIA</th>
+                                            <th>REF</th>
                                             <th>COMPROBANTE</th>
                                         </tr>
                                     </thead>
@@ -566,10 +565,6 @@ Dropzone.options.myDropzone = {
                 const celdaId = document.createElement('td');
                 celdaId.textContent = pago.id;
                 fila.appendChild(celdaId);
-
-                const celdaFormularioId = document.createElement('td');
-                celdaFormularioId.textContent = pago.formulario_id;
-                fila.appendChild(celdaFormularioId);
 
                 const celdaMonto = document.createElement('td');
                 celdaMonto.textContent = pago.monto;

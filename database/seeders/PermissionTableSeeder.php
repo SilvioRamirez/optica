@@ -97,7 +97,12 @@ class PermissionTableSeeder extends Seeder
             'pago-create',
             'pago-edit',
             'pago-delete',
-            'pago-download'
+            'pago-download',
+            'descuento-list',
+            'descuento-create',
+            'descuento-edit',
+            'descuento-delete',
+            'descuento-download'
         ];
         
         foreach ($permissions as $permission) {

@@ -11,7 +11,7 @@ class UpdateDescuentoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateDescuentoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'porcentaje' => 'required|numeric|min:0|max:100',
         ];
     }
 }

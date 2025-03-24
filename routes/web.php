@@ -17,6 +17,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\BioanalistaController;
 use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\DescuentoController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\EspecialistaController;
 use App\Http\Controllers\EstatusController;
@@ -238,6 +239,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/gastoOperativos/{gastoOperativo}/delete',    [GastoOperativoController::class, 'delete'])->name('gastoOperativos.delete');
     Route::get('/gastoOperativos/{operativo}/index', [GastoOperativoController::class, 'index'])->name('gastoOperativos.index');
 
+    Route::post('api/descuentoDelete/{descuento}',   [DescuentoController::class, 'destroy']);
+    Route::post('api/calcularDescuento/{formulario}',   [FormularioController::class, 'calcularDescuento']);
+    Route::resource('descuentos',  DescuentoController::class);
 
     Route::get('/log', function () {
         return Activity::all();

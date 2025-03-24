@@ -66,6 +66,11 @@ class Formulario extends Model
         return $this->belongsTo(Especialista::class, 'especialista');
     }
 
+    public function descuento()
+    {
+        return $this->belongsTo(Descuento::class, 'descuento_id');
+    }
+
     //Relacion de uno a muchos
     public function imagenContratos()
     {

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('telefono')->nullable();
             $table->string('correo')->nullable();
             $table->text('observacion')->nullable();
-            $table->text('type')->default('paciente');
+            $table->enum('type', ['paciente', 'especialista'])->default('paciente');
             $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

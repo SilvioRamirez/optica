@@ -47,6 +47,14 @@ class PagosDataTable extends DataTable
                     $query->where('paciente', 'like', "%$keyword%");
                 });
             })
+            ->addColumn('cedula', function($query){
+                return $query->formulario->cedula;
+            })
+            ->filterColumn('cedula', function($query, $keyword){
+                $query->whereHas('formulario', function($query) use ($keyword){
+                    $query->where('cedula', 'like', "%$keyword%");
+                });
+            })
             ->addColumn('tipo', function($query){
                 return $query->tipo ? $query->tipo->tipo : 'N/A';
             })
@@ -112,6 +120,7 @@ class PagosDataTable extends DataTable
         $columns[] = Column::make('formulario_id')->title('Formulario ID');
         $columns[] = Column::make('numero_orden')->title('Numero Orden');
         $columns[] = Column::make('paciente')->title('Paciente');
+        $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('monto')->title('Monto');
         $columns[] = Column::make('pago_fecha')->title('Fecha Pago');
         $columns[] = Column::make('tipo')->title('Tipo Pago');

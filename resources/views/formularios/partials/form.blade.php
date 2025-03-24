@@ -150,6 +150,18 @@
             <hr>
             {{ Form::numberComp('precio_montura','Precio Montura', null, null, '') }}
             {{ Form::numberComp('total','Total Lente', null, null, '') }}
+            {{-- {{ Form::selectComp('descuento', 'Descuento', '', $descuentos) }} --}}
+            <label for="descuento_id" class="mb-1"><strong>Descuento</strong></label>
+            <select name="descuento_id" id="descuento_id" class="form-control mb-2">
+                @foreach($descuentos as $descuento)
+                    <option value="{{ $descuento['id'] }}" 
+                            data-porcentaje="{{ $descuento['porcentaje'] }}"
+                            {{ is_object($formulario) && $formulario->descuento_id == $descuento['id'] ? 'selected' : '' }}>
+                        {{ $descuento['text'] }}
+                    </option>
+                @endforeach
+            </select>
+            {{ Form::readonlyComp('total_descuento','Total Descuento', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
             <hr>
@@ -245,9 +257,11 @@
         const handleKeyup = (event) => {
             event.target.value = event.target.value.toUpperCase()
         }
+
         const addHandleKeyup = ($element) => {
             $element.addEventListener('keyup', handleKeyup)
         }
+
         $inputsAndTextareas.forEach(addHandleKeyup)
 
         IMask(document.getElementById('numero_orden'),{
@@ -330,8 +344,6 @@
             mask: '{v}00000000-00000',
             prepareChar: str => str.toUpperCase(),
             definitions: {
-                // <any single char>: <same type as mask (RegExp, Function, etc.)>
-                // defaults are '0', 'a', '*'
                 'v': /[V,J,G,E,P]/
             }
         })
@@ -419,7 +431,6 @@
                             $("#tipo-tratamiento-dropdown").append('<option value="' + value
                                 .id + '">' + value.tipo_tratamiento + '</option>');
                         });
-                        //$('#parroquia-dropdown').html('<option value="">-- Selecciona Parroquia --</option>');
                     }
                 });
             });
@@ -455,11 +466,6 @@
                         }
                     });
                 }
-                
-
-
-
-        
         });
         
         
@@ -468,7 +474,7 @@
 
     <script>
 
-    /* Funcion que se utiliza para copiar los valores del ojo izquierdo y derecho */
+    //Funcion que se utiliza para copiar los valores del ojo izquierdo y derecho
 
         function copy(side){
 
@@ -502,6 +508,30 @@
                 aeje.value = beje.value
             }
         }
+
+        //Se realiza el calculo del descuento
+
+        function calcularDescuento(){
+            const selectDescuento = document.getElementById('descuento_id');
+            const porcentaje = selectDescuento.options[selectDescuento.selectedIndex].dataset.porcentaje;
+
+            console.log(porcentaje);
+
+            /* var descuento = document.getElementById('descuento').value; */
+            var total = document.getElementById('total').value;
+            var descuento_decimal = total * (porcentaje / 100);
+
+            document.getElementById('total_descuento').value = descuento_decimal;
+
+            document.getElementById('total').value = total - descuento_decimal;
+        }
+
+        var descuentoListener = document.getElementById('descuento_id');
+
+        descuentoListener.addEventListener("change", (event) => {
+            calcularDescuento();
+        });
+
 
         /* Se realiza el calculo del Abono, Saldo y Total - Porcentaje */
 

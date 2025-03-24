@@ -97,7 +97,15 @@ class FormulariosDataTable extends DataTable
                         $query->where('nombre', 'like', "%$keyword%");
                     });
                 })
-                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista'])
+                ->addColumn('descuento', function($query){
+                    return $query->descuento ? $query->descuento->nombre : '';
+                })
+                ->filterColumn('descuento', function($query, $keyword){
+                    $query->whereHas('descuento', function($query) use ($keyword){
+                        $query->where('nombre', 'like', "%$keyword%");
+                    });
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista', 'descuento'])
                 ->setRowId('id');
     }
 
@@ -171,7 +179,6 @@ class FormulariosDataTable extends DataTable
                     ->width(60)
                     ->addClass('text-center');
         $columns[] = Column::make('fecha_entrega')->title('Fecha de Entrega');
-        
         $columns[] = Column::computed('tipo')->title('Tipo de Lente')
                     ->orderable(true)
                     ->searchable(true)
@@ -190,8 +197,22 @@ class FormulariosDataTable extends DataTable
         $columns[] = Column::make('precio_montura')->title('Precio Montura');
         $columns[] = Column::make('total')->title('Total');
         $columns[] = Column::make('saldo')->title('Saldo');
-        $columns[] = Column::computed('porcentaje_pago')->title('%')
+        $columns[] = Column::computed('porcentaje_pago')->title('Pagado (%)')
                     ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
+        $columns[] = Column::computed('descuento')->title('Descuento (descripción)')
+                    ->orderable(true)
+                    ->searchable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
+        $columns[] = Column::computed('total_descuento')->title('Descuento (total)')
+                    ->orderable(true)
+                    ->searchable(true)
                     ->exportable(true)
                     ->printable(true)
                     ->width(60)
