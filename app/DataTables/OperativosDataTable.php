@@ -31,8 +31,16 @@ class OperativosDataTable extends DataTable
                         $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
-                    if(auth()->user()->can('gasto-operativo-list')){
+                    /* if(auth()->user()->can('gasto-operativo-list')){
                         $buttons .= '<a class="btn btn-success btn-sm" title="Gastos de Operativo" href="'.route('gastoOperativos.index',$query->id).'"> <i class="fa fa-magnifying-glass-dollar"></i></a>';
+                    } */
+
+                    if(auth()->user()->can('operativo-edit')){
+                        $buttons .= '<button type="button" class="btn btn-info btn-sm" title="Coordenadas GPS" data-argid="'.$query->id.'" onclick="abrirModalCoordenadas(\''.$query->id.'\')"> <i class="fa fa-location-dot"></i></button>';
+                    }
+
+                    if ($query->latitud && $query->longitud) {
+                        $buttons .= '<a href="https://www.google.com/maps/search/?api=1&query='.$query->latitud.','.$query->longitud.'" target="_blank" class="btn btn-warning btn-sm" title="Ver en Google Maps"> <i class="fa-solid fa-street-view"></i></a>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
@@ -146,6 +154,8 @@ class OperativosDataTable extends DataTable
             Column::make('lugar')->title('Lugar'),
             Column::make('nombre_operativo')->title('Nombre del Operativo'),
             Column::make('fecha')->title('Fecha del Operativo'),
+            Column::make('promotor_nombre')->title('Promotor'),
+            Column::make('promotor_telefono')->title('Teléfono'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
             

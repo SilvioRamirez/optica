@@ -7,6 +7,8 @@ use App\Models\Operativo;
 use App\Http\Requests\StoreOperativoRequest;
 use App\Http\Requests\UpdateOperativoRequest;
 use App\Models\Estado;
+use App\Models\Municipio;
+use App\Models\Parroquia;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -70,8 +72,10 @@ class OperativoController extends Controller
     public function edit(Operativo $operativo): View
     {
         $estados = Estado::get(['id_estado', 'estado']);
+        $municipios = Municipio::get(['id_municipio', 'municipio']);
+        $parroquias = Parroquia::get(['id_parroquia', 'parroquia']);
 
-        return view('operativos.edit',compact('operativo', 'estados'));
+        return view('operativos.edit',compact('operativo', 'estados', 'municipios', 'parroquias'));
     }
 
     /**
@@ -110,5 +114,22 @@ class OperativoController extends Controller
         $operativo->delete();
         return redirect()->route('operativos.index')
                             ->with('success','Registro eliminado exitosamente.');
+    }
+
+    public function updateCoordenadas(Request $request)
+    {
+        $request->validate([
+            'operativo_id' => 'required|exists:operativos,id',
+            'latitud' => 'required|numeric|between:-90,90',
+            'longitud' => 'required|numeric|between:-180,180'
+        ]);
+
+        $operativo = Operativo::findOrFail($request->operativo_id);
+        $operativo->update([
+            'latitud' => $request->latitud,
+            'longitud' => $request->longitud
+        ]);
+
+        return redirect()->back()->with('success', 'Coordenadas actualizadas exitosamente');
     }
 }

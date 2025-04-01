@@ -250,5 +250,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('logs/',             [ActivityController::class, 'index'])->name('logs.index');
     Route::get('logs/delete_all',   [ActivityController::class, 'delete_all'])->name('logs.delete.all');
 
+    Route::post('operativos/update-coordenadas', [OperativoController::class, 'updateCoordenadas'])->name('operativos.updateCoordenadas');
+
 });
 

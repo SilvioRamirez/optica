@@ -19,7 +19,11 @@ class Direccion extends Model
      */
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->setDescriptionForEvent(fn(string $eventName) => "Este modelo ha sido {$eventName}")
+            ->dontSubmitEmptyLogs();
     }
 
     protected $guarded = [];
