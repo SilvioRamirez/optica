@@ -161,7 +161,7 @@
                     </option>
                 @endforeach
             </select>
-            {{ Form::readonlyComp('total_descuento','Total Descuento', null, null, '') }}
+            {{ Form::textComp('total_descuento','Total Descuento', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
             <hr>
@@ -511,26 +511,25 @@
 
         //Se realiza el calculo del descuento
 
-        function calcularDescuento(){
+        /* function calcularDescuento(){
             const selectDescuento = document.getElementById('descuento_id');
             const porcentaje = selectDescuento.options[selectDescuento.selectedIndex].dataset.porcentaje;
 
             console.log(porcentaje);
 
-            /* var descuento = document.getElementById('descuento').value; */
             var total = document.getElementById('total').value;
             var descuento_decimal = total * (porcentaje / 100);
 
             document.getElementById('total_descuento').value = descuento_decimal;
 
             document.getElementById('total').value = total - descuento_decimal;
-        }
+        } */
 
-        var descuentoListener = document.getElementById('descuento_id');
+        /* var descuentoListener = document.getElementById('descuento_id');
 
         descuentoListener.addEventListener("change", (event) => {
             calcularDescuento();
-        });
+        }); */
 
 
         /* Se realiza el calculo del Abono, Saldo y Total - Porcentaje */

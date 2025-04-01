@@ -22,6 +22,9 @@ class ActivityDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('properties', function($query){
+                    return $query->properties ? $query->properties : '';
+            })
             ->setRowId('id');
     }
 
@@ -43,7 +46,7 @@ class ActivityDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0, 'desc')
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
                     ])
