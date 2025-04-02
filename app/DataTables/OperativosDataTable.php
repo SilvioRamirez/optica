@@ -32,6 +32,12 @@ class OperativosDataTable extends DataTable
                     }
 
                     if(auth()->user()->can('operativo-edit')){
+                        $buttons .= '<button type="button" class="btn btn-light btn-sm" title="Registro de Gastos" 
+                            data-operativo=\''.json_encode($query->toArray()).'\' 
+                            onclick="openModalGastosOperativo(this)"><i class="fa fa-file-invoice-dollar"></i></button>';
+                    }
+                    
+                    if(auth()->user()->can('operativo-edit')){
                         $buttons .= '<a class="btn btn-warning btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
@@ -42,6 +48,7 @@ class OperativosDataTable extends DataTable
                     if(auth()->user()->can('operativo-edit')){
                         $buttons .= '<button type="button" class="btn btn-primary btn-sm" title="Coordenadas GPS" data-argid="'.$query->id.'" onclick="abrirModalCoordenadas(\''.$query->id.'\')"> <i class="fa fa-location-dot"></i></button>';
                     }
+
 
                     if ($query->latitud && $query->longitud) {
                         $buttons .= '<a href="https://www.google.com/maps/search/?api=1&query='.$query->latitud.','.$query->longitud.'" target="_blank" class="btn btn-dark btn-sm" title="Ver en Google Maps"> <i class="fa-solid fa-street-view"></i></a>';

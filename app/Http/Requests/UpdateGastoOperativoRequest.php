@@ -11,7 +11,7 @@ class UpdateGastoOperativoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateGastoOperativoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'monto' => 'required|numeric|min:0',
+            'tipo_gasto_id' => 'required|exists:tipo_gastos,id',
         ];
     }
 }

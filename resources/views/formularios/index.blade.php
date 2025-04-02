@@ -314,7 +314,6 @@ Dropzone.options.myDropzone = {
             let ruta_entrega_id         = response.data.ruta_entrega_id
             let total                   = response.data.total
             let saldo                   = response.data.saldo
-            let direccion_operativo     = response.data.direccion_operativo
             let observaciones_extras    = response.data.observaciones_extras
             let edad                    = response.data.edad
             let fecha                   = response.data.fecha

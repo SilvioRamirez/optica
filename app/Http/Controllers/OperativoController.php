@@ -12,7 +12,7 @@ use App\Models\Parroquia;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-
+use App\Models\TipoGasto;
 class OperativoController extends Controller
 {
     /**
@@ -32,7 +32,8 @@ class OperativoController extends Controller
      */
     public function index(OperativosDataTable $dataTable)
     {
-        return $dataTable->render('operativos.index');
+        $tiposGastos = TipoGasto::orderBy('tipo_gasto','asc')->pluck('tipo_gasto', 'id')->prepend('-- Seleccione --', '');
+        return $dataTable->render('operativos.index', compact('tiposGastos'));
     }
 
     /**
@@ -210,5 +211,11 @@ class OperativoController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Coordenadas actualizadas exitosamente');
+    }
+
+    public function consultaGastosOperativo(Operativo $operativo)
+    {
+        $gastos = $operativo->gastos;
+        return response()->json($gastos);
     }
 }

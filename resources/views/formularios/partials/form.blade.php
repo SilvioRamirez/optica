@@ -44,8 +44,6 @@
 
             {{ Form::selectComp('operativo_id', 'Operativo', '', $operativos, null, '', is_object($formulario) ? $formulario->operativo_id : null) }}
 
-            {{-- {{ Form::selectComp('direccion_operativo', 'Dirección / Operativo', '', $operativos) }} --}}
-
             @canany(['formulario-telefono','formulario-create','formulario-edit'])
                 {{ Form::textComp('telefono','Telefono', null, null, '+584121234567') }}
             @endcanany

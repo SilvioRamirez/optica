@@ -34,6 +34,7 @@ use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\RefractanteController;
 use App\Http\Controllers\RutaEntregaController;
 use App\Http\Controllers\TipoController;
+use App\Http\Controllers\TipoGastoController;
 use App\Http\Controllers\TipoLenteController;
 use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TratamientoController;
@@ -183,6 +184,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/tipos/{tipo}/delete',    [TipoController::class, 'delete'])->name('tipos.delete');
     Route::resource('tipos', TipoController::class); 
 
+    //Tipos de Gastos
+    Route::get('/tipoGastos/{tipoGasto}/delete',    [TipoGastoController::class, 'delete'])->name('tipoGastos.delete');
+    Route::resource('tipoGastos', TipoGastoController::class);
+
+    //Rutas de Gastos Operativos
+    Route::get('/gastoOperativos/{gastoOperativo}/delete',    [GastoOperativoController::class, 'delete'])->name('gastoOperativos.delete');
+    Route::resource('gastoOperativos', GastoOperativoController::class);
 
     //Rutas de Laboratorios
     Route::post('api/fetch-laboratorios',               [DropdownController::class, 'fetchLaboratorio']);
@@ -227,6 +235,9 @@ Route::group(['middleware' => ['auth']], function() {
     //Consulta de pago
     Route::post('api/saldoFormulario/{formulario}',   [FormularioController::class, 'saldoFormulario']);
 
+    //Consulta de gastos operativos
+    Route::post('api/consultaGastosOperativo/{operativo}',   [OperativoController::class, 'consultaGastosOperativo']);
+
     //Rutas Pagos
     Route::resource('pagos',  PagoController::class);
     Route::post('api/consultaPagos/{formulario}',   [PagoController::class, 'consultaPagos']);
@@ -236,8 +247,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/rutaEntregas/{rutaEntrega}/delete',    [RutaEntregaController::class, 'delete'])->name('rutaEntregas.delete');
     Route::resource('rutaEntregas',  RutaEntregaController::class);
 
-    Route::get('/gastoOperativos/{gastoOperativo}/delete',    [GastoOperativoController::class, 'delete'])->name('gastoOperativos.delete');
-    Route::get('/gastoOperativos/{operativo}/index', [GastoOperativoController::class, 'index'])->name('gastoOperativos.index');
+    
 
     Route::post('api/descuentoDelete/{descuento}',   [DescuentoController::class, 'destroy']);
     Route::post('api/calcularDescuento/{formulario}',   [FormularioController::class, 'calcularDescuento']);

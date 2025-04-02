@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Tipo;
+use App\Models\TipoGasto;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class TiposDataTable extends DataTable
+class TipoGastosDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -27,15 +27,15 @@ class TiposDataTable extends DataTable
                     $buttons = '';
 
                     if(auth()->user()->can('tipo-list')){
-                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('tipos.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
+                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('tipoGastos.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
                     }
 
                     if(auth()->user()->can('tipo-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('tipos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('tipoGastos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
                     if(auth()->user()->can('tipo-delete')){
-                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('tipos.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
+                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('tipoGastos.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
@@ -47,7 +47,7 @@ class TiposDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Tipo $model): QueryBuilder
+    public function query(TipoGasto $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -58,7 +58,8 @@ class TiposDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('tipos-table')
+                    ->setTableId('tipogatos-table')
+                    ->columns($this->getColumns())
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->language([
@@ -90,19 +91,17 @@ class TiposDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        $columns = [];
-
-        $columns[] = Column::computed('action')->title('Acción')
-                    ->exportable(false)
-                    ->printable(false)
-                    ->width(60)
-                    ->addClass('text-center');
-        $columns[] = Column::make('id')->title('ID');
-        $columns[] = Column::make('tipo')->title('Tipo de Pago');
-        $columns[] = Column::make('created_at')->title('Creado');
-        $columns[] = Column::make('updated_at')->title('Actualizado');
-
-        return $columns;
+        return [
+            Column::computed('action')
+                  ->exportable(false)
+                  ->printable(false)
+                  ->width(60)
+                  ->addClass('text-center'),
+            Column::make('id')->title('ID'),
+            Column::make('tipo_gasto')->title('Tipo de Gasto'),
+            Column::make('created_at')->title('Creado'),
+            Column::make('updated_at')->title('Actualizado'),
+        ];
     }
 
     /**
@@ -110,6 +109,6 @@ class TiposDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Tipos_' . date('YmdHis');
+        return 'TipoGastos_' . date('YmdHis');
     }
 }

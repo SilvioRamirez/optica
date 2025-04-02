@@ -82,6 +82,21 @@
 					</div>
 				@endcan
 
+				@can('operativo-list')
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-headingOperativos">
+						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOperativos" aria-expanded="false" aria-controls="flush-collapseOperativos">
+							<i class="fa fa-globe"></i>&nbsp; Operativos
+						</button>
+						</h2>
+						<div id="flush-collapseOperativos" class="accordion-collapse collapse" aria-labelledby="flush-headingOperativos" >
+							@canany(['operativo-list', 'operativo-create'])
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Listado de Operativos</a>
+							@endcanany
+						</div>
+					</div>
+				@endcan
+
 				@canany(['paciente-list', 'operativo-list', 'role-list', 'user-list', 'configuracion-list', 'tipo-list', 'operativo-create', 'laboratorio-list', 'laboratorio-create'])
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingOne">
@@ -99,9 +114,7 @@
 							@can('user-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('personas.index') }}"><i class="fa fa-person"></i> Personas</a>
 							@endcan
-							@canany(['operativo-list', 'operativo-create'])
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('operativos.index') }}"><i class="fa-solid fa-map-location-dot"></i> Operativos</a>
-							@endcanany
+							
 							@canany(['especialista-list', 'especialista-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('especialistas.index') }}"><i class="fa-solid fa-id-badge"></i> Especialistas</a>
 							@endcanany
@@ -113,6 +126,9 @@
 							@endcan --}}
 							@can('tipo-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipos.index') }}"><i class="fa-solid fa-hand-holding-dollar"></i> Tipos de Pago</a>
+							@endcan
+							@can('tipo-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipoGastos.index') }}"><i class="fa-solid fa-file-invoice-dollar"></i> Tipos de Gastos</a>
 							@endcan
 							@can('descuento-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('descuentos.index') }}"><i class="fa-solid fa-coins"></i> Descuentos</a>
