@@ -103,6 +103,7 @@ class TipoLentesDataTable extends DataTable
                     ->addClass('text-center'),
             Column::make('id')->title('ID'),
             Column::make('tipo_lente'),
+            Column::make('precio'),
             Column::make('created_at')->title('Creado'),
             Column::make('updated_at')->title('Actualizado'),
         ];

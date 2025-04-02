@@ -10874,3 +10874,26 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     justify-content: center;
     /* min-height: 100vh; */
 }
+
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.icon i {
+  font-size: 2.25rem;
+}
+
+.icon-shape {
+  display: inline-flex;
+  padding: 12px;
+  text-align: center;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-shape i {
+  font-size: 1.25rem;
+}

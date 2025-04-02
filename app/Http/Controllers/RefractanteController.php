@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateRefractanteRequest;
 use App\Models\Operativo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\DB;
 class RefractanteController extends Controller
 {
 
@@ -38,7 +38,7 @@ class RefractanteController extends Controller
      */
     public function create()
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
 
         return view('refractantes.create', compact('operativos'));
     }
@@ -63,7 +63,7 @@ class RefractanteController extends Controller
      */
     public function show(Refractante $refractante): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
 
         return view('refractantes.show', compact('refractante', 'operativos'));
     }
@@ -73,8 +73,7 @@ class RefractanteController extends Controller
      */
     public function edit(Refractante $refractante): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
-
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
         return view('refractantes.edit',compact('refractante', 'operativos'));
     }
 

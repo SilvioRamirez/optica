@@ -24,23 +24,31 @@ class RefractantesDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
 
-                    $buttons = '';
+                $buttons = '';
 
-                    if(auth()->user()->can('refractante-list')){
-                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('refractantes.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
-                    }
+                if(auth()->user()->can('refractante-list')){
+                    $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('refractantes.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
+                }
 
-                    if(auth()->user()->can('refractante-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('refractantes.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
-                    }
+                if(auth()->user()->can('refractante-edit')){
+                    $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('refractantes.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                }
 
-                    if(auth()->user()->can('refractante-delete')){
-                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('refractantes.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
-                    }
+                if(auth()->user()->can('refractante-delete')){
+                    $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('refractantes.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
+                }
 
-                    return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
+                return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
 
-                })
+            })
+            ->addColumn('operativo_id', function($query){
+                return $query->operativo ? $query->operativo->nombre_operativo : '';
+            })
+            ->filterColumn('operativo_id', function($query, $keyword){
+                $query->whereHas('operativo', function($query) use ($keyword){
+                    $query->where('nombre_operativo', 'like', "%$keyword%");
+                });
+            })
             ->setRowId('id');
     }
 
@@ -98,7 +106,7 @@ class RefractantesDataTable extends DataTable
                     ->width(60)
                     ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
-        $columns[] = Column::make('direccion')->title('Dirección/Operativo');
+        $columns[] = Column::make('operativo_id')->title('Operativo');
         $columns[] = Column::make('nombre_apellido')->title('Nombre Apellido');
         
         if(auth()->user()->can('refractante-telefono')){

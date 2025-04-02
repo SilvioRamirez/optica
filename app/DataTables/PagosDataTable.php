@@ -39,6 +39,14 @@ class PagosDataTable extends DataTable
                     $query->where('numero_orden', 'like', "%$keyword%");
                 });
             })
+            ->addColumn('operativo_id', function($query){
+                return $query->formulario->operativo->nombre_operativo;
+            })
+            ->filterColumn('operativo_id', function($query, $keyword){
+                $query->whereHas('formulario.operativo', function($query) use ($keyword){
+                    $query->where('nombre_operativo', 'like', "%$keyword%");
+                });
+            })
             ->addColumn('paciente', function($query){
                 return $query->formulario->paciente;
             })
@@ -119,6 +127,7 @@ class PagosDataTable extends DataTable
         $columns[] = Column::make('id')->title('ID');
         $columns[] = Column::make('formulario_id')->title('Formulario ID');
         $columns[] = Column::make('numero_orden')->title('Numero Orden');
+        $columns[] = Column::make('operativo_id')->title('Operativo');
         $columns[] = Column::make('paciente')->title('Paciente');
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('monto')->title('Monto');

@@ -63,7 +63,86 @@ class OperativoController extends Controller
      */
     public function show(Operativo $operativo): View
     {
-        return view('operativos.show', compact('operativo'));
+        // Total de Refractados
+        $totalRefractados = $operativo->refractantes()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios
+        $totalFormularios = $operativo->formularios()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios por tipo_tratamiento_id con el nombre del tratamiento y tipo de fórmula
+        $formulariosPorTipo = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, COUNT(*) as total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula')
+            ->with('tipoTratamiento:id,tipo_tratamiento')
+            ->get();
+        
+        // Total de Formularios por tipo de fórmula
+        $formulariosPorFormula = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('tipo_formula, COUNT(*) as total')
+            ->groupBy('tipo_formula')
+            ->get();
+        
+        // Formularios por tipo de tratamiento, fórmula y especialista
+        $formulariosPorTipoYEspecialista = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('especialistas', 'formularios.especialista', '=', 'especialistas.id')
+            ->whereNull('especialistas.deleted_at')
+            ->join('tipo_tratamientos', 'formularios.tipo_tratamiento_id', '=', 'tipo_tratamientos.id')
+            ->join('tipo_lentes', 'tipo_tratamientos.tipo_lente_id', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, especialistas.nombre as especialista_nombre, tipo_tratamientos.tipo_lente_id, tipo_lentes.tipo_lente, tipo_lentes.precio as precio_lente, COUNT(*) as total, SUM(tipo_lentes.precio) as precio_total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula', 'especialistas.nombre', 'tipo_tratamientos.tipo_lente_id', 'tipo_lentes.tipo_lente', 'tipo_lentes.precio')
+            ->with(['tipoTratamiento:id,tipo_tratamiento'])
+            ->get();
+        
+        // Total de Pagos relacionados a los formularios del operativo
+        $totalPagos = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->count();
+            
+        // Suma total de los montos de los pagos
+        $sumaPagos = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->sum('pagos.monto');
+            
+        // Suma total de los montos de los formularios
+        $sumaTotalFormularios = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->sum('total');
+            
+        // Suma total de los saldos de los formularios
+        $sumaSaldoFormularios = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->sum('saldo');
+
+        // Pagos por tipo
+        $pagosPorTipo = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->join('tipos', 'pagos.tipo_id', '=', 'tipos.id')
+            ->selectRaw('pagos.tipo_id, tipos.tipo as tipo_nombre, COUNT(*) as total_pagos, SUM(pagos.monto) as monto_total')
+            ->groupBy('pagos.tipo_id', 'tipos.tipo')
+            ->get();
+        
+        return view('operativos.show', compact(
+            'operativo',
+            'totalRefractados',
+            'totalFormularios',
+            'formulariosPorTipo',
+            'formulariosPorFormula',
+            'formulariosPorTipoYEspecialista',
+            'totalPagos',
+            'sumaPagos',
+            'sumaTotalFormularios',
+            'sumaSaldoFormularios',
+            'pagosPorTipo'
+        ));
     }
 
     /**

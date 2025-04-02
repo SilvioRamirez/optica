@@ -26,6 +26,7 @@ class StoreFormularioRequest extends FormRequest
             'fecha'                 => 'required',
             'estatus'               => 'required',
             'paciente'              => 'required',
+            'operativo_id'          => 'required',
             'direccion_operativo'   => 'required',
             'telefono'              => 'required',
             'edad'                  => 'required',
@@ -38,10 +39,11 @@ class StoreFormularioRequest extends FormRequest
     public function messages():array
     {
         return [
-            'numero_orden'          => 'El campo Numero de Orde es obligatorio y único.',
+            'numero_orden'          => 'El campo Numero de Orden es obligatorio y único.',
             'fecha'                 => 'El campo Fecha es obligatorio.',
             'estatus'               => 'El campo Estatus es obligatorio.',
             'paciente'              => 'El campo Paciente es obligatorio.',
+            'operativo_id'          => 'El campo Operativo es obligatorio.',
             'direccion_operativo'   => 'El campo Dirección/Operativo es obligatorio.',
             'telefono'              => 'El campo Teléfono es obligatorio.',
             'edad'                  => 'El campo Edad es obligatorio.',

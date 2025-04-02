@@ -323,7 +323,7 @@
         <p class="font-size-15">Fecha: <strong>{{ $orden->fecha ?? '' }}</strong></p>
         <p class="font-size-15">Prox. Cita Gratuita: <strong>{{ $orden->fecha_proxima_cita ?? '' }}</strong></p>
         <p class="font-size-15">Paciente: <strong>{{ $orden->paciente ?? '' }}</strong></p>
-        <p class="font-size-15">Dirección / Operativo: <strong>{{ $orden->direccion_operativo ?? '' }}</strong></p>
+        <p class="font-size-15">Dirección / Operativo: <strong>{{ $operativo->nombre_operativo ?? '' }}</strong></p>
         <p class="font-size-15">Teléfono: <strong>{{ $orden->telefono ?? '' }}</strong></p>
         <p class="font-size-15">Cedula: <strong>{{ $orden->cedula ?? '' }}</strong></p>
         <p class="font-size-15">Edad: <strong>{{ $orden->edad ?? '' }}</strong></p>

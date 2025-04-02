@@ -80,4 +80,14 @@ class Formulario extends Model
     {
         return $this->hasMany(ImagenContrato::class);
     }
+
+    public function operativo()
+    {
+        return $this->belongsTo(Operativo::class);
+    }
+
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
 }

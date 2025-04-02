@@ -2,6 +2,7 @@
     <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="form-group">
             {{ Form::textComp('tipo_lente','Nombre del Tipo de Lente', null, null, '') }}
+            {{ Form::numberComp('precio','Precio', null, null, '') }}
         </div>
     </div>
     

@@ -253,7 +253,7 @@ h2{
                                         <br>Fecha de Registro: <strong>{{ $item->fecha }}</strong>
                                         <br>Días pasados desde el Registro: <strong>{{ \Carbon\Carbon::parse($item->fecha)->diffInDays(now(), 2) }}</strong>
                                         <br>Fecha de Próxima Cita Gratuita: <strong>{{ $item->fecha_proxima_cita }}</strong>
-                                        <br>Dirección / Operativo: <strong>{{ $item->direccion_operativo }}</strong>
+                                        <br>Dirección / Operativo: <strong>{{ $item->operativo->nombre_operativo }}</strong>
                                         <br>Tipo de Lente: <strong>{{ $item->tipoLente->tipo_lente }}</strong>
                                         @if($item->tipoTratamiento)
                                             <br>Tipo de Tratamiento: <strong>{{ $item->tipoTratamiento->tipo_tratamiento }}</strong>

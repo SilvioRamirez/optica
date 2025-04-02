@@ -59,7 +59,6 @@ class FormularioController extends Controller
     {
         /* Se llenan los Desplegables */
 
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
@@ -75,6 +74,8 @@ class FormularioController extends Controller
         
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
+        
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
@@ -137,7 +138,7 @@ class FormularioController extends Controller
      */
     public function show(Formulario $formulario): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
@@ -173,7 +174,7 @@ class FormularioController extends Controller
      */
     public function edit(Formulario $formulario): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'nombre_operativo')->prepend('-- Seleccione --', '');
+        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
         
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
@@ -255,7 +256,7 @@ class FormularioController extends Controller
                 'total',
                 'saldo',
                 'porcentaje_pago',
-                'direccion_operativo',
+                'operativo_id',
                 'observaciones_extras',
                 'edad',
                 'fecha',
@@ -298,7 +299,7 @@ class FormularioController extends Controller
                 'total',
                 'saldo',
                 'porcentaje_pago',
-                'direccion_operativo',
+                'operativo_id',
             ])
             ->first()->toJson();
     }

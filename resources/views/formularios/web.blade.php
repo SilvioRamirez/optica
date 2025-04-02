@@ -44,7 +44,7 @@
                                 <br>Edad: <strong>{{ $orden->edad }}</strong>
                                 <br>Teléfono: <strong>{{ $orden->telefono }}</strong>
                                 <br>Fecha: <strong>{{ $orden->fecha }}</strong>
-                                <br>Dirección / Operativo: <strong>{{ $orden->direccion_operativo }}</strong>
+                                <br>Dirección / Operativo: <strong>{{ $orden->operativo->nombre_operativo }}</strong>
                                 <br>Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
 
                                         <table class="table table-hover table-bordered">
@@ -90,7 +90,7 @@
                                         {{-- <br>Total: <strong>{{ $orden->total }}</strong>
                                         <br>Abono: <strong>{{ $orden->abono_1_decimal }}</strong>
                                         <br>Saldo: <strong>{{ $orden->saldo }}</strong> --}}
-                                        <br>Especialista: <strong>{{ $orden->especialista }}</strong></p>
+                                        <br>Especialista: <strong>{{ $especialista->nombre }}</strong></p>
 
                                         <a href="{{ url('/') }}" class="btn btn-success btn-sm"><i class="fa fa-home"></i> Inicio</a>
                             </div>

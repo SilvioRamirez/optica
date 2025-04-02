@@ -66,5 +66,13 @@ class Operativo extends Model
         return $this->hasManyThrough(TipoGasto::class, GastoOperativo::class);
     }
 
+    public function formularios()
+    {
+        return $this->hasMany(Formulario::class);
+    }
 
+    public function refractantes()
+    {
+        return $this->hasMany(Refractante::class);
+    }
 }

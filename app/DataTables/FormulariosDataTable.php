@@ -105,7 +105,15 @@ class FormulariosDataTable extends DataTable
                         $query->where('nombre', 'like', "%$keyword%");
                     });
                 })
-                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista', 'descuento'])
+                ->addColumn('operativo_id', function($query){
+                    return $query->operativo ? $query->operativo->nombre_operativo : '';
+                })
+                ->filterColumn('operativo_id', function($query, $keyword){
+                    $query->whereHas('operativo', function($query) use ($keyword){
+                        $query->where('nombre_operativo', 'like', "%$keyword%");
+                    });
+                })
+                ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista', 'descuento', 'operativo_id'])
                 ->setRowId('id');
     }
 
@@ -225,7 +233,13 @@ class FormulariosDataTable extends DataTable
                     ->addClass('text-center');
         $columns[] = Column::make('fecha')->title('Fecha');
         $columns[] = Column::make('fecha_proxima_cita')->title('Fecha de Prox. Cita');
-        $columns[] = Column::make('direccion_operativo')->title('Direccion / Operativo');
+        $columns[] = Column::make('operativo_id')->title('Operativo')
+                    ->orderable(true)
+                    ->searchable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::make('laboratorio')->title('Laboratorio');
         $columns[] = Column::make('od_esf')->title('OD Esf');
         $columns[] = Column::make('od_cil')->title('OD Cil');

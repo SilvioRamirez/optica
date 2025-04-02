@@ -27,8 +27,12 @@ class OperativosDataTable extends DataTable
 
                     $buttons = '';
 
+                    if(auth()->user()->can('operativo-show')){
+                        $buttons .= '<a class="btn btn-info btn-sm" title="Estadísticas del Operativo" href="'.route('operativos.show',$query->id).'"> <i class="fa fa-chart-line"></i></a>';
+                    }
+
                     if(auth()->user()->can('operativo-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                        $buttons .= '<a class="btn btn-warning btn-sm" title="Editar Información" href="'.route('operativos.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
                     /* if(auth()->user()->can('gasto-operativo-list')){
@@ -36,11 +40,11 @@ class OperativosDataTable extends DataTable
                     } */
 
                     if(auth()->user()->can('operativo-edit')){
-                        $buttons .= '<button type="button" class="btn btn-info btn-sm" title="Coordenadas GPS" data-argid="'.$query->id.'" onclick="abrirModalCoordenadas(\''.$query->id.'\')"> <i class="fa fa-location-dot"></i></button>';
+                        $buttons .= '<button type="button" class="btn btn-primary btn-sm" title="Coordenadas GPS" data-argid="'.$query->id.'" onclick="abrirModalCoordenadas(\''.$query->id.'\')"> <i class="fa fa-location-dot"></i></button>';
                     }
 
                     if ($query->latitud && $query->longitud) {
-                        $buttons .= '<a href="https://www.google.com/maps/search/?api=1&query='.$query->latitud.','.$query->longitud.'" target="_blank" class="btn btn-warning btn-sm" title="Ver en Google Maps"> <i class="fa-solid fa-street-view"></i></a>';
+                        $buttons .= '<a href="https://www.google.com/maps/search/?api=1&query='.$query->latitud.','.$query->longitud.'" target="_blank" class="btn btn-dark btn-sm" title="Ver en Google Maps"> <i class="fa-solid fa-street-view"></i></a>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';

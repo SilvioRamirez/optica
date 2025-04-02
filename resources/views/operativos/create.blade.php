@@ -17,6 +17,7 @@
         
         <div class="card-body tab-content">
             <div class="tab-pane active" id="dhcp">
+            
                 {!! Form::open(array('route' => 'operativos.store','method'=>'POST')) !!}
                     @include('operativos.partials.form')
                 {!! Form::close() !!}

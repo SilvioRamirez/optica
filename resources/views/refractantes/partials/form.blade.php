@@ -4,7 +4,7 @@
             <h5 class="">Datos del Refractante</h5>
             <hr>
 
-            {{ Form::selectComp('direccion', 'Dirección / Operativo', '', $operativos) }}
+            {{ Form::selectComp('operativo_id', 'Operativo', '', $operativos, null, '', is_object($refractante) ? $refractante->operativo_id : null) }}
 
             {{ Form::textComp('nombre_apellido','Nombre y Apellido', null, null, '') }}
 

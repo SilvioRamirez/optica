@@ -13,4 +13,6 @@ php artisan make:model Category -a
 
 php artisan make:migration add_foreign_key_to_products_table --table=products
 
+$ php artisan make:migration add_precio_column_to_tipo_lentes_table --table=tipo_lentes
+
 npm run build && php artisan config:cache && php artisan event:cache && php artisan route:cache && php artisan view:cache

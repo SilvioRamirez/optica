@@ -37,4 +37,9 @@ class Refractante extends Model
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
 
+    public function operativo()
+    {
+        return $this->belongsTo(Operativo::class);
+    }
+
 }

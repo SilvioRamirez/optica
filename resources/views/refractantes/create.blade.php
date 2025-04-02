@@ -17,6 +17,9 @@
         </div>
         
         <div class="card-body tab-content">
+            @php
+                $refractante="";
+            @endphp
             <div class="tab-pane active" id="dhcp">
                 {!! Form::open(array('route' => 'refractantes.store','method'=>'POST')) !!}
                     @include('refractantes.partials.form')

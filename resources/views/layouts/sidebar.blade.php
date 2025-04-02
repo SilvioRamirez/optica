@@ -1,7 +1,7 @@
 <!-- Sidebar-->
 <div class="border-end bg-light font-color-white" id="sidebar-wrapper">
 	<div class="sidebar-heading border-bottom bg-primary font-color-white">
-		<a href="{{ url('/') }}" class="nav-link">OPTICA</a>
+		<a href="{{ url('/home') }}" class="nav-link">OPTICA</a>
 	</div>
 
 	<div class="list-group list-group-flush">
