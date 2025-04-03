@@ -15,6 +15,9 @@ use Illuminate\View\View;
 use App\Models\TipoGasto;
 use App\Models\GastoOperativo;
 use App\Models\Persona;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Configuracion;
+
 class OperativoController extends Controller
 {
     /**
@@ -296,5 +299,134 @@ class OperativoController extends Controller
 
         return response()->json($operativo);
 
+    }
+
+    public function generatePdf($id)
+    {
+        $operativo = Operativo::findOrFail($id);
+        
+        // Total de Refractados
+        $totalRefractados = $operativo->refractantes()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios
+        $totalFormularios = $operativo->formularios()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios por tipo_tratamiento_id con el nombre del tratamiento y tipo de fórmula
+        $formulariosPorTipo = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, COUNT(*) as total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula')
+            ->with('tipoTratamiento:id,tipo_tratamiento')
+            ->get();
+        
+        // Total de Formularios por tipo de fórmula
+        $formulariosPorFormula = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('tipo_formula, COUNT(*) as total')
+            ->groupBy('tipo_formula')
+            ->get();
+        
+        // Formularios por tipo de tratamiento, fórmula y especialista
+        $formulariosPorTipoYEspecialista = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('especialistas', 'formularios.especialista', '=', 'especialistas.id')
+            ->whereNull('especialistas.deleted_at')
+            ->join('tipo_tratamientos', 'formularios.tipo_tratamiento_id', '=', 'tipo_tratamientos.id')
+            ->join('tipo_lentes', 'tipo_tratamientos.tipo_lente_id', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, especialistas.nombre as especialista_nombre, tipo_tratamientos.tipo_lente_id, tipo_lentes.tipo_lente, tipo_lentes.precio as precio_lente, COUNT(*) as total, SUM(tipo_lentes.precio) as precio_total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula', 'especialistas.nombre', 'tipo_tratamientos.tipo_lente_id', 'tipo_lentes.tipo_lente', 'tipo_lentes.precio')
+            ->with(['tipoTratamiento:id,tipo_tratamiento'])
+            ->get();
+        
+        // Total de Pagos relacionados a los formularios del operativo
+        $totalPagos = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->count();
+            
+        // Suma total de los montos de los pagos
+        $sumaPagos = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->sum('pagos.monto');
+            
+        // Suma total de los montos de los formularios
+        $sumaTotalFormularios = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->sum('total');
+            
+        // Suma total de los saldos de los formularios
+        $sumaSaldoFormularios = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->sum('saldo');
+
+        // Total de Gastos
+        $totalGastos = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->count();
+            
+        // Suma total de los gastos
+        $sumaTotalGastos = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->sum('monto');
+
+        // Total de Asesores
+        $totalAsesores = $operativo->asesores()
+            ->whereNull('personas.deleted_at')
+            ->count();
+
+        // Pagos por tipo
+        $pagosPorTipo = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('pagos', 'formularios.id', '=', 'pagos.formulario_id')
+            ->whereNull('pagos.deleted_at')
+            ->join('tipos', 'pagos.tipo_id', '=', 'tipos.id')
+            ->selectRaw('pagos.tipo_id, tipos.tipo as tipo_nombre, COUNT(*) as total_pagos, SUM(pagos.monto) as monto_total')
+            ->groupBy('pagos.tipo_id', 'tipos.tipo')
+            ->get();
+        
+        // Gastos por tipo
+        $gastosPorTipo = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->join('tipo_gastos', 'gasto_operativos.tipo_gasto_id', '=', 'tipo_gastos.id')
+            ->selectRaw('gasto_operativos.tipo_gasto_id, tipo_gastos.tipo_gasto as tipo_nombre, COUNT(*) as total_gastos, SUM(gasto_operativos.monto) as monto_total')
+            ->groupBy('gasto_operativos.tipo_gasto_id', 'tipo_gastos.tipo_gasto')
+            ->get();
+        
+        // Formularios con estatus
+        $formulariosConEstatus = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('estatus, COUNT(*) as total')
+            ->groupBy('estatus')
+            ->get();
+        
+        // Cargar los asesores del operativo
+        $operativo->load('asesores');
+
+        $configuracion = Configuracion::find(1);
+        
+        $pdf = PDF::loadView('operativos.pdf', compact(
+            'operativo',
+            'totalRefractados',
+            'totalFormularios',
+            'formulariosPorTipo',
+            'formulariosPorFormula',
+            'formulariosPorTipoYEspecialista',
+            'totalPagos',
+            'sumaPagos',
+            'sumaTotalFormularios',
+            'sumaSaldoFormularios',
+            'pagosPorTipo',
+            'gastosPorTipo',
+            'totalGastos',
+            'sumaTotalGastos',
+            'formulariosConEstatus',
+            'totalAsesores',
+            'configuracion'
+        ));
+        
+        return $pdf->download('operativo_' . $operativo->id . '.pdf');
     }
 }

@@ -88,32 +88,76 @@ class HomeController extends Controller
         $operativosVariacion = $this->calcularVariacion($operativosActual, $operativosAnterior);
 
 
-        $chart_options = [
+        /* $chart_options = [
             'chart_title' => 'Formularios por mes',
             'chart_type' => 'line',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Formulario',
-            'conditions'            => [
-                ['name' => 'Formularios', 'condition' => 'estatus = 1', 'color' => 'black', 'fill' => true],
-                ['name' => 'Refractados', 'condition' => 'estatus = 2', 'color' => 'blue', 'fill' => true],
-            ],
-
             'group_by_field' => 'created_at',
             'group_by_period' => 'month',
-
-            'aggregate_function' => 'sum',
-            'aggregate_field' => 'amount',
-            'aggregate_transform' => function($value) {
-                return round($value / 100, 2);
-            },
-            
+            'aggregate_function' => 'count',
+            'aggregate_field' => 'id',
             'filter_field' => 'created_at',
-            'filter_days' => 30, // show only transactions for last 30 days
-            'filter_period' => 'month', // show only transactions for this week
-            'continuous_time' => true, // show continuous timeline including dates without data
+            'filter_days' => 365,
+            'filter_period' => 'month',
+            'continuous_time' => true,
+        ]; */
+
+        $chart_options1 = [
+            'chart_title' => 'Formularios por Mes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Formulario',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 630, // show only last 30 days
+            'chart_color' => '13,110,253',
         ];
 
-        $chart1 = new LaravelChart($chart_options);
+        $chart1 = new LaravelChart($chart_options1);
+
+        $chart_options2 = [
+            'chart_title' => 'Refractados por Mes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Refractante',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 630, // show only last 30 days
+            'chart_color' => '108,117,125',
+        ];
+
+        $chart2 = new LaravelChart($chart_options2);
+
+        $chart_options3 = [
+            'chart_title' => 'Pagos por Mes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Pago',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 630, // show only last 30 days
+            'chart_color' => '25,135,84',
+        ];
+
+        $chart3 = new LaravelChart($chart_options3);
+
+        $chart_options4 = [
+            'chart_title' => 'Operativos por Mes',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Operativo',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 630, // show only last 30 days
+            'chart_color' => '255,193,7',
+        ];
+
+        $chart4 = new LaravelChart($chart_options4);
 
         return view('home', compact(
             'formulariosActual', 'formulariosAnterior', 'formulariosVariacion',
@@ -121,7 +165,7 @@ class HomeController extends Controller
             'pagosActual', 'pagosAnterior', 'pagosVariacion',
             'operativosActual', 'operativosAnterior', 'operativosVariacion',
             'mesActualNombre', 'mesAnteriorNombre',
-            'chart1'
+            'chart1', 'chart2', 'chart3', 'chart4'
         ));
     }
 

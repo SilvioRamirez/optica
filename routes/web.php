@@ -212,6 +212,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/operativos/{operativo}/delete',    [OperativoController::class, 'delete'])->name('operativos.delete');
     Route::resource('operativos',                   OperativoController::class);
 
+    Route::get('operativos/{id}/pdf', [OperativoController::class, 'generatePdf'])->name('operativos.pdf');
 
     //Rutas de Operativos
     Route::get('/especialistas/{especialista}/delete',  [EspecialistaController::class, 'delete'])->name('especialistas.delete');

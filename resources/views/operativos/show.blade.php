@@ -2,12 +2,19 @@
 
 @section('content')
 
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}">
+        <i class="fa fa-arrow-left"></i> {{ __('Back')}}
+    </a>    
+</div>
 
 <div class="col-lg-12 margin-tb">
-    <div class="card border-light mb-3 shadow">
+    <div class="card border-light mb-3 shadow ">
         <div class="card-header bg-primary text-white"><i class="fa fa-eye"></i> 
             {{ __('Show')}} Operativo
+            <a href="{{ route('operativos.pdf', $operativo->id) }}" class="btn btn-light btn-sm float-end">
+                <i class="fa fa-file-pdf"></i> Descargar PDF
+            </a>
         </div>
         <div class="card-body">
             <div class="row">
@@ -268,7 +275,7 @@
                                 @endphp
                                 @foreach($formulariosPorTipoYEspecialista as $formulario)
                                     <tr>
-                                        <td>{{ $formulario->especialista_nombre }}</td>
+                                        <td>{{ $formulario->especialista_nombre }} {{ $formulario->especialista_apellido }}</td>
                                         <td>{{ $formulario->tipo_lente }}</td>
                                         <td>{{ $formulario->tipoTratamiento->tipo_tratamiento ?? 'Sin tratamiento' }}</td>
                                         <td>{{ $formulario->tipo_formula }}</td>
