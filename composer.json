@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
         "laravelcollective/html": "^6.4",
+        "laraveldaily/laravel-charts": "^0.2.3",
         "maatwebsite/excel": "3.1.48",
         "orangehill/iseed": "^3.0",
         "simplesoftwareio/simple-qrcode": "~4",

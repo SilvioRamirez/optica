@@ -7,6 +7,7 @@ use App\Models\Refractante;
 use App\Models\Pago;
 use App\Models\Operativo;
 use Illuminate\Http\Request;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 
 class HomeController extends Controller
 {
@@ -86,12 +87,41 @@ class HomeController extends Controller
             ->count();
         $operativosVariacion = $this->calcularVariacion($operativosActual, $operativosAnterior);
 
+
+        $chart_options = [
+            'chart_title' => 'Formularios por mes',
+            'chart_type' => 'line',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Formulario',
+            'conditions'            => [
+                ['name' => 'Formularios', 'condition' => 'estatus = 1', 'color' => 'black', 'fill' => true],
+                ['name' => 'Refractados', 'condition' => 'estatus = 2', 'color' => 'blue', 'fill' => true],
+            ],
+
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'amount',
+            'aggregate_transform' => function($value) {
+                return round($value / 100, 2);
+            },
+            
+            'filter_field' => 'created_at',
+            'filter_days' => 30, // show only transactions for last 30 days
+            'filter_period' => 'month', // show only transactions for this week
+            'continuous_time' => true, // show continuous timeline including dates without data
+        ];
+
+        $chart1 = new LaravelChart($chart_options);
+
         return view('home', compact(
             'formulariosActual', 'formulariosAnterior', 'formulariosVariacion',
             'refractadosActual', 'refractadosAnterior', 'refractadosVariacion',
             'pagosActual', 'pagosAnterior', 'pagosVariacion',
             'operativosActual', 'operativosAnterior', 'operativosVariacion',
-            'mesActualNombre', 'mesAnteriorNombre'
+            'mesActualNombre', 'mesAnteriorNombre',
+            'chart1'
         ));
     }
 

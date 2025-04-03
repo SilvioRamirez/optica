@@ -117,7 +117,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <div class="card bg-danger text-white shadow">
+                    <div class="card bg-danger text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Monto Total de Gastos</h5>
                             <p class="card-text display-6"><strong>${{ number_format($sumaTotalGastos, 2) }}</strong></p>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="card bg-info text-white shadow">
+                    <div class="card bg-info text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total de Asesores</h5>
                             <p class="card-text display-6"><strong>{{ $totalAsesores }}</strong></p>
