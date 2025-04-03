@@ -149,6 +149,64 @@
             </div>
         </div>
     </div>
+
+    {{-- Modal Registro de Colaboradores --}}
+    <div class="modal fade" id="modalRegistroColaboradores" tabindex="-1" aria-labelledby="modalRegistroColaboradoresLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5" id="modalRegistroColaboradoresLabel"><i class="fa fa-users"></i> Registro de Colaboradores</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <h1 class="text-center"><i class="fa fa-users mb-2"></i> Información de Colaboradores del Operativo</h1>
+                                <div class="col-md-12 row">
+                                    <h3 id="estado_colaborador"></h3>
+                                    <h3 id="municipio_colaborador"></h3>
+                                    <h3 id="parroquia_colaborador"></h3>
+                                    <h3 id="direccion_colaborador"></h3>
+                                    <h3 id="nombre_operativo_colaborador"></h3>
+                                    <h3 id="fecha_colaborador"></h3>
+                                    <h3 id="promotor_nombre_colaborador"></h3>
+                                    <h3 id="promotor_telefono_colaborador"></h3>
+                                </div>
+                                <hr>
+
+                                <form action="{{route('operativos.colaboradores.store')}}" method="POST" id="colaboradoresOperativoForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <h2 class="text-center pb-2">Registrar Nuevo Colaborador</h2>
+                                            {{ Form::hiddenComp('colaborador_operativo_id') }}
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            {{ Form::selectComp('colaborador', 'Colaboradores', '', $colaboradores) }}                    
+                                        </div>                                        
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                        <br>
+                                            <button type="submit" class="btn btn-primary" title="Guardar"><i class="fa fa-floppy-disk"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div id="mensaje">
+                                </div>
+                                <hr>
+                                <table id="tablaColaboradoresOperativo" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>NOMBRE Y APELLIDO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     
     
@@ -158,15 +216,29 @@
 
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=marker&v=beta"></script>
     <script>
         let map;
         let marker;
 
         function initMap() {
-            map = new google.maps.Map(document.getElementById('map'), {
+            const mapElement = document.getElementById('map');
+            if (!mapElement) {
+                console.error('Elemento del mapa no encontrado');
+                return;
+            }
+
+            map = new google.maps.Map(mapElement, {
                 zoom: 15,
-                center: { lat: 0, lng: 0 }
+                center: { lat: 10.507320401330732, lng: -66.91168616232959 },
+                mapId: 'YOUR_MAP_ID' // Reemplaza esto con tu Map ID de Google Cloud Console
+            });
+
+            // Inicializar el marcador
+            marker = new google.maps.marker.AdvancedMarkerElement({
+                map: map,
+                position: map.getCenter(),
+                title: 'Ubicación actual'
             });
         }
 
@@ -189,16 +261,8 @@
                         const pos = { lat, lng };
                         map.setCenter(pos);
                         
-                        // Actualizar o crear marcador
-                        if (marker) {
-                            marker.setPosition(pos);
-                        } else {
-                            marker = new google.maps.Marker({
-                                position: pos,
-                                map: map,
-                                title: 'Ubicación actual'
-                            });
-                        }
+                        // Actualizar marcador
+                        marker.position = pos;
                     },
                     (error) => {
                         alert('Error al obtener la ubicación: ' + error.message);
@@ -223,6 +287,19 @@
             initMap();
         });
 
+        // Limpiar el mapa cuando se cierre el modal
+        document.getElementById('modalRegistroCoordenadas').addEventListener('hidden.bs.modal', function () {
+            if (map) {
+                map = null;
+                marker = null;
+                document.getElementById('map').innerHTML = '';
+                document.getElementById('latitud').value = '';
+                document.getElementById('longitud').value = '';
+                document.getElementById('latitud_display').value = '';
+                document.getElementById('longitud_display').value = '';
+            }
+        });
+
         // Función para abrir el modal con el ID del operativo
         function abrirModalCoordenadas(operativoId) {
             document.getElementById('gasto_operativo_id').value = operativoId;
@@ -233,11 +310,11 @@
 
             const operativo = JSON.parse(button.getAttribute('data-operativo'));
             document.getElementById('gasto_operativo_id').value = operativo.id;
-            document.getElementById('nombre_operativo').innerHTML = '<strong>Nombre del Operativo:</strong> ' + operativo.nombre_operativo;
-            document.getElementById('direccion').innerHTML = '<strong>Dirección:</strong> ' + operativo.direccion;
-            document.getElementById('fecha').innerHTML = '<strong>Fecha:</strong> ' + operativo.fecha;
-            document.getElementById('promotor_nombre').innerHTML = '<strong>Promotor:</strong> ' + operativo.promotor_nombre;
-            document.getElementById('promotor_telefono').innerHTML = '<strong>Teléfono del Promotor:</strong> ' + operativo.promotor_telefono;
+            document.getElementById('nombre_operativo').innerHTML = '<strong>Nombre del Operativo:</strong> ' + (operativo.nombre_operativo || '');
+            document.getElementById('direccion').innerHTML = '<strong>Dirección:</strong> ' + (operativo.direccion || '');
+            document.getElementById('fecha').innerHTML = '<strong>Fecha:</strong> ' + (operativo.fecha || '');
+            document.getElementById('promotor_nombre').innerHTML = '<strong>Promotor:</strong> ' + (operativo.promotor_nombre || '');
+            document.getElementById('promotor_telefono').innerHTML = '<strong>Teléfono del Promotor:</strong> ' + (operativo.promotor_telefono || '');
 
             consultaGastosOperativoTable(operativo.id);
             
@@ -282,34 +359,107 @@
             });
         }
 
-    function limpiarGastoOperativoForm(){
-        document.getElementById('monto').value = '';
-        document.getElementById('tipo_gasto_id').value = '';
+        function limpiarGastoOperativoForm(){
+            document.getElementById('monto').value = '';
+            document.getElementById('tipo_gasto_id').value = '';
 
-        const tbody = document.querySelector('#tablaGastosOperativo tbody');
-        tbody.innerHTML = '';
-    }
+            const tbody = document.querySelector('#tablaGastosOperativo tbody');
+            tbody.innerHTML = '';
+        }
 
-    /* Evento que envia el formulario para registrar un nuevo gasto operativo */
-    document.getElementById('gastoOperativoForm').addEventListener('submit', function(event){
-        event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
+        /* Evento que envia el formulario para registrar un nuevo gasto operativo */
+        document.getElementById('gastoOperativoForm').addEventListener('submit', function(event){
+            event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
 
-        const formData = new FormData(this); //Obtiene los datos del formulario
+            const formData = new FormData(this); //Obtiene los datos del formulario
 
-        axios.post('/gastoOperativos', formData).then(response => {
-            let status = response.status;
-            let message = response.statusText;
-            console.log(response.data);
-            limpiarGastoOperativoForm();
-            consultaGastosOperativoTable(response.data.operativo_id);
+            axios.post('/gastoOperativos', formData).then(response => {
+                let status = response.status;
+                let message = response.statusText;
+                console.log(response.data);
+                limpiarGastoOperativoForm();
+                consultaGastosOperativoTable(response.data.operativo_id);
 
-        }).catch(error => {
-            if(error.response){
-                console.log(error.response.data.errors)
-            }
+            }).catch(error => {
+                if(error.response){
+                    console.log(error.response.data.errors)
+                }
+            });
+
         });
 
-    });
+        function openModalColaboradoresOperativo(button) {
+
+            const operativo = JSON.parse(button.getAttribute('data-operativo'));
+            document.getElementById('colaborador_operativo_id').value = operativo.id;
+            document.getElementById('nombre_operativo_colaborador').innerHTML = '<strong>Nombre del Operativo:</strong> ' + (operativo.nombre_operativo || '');
+            document.getElementById('direccion_colaborador').innerHTML = '<strong>Dirección:</strong> ' + (operativo.direccion || '');
+            document.getElementById('fecha_colaborador').innerHTML = '<strong>Fecha:</strong> ' + (operativo.fecha || '');
+            document.getElementById('promotor_nombre_colaborador').innerHTML = '<strong>Promotor:</strong> ' + (operativo.promotor_nombre || '');
+            document.getElementById('promotor_telefono_colaborador').innerHTML = '<strong>Teléfono del Promotor:</strong> ' + (operativo.promotor_telefono || '');
+
+            consultaColaboradoresOperativoTable(operativo.id);
+            
+            new bootstrap.Modal(document.getElementById('modalRegistroColaboradores')).show();
+        }
+
+        function consultaColaboradoresOperativoTable(id){
+
+            var url = '/api/consultaColaboradoresOperativo/'+id;
+
+            axios.post(url).then(response => {
+                let status = response.status;
+                let message = response.statusText;
+                console.log(response.data.asesores);
+                
+                const tbody = document.querySelector('#tablaColaboradoresOperativo tbody');
+                tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+
+                response.data.asesores.forEach(colaborador => {
+
+                    const fila = document.createElement('tr'); // Crear una nueva fila
+
+                    const celdaNombre = document.createElement('td');
+                    celdaNombre.textContent = colaborador.nombres+' '+colaborador.apellidos;
+                    fila.appendChild(celdaNombre);
+
+                    tbody.appendChild(fila);
+                });
+
+            }).catch(error => {
+                if(error.response){
+                    console.log(error.response.data.errors)
+                }
+            });
+        }
+
+        function limpiarColaboradoresOperativoForm(){
+            document.getElementById('colaborador').value = '';
+
+            const tbody = document.querySelector('#tablaColaboradoresOperativo tbody');
+            tbody.innerHTML = '';
+        }
+
+        /* Evento que envia el formulario para registrar un nuevo colaborador operativo */
+        document.getElementById('colaboradoresOperativoForm').addEventListener('submit', function(event){
+            event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
+
+            const formData = new FormData(this); //Obtiene los datos del formulario
+
+            axios.post('/operativos/colaboradores', formData).then(response => {
+                let status = response.status;
+                let message = response.statusText;
+                console.log(response.data);
+                limpiarColaboradoresOperativoForm();
+                consultaColaboradoresOperativoTable(response.data.id);
+
+            }).catch(error => {
+                if(error.response){
+                    console.log(error.response.data.errors)
+                }
+            });
+
+        });
 
     </script>
 

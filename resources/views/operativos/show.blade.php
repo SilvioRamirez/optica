@@ -75,7 +75,7 @@
                     <div class="card bg-primary text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Refractados</h5>
-                            <p class="card-text display-6">{{ $totalRefractados }}</p>
+                            <p class="card-text display-6"><strong>{{ $totalRefractados }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="card bg-success text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Formularios</h5>
-                            <p class="card-text display-6">{{ $totalFormularios }}</p>
+                            <p class="card-text display-6"><strong>{{ $totalFormularios }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                     <div class="card bg-info text-white mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Pagos</h5>
-                            <p class="card-text display-6">{{ $totalPagos }}</p>
+                            <p class="card-text display-6"><strong>{{ $totalPagos }}</strong></p>
                         </div>
                     </div>
                 </div> --}}
@@ -102,25 +102,33 @@
                     <div class="card bg-warning text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Suma Total Pagos</h5>
-                            <p class="card-text display-6">${{ number_format($sumaPagos, 2) }}</p>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaPagos, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <div class="card border-danger shadow mb-3">
+                    <div class="card bg-danger text-white shadow mb-3">
                         <div class="card-body">
-                            <h5 class="card-title text-danger">Total de Gastos</h5>
-                            <p class="card-text display-6 text-danger">{{ $totalGastos }}</p>
+                            <h5 class="card-title">Total de Gastos</h5>
+                            <p class="card-text display-6"><strong>{{ $totalGastos }}</strong></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-2">
-                    <div class="card border-danger shadow">
+                    <div class="card bg-danger text-white shadow">
                         <div class="card-body">
-                            <h5 class="card-title text-danger">Monto Total de Gastos</h5>
-                            <p class="card-text display-6 text-danger">${{ number_format($sumaTotalGastos, 2) }}</p>
+                            <h5 class="card-title">Monto Total de Gastos</h5>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaTotalGastos, 2) }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card bg-info text-white shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">Total de Asesores</h5>
+                            <p class="card-text display-6"><strong>{{ $totalAsesores }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -131,7 +139,7 @@
                     <div class="card bg-success text-white mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Suma Total Formularios</h5>
-                            <p class="card-text display-6">${{ number_format($sumaTotalFormularios, 2) }}</p>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaTotalFormularios, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -140,7 +148,7 @@
                     <div class="card bg-danger text-white mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Suma Total Saldos</h5>
-                            <p class="card-text display-6">${{ number_format($sumaSaldoFormularios, 2) }}</p>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaSaldoFormularios, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -400,6 +408,42 @@
                                     <td class="text-end"><strong>Total General:</strong></td>
                                     <td class="text-end"><strong>{{ $totalGeneral }}</strong></td>
                                 </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Asesores -->
+            <div class="card border-light mb-3 shadow mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Asesores del Operativo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Rol</th>
+                                    <th>Teléfono</th>
+                                    <th>Email</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($operativo->asesores as $asesor)
+                                    <tr>
+                                        <td>{{ $asesor->nombres }} {{ $asesor->apellidos }}</td>
+                                        <td>{{ $asesor->pivot->rol ?? 'Asesor' }}</td>
+                                        <td>{{ $asesor->telefono }}</td>
+                                        <td>{{ $asesor->correo }}</td>
+                                    </tr>
+                                @endforeach
+                                @if($operativo->asesores->isEmpty())
+                                    <tr>
+                                        <td colspan="4" class="text-center">No hay asesores asignados</td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

@@ -57,15 +57,6 @@ class Operativo extends Model
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
 
-    /* public function gastoOperativos() 
-    {
-        return $this->hasMany(GastoOperativo::class);
-    } */
-
-    /* public function tipoGastos(){ 
-        return $this->hasManyThrough(TipoGasto::class, GastoOperativo::class);
-    } */
-
     public function formularios()
     {
         return $this->hasMany(Formulario::class);
@@ -80,4 +71,16 @@ class Operativo extends Model
     {
         return $this->hasMany(GastoOperativo::class);
     }
+
+    public function asesores()
+    {
+        return $this->belongsToMany(Persona::class, 'asesor_operativo')
+            ->withPivot('rol')
+            ->withTimestamps();
+    }
+
+    /* public function personas()
+    {
+        return $this->hasMany(Persona::class);
+    } */
 }

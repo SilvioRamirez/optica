@@ -206,8 +206,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('personas',                 PersonaController::class);
 
     //Rutas de Operativos
+    Route::post('api/consultaColaboradoresOperativo/{operativo}',   [OperativoController::class, 'consultaColaboradoresOperativo']);
+    Route::get('/operativos/colaboradores',    [OperativoController::class, 'colaboradores'])->name('operativos.colaboradores');
+    Route::post('/operativos/colaboradores',    [OperativoController::class, 'colaboradoresStore'])->name('operativos.colaboradores.store');
     Route::get('/operativos/{operativo}/delete',    [OperativoController::class, 'delete'])->name('operativos.delete');
     Route::resource('operativos',                   OperativoController::class);
+
 
     //Rutas de Operativos
     Route::get('/especialistas/{especialista}/delete',  [EspecialistaController::class, 'delete'])->name('especialistas.delete');

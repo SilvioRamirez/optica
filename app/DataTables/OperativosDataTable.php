@@ -32,9 +32,15 @@ class OperativosDataTable extends DataTable
                     }
 
                     if(auth()->user()->can('operativo-edit')){
-                        $buttons .= '<button type="button" class="btn btn-light btn-sm" title="Registro de Gastos" 
+                        $buttons .= '<button type="button" class="btn btn-danger btn-sm" title="Registro de Gastos" 
                             data-operativo=\''.json_encode($query->toArray()).'\' 
                             onclick="openModalGastosOperativo(this)"><i class="fa fa-file-invoice-dollar"></i></button>';
+                    }
+
+                    if(auth()->user()->can('operativo-edit')){
+                        $buttons .= '<button type="button" class="btn btn-success btn-sm" title="Registro de Colaboradores" 
+                            data-operativo=\''.json_encode($query->toArray()).'\' 
+                            onclick="openModalColaboradoresOperativo(this)"><i class="fa fa-users"></i></button>';
                     }
                     
                     if(auth()->user()->can('operativo-edit')){

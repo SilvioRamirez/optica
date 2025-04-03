@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\TipoGasto;
 use App\Models\GastoOperativo;
-
+use App\Models\Persona;
 class OperativoController extends Controller
 {
     /**
@@ -35,7 +35,11 @@ class OperativoController extends Controller
     public function index(OperativosDataTable $dataTable)
     {
         $tiposGastos = TipoGasto::orderBy('tipo_gasto','asc')->pluck('tipo_gasto', 'id')->prepend('-- Seleccione --', '');
-        return $dataTable->render('operativos.index', compact('tiposGastos'));
+        $colaboradores = Persona::orderBy('created_at','desc')
+            ->selectRaw("CONCAT(nombres, ' ', apellidos) as nombre_completo, id")
+            ->pluck('nombre_completo', 'id')
+            ->prepend('-- Seleccione --', '');
+        return $dataTable->render('operativos.index', compact('tiposGastos', 'colaboradores'));
     }
 
     /**
@@ -133,6 +137,11 @@ class OperativoController extends Controller
             ->whereNull('gasto_operativos.deleted_at')
             ->sum('monto');
 
+        // Total de Asesores
+        $totalAsesores = $operativo->asesores()
+            ->whereNull('personas.deleted_at')
+            ->count();
+
         // Pagos por tipo
         $pagosPorTipo = $operativo->formularios()
             ->whereNull('formularios.deleted_at')
@@ -158,6 +167,9 @@ class OperativoController extends Controller
             ->groupBy('estatus')
             ->get();
         
+        // Cargar los asesores del operativo
+        $operativo->load('asesores');
+        
         return view('operativos.show', compact(
             'operativo',
             'totalRefractados',
@@ -173,7 +185,8 @@ class OperativoController extends Controller
             'gastosPorTipo',
             'totalGastos',
             'sumaTotalGastos',
-            'formulariosConEstatus'
+            'formulariosConEstatus',
+            'totalAsesores'
         ));
     }
 
@@ -244,38 +257,10 @@ class OperativoController extends Controller
         return redirect()->back()->with('success', 'Coordenadas actualizadas exitosamente');
     }
 
-    /* public function consultaGastosOperativo(Operativo $operativo)
-    {
-        $gastos = $operativo->gastos;
-        return response()->json($gastos);
-    } */
-
-    /* public function consultaGastosOperativo(Operativo $operativo)
-    {
-        $operativo->load('gastos.tipoGastos');
-
-        return response()->json($operativo->gastos->map(function($gasto) {
-            // Agregamos información de debug
-            return [
-                'id' => $gasto->id,
-                'operativo_id' => $gasto->operativo_id,
-                'monto' => $gasto->monto,
-                'tipo' => $gasto->tipoGastos ? $gasto->tipoGastos->tipo_gasto : 'N/A',
-                'tipo_gasto_relation' => $gasto->tipoGastos, // Esto nos mostrará la relación completa o null
-                'created_at' => $gasto->created_at,
-                'updated_at' => $gasto->updated_at
-            ];
-        }));
-    } */
-
     public function consultaGastosOperativo($id)
     {
-        /* $pagos = Pago::with('tipo')->where('formulario_id', $id)->get(); */
-
-
         $gastos = GastoOperativo::with('tipoGastos')->where('operativo_id', $id)->get();
 
-        
         return response()->json($gastos->map(function($gasto) {
             return [
                 'id' => $gasto->id,
@@ -287,5 +272,29 @@ class OperativoController extends Controller
             ];
         }));
     
+    }
+
+    public function consultaColaboradoresOperativo($id)
+    {
+        $colaboradoresOperativo =  Operativo::with('asesores')->find($id);
+        return response()->json($colaboradoresOperativo);
+    }
+
+    public function colaboradoresStore(Request $request)
+    {
+        $operativo_id = $request->colaborador_operativo_id; // Asigna el valor a una variable
+        $data = $request->except('colaborador_operativo_id'); // Excluye el campo saldo_formulario_id
+        $data['operativo_id'] = $operativo_id;
+
+        $request->validate([
+            /* 'operativo_id' => 'required|exists:operativos,id', */
+            'colaborador' => 'required|exists:personas,id'
+        ]);
+
+        $operativo = Operativo::find($operativo_id);
+        $operativo->asesores()->attach($request->colaborador, ['rol' => 'ASESOR']);
+
+        return response()->json($operativo);
+
     }
 }

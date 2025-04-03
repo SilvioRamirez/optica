@@ -40,4 +40,16 @@ class Persona extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['updated_at'])->format('Y-m-d h:m:s');
     }
+
+    /* public function operativo()
+    {
+        return $this->belongsTo(Operativo::class);
+    } */
+
+    public function operativos()
+    {
+        return $this->belongsToMany(Operativo::class, 'asesor_operativo')
+            ->withPivot('rol')
+            ->withTimestamps();
+    }
 }
