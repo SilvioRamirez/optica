@@ -125,6 +125,7 @@ class FormularioController extends Controller
 
         );
         //$data['status'] = $request->status ? 1 : 0;
+        $data['saldo'] = $request->total;
 
         $formulario = Formulario::create($data);
 

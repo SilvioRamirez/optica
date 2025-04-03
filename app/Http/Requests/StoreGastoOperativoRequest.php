@@ -24,6 +24,7 @@ class StoreGastoOperativoRequest extends FormRequest
         return [
             'monto' => 'required|numeric|min:0',
             'tipo_gasto_id' => 'required|exists:tipo_gastos,id',
+            /* 'operativo_id' => 'required|exists:operativos,id', */
         ];
     }
 }

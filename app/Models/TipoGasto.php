@@ -32,6 +32,6 @@ class TipoGasto extends Model
     }
 
     public function gastoOperativo(){
-        return $this->belongsTo(GastoOperativo::class);
+        return $this->hasMany(GastoOperativo::class);
     }
 }

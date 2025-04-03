@@ -71,8 +71,8 @@
             <h4 class="mb-3">Estadísticas del Operativo</h4>
             
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card bg-primary text-white mb-3">
+                <div class="col-md-2">
+                    <div class="card bg-primary text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Refractados</h5>
                             <p class="card-text display-6">{{ $totalRefractados }}</p>
@@ -80,8 +80,8 @@
                     </div>
                 </div>
                 
-                <div class="col-md-4">
-                    <div class="card bg-success text-white mb-3">
+                <div class="col-md-2">
+                    <div class="card bg-success text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Formularios</h5>
                             <p class="card-text display-6">{{ $totalFormularios }}</p>
@@ -98,11 +98,29 @@
                     </div>
                 </div> --}}
                 
-                <div class="col-md-4">
-                    <div class="card bg-warning text-white mb-3">
+                <div class="col-md-2">
+                    <div class="card bg-warning text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Suma Total Pagos</h5>
                             <p class="card-text display-6">${{ number_format($sumaPagos, 2) }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card border-danger shadow mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">Total de Gastos</h5>
+                            <p class="card-text display-6 text-danger">{{ $totalGastos }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="card border-danger shadow">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">Monto Total de Gastos</h5>
+                            <p class="card-text display-6 text-danger">${{ number_format($sumaTotalGastos, 2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -126,6 +144,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Resumen de Gastos -->
+            <div class="row mb-4">
+                
             </div>
 
             @if($formulariosPorTipo->count() > 0)
@@ -295,6 +318,87 @@
                                     <td class="text-end"><strong>Total General:</strong></td>
                                     <td class="text-end"><strong>{{ $totalPagosGeneral }}</strong></td>
                                     <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            
+
+            <!-- Tabla de Gastos por Tipo -->
+            <div class="card border-light mb-3 shadow mt-4">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="card-title mb-0">Gastos por Tipo</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tipo de Gasto</th>
+                                    <th>Total Gastos</th>
+                                    <th>Monto Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $totalGastosGeneral = 0;
+                                    $montoTotalGeneral = 0;
+                                @endphp
+                                @foreach($gastosPorTipo as $gasto)
+                                    <tr>
+                                        <td>{{ $gasto->tipo_nombre }}</td>
+                                        <td class="text-end">{{ $gasto->total_gastos }}</td>
+                                        <td class="text-end">${{ number_format($gasto->monto_total, 2) }}</td>
+                                    </tr>
+                                    @php
+                                        $totalGastosGeneral += $gasto->total_gastos;
+                                        $montoTotalGeneral += $gasto->monto_total;
+                                    @endphp
+                                @endforeach
+                                <tr class="table-danger">
+                                    <td class="text-end"><strong>Total General:</strong></td>
+                                    <td class="text-end"><strong>{{ $totalGastosGeneral }}</strong></td>
+                                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla de Formularios por Estatus -->
+            <div class="card border-light mb-3 shadow mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">Formularios por Estatus</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Estatus</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $totalGeneral = 0;
+                                @endphp
+                                @foreach($formulariosConEstatus as $formulario)
+                                    <tr>
+                                        <td>{{ $formulario->estatus ?? 'Sin estatus' }}</td>
+                                        <td class="text-end">{{ $formulario->total }}</td>
+                                    </tr>
+                                    @php
+                                        $totalGeneral += $formulario->total;
+                                    @endphp
+                                @endforeach
+                                <tr class="table-primary">
+                                    <td class="text-end"><strong>Total General:</strong></td>
+                                    <td class="text-end"><strong>{{ $totalGeneral }}</strong></td>
                                 </tr>
                             </tbody>
                         </table>

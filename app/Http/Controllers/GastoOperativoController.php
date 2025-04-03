@@ -13,6 +13,19 @@ class GastoOperativoController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:pago-list|pago-create|pago-edit|pago-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:pago-create', ['only' => ['create','store']]);
+        $this->middleware('permission:pago-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:pago-delete', ['only' => ['destroy']]);
+    }
+
+    /**
+     * Display a listing of the resource.
      */
     public function index(Operativo $operativo): View
     {
@@ -54,9 +67,9 @@ class GastoOperativoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(StoreGastoOperativoRequest $request)
     {
-        //
+    
     }
 
     /**
@@ -64,7 +77,31 @@ class GastoOperativoController extends Controller
      */
     public function store(StoreGastoOperativoRequest $request)
     {
-        //
+
+        $operativo_id = $request->gasto_operativo_id; // Asigna el valor a una variable
+        $data = $request->except('gasto_operativo_id'); // Excluye el campo saldo_formulario_id
+        $data['operativo_id'] = $operativo_id;
+
+        $gastoOperativo = GastoOperativo::create($data);
+
+        return response()->json(['message' => 'Gasto Operativo registrado correctamente', 'operativo_id' => $gastoOperativo->operativo_id]);
+    }
+
+    public function consultaGastos($id)
+    {
+        $gastos = GastoOperativo::with('tipoGastos')->where('operativo_id', $id)->get();
+
+        return response()->json($gastos->map(function($gasto) {
+            return [
+                'id' => $gasto->id,
+                'operativo_id' => $gasto->operativo_id,
+                'monto' => $gasto->monto,
+                'tipo' => $gasto->tipoGastos ? $gasto->tipoGastos->tipo : 'N/A',
+                'created_at' => $gasto->created_at,
+                'updated_at' => $gasto->updated_at
+            ];
+        }));
+    
     }
 
     /**

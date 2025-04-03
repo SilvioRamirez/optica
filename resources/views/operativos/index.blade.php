@@ -115,7 +115,7 @@
                                     @csrf
                                     <div class="row">
                                         <h2 class="text-center pb-2">Registrar Nuevo Gasto</h2>
-                                            {{ Form::hiddenComp('operativo_id') }}
+                                            {{ Form::hiddenComp('gasto_operativo_id') }}
                                         <div class="col-xs-4 col-sm-4 col-md-4">
                                             {{ Form::textComp('monto','Monto', null, null, '',) }}
                                         </div> 
@@ -225,14 +225,14 @@
 
         // Función para abrir el modal con el ID del operativo
         function abrirModalCoordenadas(operativoId) {
-            document.getElementById('operativo_id').value = operativoId;
+            document.getElementById('gasto_operativo_id').value = operativoId;
             new bootstrap.Modal(document.getElementById('modalRegistroCoordenadas')).show();
         }
 
         function openModalGastosOperativo(button) {
 
             const operativo = JSON.parse(button.getAttribute('data-operativo'));
-            document.getElementById('operativo_id').value = operativo.id;
+            document.getElementById('gasto_operativo_id').value = operativo.id;
             document.getElementById('nombre_operativo').innerHTML = '<strong>Nombre del Operativo:</strong> ' + operativo.nombre_operativo;
             document.getElementById('direccion').innerHTML = '<strong>Dirección:</strong> ' + operativo.direccion;
             document.getElementById('fecha').innerHTML = '<strong>Fecha:</strong> ' + operativo.fecha;
@@ -248,39 +248,39 @@
 
             var url = '/api/consultaGastosOperativo/'+id;
 
-        axios.post(url).then(response => {
-            let status = response.status;
-            let message = response.statusText;
-            console.log(response.data);
-            
-            const tbody = document.querySelector('#tablaGastosOperativo tbody');
-            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+            axios.post(url).then(response => {
+                let status = response.status;
+                let message = response.statusText;
+                console.log(response.data);
+                
+                const tbody = document.querySelector('#tablaGastosOperativo tbody');
+                tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
 
-            response.data.forEach(gasto => {
+                response.data.forEach(gasto => {
 
-                const fila = document.createElement('tr'); // Crear una nueva fila
+                    const fila = document.createElement('tr'); // Crear una nueva fila
 
-                const celdaId = document.createElement('td');
-                celdaId.textContent = gasto.id;
-                fila.appendChild(celdaId);
+                    const celdaId = document.createElement('td');
+                    celdaId.textContent = gasto.id;
+                    fila.appendChild(celdaId);
 
-                const celdaMonto = document.createElement('td');
-                celdaMonto.textContent = gasto.monto;
-                fila.appendChild(celdaMonto);
+                    const celdaMonto = document.createElement('td');
+                    celdaMonto.textContent = gasto.monto;
+                    fila.appendChild(celdaMonto);
 
-                const celdaTipoId = document.createElement('td');
-                celdaTipoId.textContent = gasto.tipo;
-                fila.appendChild(celdaTipoId);
+                    const celdaTipoId = document.createElement('td');
+                    celdaTipoId.textContent = gasto.tipo_gasto;
+                    fila.appendChild(celdaTipoId);
 
-                tbody.appendChild(fila);
+                    tbody.appendChild(fila);
+                });
+
+            }).catch(error => {
+                if(error.response){
+                    console.log(error.response.data.errors)
+                }
             });
-
-        }).catch(error => {
-            if(error.response){
-                console.log(error.response.data.errors)
-            }
-        });
-    }
+        }
 
     function limpiarGastoOperativoForm(){
         document.getElementById('monto').value = '';

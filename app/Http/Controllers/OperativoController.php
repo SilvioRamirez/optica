@@ -13,6 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\TipoGasto;
+use App\Models\GastoOperativo;
+
 class OperativoController extends Controller
 {
     /**
@@ -121,6 +123,16 @@ class OperativoController extends Controller
             ->whereNull('deleted_at')
             ->sum('saldo');
 
+        // Total de Gastos
+        $totalGastos = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->count();
+            
+        // Suma total de los gastos
+        $sumaTotalGastos = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->sum('monto');
+
         // Pagos por tipo
         $pagosPorTipo = $operativo->formularios()
             ->whereNull('formularios.deleted_at')
@@ -129,6 +141,21 @@ class OperativoController extends Controller
             ->join('tipos', 'pagos.tipo_id', '=', 'tipos.id')
             ->selectRaw('pagos.tipo_id, tipos.tipo as tipo_nombre, COUNT(*) as total_pagos, SUM(pagos.monto) as monto_total')
             ->groupBy('pagos.tipo_id', 'tipos.tipo')
+            ->get();
+        
+        // Gastos por tipo
+        $gastosPorTipo = $operativo->gastos()
+            ->whereNull('gasto_operativos.deleted_at')
+            ->join('tipo_gastos', 'gasto_operativos.tipo_gasto_id', '=', 'tipo_gastos.id')
+            ->selectRaw('gasto_operativos.tipo_gasto_id, tipo_gastos.tipo_gasto as tipo_nombre, COUNT(*) as total_gastos, SUM(gasto_operativos.monto) as monto_total')
+            ->groupBy('gasto_operativos.tipo_gasto_id', 'tipo_gastos.tipo_gasto')
+            ->get();
+        
+        // Formularios con estatus
+        $formulariosConEstatus = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('estatus, COUNT(*) as total')
+            ->groupBy('estatus')
             ->get();
         
         return view('operativos.show', compact(
@@ -142,7 +169,11 @@ class OperativoController extends Controller
             'sumaPagos',
             'sumaTotalFormularios',
             'sumaSaldoFormularios',
-            'pagosPorTipo'
+            'pagosPorTipo',
+            'gastosPorTipo',
+            'totalGastos',
+            'sumaTotalGastos',
+            'formulariosConEstatus'
         ));
     }
 
@@ -213,9 +244,48 @@ class OperativoController extends Controller
         return redirect()->back()->with('success', 'Coordenadas actualizadas exitosamente');
     }
 
-    public function consultaGastosOperativo(Operativo $operativo)
+    /* public function consultaGastosOperativo(Operativo $operativo)
     {
         $gastos = $operativo->gastos;
         return response()->json($gastos);
+    } */
+
+    /* public function consultaGastosOperativo(Operativo $operativo)
+    {
+        $operativo->load('gastos.tipoGastos');
+
+        return response()->json($operativo->gastos->map(function($gasto) {
+            // Agregamos información de debug
+            return [
+                'id' => $gasto->id,
+                'operativo_id' => $gasto->operativo_id,
+                'monto' => $gasto->monto,
+                'tipo' => $gasto->tipoGastos ? $gasto->tipoGastos->tipo_gasto : 'N/A',
+                'tipo_gasto_relation' => $gasto->tipoGastos, // Esto nos mostrará la relación completa o null
+                'created_at' => $gasto->created_at,
+                'updated_at' => $gasto->updated_at
+            ];
+        }));
+    } */
+
+    public function consultaGastosOperativo($id)
+    {
+        /* $pagos = Pago::with('tipo')->where('formulario_id', $id)->get(); */
+
+
+        $gastos = GastoOperativo::with('tipoGastos')->where('operativo_id', $id)->get();
+
+        
+        return response()->json($gastos->map(function($gasto) {
+            return [
+                'id' => $gasto->id,
+                'operativo_id' => $gasto->operativo_id,
+                'monto' => $gasto->monto,
+                'tipo_gasto' => $gasto->tipoGastos ? $gasto->tipoGastos->tipo_gasto : 'N/A',
+                'created_at' => $gasto->created_at,
+                'updated_at' => $gasto->updated_at
+            ];
+        }));
+    
     }
 }
