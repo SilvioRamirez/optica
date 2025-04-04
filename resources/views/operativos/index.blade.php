@@ -302,7 +302,7 @@
 
         // Función para abrir el modal con el ID del operativo
         function abrirModalCoordenadas(operativoId) {
-            document.getElementById('gasto_operativo_id').value = operativoId;
+            document.getElementById('operativo_id').value = operativoId;
             new bootstrap.Modal(document.getElementById('modalRegistroCoordenadas')).show();
         }
 
