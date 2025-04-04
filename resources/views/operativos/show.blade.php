@@ -78,7 +78,7 @@
             <h4 class="mb-3">Estadísticas del Operativo</h4>
             
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card bg-primary text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total Refractados</h5>
@@ -87,10 +87,10 @@
                     </div>
                 </div>
                 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card bg-success text-white shadow mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Total Formularios</h5>
+                            <h5 class="card-title">Total Lentes a Procesar</h5>
                             <p class="card-text display-6"><strong>{{ $totalFormularios }}</strong></p>
                         </div>
                     </div>
@@ -105,16 +105,8 @@
                     </div>
                 </div> --}}
                 
-                <div class="col-md-2">
-                    <div class="card bg-warning text-white shadow mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Suma Total Pagos</h5>
-                            <p class="card-text display-6"><strong>${{ number_format($sumaPagos, 2) }}</strong></p>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card bg-danger text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total de Gastos</h5>
@@ -123,15 +115,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="card bg-danger text-white shadow mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Monto Total de Gastos</h5>
-                            <p class="card-text display-6"><strong>${{ number_format($sumaTotalGastos, 2) }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="card bg-info text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Total de Asesores</h5>
@@ -142,20 +126,36 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white shadow mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Monto Total de Abonos</h5>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaPagos, 2) }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="card bg-success text-white mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Suma Total Formularios</h5>
+                            <h5 class="card-title">Monto Total de Ventas</h5>
                             <p class="card-text display-6"><strong>${{ number_format($sumaTotalFormularios, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="card bg-danger text-white mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Suma Total Saldos</h5>
+                            <h5 class="card-title">Monto Total de Saldos</h5>
                             <p class="card-text display-6"><strong>${{ number_format($sumaSaldoFormularios, 2) }}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card bg-danger text-white shadow mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Monto Total de Gastos</h5>
+                            <p class="card-text display-6"><strong>${{ number_format($sumaTotalGastos, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                 <div class="col-md-12">
                     <div class="card border-light mb-3 shadow mt-4">
                         <div class="card-header bg-info text-white">
-                            <h5 class="card-title mb-0">Formularios por Tipo de Tratamiento y Fórmula</h5>
+                            <h5 class="card-title mb-0">Lentes por Tipo de Tratamiento y Fórmula</h5>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -253,7 +253,7 @@
             <!-- Tabla de Formularios por Tipo de Tratamiento y Especialista -->
             <div class="card border-light mb-3 shadow mt-4">
                 <div class="card-header bg-info text-white">
-                    <h5 class="card-title mb-0">Formularios por Especialista y Tipo de Tratamiento</h5>
+                    <h5 class="card-title mb-0">Lentes por Especialista y Tipo de Tratamiento</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -272,10 +272,27 @@
                                 @php
                                     $totalGeneral = 0;
                                     $precioTotalGeneral = 0;
+                                    $especialistaActual = null;
+                                    $subtotalEspecialista = 0;
+                                    $precioSubtotalEspecialista = 0;
                                 @endphp
                                 @foreach($formulariosPorTipoYEspecialista as $formulario)
+                                    @if($especialistaActual !== $formulario->especialista_nombre)
+                                        @if($especialistaActual !== null)
+                                            <tr class="table-secondary">
+                                                <td colspan="4" class="text-end"><strong>Subtotal {{ $especialistaActual }}:</strong></td>
+                                                <td class="text-end"><strong>{{ $subtotalEspecialista }}</strong></td>
+                                                <td class="text-end"><strong>${{ number_format($precioSubtotalEspecialista, 2) }}</strong></td>
+                                            </tr>
+                                        @endif
+                                        @php
+                                            $especialistaActual = $formulario->especialista_nombre;
+                                            $subtotalEspecialista = 0;
+                                            $precioSubtotalEspecialista = 0;
+                                        @endphp
+                                    @endif
                                     <tr>
-                                        <td>{{ $formulario->especialista_nombre }} {{ $formulario->especialista_apellido }}</td>
+                                        <td>{{ $formulario->especialista_nombre }}</td>
                                         <td>{{ $formulario->tipo_lente }}</td>
                                         <td>{{ $formulario->tipoTratamiento->tipo_tratamiento ?? 'Sin tratamiento' }}</td>
                                         <td>{{ $formulario->tipo_formula }}</td>
@@ -283,10 +300,19 @@
                                         <td class="text-end">${{ number_format($formulario->precio_total, 2) }}</td>
                                     </tr>
                                     @php
+                                        $subtotalEspecialista += $formulario->total;
+                                        $precioSubtotalEspecialista += $formulario->precio_total;
                                         $totalGeneral += $formulario->total;
                                         $precioTotalGeneral += $formulario->precio_total;
                                     @endphp
                                 @endforeach
+                                @if($especialistaActual !== null)
+                                    <tr class="table-secondary">
+                                        <td colspan="4" class="text-end"><strong>Subtotal {{ $especialistaActual }}:</strong></td>
+                                        <td class="text-end"><strong>{{ $subtotalEspecialista }}</strong></td>
+                                        <td class="text-end"><strong>${{ number_format($precioSubtotalEspecialista, 2) }}</strong></td>
+                                    </tr>
+                                @endif
                                 <tr class="table-primary">
                                     <td colspan="4" class="text-end"><strong>Total General:</strong></td>
                                     <td class="text-end"><strong>{{ $totalGeneral }}</strong></td>
@@ -387,7 +413,7 @@
             <!-- Tabla de Formularios por Estatus -->
             <div class="card border-light mb-3 shadow mt-4">
                 <div class="card-header bg-info text-white">
-                    <h5 class="card-title mb-0">Formularios por Estatus</h5>
+                    <h5 class="card-title mb-0">Lentes por Estatus</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

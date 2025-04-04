@@ -8,7 +8,7 @@
         
             <div class="col-lg-12 margin-tb">
                 <div class="text-center">
-                    <h1><i class="fa fa-users"></i> Personas</h1>
+                    <h1><i class="fa fa-users"></i> Asesores</h1>
                 </div>
                 @can('product-create')
                     <div class="pull-right mt-2 mb-2">
@@ -19,7 +19,7 @@
     
         <div class="card border-light mb-3 shadow">
             <div class="card-header bg-primary text-white">
-                Administración de Personas
+                Administración de Asesores
             </div>
             <div class="card-body table-responsive">
                 {{ $dataTable->table() }}

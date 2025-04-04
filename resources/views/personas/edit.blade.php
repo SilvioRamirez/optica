@@ -9,7 +9,7 @@
     @include('fragment.error')
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-edit"></i> 
-            {{ __('Edit')}} Persona
+            {{ __('Edit')}} Asesor
         </div>
         <div class="card-body">
 

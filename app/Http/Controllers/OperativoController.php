@@ -103,6 +103,10 @@ class OperativoController extends Controller
             ->join('tipo_lentes', 'tipo_tratamientos.tipo_lente_id', '=', 'tipo_lentes.id')
             ->selectRaw('tipo_tratamiento_id, tipo_formula, especialistas.nombre as especialista_nombre, tipo_tratamientos.tipo_lente_id, tipo_lentes.tipo_lente, tipo_lentes.precio as precio_lente, COUNT(*) as total, SUM(tipo_lentes.precio) as precio_total')
             ->groupBy('tipo_tratamiento_id', 'tipo_formula', 'especialistas.nombre', 'tipo_tratamientos.tipo_lente_id', 'tipo_lentes.tipo_lente', 'tipo_lentes.precio')
+            ->orderBy('especialistas.nombre')
+            ->orderBy('tipo_lentes.tipo_lente')
+            ->orderBy('tipo_tratamientos.tipo_tratamiento')
+            ->orderBy('tipo_formula')
             ->with(['tipoTratamiento:id,tipo_tratamiento'])
             ->get();
         
@@ -335,6 +339,10 @@ class OperativoController extends Controller
             ->join('tipo_lentes', 'tipo_tratamientos.tipo_lente_id', '=', 'tipo_lentes.id')
             ->selectRaw('tipo_tratamiento_id, tipo_formula, especialistas.nombre as especialista_nombre, tipo_tratamientos.tipo_lente_id, tipo_lentes.tipo_lente, tipo_lentes.precio as precio_lente, COUNT(*) as total, SUM(tipo_lentes.precio) as precio_total')
             ->groupBy('tipo_tratamiento_id', 'tipo_formula', 'especialistas.nombre', 'tipo_tratamientos.tipo_lente_id', 'tipo_lentes.tipo_lente', 'tipo_lentes.precio')
+            ->orderBy('especialistas.nombre')
+            ->orderBy('tipo_lentes.tipo_lente')
+            ->orderBy('tipo_tratamientos.tipo_tratamiento')
+            ->orderBy('tipo_formula')
             ->with(['tipoTratamiento:id,tipo_tratamiento'])
             ->get();
         

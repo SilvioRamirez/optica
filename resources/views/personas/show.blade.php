@@ -7,7 +7,7 @@
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white"><i class="fa fa-eye"></i> 
-            {{ __('Show')}} Persona
+            {{ __('Show')}} Asesor
         </div>
         <div class="card-body">
 

@@ -137,7 +137,7 @@
                 <td class="text-end">{{ $totalRefractados }}</td>
             </tr>
             <tr>
-                <td><strong>Total Formularios:</strong></td>
+                <td><strong>Total Lentes a Procesar:</strong></td>
                 <td class="text-end">{{ $totalFormularios }}</td>
             </tr>
             <tr>
@@ -145,8 +145,16 @@
                 <td class="text-end">{{ $totalPagos }}</td>
             </tr>
             <tr>
-                <td><strong>Suma Total Pagos:</strong></td>
+                <td><strong>Monto Total de Abonos:</strong></td>
                 <td class="text-end">${{ number_format($sumaPagos, 2) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Monto Total de Ventas:</strong></td>
+                <td class="text-end">${{ number_format($sumaTotalFormularios, 2) }}</td>
+            </tr>
+            <tr>
+                <td><strong>Monto Total de Saldos:</strong></td>
+                <td class="text-end">${{ number_format($sumaSaldoFormularios, 2) }}</td>
             </tr>
             <tr>
                 <td><strong>Total Gastos:</strong></td>
@@ -164,7 +172,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Formularios por Tipo de Tratamiento y Fórmula</div>
+        <div class="section-title">Lentes por Tipo de Tratamiento y Fórmula</div>
         <table>
             <thead>
                 <tr>
@@ -196,7 +204,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Formularios por Especialista y Tipo de Tratamiento</div>
+        <div class="section-title">Lentes por Especialista y Tipo de Tratamiento</div>
         <table>
             <thead>
                 <tr>
@@ -212,25 +220,51 @@
                 @php
                     $totalGeneral = 0;
                     $precioTotalGeneral = 0;
+                    $especialistaActual = null;
+                    $subtotalEspecialista = 0;
+                    $precioSubtotalEspecialista = 0;
                 @endphp
                 @foreach($formulariosPorTipoYEspecialista as $formulario)
+                    @if($especialistaActual !== $formulario->especialista_nombre)
+                        @if($especialistaActual !== null)
+                            <tr class="table-secondary">
+                                <td colspan="4" class="text-end"><strong>Subtotal {{ $especialistaActual }}:</strong></td>
+                                <td class="text-end"><strong>{{ $subtotalEspecialista }}</strong></td>
+                                <td class="text-end"><strong>${{ number_format($precioSubtotalEspecialista, 2) }}</strong></td>
+                            </tr>
+                        @endif
+                        @php
+                            $especialistaActual = $formulario->especialista_nombre;
+                            $subtotalEspecialista = 0;
+                            $precioSubtotalEspecialista = 0;
+                        @endphp
+                    @endif
                     <tr>
-                        <td>{{ $formulario->especialista_nombre }} {{ $formulario->especialista_apellido }}</td>
+                        <td>{{ $formulario->especialista_nombre }}</td>
                         <td>{{ $formulario->tipo_lente }}</td>
                         <td>{{ $formulario->tipoTratamiento->tipo_tratamiento ?? 'Sin tratamiento' }}</td>
                         <td>{{ $formulario->tipo_formula }}</td>
-                        <td>{{ $formulario->total }}</td>
-                        <td>${{ number_format($formulario->precio_total, 2) }}</td>
+                        <td class="text-end">{{ $formulario->total }}</td>
+                        <td class="text-end">${{ number_format($formulario->precio_total, 2) }}</td>
                     </tr>
                     @php
+                        $subtotalEspecialista += $formulario->total;
+                        $precioSubtotalEspecialista += $formulario->precio_total;
                         $totalGeneral += $formulario->total;
                         $precioTotalGeneral += $formulario->precio_total;
                     @endphp
                 @endforeach
+                @if($especialistaActual !== null)
+                    <tr class="table-secondary">
+                        <td colspan="4" class="text-end"><strong>Subtotal {{ $especialistaActual }}:</strong></td>
+                        <td class="text-end"><strong>{{ $subtotalEspecialista }}</strong></td>
+                        <td class="text-end"><strong>${{ number_format($precioSubtotalEspecialista, 2) }}</strong></td>
+                    </tr>
+                @endif
                 <tr class="table-primary">
                     <td colspan="4" class="text-end"><strong>Total General:</strong></td>
-                    <td><strong>{{ $totalGeneral }}</strong></td>
-                    <td><strong>${{ number_format($precioTotalGeneral, 2) }}</strong></td>
+                    <td class="text-end"><strong>{{ $totalGeneral }}</strong></td>
+                    <td class="text-end"><strong>${{ number_format($precioTotalGeneral, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -281,7 +315,7 @@
     </div>
 
     <div class="section">
-        <div class="section-title">Formularios por Estatus</div>
+        <div class="section-title">Lentes por Estatus</div>
         <table>
             <thead>
                 <tr>

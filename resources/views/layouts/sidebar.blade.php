@@ -112,7 +112,7 @@
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('roles.index') }}"><i class="fa fa-users-cog"></i> Roles y Permisos</a>
 							@endcan
 							@can('user-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('personas.index') }}"><i class="fa fa-person"></i> Personas</a>
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('personas.index') }}"><i class="fa fa-person"></i> Asesores</a>
 							@endcan
 							
 							@canany(['especialista-list', 'especialista-create'])

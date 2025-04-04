@@ -8,7 +8,7 @@
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
             <i class="fa fa-trash-alt"></i>
-                    {{ __('Delete') }} Paciente
+                    {{ __('Delete') }} Asesor
         </div>
         <div class="card-body">			
             @include('fragment.error')
@@ -16,7 +16,7 @@
                     
             {!! Form::open(['method' => 'DELETE','route' => ['pacientes.destroy', $paciente->id],'style'=>'display:inline']) !!}
                     
-                <h2 class="text-center">¿Está segur@ de eliminar al Paciente: <strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</strong>?</h2>
+                <h2 class="text-center">¿Está segur@ de eliminar al Asesor: <strong>{{ $paciente->nombres }} {{ $paciente->apellidos }}</strong>?</h2>
                 <hr>
                     
                 <div class="flex-center position-ref full-height">
