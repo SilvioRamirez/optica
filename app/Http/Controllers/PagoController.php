@@ -79,7 +79,7 @@ class PagoController extends Controller
                 'updated_at' => $pago->updated_at
             ];
         }));
-    
+
     }
 
     public function calculoPagos($id)
@@ -105,7 +105,7 @@ class PagoController extends Controller
             'porcentaje' => $porcentaje,
             'saldo' => $saldo
         ]);
-    
+
     }
 
     /**
@@ -132,7 +132,7 @@ class PagoController extends Controller
             $formulario->saldo = $saldo;
             $formulario->porcentaje_pago = $porcentaje;
             $formulario->save();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Pago eliminado exitosamente.',
@@ -155,12 +155,12 @@ class PagoController extends Controller
             ], 500);
         }
     }
-    
+
     public function cargarImagen(Request $request)
     {
         try {
             $request->validate([
-                'image' => 'required|image|max:2048', // máximo 2MB
+                'image' => 'required|image|max:10240', // máximo 10mb
                 'pago_id' => 'required|exists:pagos,id'
             ]);
 
