@@ -261,6 +261,7 @@ class FormularioController extends Controller
                 'observaciones_extras',
                 'edad',
                 'fecha',
+                'fecha_entrega'
             ])
             ->first()->toJson();
     }
@@ -270,7 +271,8 @@ class FormularioController extends Controller
         $formulario->update([
             'estatus'           => $request->params['estatus'],
             'ruta_entrega_id'   => $request->params['ruta_entrega_id'],
-            'laboratorio'       => $request->params['laboratorio']
+            'laboratorio'       => $request->params['laboratorio'],
+            'fecha_entrega'     => $request->params['fecha_entrega']
         ]);
 
         return $formulario->toJson();
@@ -301,6 +303,7 @@ class FormularioController extends Controller
                 'saldo',
                 'porcentaje_pago',
                 'operativo_id',
+                'cashea'
             ])
             ->first()->toJson();
     }

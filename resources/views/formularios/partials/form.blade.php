@@ -15,13 +15,7 @@
                 </div>
             </div>
 
-            {{-- {{ Form::selectComp('estatus','Estatus', '', [
-                        '' => '-- Seleccione --',
-                        'REGISTRADO' => 'REGISTRADO',
-                        'POR ENTREGAR' => 'POR ENTREGAR',
-                        'ENTREGADO' => 'ENTREGADO' 
-                        ])
-                    }} --}}
+            {{-- c --}}
 
             {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
 
@@ -51,6 +45,8 @@
             {{ Form::textComp('cedula','Cedula', null, null, '') }}
 
             {{ Form::textComp('edad','Edad', null, null, '') }}
+
+            {{ Form::selectComp('genero','Genero', '', ['' => '-- Seleccione --', 'MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
 
             <br>
             <h5 class="">Datos del Lente</h5>
@@ -164,6 +160,13 @@
             {{ Form::textComp('total_descuento','Total Descuento', null, null, '') }}
             {{ Form::readonlyComp('saldo','Saldo', null, null, '') }}
             {{ Form::readonlyComp('porcentaje_pago','Porcentaje Pagado (%)', null, null, '') }}
+            
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                    {{ Form::checkboxComp('cashea', 'Pago con CASHEA', is_object($formulario) ? $formulario->cashea : null, null, '') }}
+                </div>
+            </div>
+
             <hr>
             <div class="row">
                 <div class="col-xs-3 col-sm-3 col-md-3">

@@ -18,6 +18,7 @@
                 @endcan
             </div>
         @canany(['formulario-list'])
+            
             <div class="card border-light mb-3 shadow">
                 <div class="card-header bg-primary text-white">
                     Administración de Formularios
@@ -57,11 +58,11 @@
 
                             <div class="row">
                                 <h5><strong>Actualizar Estatus</strong></h5>
-                                <label for="estatus"><strong>Estatus:</strong></label>
                                 <div class="form-group mb-2">
                                     {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
                                     {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
                                     {{ Form::selectComp('laboratorio-dropdown', 'Laboratorio', '', $laboratorios) }}
+                                    {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
                                 </div>
                             </div>
                         </div>
@@ -72,7 +73,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success btn-revisarLente"><i class="fa fa-check-double"></i> Actualizar</button>
+                <button type="button" class="btn btn-success btn-revisarLente"><i class="fa fa-pen-to-square"></i> Actualizar</button>
             </div>
         </div>
     </div>
@@ -147,7 +148,8 @@
                                     <h3 id="saldoEstatus">Estatus: </h3>
                                     <h3 id="saldoTotal">Total: </h3>
                                     <h3 id="saldoSaldo">Saldo: </h3>
-                                    <h3 id="saldoPorcentajePago">Saldo: </h3>
+                                    <h3 id="saldoPorcentajePago">Porcentaje Pagado: </h3>
+                                    <h3 id="saldoCashea">Pago con CASHEA: </h3>
                                     
                                 </div>
                                 <hr>
@@ -215,7 +217,42 @@
 <script type="module">
 /* Dropzone.autoDiscover = false; */
 
-let myDropzone = new Dropzone("#myDropzone");
+let myDropzone = new Dropzone("#myDropzone", {
+    headers:{
+        'X-CSRF-TOKEN' : '{{csrf_token()}}'
+    },
+    dictDefaultMessage: 'Arrastre una imagen al recuadro para subirla',
+    acceptedFiles: 'image/*',
+    maxFiles: 5,
+    maxFilesize: 10, // Limitamos a 2MB por archivo
+    parallelUploads: 1, // Subir de uno en uno
+    timeout: 180000, // 3 minutos de timeout
+    init: function() {
+        this.on("error", function(file, errorMessage, xhr) {
+            console.error("Error de carga:", errorMessage);
+            // Mostrar error al usuario
+            Swal.fire({
+                title: 'Error',
+                text: 'Error al cargar la imagen: ' + errorMessage,
+                icon: 'error',
+                confirmButtonText: 'OK',
+                confirmButtonColor: "#dc3545",
+            });
+        });
+        this.on("success", function(file, response) {
+            console.log("Éxito:", response);
+            if (response && response.success) {
+                Swal.fire({
+                    title: 'Éxito',
+                    text: 'Imagen cargada correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: "#198754",
+                });
+            }
+        });
+    }
+});
 
 Dropzone.options.myDropzone = {
     headers:{
@@ -224,6 +261,8 @@ Dropzone.options.myDropzone = {
     dictDefaultMessage: 'Arrastre una imagen al recuadro para subirla',
     acceptedFiles: 'image/*',
     maxFiles: 5,
+    maxFilesize: 2, // Limitamos a 2MB por archivo
+    parallelUploads: 1 // Subir de uno en uno
 }; 
 
 </script>
@@ -242,6 +281,7 @@ Dropzone.options.myDropzone = {
             var estatus         = document.getElementById("estatus").value;
             var ruta_entrega_id = document.getElementById("ruta_entrega_id").value;
             var laboratorio     = document.getElementById("laboratorio-dropdown").value;
+            var fecha_entrega   = document.getElementById("fecha_entrega").value;
             
             console.log(estatus);
 
@@ -253,18 +293,10 @@ Dropzone.options.myDropzone = {
                             formulario_id: formulario_id,
                             estatus: estatus,
                             ruta_entrega_id: ruta_entrega_id,
-                            laboratorio: laboratorio
+                            laboratorio: laboratorio,
+                            fecha_entrega: fecha_entrega
                         }
                 }).then(response => {
-
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
-
-                    document.getElementById('estatus').value="";
-                    document.getElementById('ruta_entrega_id').value="";
-                    document.getElementById('laboratorio-dropdown').value="";
-                    
-                    var oTable = $('#formularios-table').dataTable();
-                    oTable.fnDraw(false);
 
                     Swal.fire({
                         title: 'Éxito',
@@ -273,6 +305,16 @@ Dropzone.options.myDropzone = {
                         confirmButtonText: 'OK',
                         confirmButtonColor: "#198754",
                     })
+
+                    bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).hide();
+
+                    $('#formularios-table').DataTable().ajax.reload(null, false);
+                    
+                    document.getElementById('estatus').value="";
+                    document.getElementById('ruta_entrega_id').value="";
+                    document.getElementById('laboratorio-dropdown').value="";
+                    document.getElementById('fecha_entrega').value="";
+
 
             }).catch(error => {                  
                 if(error.response){
@@ -294,7 +336,7 @@ Dropzone.options.myDropzone = {
         document.getElementById('estatus').value="";
         document.getElementById('ruta_entrega_id').value="";
         document.getElementById('laboratorio-dropdown').value="";
-
+        document.getElementById('fecha_entrega').value="";
         bootstrap.Modal.getOrCreateInstance(document.getElementById('prLenteModal')).show();
 
         var url = /* SITEURL +  */'/api/estatusFormulario/'+id;
@@ -318,7 +360,7 @@ Dropzone.options.myDropzone = {
             let edad                    = response.data.edad
             let fecha                   = response.data.fecha
             let laboratorio             = response.data.laboratorio
-
+            let fecha_entrega           = response.data.fecha_entrega
             document.getElementById("paciente").innerHTML = '<strong>Paciente:</strong> '+ paciente;
             document.getElementById("numero_orden").innerHTML = '<strong>Numero de Orden:</strong> '+''+ numero_orden+'';
             document.getElementById("status").innerHTML = '<strong>Estatus:</strong> '+''+ estatus+'';
@@ -326,6 +368,7 @@ Dropzone.options.myDropzone = {
             document.getElementById('estatus').value=estatus;
             document.getElementById('ruta_entrega_id').value=ruta_entrega_id;
             document.getElementById('laboratorio-dropdown').value=laboratorio;
+            document.getElementById('fecha_entrega').value=fecha_entrega;
             document.getElementById("total").innerHTML = '<strong>Total:</strong> '+''+ total+'';
             document.getElementById("saldo").innerHTML = '<strong>Saldo:</strong> '+''+ saldo+'';
 
@@ -441,6 +484,19 @@ Dropzone.options.myDropzone = {
                             });
 
                             openModalFotografiasContrato(imagen.formulario_id);
+                            
+                            // Intentar varios métodos de actualización de DataTables
+                            try {
+                                // Método 1: Usando API moderna
+                                $('#formularios-table').DataTable().ajax.reload(null, false);
+                                // Método 2: Usando método antiguo
+                                var oTable = $('#formularios-table').dataTable();
+                                oTable.fnDraw(false);
+                                // Método 3: Redraw directo
+                                $('#formularios-table').DataTable().draw(false);
+                            } catch (error) {
+                                console.error("Error al actualizar tabla:", error);
+                            }
 
                         }
                     });
@@ -469,7 +525,7 @@ Dropzone.options.myDropzone = {
         document.getElementById("saldoTotal").innerHTML = '';
         document.getElementById("saldoSaldo").innerHTML = '';
         document.getElementById("saldoPorcentajePago").innerHTML = '';
-
+        document.getElementById("saldoCashea").innerHTML = '';
         limpiarPagoForm();
 
         document.getElementById('saldo_formulario_id').value = id;
@@ -487,6 +543,7 @@ Dropzone.options.myDropzone = {
             document.getElementById("saldoNumeroOrden").innerHTML = '<strong>Nro. Orden:</strong> '+''+ response.data.numero_orden+'';
             document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> '+''+ response.data.estatus+'';
             document.getElementById("saldoTotal").innerHTML = '<strong>Total:</strong> '+''+ response.data.total+'';
+            document.getElementById("saldoCashea").innerHTML = '<strong>Pago con CASHEA:</strong> '+''+ (response.data.cashea == 1 ? 'SI' : 'NO')+'';
 
         }).catch(error => {                  
             if(error.response){
@@ -511,6 +568,19 @@ Dropzone.options.myDropzone = {
             /* document.getElementById('mensaje').innerText = 'Formulario enviado correctamente'; */
             limpiarPagoForm();
             consultaPagosTable(response.data.formulario_id);
+            
+            // Intentar varios métodos de actualización de DataTables
+            try {
+                // Método 1: Usando API moderna
+                $('#formularios-table').DataTable().ajax.reload(null, false);
+                // Método 2: Usando método antiguo
+                var oTable = $('#formularios-table').dataTable();
+                oTable.fnDraw(false);
+                // Método 3: Redraw directo
+                $('#formularios-table').DataTable().draw(false);
+            } catch (error) {
+                console.error("Error al actualizar tabla:", error);
+            }
 
         }).catch(error => {
             if(error.response){
@@ -629,6 +699,20 @@ Dropzone.options.myDropzone = {
                             if (response.data.success) {
                                 // Actualizar la imagen en la tabla
                                 consultaPagosTable(id); // Recargar la tabla
+                                
+                                // Intentar varios métodos de actualización de DataTables
+                                try {
+                                    // Método 1: Usando API moderna
+                                    $('#formularios-table').DataTable().ajax.reload(null, false);
+                                    // Método 2: Usando método antiguo
+                                    var oTable = $('#formularios-table').dataTable();
+                                    oTable.fnDraw(false);
+                                    // Método 3: Redraw directo
+                                    $('#formularios-table').DataTable().draw(false);
+                                } catch (error) {
+                                    console.error("Error al actualizar tabla:", error);
+                                }
+                                
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Éxito',

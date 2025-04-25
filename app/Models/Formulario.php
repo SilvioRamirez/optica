@@ -90,4 +90,6 @@ class Formulario extends Model
     {
         return $this->hasMany(Pago::class);
     }
+
+
 }

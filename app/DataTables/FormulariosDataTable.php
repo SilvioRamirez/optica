@@ -68,6 +68,11 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('tipo', function($query){
                     return $query->tipoLente ? $query->tipoLente->tipo_lente : '';
                 })
+                ->orderColumn('tipo', function($query, $order) {
+                    $query->whereHas('tipoLente', function($q) use ($order) {
+                        $q->orderBy('tipo_lente', $order);
+                    });
+                })
                 ->filterColumn('tipo', function($query, $keyword){
                     $query->whereHas('tipoLente', function($query) use ($keyword){
                         $query->where('tipo_lente', 'like', "%$keyword%");
@@ -75,6 +80,11 @@ class FormulariosDataTable extends DataTable
                 })
                 ->addColumn('tipoTratamiento', function($query){
                     return $query->tipoTratamiento ? $query->tipoTratamiento->tipo_tratamiento : '';
+                })
+                ->orderColumn('tipoTratamiento', function($query, $order) {
+                    $query->whereHas('tipoTratamiento', function($q) use ($order) {
+                        $q->orderBy('tipo_tratamiento', $order);
+                    });
                 })
                 ->filterColumn('tipoTratamiento', function($query, $keyword){
                     $query->whereHas('tipoTratamiento', function($query) use ($keyword){
@@ -84,6 +94,11 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('rutaEntrega', function($query){
                     return $query->rutaEntrega ? $query->rutaEntrega->ruta_entrega : '';
                 })
+                ->orderColumn('rutaEntrega', function($query, $order) {
+                    $query->whereHas('rutaEntrega', function($q) use ($order) {
+                        $q->orderBy('ruta_entrega', $order);
+                    });
+                })
                 ->filterColumn('rutaEntrega', function($query, $keyword){
                     $query->whereHas('rutaEntrega', function($query) use ($keyword){
                         $query->where('ruta_entrega', 'like', "%$keyword%");
@@ -91,6 +106,11 @@ class FormulariosDataTable extends DataTable
                 })
                 ->addColumn('especialista', function($query){
                     return $query->especialistaLente ? $query->especialistaLente->nombre : '';
+                })
+                ->orderColumn('especialista', function($query, $order) {
+                    $query->whereHas('especialistaLente', function($q) use ($order) {
+                        $q->orderBy('nombre', $order);
+                    });
                 })
                 ->filterColumn('especialista', function($query, $keyword){
                     $query->whereHas('especialistaLente', function($query) use ($keyword){
@@ -100,6 +120,11 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('descuento', function($query){
                     return $query->descuento ? $query->descuento->nombre : '';
                 })
+                ->orderColumn('descuento', function($query, $order) {
+                    $query->whereHas('descuento', function($q) use ($order) {
+                        $q->orderBy('nombre', $order);
+                    });
+                })
                 ->filterColumn('descuento', function($query, $keyword){
                     $query->whereHas('descuento', function($query) use ($keyword){
                         $query->where('nombre', 'like', "%$keyword%");
@@ -108,10 +133,24 @@ class FormulariosDataTable extends DataTable
                 ->addColumn('operativo_id', function($query){
                     return $query->operativo ? $query->operativo->nombre_operativo : '';
                 })
+                ->orderColumn('operativo_id', function($query, $order) {
+                    $query->whereHas('operativo', function($q) use ($order) {
+                        $q->orderBy('nombre_operativo', $order);
+                    });
+                })
                 ->filterColumn('operativo_id', function($query, $keyword){
                     $query->whereHas('operativo', function($query) use ($keyword){
                         $query->where('nombre_operativo', 'like', "%$keyword%");
                     });
+                })
+                ->addColumn('cashea', function($query){
+                    return $query->cashea ? 'SI' : 'NO';
+                })
+                ->orderColumn('cashea', function($query, $order) {
+                    $query->orderBy('cashea', $order);
+                })
+                ->filterColumn('cashea', function($query, $keyword){
+                    $query->where('cashea', 'like', "%$keyword%");
                 })
                 ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista', 'descuento', 'operativo_id'])
                 ->setRowId('id');
@@ -124,7 +163,20 @@ class FormulariosDataTable extends DataTable
      */
     public function query(Formulario $model): QueryBuilder
     {
-        return $model->newQuery()->with('tipoLente')->with('tipoTratamiento')->with('especialistaLente');
+        // Optimizado con carga eager de todas las relaciones necesarias
+        return $model->newQuery()
+            ->select([
+                'formularios.*',
+                // Agregamos selects específicos para optimizar si es necesario
+            ])
+            ->with([
+                'tipoLente:id,tipo_lente',
+                'tipoTratamiento:id,tipo_tratamiento',
+                'especialistaLente:id,nombre',
+                'rutaEntrega:id,ruta_entrega',
+                'operativo:id,nombre_operativo',
+                'descuento:id,nombre'
+            ]);
     }
 
     /**
@@ -137,11 +189,43 @@ class FormulariosDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->lengthMenu([10, 25, 50, 100, 500, 1000])
+                    ->parameters([
+                        'initComplete' => 'function(){
+
+                            const table =this.api();
+                            const $thead = $(table.table().header());
+                            const $filterRow = $thead.find("tr").clone().addClass("filter");
+
+                            $filterRow.find("th").each(function(){
+                                const $currentTh = $(this);
+                                if(!$currentTh.hasClass("no-search")){
+                                    const input = $(`<input type="text" class="form-control form-control-sm" placeholder="Buscar ${$currentTh.text()}" />`);
+                                    $currentTh.html(input);
+                                    $(input).on("click", function(event){
+                                        event.stopPropagation();
+                                    });
+                                    $(input).on("keyup change clear", function(){
+                                        if (table.column($currentTh.index()).search() !== this.value){
+                                            table.column($currentTh.index()).search(this.value).draw();
+                                        }
+                                    });
+                                }else{
+                                    $currentTh.empty();
+                                }
+                            });
+
+                            $thead.append($filterRow);
+
+                        }'
+                    ])
                     ->dom("<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>"."<'row'<'col-sm-12'tr>>"."<'row'<'col-sm-5'i><'col-sm-7'p>>")
                     ->orderBy(1, 'desc')
                     ->language([
                         'url' => url('storage/js/datatables/Spanish.json')
-                    ])->buttons($this->getButtons());
+                    ])
+                    ->buttons($this->getButtons())
+                    ->processing(true)
+                    ->serverSide(true);
     }
 
     public function getButtons(): array
@@ -171,8 +255,8 @@ class FormulariosDataTable extends DataTable
                     ->exportable(false)
                     ->printable(false)
                     ->width(60)
-                    ->addClass('text-center');
-        $columns[] = Column::make('id')->title('ID');
+                    ->addClass('text-center no-search');
+        $columns[] = Column::make('id')->title('ID')->width(160);
         $columns[] = Column::make('numero_orden')->title('Numero de Orden');
         $columns[] = Column::make('paciente')->title('Paciente');
         if(auth()->user()->can('formulario-telefono')){
@@ -225,6 +309,12 @@ class FormulariosDataTable extends DataTable
                     ->printable(true)
                     ->width(60)
                     ->addClass('text-center');
+        $columns[] = Column::computed('cashea')->title('CASHEA')
+                    ->orderable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::computed('pasados')->title('Días Pasados')
                     ->orderable(true)
                     ->exportable(true)
@@ -233,7 +323,7 @@ class FormulariosDataTable extends DataTable
                     ->addClass('text-center');
         $columns[] = Column::make('fecha')->title('Fecha');
         $columns[] = Column::make('fecha_proxima_cita')->title('Fecha de Prox. Cita');
-        $columns[] = Column::make('operativo_id')->title('Operativo')
+        $columns[] = Column::computed('operativo_id')->title('Operativo')
                     ->orderable(true)
                     ->searchable(true)
                     ->exportable(true)
@@ -290,6 +380,7 @@ class FormulariosDataTable extends DataTable
         
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('edad')->title('Edad');
+        $columns[] = Column::make('genero')->title('Genero');
 
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');

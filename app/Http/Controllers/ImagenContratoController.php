@@ -9,46 +9,41 @@ use App\Models\Formulario;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
+use Intervention\Image\ImageFormat;
 
 class ImagenContratoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreImagenContratoRequest $request)
     {
-        $request->validate([
-            'file' => 'required|image'
-        ]);
+        try {
+            // La validación ya está en el StoreImagenContratoRequest
+            // Añadimos validación extra para el tamaño máximo
+            $request->validate([
+                'file' => 'max:11000' // 5MB máximo
+            ]);
 
-        $nombre = Str::random(10) . $request->file('file')->getClientOriginalName();
+            $file = $request->file('file');
+            $nombre = Str::random(10) . $file->getClientOriginalName();
+            $ruta = public_path() . '/storage/img/contratos/' . $nombre;
 
-        $ruta = public_path() . '/storage/img/contratos/' . $nombre;
-
-        Image::read($request->file('file'))
-                ->scaleDown(height: 1000)
+            // Optimizamos la imagen reduciendo su tamaño
+            Image::read($file)
+                ->scaleDown(height: 800)
                 ->save($ruta);
 
-        ImagenContrato::create([
-            'path' => '/storage/img/contratos/'. $nombre,
-            'formulario_id' => $request->formulario_imagen_id
-        ]);
+            ImagenContrato::create([
+                'path' => '/storage/img/contratos/'. $nombre,
+                'formulario_id' => $request->formulario_imagen_id
+            ]);
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**
