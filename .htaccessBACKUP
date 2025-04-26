@@ -1,5 +1,0 @@
-RewriteEngine on
-RewriteOptions inherit
-RewriteCond %{HTTP_HOST} ^optirango\.com$
-RewriteCond %{HTTP_HOST} ^www\.optirango\.com$
-RewriteRule ^$ "https\:\/\/optirango\.com" [R=301,L]

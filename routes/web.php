@@ -98,7 +98,7 @@ Route::post('api/fetch-tipo-tratamientos', [DropdownController::class, 'fetchTip
 
 Route::get('/formularios/{formulario}/{orden}/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
 Route::get('/formularios/cedula/',   [FormularioPdfController::class, 'orden_cedula'])->name('formulario.orden.cedula');
-/* Route::get('test', fn () => phpinfo()); */
+Route::get('test', fn () => phpinfo());
 
 Route::group(['middleware' => ['auth']], function() {
 
