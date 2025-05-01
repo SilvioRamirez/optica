@@ -172,29 +172,31 @@
                                             {{ Form::textComp('referencia','Ref', null, null, '',) }}
                                         </div>
                                         <div class="col-xs-1 col-sm-1 col-md-1">
-                                        <br>
-                                            <button type="submit" class="btn btn-primary" title="Guardar"><i class="fa fa-floppy-disk"></i></button>
+                                            <div class="d-grid gap-2 mt-md-4 mt-sm-0 mt-lg-4 mt-sm-0">
+                                                <button type="submit" class="btn btn-primary btn-block" title="Guardar"><i class="fa fa-floppy-disk"></i></button>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
                                 <div id="mensaje">
                                 </div>
                                 <hr>
-                                <table id="tablaPagos" class="table table-responsive">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>MONTO</th>
-                                            <th>FECHA</th>
-                                            <th>TIPO</th>
-                                            <th>REF</th>
-                                            <th>COMPROBANTE</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                
-                                </table>
+                                <div class="table-responsive">
+                                    <table id="tablaPagos" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>MONTO</th>
+                                                <th>FECHA</th>
+                                                <th>TIPO</th>
+                                                <th>REF</th>
+                                                <th>COMPROBANTE</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
                         </div>
                     </div>
                 </div>
