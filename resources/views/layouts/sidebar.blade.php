@@ -97,6 +97,21 @@
 					</div>
 				@endcan
 
+				@can('actividad-list')
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-headingActividades">
+						<button class="accordion-button collapsed list-group-item-primary" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseActividades" aria-expanded="false" aria-controls="flush-collapseActividades">
+							<i class="fa fa-calendar-check"></i>&nbsp; Actividades Diarias
+						</button>
+						</h2>
+						<div id="flush-collapseActividades" class="accordion-collapse collapse" aria-labelledby="flush-headingActividades" >
+							@canany(['actividad-list', 'actividad-create'])
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('actividades.index') }}"><i class="fa-solid fa-list-check"></i> Registro de Actividades</a>
+							@endcanany
+						</div>
+					</div>
+				@endcan
+
 				@canany(['paciente-list', 'operativo-list', 'role-list', 'user-list', 'configuracion-list', 'tipo-list', 'operativo-create', 'laboratorio-list', 'laboratorio-create'])
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="flush-headingOne">

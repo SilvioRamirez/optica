@@ -226,7 +226,7 @@ let myDropzone = new Dropzone("#myDropzone", {
     dictDefaultMessage: 'Arrastre una imagen al recuadro para subirla',
     acceptedFiles: 'image/*',
     maxFiles: 5,
-    maxFilesize: 10, // Limitamos a 2MB por archivo
+    maxFilesize: 20, // Limitamos a 2MB por archivo
     parallelUploads: 1, // Subir de uno en uno
     timeout: 180000, // 3 minutos de timeout
     init: function() {

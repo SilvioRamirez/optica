@@ -38,6 +38,7 @@ use App\Http\Controllers\TipoGastoController;
 use App\Http\Controllers\TipoLenteController;
 use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TratamientoController;
+use App\Http\Controllers\ActividadController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -266,6 +267,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('logs/delete_all',   [ActivityController::class, 'delete_all'])->name('logs.delete.all');
 
     Route::post('operativos/update-coordenadas', [OperativoController::class, 'updateCoordenadas'])->name('operativos.updateCoordenadas');
+
+    //Rutas de Actividades
+    Route::get('/actividades/buscar', [ActividadController::class, 'buscarActividades'])->name('actividades.buscar');
+    Route::resource('actividades', ActividadController::class);
 
 });
 
