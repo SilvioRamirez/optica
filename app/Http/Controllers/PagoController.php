@@ -47,6 +47,12 @@ class PagoController extends Controller
         //
     }
 
+    public function show(Pago $pago)
+    {
+        $pago->load('tipo', 'formulario');
+        return view('pagos.show', compact('pago'));
+    }
+
     /**
      * Store a newly created resource in storage.
      */
