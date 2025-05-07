@@ -270,6 +270,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Rutas de Actividades
     Route::get('/actividades/buscar', [ActividadController::class, 'buscarActividades'])->name('actividades.buscar');
+    Route::get('/actividades/pdf', [ActividadController::class, 'generarPDF'])->name('actividades.pdf');
     Route::resource('actividades', ActividadController::class);
 
 });
