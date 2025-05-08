@@ -285,7 +285,6 @@ class FormularioController extends Controller
             'ruta_entrega_id'   => $request->params['ruta_entrega_id'],
             'laboratorio'       => $request->params['laboratorio'],
             'fecha_entrega'     => $request->params['fecha_entrega'],
-            'origen_id'         => $request->params['origen_id']
         ]);
 
         return $formulario->toJson();
