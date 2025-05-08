@@ -162,11 +162,14 @@
                                         <div class="col-xs-2 col-sm-2 col-md-2">
                                             {{ Form::textComp('monto','Monto', null, null, '',) }}
                                         </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
                                             {{ Form::dateComp('pago_fecha','Fecha', null, null, '') }}
                                         </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-3">
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
                                             {{ Form::selectComp('tipo_id', 'Tipo', '', $tipos) }}                    
+                                        </div>
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
+                                            {{ Form::selectComp('origen_id', 'Origen del Registro', '', $origens) }}
                                         </div>
                                         <div class="col-xs-2 col-sm-2 col-md-2">
                                             {{ Form::textComp('referencia','Ref', null, null, '',) }}
@@ -189,6 +192,7 @@
                                                 <th>MONTO</th>
                                                 <th>FECHA</th>
                                                 <th>TIPO</th>
+                                                <th>ORIGEN</th>
                                                 <th>REF</th>
                                                 <th>COMPROBANTE</th>
                                             </tr>
@@ -546,7 +550,6 @@ Dropzone.options.myDropzone = {
             document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> '+''+ response.data.estatus+'';
             document.getElementById("saldoTotal").innerHTML = '<strong>Total:</strong> '+''+ response.data.total+'';
             document.getElementById("saldoCashea").innerHTML = '<strong>Pago con CASHEA:</strong> '+''+ (response.data.cashea == 1 ? 'SI' : 'NO')+'';
-
         }).catch(error => {                  
             if(error.response){
                 console.log(error.response.data.errors)
@@ -597,6 +600,7 @@ Dropzone.options.myDropzone = {
         document.getElementById('monto').value = '';
         document.getElementById('pago_fecha').value = '';
         document.getElementById('tipo_id').value = '';
+        document.getElementById('origen_id').value = '';
         document.getElementById('referencia').value = '';
 
         const tbody = document.querySelector('#tablaPagos tbody');
@@ -648,6 +652,10 @@ Dropzone.options.myDropzone = {
                 const celdaTipoId = document.createElement('td');
                 celdaTipoId.textContent = pago.tipo;
                 fila.appendChild(celdaTipoId);
+
+                const celdaOrigenId = document.createElement('td');
+                celdaOrigenId.textContent = pago.origen;
+                fila.appendChild(celdaOrigenId);
 
                 const celdaReferencia = document.createElement('td');
                 celdaReferencia.textContent = pago.referencia;

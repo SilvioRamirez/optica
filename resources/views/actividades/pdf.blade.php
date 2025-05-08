@@ -107,6 +107,50 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="section-title mt-4">Resumen de Pagos por Origen</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Origen</th>
+                    <th>Cantidad</th>
+                    <th>Monto Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $pagosPorOrigen = [];
+                    $totalPagosPorOrigen = 0;
+                    $montoTotalPorOrigen = 0;
+                    foreach($pagos as $pago) {
+                        $origenNombre = $pago->origen ? $pago->origen->nombre : 'Sin origen';
+                        if(!isset($pagosPorOrigen[$origenNombre])) {
+                            $pagosPorOrigen[$origenNombre] = [
+                                'cantidad' => 0,
+                                'monto' => 0
+                            ];
+                        }
+                        $pagosPorOrigen[$origenNombre]['cantidad']++;
+                        $pagosPorOrigen[$origenNombre]['monto'] += $pago->monto;
+                        $totalPagosPorOrigen++;
+                        $montoTotalPorOrigen += $pago->monto;
+                    }
+                @endphp
+
+                @foreach($pagosPorOrigen as $origen => $datos)
+                <tr>
+                    <td>{{ $origen }}</td>
+                    <td class="text-end">{{ $datos['cantidad'] }}</td>
+                    <td class="text-end">${{ number_format($datos['monto'], 2) }}</td>
+                </tr>
+                @endforeach
+                <tr class="table-primary">
+                    <td class="text-end"><strong>Total General:</strong></td>
+                    <td class="text-end"><strong>{{ $totalPagosPorOrigen }}</strong></td>
+                    <td class="text-end"><strong>${{ number_format($montoTotalPorOrigen, 2) }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="section">
@@ -144,6 +188,41 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class="section-title mt-4">Resumen de Formularios por Origen</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Origen</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $formulariosPorOrigen = [];
+                    $totalFormulariosPorOrigen = 0;
+                    foreach($formularios as $formulario) {
+                        $origenNombre = $formulario->origen ? $formulario->origen->nombre : 'Sin origen';
+                        if(!isset($formulariosPorOrigen[$origenNombre])) {
+                            $formulariosPorOrigen[$origenNombre] = 0;
+                        }
+                        $formulariosPorOrigen[$origenNombre]++;
+                        $totalFormulariosPorOrigen++;
+                    }
+                @endphp
+
+                @foreach($formulariosPorOrigen as $origen => $cantidad)
+                <tr>
+                    <td>{{ $origen }}</td>
+                    <td class="text-end">{{ $cantidad }}</td>
+                </tr>
+                @endforeach
+                <tr class="table-primary">
+                    <td class="text-end"><strong>Total General:</strong></td>
+                    <td class="text-end"><strong>{{ $totalFormulariosPorOrigen }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="section">
@@ -152,12 +231,13 @@
             <thead>
                 <tr>
                     <th>Nro. Orden</th>
+                    <th>Operativo</th>
+                    <th>Origen</th>
                     <th>Monto</th>
                     <th>Referencia</th>
                     <th>Tipo</th>
                     <th>Saldo</th>
                     <th>Estatus</th>
-                    <th>Hora</th>
                 </tr>
             </thead>
             <tbody>
@@ -179,7 +259,7 @@
                             // Mostrar subtotal del tipo anterior
                             echo '<tr class="table-light">
                                     <td colspan="1" class="text-end"><strong>Subtotal ' . $tipoActual . ':</strong></td>
-                                    <td colspan="6" class=""><strong>$' . number_format($subtotalTipo, 2) . '</strong></td>
+                                    <td colspan="7" class=""><strong>$' . number_format($subtotalTipo, 2) . '</strong></td>
                                   </tr>';
                             $subtotalTipo = 0;
                         }
@@ -190,25 +270,26 @@
                     @endphp
                     <tr>
                         <td>{{ $pago->formulario ? $pago->formulario->numero_orden : '-' }}</td>
+                        <td>{{ $pago->formulario && $pago->formulario->operativo ? $pago->formulario->operativo->nombre_operativo : '-' }}</td>
+                        <td>{{ $pago->origen ? $pago->origen->nombre : '-' }}</td>
                         <td class="text-end">${{ number_format($pago->monto, 2) }}</td>
                         <td>{{ $pago->referencia ?? '-' }}</td>
                         <td>{{ $tipoNombre }}</td>
                         <td>{{ $pago->formulario ? $pago->formulario->saldo : '-' }}</td>
                         <td>{{ $pago->formulario ? $pago->formulario->estatus : '-' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($pago->created_at)->format('H:i:s') }}</td>
                     </tr>
                 @endforeach
 
                 @if($tipoActual !== null)
                     <tr class="table-light">
                         <td colspan="1" class="text-end"><strong>Subtotal {{ $tipoActual }}:</strong></td>
-                        <td colspan="6" class=""><strong>${{ number_format($subtotalTipo, 2) }}</strong></td>
+                        <td colspan="7" class=""><strong>${{ number_format($subtotalTipo, 2) }}</strong></td>
                     </tr>
                 @endif
 
                 <tr class="table-primary">
                     <td colspan="1" class="text-end"><strong>Total General:</strong></td>
-                    <td colspan="6" class=""><strong>${{ number_format($totalGeneral, 2) }}</strong></td>
+                    <td colspan="7" class=""><strong>${{ number_format($totalGeneral, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
@@ -220,12 +301,13 @@
             <thead>
                 <tr>
                     <th>Nro. Orden</th>
+                    <th>Operativo</th>
+                    <th>Origen</th>
                     <th>Nombre</th>
                     <th>Tipo Lente</th>
                     <th>Especialista</th>
                     <th>Estatus</th>
                     <th>Saldo</th>
-                    <th>Hora</th>
                 </tr>
             </thead>
             <tbody>
@@ -247,7 +329,7 @@
                             // Mostrar subtotal del estado anterior
                             echo '<tr class="table-light">
                                     <td colspan="4" class="text-end"><strong>Subtotal ' . $estadoActual . ':</strong></td>
-                                    <td colspan="3" class=""><strong>' . $subtotalEstado . '</strong></td>
+                                    <td colspan="4" class=""><strong>' . $subtotalEstado . '</strong></td>
                                   </tr>';
                             $subtotalEstado = 0;
                         }
@@ -258,25 +340,26 @@
                     @endphp
                     <tr>
                         <td>{{ $formulario->numero_orden ?? '-' }}</td>
+                        <td>{{ $formulario->operativo ? $formulario->operativo->nombre_operativo : '-' }}</td>
+                        <td>{{ $formulario->origen ? $formulario->origen->nombre : '-' }}</td>
                         <td>{{ $formulario->paciente ?? '-' }}</td>
                         <td>{{ $formulario->tipoLente ? $formulario->tipoLente->tipo_lente : '-' }}</td>
                         <td>{{ $formulario->especialistaLente ? $formulario->especialistaLente->nombre : '-' }}</td>
                         <td>{{ $estado }}</td>
                         <td>{{ $formulario->saldo ?? '-' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($formulario->created_at)->format('H:i:s') }}</td>
                     </tr>
                 @endforeach
 
                 @if($estadoActual !== null)
                     <tr class="table-light">
                         <td colspan="4" class="text-end"><strong>Subtotal {{ $estadoActual }}:</strong></td>
-                        <td colspan="3" class=""><strong>{{ $subtotalEstado }}</strong></td>
+                        <td colspan="4" class=""><strong>{{ $subtotalEstado }}</strong></td>
                     </tr>
                 @endif
 
                 <tr class="table-primary">
                     <td colspan="4" class="text-end"><strong>Total General:</strong></td>
-                    <td colspan="3" class=""><strong>{{ $totalGeneral }}</strong></td>
+                    <td colspan="4" class=""><strong>{{ $totalGeneral }}</strong></td>
                 </tr>
             </tbody>
         </table>

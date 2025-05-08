@@ -102,7 +102,17 @@ class PermissionTableSeeder extends Seeder
             'descuento-create',
             'descuento-edit',
             'descuento-delete',
-            'descuento-download'
+            'descuento-download',
+            'actividad-list',
+            'actividad-create',
+            'actividad-edit',
+            'actividad-delete',
+            'actividad-download',
+            'origen-list',
+            'origen-create',
+            'origen-edit',
+            'origen-delete',
+            'origen-download'
         ];
         
         foreach ($permissions as $permission) {

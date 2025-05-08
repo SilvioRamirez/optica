@@ -152,6 +152,19 @@ class FormulariosDataTable extends DataTable
                 ->filterColumn('cashea', function($query, $keyword){
                     $query->where('cashea', 'like', "%$keyword%");
                 })
+                ->addColumn('origen_id', function($query){
+                    return $query->origen ? $query->origen->nombre : '';
+                })
+                ->orderColumn('origen_id', function($query, $order) {
+                    $query->whereHas('origen', function($q) use ($order) {
+                        $q->orderBy('nombre', $order);
+                    });
+                })
+                ->filterColumn('origen_id', function($query, $keyword){
+                    $query->whereHas('origen', function($query) use ($keyword){
+                        $query->where('nombre', 'like', "%$keyword%");
+                    });
+                })
                 ->rawColumns(['action', 'tipo', 'pasados', 'tipoTratamiento', 'rutaEntrega', 'especialista', 'descuento', 'operativo_id'])
                 ->setRowId('id');
     }
@@ -175,7 +188,8 @@ class FormulariosDataTable extends DataTable
                 'especialistaLente:id,nombre',
                 'rutaEntrega:id,ruta_entrega',
                 'operativo:id,nombre_operativo',
-                'descuento:id,nombre'
+                'descuento:id,nombre',
+                'origen:id,nombre'
             ]);
     }
 
@@ -263,6 +277,13 @@ class FormulariosDataTable extends DataTable
             $columns[] = Column::make('telefono')->title('Telefono');
         }
         $columns[] = Column::make('estatus')->title('Estatus');
+        $columns[] = Column::computed('origen_id')->title('Origen')
+                    ->orderable(true)
+                    ->searchable(true)
+                    ->exportable(true)
+                    ->printable(true)
+                    ->width(60)
+                    ->addClass('text-center');
         $columns[] = Column::computed('rutaEntrega')->title('Ruta de Entrega')
                     ->orderable(true)
                     ->searchable(true)

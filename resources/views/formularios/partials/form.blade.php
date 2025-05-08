@@ -19,6 +19,8 @@
 
             {{ Form::selectComp('estatus', 'Estatus', '', $estatuses) }}
 
+            {{ Form::selectComp('origen_id', 'Origen del Registro', '', $origens) }}
+
             {{ Form::selectComp('laboratorio', 'Laboratorio', '', $laboratorios) }}
 
             <div class="row">

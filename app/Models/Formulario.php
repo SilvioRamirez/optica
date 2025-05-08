@@ -91,5 +91,10 @@ class Formulario extends Model
         return $this->hasMany(Pago::class);
     }
 
+    public function origen()
+    {
+        return $this->belongsTo(Origen::class);
+    }
+
 
 }

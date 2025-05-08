@@ -13,7 +13,8 @@ class ActividadController extends Controller
 {
     public function index()
     {
-        return view('actividades.index');
+        $origens = \App\Models\Origen::orderBy('nombre')->get();
+        return view('actividades.index', compact('origens'));
     }
 
     public function buscarActividades(Request $request)
@@ -23,15 +24,13 @@ class ActividadController extends Controller
         // Consultar pagos del día seleccionado
         $pagos = Pago::whereDate('created_at', $fecha)
                     ->orWhereDate('updated_at', $fecha)
-                    ->with(['formulario', 'tipo'])
+                    ->with(['formulario', 'tipo', 'formulario.operativo', 'origen'])
                     ->get();
-
-        
         
         // Consultar formularios creados o actualizados en el día seleccionado
         $formularios = Formulario::whereDate('created_at', $fecha)
                         ->orWhereDate('updated_at', $fecha)
-                        ->with(['tipoLente', 'especialistaLente', 'rutaEntrega'])
+                        ->with(['tipoLente', 'especialistaLente', 'rutaEntrega', 'operativo', 'origen'])
                         ->get();
         
         return response()->json([

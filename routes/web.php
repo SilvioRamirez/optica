@@ -39,6 +39,7 @@ use App\Http\Controllers\TipoLenteController;
 use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\ActividadController;
+use App\Http\Controllers\OrigenController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -272,6 +273,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/actividades/buscar', [ActividadController::class, 'buscarActividades'])->name('actividades.buscar');
     Route::get('/actividades/pdf', [ActividadController::class, 'generarPDF'])->name('actividades.pdf');
     Route::resource('actividades', ActividadController::class);
+
+    //Rutas de Origenes
+    Route::resource('origens', OrigenController::class);
 
 });
 

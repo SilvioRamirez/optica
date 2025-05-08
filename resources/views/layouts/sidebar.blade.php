@@ -136,9 +136,6 @@
 							@canany(['laboratorio-list', 'laboratorio-create'])
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('laboratorios.index') }}"><i class="fa fa-microscope"></i> Laboratorios</a>
 							@endcanany
-							{{-- @can('product-list')
-								<a class="list-group-item list-group-item-action p-3" href="{{ route('tratamientos.index') }}"><i class="fa fa-eye-dropper"></i> Tratamientos</a>
-							@endcan --}}
 							@can('tipo-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('tipos.index') }}"><i class="fa-solid fa-hand-holding-dollar"></i> Tipos de Pago</a>
 							@endcan
@@ -159,6 +156,9 @@
 							@endcan
 							@can('ruta-entrega-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('rutaEntregas.index') }}"><i class="fa-solid fa-truck"></i> Rutas de Entrega</a>
+							@endcan
+							@can('origen-list')
+								<a class="list-group-item list-group-item-action p-3" href="{{ route('origens.index') }}"><i class="fa-solid fa-street-view"></i> Origenes</a>
 							@endcan
 							@can('configuracion-list')
 								<a class="list-group-item list-group-item-action p-3" href="{{ route('configuracions.index') }}"><i class="fa fa-cogs"></i> Configuraciones</a>

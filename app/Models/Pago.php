@@ -29,6 +29,7 @@ class Pago extends Model
 
     protected $guarded = [];
 
+
     public function formulario()
     {
         return $this->belongsTo(Formulario::class);
@@ -53,6 +54,11 @@ class Pago extends Model
     public function Cuotas()
     {
         return $this->belongsToMany(Cuota::class, 'cuota_pago');
+    }
+
+    public function origen()
+    {
+        return $this->belongsTo(Origen::class);
     }
 
     public function getCreatedAtAttribute()

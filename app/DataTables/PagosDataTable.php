@@ -75,6 +75,14 @@ class PagosDataTable extends DataTable
                     $query->where('tipo', 'like', "%$keyword%");
                 });
             })
+            ->addColumn('origen_id', function ($query) {
+                return $query->origen ? $query->origen->nombre : 'N/A';
+            })
+            ->filterColumn('origen_id', function ($query, $keyword) {
+                $query->whereHas('origen', function ($query) use ($keyword) {
+                    $query->where('nombre', 'like', "%$keyword%");
+                });
+            })
             ->addColumn('image_path', function ($query) {
                 return $query->image_path ? '<img src="' . $query->image_path . '" class="img-fluid m-1" style="width: 50px; height: 50px;"> <a href="' . $query->image_path . '" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-magnifying-glass-plus"></i></a>' : '';
             })
@@ -87,7 +95,7 @@ class PagosDataTable extends DataTable
      */
     public function query(Pago $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('origen', 'tipo', 'formulario', 'formulario.operativo'); //Se reduce de 82 consultas a 9 con los with
     }
 
     /**
@@ -132,6 +140,7 @@ class PagosDataTable extends DataTable
         $columns[] = Column::make('formulario_id')->title('Formulario ID');
         $columns[] = Column::make('numero_orden')->title('Numero Orden');
         $columns[] = Column::make('operativo_id')->title('Operativo');
+        $columns[] = Column::make('origen_id')->title('Origen');
         $columns[] = Column::make('paciente')->title('Paciente');
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('monto')->title('Monto');

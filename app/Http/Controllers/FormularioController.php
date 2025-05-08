@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DataTables\FormulariosDataTable;
 use App\Models\Formulario;
-use App\Http\Requests\StoreFormularioRequest;
-use App\Http\Requests\UpdateFormularioRequest;
 use App\Models\Especialista;
 use App\Models\Estatus;
 use App\Models\Laboratorio;
@@ -14,10 +12,15 @@ use App\Models\RutaEntrega;
 use App\Models\Tipo;
 use App\Models\TipoLente;
 use App\Models\TipoTratamiento;
+use App\Models\Descuento;
+use App\Models\Origen;
+
+use App\Http\Requests\StoreFormularioRequest;
+use App\Http\Requests\UpdateFormularioRequest;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Models\Descuento;
 
 class FormularioController extends Controller
 {
@@ -49,7 +52,9 @@ class FormularioController extends Controller
 
         $tipos = Tipo::orderBy('tipo','asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
 
-        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos'));
+        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos', 'origens'));
     }
 
     /**
@@ -75,6 +80,8 @@ class FormularioController extends Controller
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
         $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
+
+        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
         
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
@@ -88,7 +95,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
+        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens'));
 
     }
 
@@ -155,6 +162,8 @@ class FormularioController extends Controller
 
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
+        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
@@ -167,7 +176,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens'));
     }
 
     /**
@@ -191,6 +200,8 @@ class FormularioController extends Controller
 
         $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
+        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
@@ -203,7 +214,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
             
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos'));
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens'));
     }
 
     /**
@@ -261,7 +272,8 @@ class FormularioController extends Controller
                 'observaciones_extras',
                 'edad',
                 'fecha',
-                'fecha_entrega'
+                'fecha_entrega',
+                'origen_id'
             ])
             ->first()->toJson();
     }
@@ -272,7 +284,8 @@ class FormularioController extends Controller
             'estatus'           => $request->params['estatus'],
             'ruta_entrega_id'   => $request->params['ruta_entrega_id'],
             'laboratorio'       => $request->params['laboratorio'],
-            'fecha_entrega'     => $request->params['fecha_entrega']
+            'fecha_entrega'     => $request->params['fecha_entrega'],
+            'origen_id'         => $request->params['origen_id']
         ]);
 
         return $formulario->toJson();
@@ -303,7 +316,8 @@ class FormularioController extends Controller
                 'saldo',
                 'porcentaje_pago',
                 'operativo_id',
-                'cashea'
+                'cashea',
+                'origen_id'
             ])
             ->first()->toJson();
     }

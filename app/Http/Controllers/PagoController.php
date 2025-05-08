@@ -62,7 +62,7 @@ class PagoController extends Controller
         $formulario_id = $request->saldo_formulario_id; // Asigna el valor a una variable
         $data = $request->except('saldo_formulario_id'); // Excluye el campo saldo_formulario_id
         $data['formulario_id'] = $formulario_id;
-
+        $data['origen_id'] = $request->origen_id;
         $pago = Pago::create($data);
 
         return response()->json(['message' => 'Pago registrado correctamente', 'formulario_id' => $formulario_id]);
@@ -79,6 +79,7 @@ class PagoController extends Controller
                 'monto' => $pago->monto,
                 'pago_fecha' => $pago->pago_fecha,
                 'tipo' => $pago->tipo ? $pago->tipo->tipo : 'N/A',
+                'origen' => $pago->origen ? $pago->origen->nombre : 'N/A',
                 'referencia' => $pago->referencia,
                 'image_path' => $pago->image_path,
                 'created_at' => $pago->created_at,
