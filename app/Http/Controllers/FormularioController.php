@@ -225,6 +225,8 @@ class FormularioController extends Controller
 
         $data = $request->except('tipo_tratamiento_hidden_id');
 
+        $data['saldo'] = $request->total;
+
         if(!$formulario->update($data)){
             return redirect()->back()
                             ->with('danger','Registro no actualizado.');
