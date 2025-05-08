@@ -369,35 +369,6 @@ class FormulariosDataTable extends DataTable
                     ->printable(true)
                     ->width(60)
                     ->addClass('text-center');
-        $columns[] = Column::make('abono_1_decimal')->title('Abono 1');
-        $columns[] = Column::make('abono_fecha_1')->title('Abono Fecha 1');
-
-        $columns[] = Column::make('tipo_pago_1')->title('Tipo Pago 1');
-        $columns[] = Column::make('ref_pago_1')->title('Ref. Pago 1');
-
-        $columns[] = Column::make('abono_2_decimal')->title('Abono 2');
-        $columns[] = Column::make('abono_fecha_2')->title('Abono Fecha 2');
-        
-        $columns[] = Column::make('tipo_pago_2')->title('Tipo Pago 2');
-        $columns[] = Column::make('ref_pago_2')->title('Ref. Pago 2');
-        
-        $columns[] = Column::make('abono_3_decimal')->title('Abono 3');
-        $columns[] = Column::make('abono_fecha_3')->title('Abono Fecha 3');
-        
-        $columns[] = Column::make('tipo_pago_3')->title('Tipo Pago 3');
-        $columns[] = Column::make('ref_pago_3')->title('Ref. Pago 3');
-        
-        $columns[] = Column::make('abono_4_decimal')->title('Abono 4');
-        $columns[] = Column::make('abono_fecha_4')->title('Abono Fecha 4');
-        
-        $columns[] = Column::make('tipo_pago_4')->title('Tipo Pago 4');
-        $columns[] = Column::make('ref_pago_4')->title('Ref. Pago 4');
-
-        $columns[] = Column::make('abono_5_decimal')->title('Abono 5');
-        $columns[] = Column::make('abono_fecha_5')->title('Abono Fecha 5');
-        
-        $columns[] = Column::make('tipo_pago_5')->title('Tipo Pago 5');
-        $columns[] = Column::make('ref_pago_5')->title('Ref. Pago 5');
         
         $columns[] = Column::make('cedula')->title('Cedula');
         $columns[] = Column::make('edad')->title('Edad');
@@ -405,6 +376,8 @@ class FormulariosDataTable extends DataTable
 
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
+        $columns[] = Column::make('created_by')->title('Creado por');
+        $columns[] = Column::make('updated_by')->title('Actualizado por');
 
 
 

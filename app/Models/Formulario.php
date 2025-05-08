@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
+
 class Formulario extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity;
@@ -25,6 +27,23 @@ class Formulario extends Model
     }
 
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            if (Auth::check()) {
+                $model->created_by = Auth::user()->name;
+            }
+        });
+
+        static::updating(function ($model) {
+            if (Auth::check()) {
+                $model->updated_by = Auth::user()->name;
+            }
+        });
+    }
 
     public function getCreatedAtAttribute()
     {

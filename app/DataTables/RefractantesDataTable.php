@@ -115,6 +115,8 @@ class RefractantesDataTable extends DataTable
         
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
+        $columns[] = Column::make('created_by')->title('Creado por');
+        $columns[] = Column::make('updated_by')->title('Actualizado por');
 
         return $columns;
     }
