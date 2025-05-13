@@ -87,6 +87,8 @@
                                                 <th>Saldo</th>
                                                 <th>Estatus</th>
                                                 <th>Hora</th>
+                                                <th>Creado por</th>
+                                                <th>Actualizado por</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -97,7 +99,7 @@
                                             <!-- Aquí se mostrarán los subtotales y total -->
                                             <tr id="total-general" class="table-primary">
                                                 <td colspan="1" class="text-end fw-bold">Total General:</td>
-                                                <td colspan="9" class="fw-bold">0.00</td>
+                                                <td colspan="11" class="fw-bold">0.00</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -146,6 +148,8 @@
                                                 <th>Estatus</th>
                                                 <th>Saldo</th>
                                                 <th>Hora</th>
+                                                <th>Creado por</th>
+                                                <th>Actualizado por</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -156,7 +160,7 @@
                                             <!-- Aquí se mostrará el total de formularios -->
                                             <tr id="total-formularios" class="table-primary">
                                                 <td colspan="4" class="text-end fw-bold">Total de Formularios:</td>
-                                                <td colspan="6" class="fw-bold">0</td>
+                                                <td colspan="8" class="fw-bold">0</td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -269,7 +273,7 @@
                     if (pagosFiltrados.length === 0) {
                         $('#tabla-pagos tbody').append(`
                         <tr>
-                            <td colspan="10" class="text-center">No hay pagos para la selección actual</td>
+                            <td colspan="12" class="text-center">No hay pagos para la selección actual</td>
                         </tr>
                     `);
                         $('#total-general td:last').text('0.00');
@@ -377,7 +381,7 @@
                         // Añadir encabezado de grupo
                         $('#tabla-pagos tbody').append(`
                         <tr class="table-light">
-                            <td colspan="10" class="fw-bold">Tipo de pago: ${grupo.nombre}</td>
+                            <td colspan="12" class="fw-bold">Tipo de pago: ${grupo.nombre}</td>
                         </tr>
                     `);
 
@@ -395,6 +399,8 @@
                                 <td>${pago.formulario ? pago.formulario.saldo : '-'}</td>
                                 <td>${pago.formulario ? pago.formulario.estatus : '-'}</td>
                                 <td>${hora}</td>
+                                <td>${pago.created_by || '-'}</td>
+                                <td>${pago.updated_by || '-'}</td>
                                 <td>
                                     <a href="/pagos/${pago.id}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-eye"></i>
@@ -408,7 +414,7 @@
                         $('#tabla-pagos tbody').append(`
                         <tr class="table-light">
                             <td colspan="1" class="text-end fw-bold">Subtotal ${grupo.nombre}:</td>
-                            <td colspan="9" class="fw-bold">${grupo.total.toFixed(2)}</td>
+                            <td colspan="11" class="fw-bold">${grupo.total.toFixed(2)}</td>
                         </tr>
                     `);
                     });
@@ -441,7 +447,7 @@
                     if (formulariosFiltrados.length === 0) {
                         $('#tabla-formularios tbody').append(`
                         <tr>
-                            <td colspan="10" class="text-center">No hay formularios para la selección actual</td>
+                            <td colspan="12" class="text-center">No hay formularios para la selección actual</td>
                         </tr>
                     `);
                         $('#total-formularios td:last').text('0');
@@ -540,7 +546,7 @@
                         // Añadir encabezado de grupo
                         $('#tabla-formularios tbody').append(`
                         <tr class="table-light">
-                            <td colspan="10" class="fw-bold">Estado: ${grupo.nombre}</td>
+                            <td colspan="12" class="fw-bold">Estado: ${grupo.nombre}</td>
                         </tr>
                     `);
 
@@ -558,6 +564,8 @@
                                 <td>${formulario.estatus || '-'}</td>
                                 <td>${formulario.saldo || '-'}</td>
                                 <td>${hora}</td>
+                                <td>${formulario.created_by || '-'}</td>
+                                <td>${formulario.updated_by || '-'}</td>
                                 <td>
                                     <a href="/formularios/${formulario.id}" class="btn btn-primary btn-sm">
                                         <i class="fa fa-eye"></i>
@@ -571,7 +579,7 @@
                         $('#tabla-formularios tbody').append(`
                         <tr class="table-light">
                             <td colspan="4" class="text-end fw-bold">Cantidad de formularios en ${grupo.nombre}:</td>
-                            <td colspan="6" class="fw-bold">${grupo.cantidad}</td>
+                            <td colspan="8" class="fw-bold">${grupo.cantidad}</td>
                         </tr>
                     `);
                     });

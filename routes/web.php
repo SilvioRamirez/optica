@@ -279,3 +279,6 @@ Route::group(['middleware' => ['auth']], function() {
 
 });
 
+
+Route::get('/messenger', fn() => view('messenger'));
+Route::ResourceView('template');

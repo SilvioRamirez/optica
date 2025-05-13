@@ -19,6 +19,7 @@
         "laraveldaily/laravel-charts": "^0.2.3",
         "maatwebsite/excel": "3.1.48",
         "orangehill/iseed": "^3.0",
+        "sdkconsultoria/whatsapp-cloud-api": "dev-develop",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-google-fonts": "^1.2",
@@ -83,6 +84,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
