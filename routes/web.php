@@ -40,6 +40,7 @@ use App\Http\Controllers\TipoTratamientoController;
 use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\OrigenController;
+use App\Http\Controllers\FacebookController;
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -100,7 +101,7 @@ Route::post('api/fetch-tipo-tratamientos', [DropdownController::class, 'fetchTip
 
 Route::get('/formularios/{formulario}/{orden}/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
 Route::get('/formularios/cedula/',   [FormularioPdfController::class, 'orden_cedula'])->name('formulario.orden.cedula');
-Route::get('test', fn () => phpinfo());
+/* Route::get('test', fn () => phpinfo()); */
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -282,3 +283,5 @@ Route::group(['middleware' => ['auth']], function() {
 
 Route::get('/messenger', fn() => view('messenger'));
 Route::ResourceView('template');
+
+Route::get('/facebook-verificacion', [FacebookController::class, 'verificacion']);
