@@ -26,4 +26,16 @@ class IndexController extends Controller
         $configuracion = Configuracion::first();
         return view('politicaPrivacidad.index', compact('configuracion'));
     }
+
+    public function condicionesServicio()
+    {
+        $configuracion = Configuracion::first();
+        return view('condicionesServicio.index', compact('configuracion'));
+    }
+
+    public function acercaDe()
+    {
+        $configuracion = Configuracion::first();
+        return view('acercaDe.index', compact('configuracion'));
+    }
 }

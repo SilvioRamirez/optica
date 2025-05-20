@@ -21,8 +21,8 @@
         <ul class="nav col-md-4 justify-content-end">
             <li class="nav-item"><a href="{{ '/' }}" class="nav-link px-2 text-body-secondary">Inicio</a></li>
             <li class="nav-item"><a href="{{ route('politica.privacidad') }}" class="nav-link px-2 text-body-secondary">Política de Privacidad</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Preguntas Frecuentes</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Acerca de</a></li>
+            <li class="nav-item"><a href="{{ route('condiciones.servicio') }}" class="nav-link px-2 text-body-secondary">Condiciones de Servicio</a></li>
+            <li class="nav-item"><a href="{{ route('acerca.de') }}" class="nav-link px-2 text-body-secondary">Acerca de</a></li>
             <li class="nav-item"><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/profile.php?id=61551175972400" class="nav-link px-2 text-body-secondary" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a></li>
             <li class="nav-item"><a target="_blank" rel="noopener noreferrer" href="https://www.instagram.com/opti_rango/" class="nav-link px-2 text-body-secondary" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
 			<li class="nav-item"><a target="_blank" rel="noopener noreferrer" href="https://wa.link/cdtl37" class="nav-link px-2 text-body-secondary" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
