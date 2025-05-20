@@ -12,7 +12,7 @@
 </nav> --}}
 
 <div class="container-fluid">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top fixed-bottom p-4 mb-0 d-none d-md-flex d-lg-flex d-xl-flex d-sm-none d-xs-none">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top p-4 mb-0 d-none d-md-flex d-lg-flex d-xl-flex d-sm-none d-xs-none">
         <p class="col-md-4 mb-0 text-body-secondary"><i class="fa fa-copyright"></i> {{ $configuracion->copyright }} {{ $configuracion->nombre_organizacion }}</p>
 			<a class="navbar-brand" href="#">
                 <img src="{{ asset('storage/img/logo_h.png') }}" class="bi me-2" alt="..."  height="32">
@@ -20,7 +20,7 @@
             </a>
         <ul class="nav col-md-4 justify-content-end">
             <li class="nav-item"><a href="{{ '/' }}" class="nav-link px-2 text-body-secondary">Inicio</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Características</a></li>
+            <li class="nav-item"><a href="{{ route('politica.privacidad') }}" class="nav-link px-2 text-body-secondary">Política de Privacidad</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Preguntas Frecuentes</a></li>
             <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Acerca de</a></li>
             <li class="nav-item"><a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/profile.php?id=61551175972400" class="nav-link px-2 text-body-secondary" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a></li>

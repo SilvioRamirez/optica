@@ -41,6 +41,8 @@ use App\Http\Controllers\TratamientoController;
 use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\OrigenController;
 use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\IndexController;
+
 use Spatie\Activitylog\Models\Activity;
 
 /*
@@ -54,9 +56,9 @@ use Spatie\Activitylog\Models\Activity;
 |
 */
 
-Route::get('/', function () {
-    return view('landing.index');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/consulta', [IndexController::class, 'consulta'])->name('consulta');
+Route::get('/politica-privacidad', [IndexController::class, 'politicaPrivacidad'])->name('politica.privacidad');
 
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
 
