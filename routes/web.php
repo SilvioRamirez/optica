@@ -61,6 +61,7 @@ Route::get('/consulta', [IndexController::class, 'consulta'])->name('consulta');
 Route::get('/politica-privacidad', [IndexController::class, 'politicaPrivacidad'])->name('politica.privacidad');
 Route::get('/condiciones-servicio', [IndexController::class, 'condicionesServicio'])->name('condiciones.servicio');
 Route::get('/acerca-de', [IndexController::class, 'acercaDe'])->name('acerca.de');
+Route::get('/politica-eliminacion', [IndexController::class, 'politicaEliminacion'])->name('politica.eliminacion');
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
 
 Route::get('/landing', function () {

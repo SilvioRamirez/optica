@@ -105,7 +105,19 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">7. COOKIES Y TECNOLOGÍAS SIMILARES</h2>
+                        <h2 class="h4 mb-4">7. ELIMINACIÓN DE DATOS</h2>
+                        <p class="mb-4">
+                            En cumplimiento con las normativas de protección de datos y los requisitos de Facebook Developers, hemos establecido un proceso claro para la eliminación de datos personales.
+                        </p>
+                        <div class="text-center">
+                            <a href="{{ url('/politica-eliminacion') }}" class="btn btn-primary">
+                                <i class="fa fa-trash me-2"></i>Ver política de eliminación de datos
+                            </a>
+                        </div>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2 class="h4 mb-4">8. COOKIES Y TECNOLOGÍAS SIMILARES</h2>
                         <p class="mb-3">Si utilizamos un sitio web, empleamos cookies para:</p>
                         <ul class="list-unstyled ms-4">
                             <li class="mb-2">• Mejorar la experiencia del usuario</li>
@@ -116,12 +128,12 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">8. CAMBIOS EN LA POLÍTICA</h2>
+                        <h2 class="h4 mb-4">9. CAMBIOS EN LA POLÍTICA</h2>
                         <p>Nos reservamos el derecho de actualizar esta política cuando sea necesario. Te notificaremos cualquier cambio significativo.</p>
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">9. CONTACTO</h2>
+                        <h2 class="h4 mb-4">10. CONTACTO</h2>
                         <p class="mb-4">Para ejercer tus derechos o realizar consultas sobre esta política:</p>
                         <div class="card">
                             <div class="card-body">
@@ -136,7 +148,7 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">10. CONSENTIMIENTO</h2>
+                        <h2 class="h4 mb-4">11. CONSENTIMIENTO</h2>
                         <p>Al proporcionarnos tus datos personales, aceptas esta política de privacidad y autorizas el tratamiento de tu información según lo descrito.</p>
                     </section>
                 </div>

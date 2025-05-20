@@ -38,4 +38,10 @@ class IndexController extends Controller
         $configuracion = Configuracion::first();
         return view('acercaDe.index', compact('configuracion'));
     }
+
+    public function politicaEliminacion()
+    {
+        $configuracion = Configuracion::first();
+        return view('politicaEliminacion.index', compact('configuracion'));
+    }
 }
