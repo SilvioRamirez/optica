@@ -62,6 +62,7 @@ Route::get('/politica-privacidad', [IndexController::class, 'politicaPrivacidad'
 Route::get('/condiciones-servicio', [IndexController::class, 'condicionesServicio'])->name('condiciones.servicio');
 Route::get('/acerca-de', [IndexController::class, 'acercaDe'])->name('acerca.de');
 Route::get('/politica-eliminacion', [IndexController::class, 'politicaEliminacion'])->name('politica.eliminacion');
+Route::get('/politica-whatsapp', [IndexController::class, 'politicaWhatsapp'])->name('politica.whatsapp');
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
 
 Route::get('/landing', function () {
@@ -280,6 +281,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('actividades', ActividadController::class);
 
     //Rutas de Origenes
+    Route::post('api/origenDelete/{origen}',   [OrigenController::class, 'destroy']);
     Route::resource('origens', OrigenController::class);
 
 });

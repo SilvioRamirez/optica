@@ -1,35 +1,36 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Descuentos')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-coins"></i> Administración de Descuentos</h1>
+@stop
 
 @section('content')
-    <div class="row">
-    
-        <div class="col-lg-12 margin-tb">
-            @include('fragment.error')
-            @include('fragment.success')
-            <div class="text-center">
-                <h1><i class="fa fa-layer-group"></i> Descuentos</h1>
+    <div class="container-fluid">
+
+        @include('fragment.error')
+        @include('fragment.success')
+
+    </div>
+
+    <div class="card border-light mb-3 shadow">
+        <div class="card-header bg-primary text-white">
+            <div class="float-start">
+                <i class="fa fa-coins"></i> Administración de Descuentos
             </div>
-            @can('product-create')
-                <div class="pull-right mt-2 mb-2">
-                    <a class="btn btn-success" href="{{ route('descuentos.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
-                </div>
-            @endcan
+            <div class="float-end">
+                <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
-    
-        <div class="card border-light mb-3 shadow">
-            <div class="card-header bg-primary text-white">
-                Administración de Descuentos
-            </div>
-            <div class="card-body table-responsive">
-                {{ $dataTable->table() }}
-            </div>
+        <div class="card-body table-responsive">
+            {{ $dataTable->table() }}
         </div>
     </div>
 
 @endsection
 
 @push('scripts')
-
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-
 @endpush

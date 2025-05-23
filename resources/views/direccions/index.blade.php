@@ -1,4 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Direcciones')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-map-marker-alt"></i> Administración de Direcciones</h1>
+@stop
 
 @section('content')
     <div class="row">
@@ -7,19 +13,20 @@
         @include('fragment.success')
         
             <div class="col-lg-12 margin-tb">
-                <div class="text-center">
-                    <h1><i class="fa fa-users"></i> Pacientes</h1>
-                </div>
-                @can('product-create')
-                    <div class="pull-right mt-2 mb-2">
-                        <a class="btn btn-success btn-lg" href="{{ route('pacientes.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
-                    </div>
-                @endcan
+                @include('fragment.error')
+                @include('fragment.success')
+                
             </div>
     
         <div class="card border-light mb-3 shadow">
             <div class="card-header bg-primary text-white">
-                Administración de Pacientes
+                <div class="float-start">
+                    <i class="fa fa-map-marker-alt"></i> Administración de Direcciones
+                </div>
+                <div class="float-end">
+                    <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                        {{ __('Volver') }}</a>
+                </div>
             </div>
                 <div class="card-body table-responsive">
                 {{ $dataTable->table() }}

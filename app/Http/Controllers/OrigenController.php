@@ -78,6 +78,9 @@ class OrigenController extends Controller
     public function destroy(Origen $origen)
     {
         $origen->delete();
-        return redirect()->route('origens.index')->with('success', 'Origen eliminado correctamente');
+        return response()->json([
+            'message' => 'Origen eliminado correctamente',
+            'status' => 'success'
+        ]);
     }
 }

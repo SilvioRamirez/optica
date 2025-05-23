@@ -1,176 +1,181 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Actividades Diarias')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-layer-group"></i> Actividades Diarias</h1>
+@stop
 
 @section('content')
-    <div class="row">
+    <div class="container-fluid">
+        @include('fragment.error')
+        @include('fragment.success')
+    </div>
 
-        <div class="col-lg-12 margin-tb">
-            @include('fragment.error')
-            @include('fragment.success')
-            <div class="text-center">
-                <h1><i class="fa fa-layer-group"></i> Actividades Diarias</h1>
-            </div>
-        </div>
-
-        <div class="card border-light mb-3 shadow">
-            <div class="card-header bg-primary text-white">
-                Actividades del día
-                <a href="#" id="generar-pdf" class="btn btn-light btn-sm float-end"">
+    <div class="card border-light mb-3 shadow">
+        <div class="card-header bg-primary text-white">
+            Actividades del día
+            <div class="float-end">
+                <a href="#" id="generar-pdf" class="btn btn-light btn-sm">
                     <i class="fa fa-file-pdf"></i> Generar PDF
                 </a>
+                <a href="{{ route('actividades.index') }}" class="btn btn-light btn-sm">
+                    <i class="fa fa-arrow-left"></i> Atras
+                </a>
             </div>
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="fecha" class="form-label">Seleccione la fecha:</label>
-                            <input type="date" id="fecha" class="form-control" value="{{ date('Y-m-d') }}">
-                        </div>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button id="buscar-actividades" class="btn btn-primary">Buscar Actividades</button>
-                    </div>                    
-                </div>
-
-                <h2 class="mb-4">Información general de pagos</h2>
-
-                <div class="row">
-                    <div class="row mb-4" id="tarjetas-pagos">
-                        <!-- Aquí se cargarán las tarjetas de subtotales de pagos -->
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="fecha" class="form-label">Seleccione la fecha:</label>
+                        <input type="date" id="fecha" class="form-control" value="{{ date('Y-m-d') }}">
                     </div>
                 </div>
-
-                <h2 class="mb-4">Información general de formularios</h2>
-
-                <div class="row">
-                    <div class="row mb-4" id="tarjetas-formularios">
-                        <!-- Aquí se cargarán las tarjetas de subtotales de formularios -->
-                    </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button id="buscar-actividades" class="btn btn-primary">Buscar Actividades</button>
                 </div>
+            </div>
 
-                <h2 class="mb-2">Detalle</h2>
+            <h2 class="mb-4">Información general de pagos</h2>
 
-                <div class="row">
-                    <div class="col-md-12 mt-4 mb-4">
-                        <div class="card border-light mb-3 shadow">
-                            <div
-                                class="card-header bg-info text-white d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="card-title mb-0"><i class="fa fa-hand-holding-dollar"></i> Pagos realizados</h5>
-                                <div class="filtro-container">
-                                    <label for="filtro-tipo-pago" class="form-label me-2">Filtrar por tipo:</label>
-                                    <select id="filtro-tipo-pago" class="form-select form-select-sm"
-                                        style="width: auto; display: inline-block;">
-                                        <option value="todos">Todos los tipos</option>
-                                        <!-- Aquí se cargarán los tipos de pago dinámicamente -->
-                                    </select>
-                                    <label for="filtro-origen-pago" class="form-label ms-2 me-2">Filtrar por origen:</label>
-                                    <select id="filtro-origen-pago" class="form-select form-select-sm"
-                                        style="width: auto; display: inline-block;">
-                                        <option value="todos">Todos los orígenes</option>
-                                        @foreach($origens as $origen)
-                                            <option value="{{ $origen->id }}">{{ $origen->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="card-body">
+            <div class="row">
+                <div class="row mb-4" id="tarjetas-pagos">
+                    <!-- Aquí se cargarán las tarjetas de subtotales de pagos -->
+                </div>
+            </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover rounded" id="tabla-pagos">
-                                        <thead class="table-secondary">
-                                            <tr>
-                                                <th>Nro. Orden</th>
-                                                <th>Operativo</th>
-                                                <th>Origen</th>
-                                                <th>Monto</th>
-                                                <th>Referencia</th>
-                                                <th>Tipo</th>
-                                                <th>Saldo</th>
-                                                <th>Estatus</th>
-                                                <th>Hora</th>
-                                                <th>Creado por</th>
-                                                <th>Actualizado por</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Aquí se cargarán los pagos dinámicamente -->
-                                        </tbody>
-                                        <tfoot>
-                                            <!-- Aquí se mostrarán los subtotales y total -->
-                                            <tr id="total-general" class="table-primary">
-                                                <td colspan="1" class="text-end fw-bold">Total General:</td>
-                                                <td colspan="11" class="fw-bold">0.00</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+            <h2 class="mb-4">Información general de formularios</h2>
+
+            <div class="row">
+                <div class="row mb-4" id="tarjetas-formularios">
+                    <!-- Aquí se cargarán las tarjetas de subtotales de formularios -->
+                </div>
+            </div>
+
+            <h2 class="mb-2">Detalle</h2>
+
+            <div class="row">
+                <div class="col-md-12 mt-4 mb-4">
+                    <div class="card border-light mb-3 shadow">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0"><i class="fa fa-hand-holding-dollar"></i> Pagos realizados</h5>
+                            <div class="filtro-container">
+                                <label for="filtro-tipo-pago" class="form-label me-2">Filtrar por tipo:</label>
+                                <select id="filtro-tipo-pago" class="form-select form-select-sm"
+                                    style="width: auto; display: inline-block;">
+                                    <option value="todos">Todos los tipos</option>
+                                    <!-- Aquí se cargarán los tipos de pago dinámicamente -->
+                                </select>
+                                <label for="filtro-origen-pago" class="form-label ms-2 me-2">Filtrar por origen:</label>
+                                <select id="filtro-origen-pago" class="form-select form-select-sm"
+                                    style="width: auto; display: inline-block;">
+                                    <option value="todos">Todos los orígenes</option>
+                                    @foreach ($origens as $origen)
+                                        <option value="{{ $origen->id }}">{{ $origen->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover rounded" id="tabla-pagos">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th>Nro. Orden</th>
+                                            <th>Operativo</th>
+                                            <th>Origen</th>
+                                            <th>Monto</th>
+                                            <th>Referencia</th>
+                                            <th>Tipo</th>
+                                            <th>Saldo</th>
+                                            <th>Estatus</th>
+                                            <th>Hora</th>
+                                            <th>Creado por</th>
+                                            <th>Actualizado por</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Aquí se cargarán los pagos dinámicamente -->
+                                    </tbody>
+                                    <tfoot>
+                                        <!-- Aquí se mostrarán los subtotales y total -->
+                                        <tr id="total-general" class="table-primary">
+                                            <td colspan="1" class="text-end fw-bold">Total General:</td>
+                                            <td colspan="11" class="fw-bold">0.00</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card border-light mb-3 shadow">
-                            <div
-                                class="card-header bg-info text-white d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="card-title mb-0"><i class="fa fa-file-alt"></i> Formularios creados o
-                                    actualizados</h5>
-                                <div class="filtro-container">
-                                    <label for="filtro-estatus" class="form-label me-2">Filtrar por estado:</label>
-                                    <select id="filtro-estatus" class="form-select form-select-sm"
-                                        style="width: auto; display: inline-block;">
-                                        <option value="todos">Todos los estados</option>
-                                        <!-- Aquí se cargarán los estatus dinámicamente -->
-                                    </select>
-                                    <label for="filtro-origen-formulario" class="form-label ms-2 me-2">Filtrar por origen:</label>
-                                    <select id="filtro-origen-formulario" class="form-select form-select-sm"
-                                        style="width: auto; display: inline-block;">
-                                        <option value="todos">Todos los orígenes</option>
-                                        @foreach($origens as $origen)
-                                            <option value="{{ $origen->id }}">{{ $origen->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card border-light mb-3 shadow">
+                        <div class="card-header bg-info text-white d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="card-title mb-0"><i class="fa fa-file-alt"></i> Formularios creados o
+                                actualizados</h5>
+                            <div class="filtro-container">
+                                <label for="filtro-estatus" class="form-label me-2">Filtrar por estado:</label>
+                                <select id="filtro-estatus" class="form-select form-select-sm"
+                                    style="width: auto; display: inline-block;">
+                                    <option value="todos">Todos los estados</option>
+                                    <!-- Aquí se cargarán los estatus dinámicamente -->
+                                </select>
+                                <label for="filtro-origen-formulario" class="form-label ms-2 me-2">Filtrar por
+                                    origen:</label>
+                                <select id="filtro-origen-formulario" class="form-select form-select-sm"
+                                    style="width: auto; display: inline-block;">
+                                    <option value="todos">Todos los orígenes</option>
+                                    @foreach ($origens as $origen)
+                                        <option value="{{ $origen->id }}">{{ $origen->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="card-body">
+                        </div>
+                        <div class="card-body">
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover" id="tabla-formularios">
-                                        <thead class="table-secondary">
-                                            <tr>
-                                                <th>Nro. Orden</th>
-                                                <th>Operativo</th>
-                                                <th>Origen</th>
-                                                <th>Nombre</th>
-                                                <th>Tipo Lente</th>
-                                                <th>Especialista</th>
-                                                <th>Estatus</th>
-                                                <th>Saldo</th>
-                                                <th>Hora</th>
-                                                <th>Creado por</th>
-                                                <th>Actualizado por</th>
-                                                <th>Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <!-- Aquí se cargarán los formularios dinámicamente -->
-                                        </tbody>
-                                        <tfoot>
-                                            <!-- Aquí se mostrará el total de formularios -->
-                                            <tr id="total-formularios" class="table-primary">
-                                                <td colspan="4" class="text-end fw-bold">Total de Formularios:</td>
-                                                <td colspan="8" class="fw-bold">0</td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover" id="tabla-formularios">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th>Nro. Orden</th>
+                                            <th>Operativo</th>
+                                            <th>Origen</th>
+                                            <th>Nombre</th>
+                                            <th>Tipo Lente</th>
+                                            <th>Especialista</th>
+                                            <th>Estatus</th>
+                                            <th>Saldo</th>
+                                            <th>Hora</th>
+                                            <th>Creado por</th>
+                                            <th>Actualizado por</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Aquí se cargarán los formularios dinámicamente -->
+                                    </tbody>
+                                    <tfoot>
+                                        <!-- Aquí se mostrará el total de formularios -->
+                                        <tr id="total-formularios" class="table-primary">
+                                            <td colspan="4" class="text-end fw-bold">Total de Formularios:</td>
+                                            <td colspan="8" class="fw-bold">0</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     @endsection
 
     @push('scripts')
@@ -434,7 +439,7 @@
                         });
                     }
                     if (filtroOrigen !== 'todos') {
-                        formulariosFiltrados = formulariosFiltrados.filter(formulario => 
+                        formulariosFiltrados = formulariosFiltrados.filter(formulario =>
                             formulario.origen_id == filtroOrigen
                         );
                     }
@@ -608,13 +613,14 @@
 
                 // Filtrar formularios por estatus y origen seleccionados
                 $('#filtro-estatus, #filtro-origen-formulario').change(function() {
-                    mostrarFormularios(todosFormularios, $('#filtro-estatus').val(), $('#filtro-origen-formulario').val());
+                    mostrarFormularios(todosFormularios, $('#filtro-estatus').val(), $(
+                        '#filtro-origen-formulario').val());
                 });
 
                 // Función para actualizar el enlace del PDF
                 function actualizarEnlacePDF() {
                     const fecha = $('#fecha').val();
-                    $('#generar-pdf').attr('href', '{{ route("actividades.pdf") }}?fecha=' + fecha);
+                    $('#generar-pdf').attr('href', '{{ route('actividades.pdf') }}?fecha=' + fecha);
                 }
 
                 // Actualizar enlace al cargar la página

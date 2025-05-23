@@ -1,15 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Editar Tipo de Pago')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-edit"></i> Editar Tipo de Pago</h1>
+@stop
 
 @section('content')
-
-<a class="btn btn-primary btn-sm mb-2" href="{{ route('tipos.index') }}""><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
 
 <div class="col-lg-12 margin-tb">
     @include('fragment.error')
     @include('fragment.success')
     <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-edit"></i> 
-            {{ __('Edit')}} Tipo de Pago
+        <div class="card-header bg-primary text-white">
+            <div class="float-start">
+                <i class="fa fa-edit"></i> Editar Tipo de Pago
+            </div>
+            <div class="float-end">
+                <a href="{{ route('tipos.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         <div class="card-body">
 

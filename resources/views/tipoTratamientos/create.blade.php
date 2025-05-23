@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
-@section('content')
+@section('title', 'Crear Tipo de Tratamiento')
 
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-flask-vial"></i> Crear Tipo de Tratamiento</h1>
+@stop
+
+@section('content')
 
 
 <div class="col-lg-12 margin-tb">
@@ -12,7 +16,13 @@
     <div class="card border-light mb-3 shadow">
 
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title"><i class="fa fa-flask-vial"></i> Tipo de Tratamiento</h5>
+            <div class="float-start">
+                <i class="fa fa-flask-vial"></i> Crear Tipo de Tratamiento
+            </div>
+            <div class="float-end">
+                <a href="{{ route('tipoTratamientos.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         
         <div class="card-body tab-content">

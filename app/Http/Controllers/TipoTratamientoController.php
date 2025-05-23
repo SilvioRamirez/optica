@@ -62,7 +62,8 @@ class TipoTratamientoController extends Controller
      */
     public function show(TipoTratamiento $tipoTratamiento): View
     {
-        return view('tipoTratamientos.show', compact('tipoTratamiento'));
+        $tipoLentes = TipoLente::orderBy('tipo_lente','asc')->pluck('tipo_lente', 'id')->prepend('-- Seleccione --', '');
+        return view('tipoTratamientos.show', compact('tipoTratamiento', 'tipoLentes'));
     }
 
     /**

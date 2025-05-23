@@ -1,13 +1,24 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Ver Laboratorio')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-eye-dropper"></i> Ver Laboratorio</h1>
+@stop
 
 @section('content')
 
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
-
-<div class="col-lg-12 margin-tb">
-    <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-eye-dropper"></i> 
-            {{ __('Show')}} Laboratorio
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="card border-light mb-3 shadow">
+            <div class="card-header bg-primary text-white">
+            <div class="float-start">
+                <i class="fa fa-eye-dropper"></i> Ver Laboratorio
+            </div>
+            <div class="float-end">
+                <a href="{{ route('laboratorios.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         <div class="card-body">
 

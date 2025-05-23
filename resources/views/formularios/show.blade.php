@@ -1,14 +1,24 @@
 @extends('layouts.app')
 
-@section('content')
+@section('title', 'Ver Formulario')
 
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-eye-dropper"></i> Ver Formulario</h1>
+@stop
+
+@section('content')
 
 <div class="col-lg-12 margin-tb">
     @include('fragment.error')
     <div class="card border-light mb-3 shadow">
-        <div class="card-header bg-primary text-white"><i class="fa fa-eye-dropper"></i> 
-            {{ __('Show')}} Formulario
+        <div class="card-header bg-primary text-white">
+            <div class="float-start">
+                <i class="fa fa-eye-dropper"></i> Ver Formulario
+            </div>
+            <div class="float-end">
+                <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         <div class="card-body">
 

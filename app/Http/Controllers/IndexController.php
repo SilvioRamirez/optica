@@ -44,4 +44,10 @@ class IndexController extends Controller
         $configuracion = Configuracion::first();
         return view('politicaEliminacion.index', compact('configuracion'));
     }
+
+    public function politicaWhatsapp()
+    {
+        $configuracion = Configuracion::first();
+        return view('whatsappBusiness.index', compact('configuracion'));
+    }
 }

@@ -1,11 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Tratamientos')
 
 @section('content')
-    <div class="row">
-    
+    <div class="container-fluid">
+
         @include('fragment.error')
         @include('fragment.success')
-        
+    </div>
+
             <div class="col-lg-12 margin-tb">
                 <div class="text-center">
                     <h1><i class="fa fa-eye-dropper"></i> Tratamientos</h1>
@@ -27,8 +30,6 @@
         </div>
     </div>
 
-
-<p class="text-center text-primary"><small></small></p>
 @endsection
 
 @push('scripts')

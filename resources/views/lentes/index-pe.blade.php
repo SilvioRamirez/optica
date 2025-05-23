@@ -1,22 +1,28 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Lentes Por Entregar')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-person-circle-check"></i> Administración de Lentes Por Entregar</h1>
+@stop
 
 @section('content')
 
 <div class="row">
     @include('fragment.error')
     @include('fragment.success')
-    <div class="col-lg-12 margin-tb">
-        <div class="text-center">
-            <h1><i class="fa fa-person-circle-check"></i> Administración de Lentes Por Entregar</h1>
-        </div>
-        @can('user-create')
-        @endcan
-    </div>
+    
 </div>
 
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
-            Administración de Lentes por Entregar
+            <div class="float-start">
+                <i class="fa fa-person-circle-check"></i> Administración de Lentes Por Entregar
+            </div>
+            <div class="float-end">
+                <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
                 <div class="card-body table-responsive">
                 

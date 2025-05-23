@@ -1,20 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Ver Operativo')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-eye"></i> Ver Operativo</h1>
+@stop
 
 @section('content')
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <a class="btn btn-primary btn-sm" href="{{ url()->previous() }}">
-        <i class="fa fa-arrow-left"></i> {{ __('Back')}}
-    </a>    
-</div>
-
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow ">
-        <div class="card-header bg-primary text-white"><i class="fa fa-eye"></i> 
-            {{ __('Show')}} Operativo
-            <a href="{{ route('operativos.pdf', $operativo->id) }}" class="btn btn-light btn-sm float-end">
-                <i class="fa fa-file-pdf"></i> Descargar PDF
-            </a>
+        <div class="card-header bg-primary text-white">
+            <div class="float-start">
+                <i class="fa fa-eye"></i> Ver Operativo
+            </div>
+            <div class="float-end">
+                <a href="{{ route('operativos.pdf', $operativo->id) }}" class="btn btn-light btn-sm me-2">
+                    <i class="fa fa-file-pdf"></i> Descargar PDF
+                </a>
+                <a href="{{ route('operativos.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">

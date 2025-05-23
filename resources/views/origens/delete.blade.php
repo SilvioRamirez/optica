@@ -1,14 +1,23 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Eliminar Origen de Registro')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-trash-alt"></i> Eliminar Origen de Registro</h1>
+@stop
 
 @section('content')
-
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
 
 <div class="col-lg-12 margin-tb">
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
-            <i class="fa fa-trash-alt"></i>
-                    {{ __('Delete') }} Origen de Registro
+            <div class="float-start">
+                <i class="fa fa-trash-alt"></i> Eliminar Origen de Registro
+            </div>
+            <div class="float-end">
+                <a href="{{ route('origens.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         <div class="card-body">			
             @include('fragment.error')

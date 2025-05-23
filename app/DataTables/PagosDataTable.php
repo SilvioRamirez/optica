@@ -36,7 +36,7 @@ class PagosDataTable extends DataTable
                 return '<div class="btn-group" role="group" aria-label="Opciones">' . $buttons . '</div>';
             })
             ->addColumn('numero_orden', function ($query) {
-                return $query->formulario->numero_orden;
+                return $query->formulario ? $query->formulario->numero_orden : 'N/A';
             })
             ->filterColumn('numero_orden', function ($query, $keyword) {
                 $query->whereHas('formulario', function ($query) use ($keyword) {
@@ -44,7 +44,7 @@ class PagosDataTable extends DataTable
                 });
             })
             ->addColumn('operativo_id', function ($query) {
-                return $query->formulario->operativo->nombre_operativo;
+                return $query->formulario ? $query->formulario->operativo->nombre_operativo : 'N/A';
             })
             ->filterColumn('operativo_id', function ($query, $keyword) {
                 $query->whereHas('formulario.operativo', function ($query) use ($keyword) {
@@ -52,7 +52,7 @@ class PagosDataTable extends DataTable
                 });
             })
             ->addColumn('paciente', function ($query) {
-                return $query->formulario->paciente;
+                return $query->formulario ? $query->formulario->paciente : 'N/A';
             })
             ->filterColumn('paciente', function ($query, $keyword) {
                 $query->whereHas('formulario', function ($query) use ($keyword) {
@@ -60,7 +60,7 @@ class PagosDataTable extends DataTable
                 });
             })
             ->addColumn('cedula', function ($query) {
-                return $query->formulario->cedula;
+                return $query->formulario ? $query->formulario->cedula : 'N/A';
             })
             ->filterColumn('cedula', function ($query, $keyword) {
                 $query->whereHas('formulario', function ($query) use ($keyword) {
@@ -86,7 +86,7 @@ class PagosDataTable extends DataTable
             ->addColumn('image_path', function ($query) {
                 return $query->image_path ? '<img src="' . $query->image_path . '" class="img-fluid m-1" style="width: 50px; height: 50px;"> <a href="' . $query->image_path . '" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-magnifying-glass-plus"></i></a>' : '';
             })
-            ->rawColumns(['action', 'paciente', 'numero_orden', 'tipo', 'image_path'])
+            ->rawColumns(['action', 'paciente', 'numero_orden', 'tipo', 'image_path', 'operativo_id', 'origen_id'])
             ->setRowId('id');
     }
 

@@ -1,8 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Home')
 
 @section('content')
     <div class="main-content">
-        <div class="header bg-gradient-primary pb-5 pt-3 pt-md-8">
+        <div class="header pb-5 pt-3 pt-md-8">
             <div class="container-fluid">
                 <h2 class="mb-5 text-gray-800">Estadísticas <strong>{{ $mesActualNombre }}</strong></h2>
                 <div class="header-body">
@@ -13,7 +15,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">FORMULARIOS</h5>
+                                            <br>
                                             <span class="h2 font-weight-bold mb-0">{{ $formulariosActual }}</span>
+                                            <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>{{ $formulariosAnterior }}</strong></small>
                                         </div>
@@ -23,7 +27,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                    <p class="mt-1 mb-0 text-muted text-sm">
                                         <span
                                             class="{{ $formulariosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $formulariosVariacion >= 0 ? 'up' : 'down' }}"></i>
@@ -40,7 +44,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">REFRACTADOS</h5>
+                                            <br>
                                             <span class="h2 font-weight-bold mb-0">{{ $refractadosActual }}</span>
+                                            <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>{{ $refractadosAnterior }}</strong></small>
                                         </div>
@@ -50,7 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                    <p class="mt-1 mb-0 text-muted text-sm">
                                         <span
                                             class="{{ $refractadosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $refractadosVariacion >= 0 ? 'up' : 'down' }}"></i>
@@ -67,7 +73,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">PAGOS</h5>
+                                            <br>
                                             <span class="h2 font-weight-bold mb-0">{{ $pagosActual }}</span>
+                                            <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>{{ $pagosAnterior }}</strong></small>
                                         </div>
@@ -77,7 +85,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                    <p class="mt-1 mb-0 text-muted text-sm">
                                         <span class="{{ $pagosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $pagosVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($pagosVariacion) }}%
@@ -93,7 +101,9 @@
                                     <div class="row">
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">OPERATIVOS</h5>
+                                            <br>
                                             <span class="h2 font-weight-bold mb-0">{{ $operativosActual }}</span>
+                                            <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>{{ $operativosAnterior }}</strong> </small>
                                         </div>
@@ -103,7 +113,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p class="mt-3 mb-0 text-muted text-sm">
+                                    <p class="mt-1 mb-0 text-muted text-sm">
                                         <span
                                             class="{{ $operativosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $operativosVariacion >= 0 ? 'up' : 'down' }}"></i>

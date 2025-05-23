@@ -60,6 +60,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function adminlte_desc()
+    {
+        return $this->roles->pluck('name')->join(', ');
+    }
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');

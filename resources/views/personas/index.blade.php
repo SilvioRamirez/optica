@@ -1,38 +1,40 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Asesores')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-users"></i> Administración de Asesores</h1>
+@stop
 
 @section('content')
-    <div class="row">
-    
+    <div class="container-fluid">
+
         @include('fragment.error')
         @include('fragment.success')
-        
-            <div class="col-lg-12 margin-tb">
-                <div class="text-center">
-                    <h1><i class="fa fa-users"></i> Asesores</h1>
+    </div>
+
+    <div class="card border-light mb-3 shadow">
+        <div class="card-header bg-primary text-white">
+            @can('persona-create')
+                <div class="float-start">
+                    <a href="{{ route('personas.create') }}" class="btn btn-light btn-sm"><i class="fa fa-plus"></i>
+                        {{ __('Create New') }}</a>
                 </div>
-                @can('product-create')
-                    <div class="pull-right mt-2 mb-2">
-                        <a class="btn btn-success" href="{{ route('personas.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
-                    </div>
-                @endcan
+            @endcan
+            <div class="float-end">
+                <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
             </div>
-    
-        <div class="card border-light mb-3 shadow">
-            <div class="card-header bg-primary text-white">
-                Administración de Asesores
-            </div>
-            <div class="card-body table-responsive">
-                {{ $dataTable->table() }}
-            </div>
+        </div>
+        <div class="card-body table-responsive">
+            {{ $dataTable->table() }}
         </div>
     </div>
 
 
-<p class="text-center text-primary"><small></small></p>
+    <p class="text-center text-primary"><small></small></p>
 @endsection
 
 @push('scripts')
-
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-
 @endpush

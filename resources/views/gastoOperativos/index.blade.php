@@ -1,4 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Gastos de Operativo')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-dollar"></i> Administración de Gastos de Operativo</h1>
+@stop
 
 @section('content')
     {{-- <div class="row">

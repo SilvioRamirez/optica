@@ -1,9 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Crear Tipo de Ruta de Entrega')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-truck"></i> Crear Tipo de Ruta de Entrega</h1>
+@stop
 
 @section('content')
-
-<a class="btn btn-primary btn-sm mb-2" href="{{ url()->previous() }}"><i class="fa fa-arrow-left"></i> {{ __('Back')}}</a>
-
 
 <div class="col-lg-12 margin-tb">
 
@@ -12,7 +15,13 @@
     <div class="card border-light mb-3 shadow">
 
         <div class="card-header bg-primary text-white">
-            <h5 class="card-title"><i class="fa fa-truck"></i> Ruta de Entrega</h5>
+            <div class="float-start">
+                <i class="fa fa-truck"></i> Crear Tipo de Ruta de Entrega
+            </div>
+            <div class="float-end">
+                <a href="{{ route('rutaEntregas.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                    {{ __('Volver') }}</a>
+            </div>
         </div>
         
         <div class="card-body tab-content">

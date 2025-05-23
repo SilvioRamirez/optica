@@ -105,7 +105,29 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">7. ELIMINACIÓN DE DATOS</h2>
+                        <h2 class="h4 mb-4">7. USO DE WHATSAPP BUSINESS</h2>
+                        <p class="mb-4">
+                            En OPTIRANGO, C.A., utilizamos WhatsApp Business como canal de comunicación con nuestros clientes. Al proporcionarnos tu número de teléfono y darnos tu consentimiento explícito, aceptas recibir mensajes a través de WhatsApp relacionados con nuestros productos y servicios.
+                        </p>
+                        
+                        <div class="text-center mb-4">
+                            <a href="{{ url('/politica-whatsapp') }}" class="btn btn-primary">
+                                <i class="fa-brands fa-whatsapp me-2"></i>Ver política completa de WhatsApp Business
+                            </a>
+                        </div>
+                        
+                        <p class="mb-3">
+                            Para más información detallada sobre cómo utilizamos WhatsApp Business, cómo obtenemos tu consentimiento, tus derechos, formas de cancelación y protección de datos en WhatsApp, por favor consulta nuestra política específica de WhatsApp Business a través del enlace anterior.
+                        </p>
+
+                        <div class="alert alert-info">
+                            <i class="fa fa-info-circle me-2"></i>
+                            Utilizamos WhatsApp Business en cumplimiento con los Términos de Servicio de WhatsApp Business y la Política de Mensajería Empresarial de WhatsApp.
+                        </div>
+                    </section>
+
+                    <section class="mb-5">
+                        <h2 class="h4 mb-4">8. ELIMINACIÓN DE DATOS</h2>
                         <p class="mb-4">
                             En cumplimiento con las normativas de protección de datos y los requisitos de Facebook Developers, hemos establecido un proceso claro para la eliminación de datos personales.
                         </p>
@@ -117,7 +139,7 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">8. COOKIES Y TECNOLOGÍAS SIMILARES</h2>
+                        <h2 class="h4 mb-4">9. COOKIES Y TECNOLOGÍAS SIMILARES</h2>
                         <p class="mb-3">Si utilizamos un sitio web, empleamos cookies para:</p>
                         <ul class="list-unstyled ms-4">
                             <li class="mb-2">• Mejorar la experiencia del usuario</li>
@@ -128,12 +150,12 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">9. CAMBIOS EN LA POLÍTICA</h2>
+                        <h2 class="h4 mb-4">10. CAMBIOS EN LA POLÍTICA</h2>
                         <p>Nos reservamos el derecho de actualizar esta política cuando sea necesario. Te notificaremos cualquier cambio significativo.</p>
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">10. CONTACTO</h2>
+                        <h2 class="h4 mb-4">11. CONTACTO</h2>
                         <p class="mb-4">Para ejercer tus derechos o realizar consultas sobre esta política:</p>
                         <div class="card">
                             <div class="card-body">
@@ -148,7 +170,7 @@
                     </section>
 
                     <section class="mb-5">
-                        <h2 class="h4 mb-4">11. CONSENTIMIENTO</h2>
+                        <h2 class="h4 mb-4">12. CONSENTIMIENTO</h2>
                         <p>Al proporcionarnos tus datos personales, aceptas esta política de privacidad y autorizas el tratamiento de tu información según lo descrito.</p>
                     </section>
                 </div>

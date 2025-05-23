@@ -30,6 +30,28 @@
                 <br>
                 <strong>Id del Administrador Comercial: </strong> 950812703335736
             </p>
+
+            <section class="mb-5 col-lg-6 mx-auto">
+                <h2 class="h4 mb-4">USO DE WHATSAPP BUSINESS</h2>
+                <p class="mb-4">
+                    En OPTIRANGO, C.A., utilizamos WhatsApp Business como canal de comunicación con nuestros clientes. Al proporcionarnos tu número de teléfono y darnos tu consentimiento explícito, aceptas recibir mensajes a través de WhatsApp relacionados con nuestros productos y servicios.
+                </p>
+                
+                <div class="text-center mb-4">
+                    <a href="{{ url('/politica-whatsapp') }}" class="btn btn-primary">
+                        <i class="fa-brands fa-whatsapp me-2"></i>Ver política completa de WhatsApp Business
+                    </a>
+                </div>
+                
+                <p class="mb-3">
+                    Para más información detallada sobre cómo utilizamos WhatsApp Business, cómo obtenemos tu consentimiento, tus derechos, formas de cancelación y protección de datos en WhatsApp, por favor consulta nuestra política específica de WhatsApp Business a través del enlace anterior.
+                </p>
+
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle me-2"></i>
+                    Utilizamos WhatsApp Business en cumplimiento con los Términos de Servicio de WhatsApp Business y la Política de Mensajería Empresarial de WhatsApp.
+                </div>
+            </section>
             
             <button class="btn btn-primary px-5 mb-2" type="button">
                 <i class="fa fa-home me-1"></i> Inicio

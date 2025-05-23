@@ -1,37 +1,40 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
+
+@section('title', 'Administración de Tipos de Pago')
+
+@section('content_header')
+    <h1 class="text-center"><i class="fa fa-hand-holding-dollar"></i> Administración de Tipos de Pago</h1>
+@stop
 
 @section('content')
-    <div class="row">
-            <div class="col-lg-12 margin-tb">
+    <div class="container-fluid">
 
-                @include('fragment.error')
-                @include('fragment.success')
+        @include('fragment.error')
+        @include('fragment.success')
 
-                <div class="text-center">
-                    <h1><i class="fa fa-hand-holding-dollar"></i> Tipos de Pago</h1>
-                </div>
+    </div>
+    @canany(['refractante-list'])
+        <div class="card border-light mb-3 shadow">
+            <div class="card-header bg-primary text-white">
                 @can('refracante-create')
-                    <div class="mt-2 mb-2">
-                        <a class="btn btn-success btn-sm" href="{{ route('tipos.create') }}"><i class="fa fa-plus"></i> {{ __('Create New')}}</a>
+                    <div class="float-start">
+                        <a href="{{ route('tipos.create') }}" class="btn btn-light btn-sm"><i class="fa fa-plus"></i>
+                            {{ __('Create New') }}</a>
                     </div>
                 @endcan
-            </div>
-        @canany(['refractante-list'])
-            <div class="card border-light mb-3 shadow">
-                <div class="card-header bg-primary text-white">
-                    Administración de Tipos de Pago
-                </div>
-                <div class="card-body table-responsive table-sm">
-                    {{ $dataTable->table() }}
+                <div class="float-end">
+                    <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
+                        {{ __('Volver') }}</a>
                 </div>
             </div>
-        @endcanany
-    </div>
+            <div class="card-body table-responsive table-sm">
+                {{ $dataTable->table() }}
+            </div>
+        </div>
+    @endcanany
 
 @endsection
 
 @push('scripts')
-
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
-
 @endpush
