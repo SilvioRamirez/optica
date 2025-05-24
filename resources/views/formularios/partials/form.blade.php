@@ -38,13 +38,11 @@
 
             <label for="refractante_id" class="mb-1 mt-2"><strong>Refractante</strong> <span id="refractante_info"
                     class="text-muted">(Autocompletar)</span></label>
-            <select name="refractante_id" id="refractante_id" class="form-control mb-2">
+            <select name="refractante_id" id="refractante_id" class="form-control mb-2" autocomplete="off">
                 @foreach ($refractantes as $refractante)
-                    <option value="{{ $refractante['id'] }}"
-                        data-telefono="{{ $refractante['telefono'] }}"
+                    <option value="{{ $refractante['id'] }}" data-telefono="{{ $refractante['telefono'] }}"
                         data-nombre-apellido="{{ $refractante['nombre_apellido'] }}"
-                        data-id-operativo="{{ $refractante['operativo_id'] }}"
-                        >
+                        data-id-operativo="{{ $refractante['operativo_id'] }}">
                         {{ $refractante['text'] }}
                     </option>
                 @endforeach
@@ -427,59 +425,46 @@
             max: 10000,
         })
 
-        /* Select2(document.getElementById('estatus'), {
-            placeholder: 'Selecciona un estatus',
-            
-        }); */
+        new TomSelect('#refractante_id', {
+            placeholder: 'Selecciona un refractante para completar la información',
+            onChange: function(value) {
+                if (value) {
+                    // Obtener el option seleccionado para acceder a los atributos data-*
+                    var selectedOption = document.querySelector('#refractante_id option[value="' + value + '"]');
+                    
+                    if (selectedOption) {
+                        var telefono = selectedOption.getAttribute('data-telefono');
+                        var nombreApellido = selectedOption.getAttribute('data-nombre-apellido');
+                        var idOperativo = selectedOption.getAttribute('data-id-operativo');
 
+                        // Autocompletar campos del formulario
+                        var pacienteInput = document.getElementById('paciente');
+                        var telefonoInput = document.getElementById('telefono');
+                        var idOperativoInput = document.getElementById('operativo_id');
+
+                        if (idOperativoInput && idOperativo) {
+                            idOperativoInput.value = idOperativo;
+                        }
+
+                        if (pacienteInput && nombreApellido) {
+                            pacienteInput.value = nombreApellido;
+                        }
+
+                        if (telefonoInput && telefono) {
+                            telefonoInput.value = telefono;
+                        }
+
+                        // Actualizar el span de información
+                        if (nombreApellido && telefono) {
+                            $('#refractante_info').html(nombreApellido + ' (' + telefono + ')').removeClass(
+                                'text-muted').addClass('text-success');
+                        }
+                    }
+                }
+            }
+        });
+        
         $(document).ready(function() {
-
-            $('#refractante_id').select2({
-                placeholder: 'Selecciona un refractante para completar la información',
-
-            });
-
-            // Event listener para Select2 de refractantes
-            $('#refractante_id').on('select2:select', function (e) {
-                var data = e.params.data;
-                
-                // Obtener el elemento option seleccionado para acceder a los atributos data-*
-                var selectedOption = $(this).find('option:selected');
-                var telefono = selectedOption.attr('data-telefono');
-                var nombreApellido = selectedOption.attr('data-nombre-apellido');
-                var idOperativo = selectedOption.attr('data-id-operativo');
-
-                // Autocompletar campos del formulario
-                var pacienteInput = document.getElementById('paciente');
-                var telefonoInput = document.getElementById('telefono');
-                var idOperativoInput = document.getElementById('operativo_id');
-
-                if (idOperativoInput && idOperativo) {
-                    idOperativoInput.value = idOperativo;
-                }
-
-                if (pacienteInput && nombreApellido) {
-                    pacienteInput.value = nombreApellido;
-                }
-                
-                if (telefonoInput && telefono) {
-                    telefonoInput.value = telefono;
-                }
-
-                // Actualizar el span de información
-                if (nombreApellido && telefono) {
-                    $('#refractante_info').html(nombreApellido + ' (' + telefono + ')').removeClass('text-muted').addClass('text-success');
-                }
-                
-            });
-
-            // Event listener adicional para cambios (mantener compatibilidad)
-            var refractanteListener = document.getElementById('refractante_id');
-
-            refractanteListener.addEventListener("change", (event) => {
-                // Aquí puedes agregar lógica adicional si es necesaria
-                console.log('Refractante cambiado:', event.target.value);
-            });
 
             /*
              * Dropdown de tipos de Tratamiento 
@@ -499,7 +484,7 @@
                     success: function(result) {
                         $('#tipo-tratamiento-dropdown').html(
                             '<option value="">-- Selecciona Tipo de Tratamiento --</option>'
-                            );
+                        );
                         $.each(result.tipotratamientos, function(key, value) {
                             $("#tipo-tratamiento-dropdown").append('<option value="' +
                                 value

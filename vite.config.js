@@ -19,12 +19,15 @@ export default defineConfig({
         }),
         vue(),
     ],
+    /* build: {
+        commonjsOptions: {
+            exclude: ['select2']
+            
+        },
+    }, */
     resolve: {
         alias: {
             vue: 'vue/dist/vue.esm-bundler.js',
         },
-    },
-    define: {
-        global: 'globalThis',
     },
 });
