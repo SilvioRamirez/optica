@@ -181,6 +181,21 @@ class FormularioController extends Controller
 
         $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
+        $refractantes = Refractante::orderBy('id','desc')
+            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
+            ->take(100)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre_apellido . ' (' . $item->telefono . ')',
+                    'telefono' => $item->telefono,
+                    'nombre_apellido' => $item->nombre_apellido,
+                    'operativo_id' => $item->operativo_id
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
+
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
@@ -193,7 +208,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
-        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens'));
+        return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
     /**
@@ -219,6 +234,21 @@ class FormularioController extends Controller
 
         $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
+        $refractantes = Refractante::orderBy('id','desc')
+            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
+            ->take(100)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre_apellido . ' (' . $item->telefono . ')',
+                    'telefono' => $item->telefono,
+                    'nombre_apellido' => $item->nombre_apellido,
+                    'operativo_id' => $item->operativo_id
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
+
         $descuentos = Descuento::orderBy('id','asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
@@ -231,7 +261,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
             
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens'));
+        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
     /**
