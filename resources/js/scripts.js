@@ -25,3 +25,8 @@ window.addEventListener('DOMContentLoaded', event => {
 
 });
 
+$(document).ready(function() {
+    // Configuración global de Select2
+    $.fn.select2.defaults.set('theme', 'bootstrap-5');
+    $.fn.select2.defaults.set('width', '100%');
+});

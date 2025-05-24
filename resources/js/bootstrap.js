@@ -9,6 +9,11 @@ import 'bootstrap';
 import axios from 'axios';
 import $ from 'jquery';
 
+// Asegurar que jQuery esté disponible globalmente ANTES de importar Select2
+window.axios = axios;
+window.$ = $;
+window.jQuery = $;
+
 //Importamos el complemento que instalamos imask
 import Imask from 'imask';
 
@@ -17,6 +22,12 @@ import Dropzone from 'dropzone';
 
 //Importamos el complemento SweetAlert2
 import Swal from 'sweetalert2';
+
+//Importamos Select2
+import select2 from 'select2';
+select2();
+// Importamos Select2 con configuración específica para Vite
+/* import './select2-init.js'; */
 
 import DataTable from 'datatables.net-dt';
 import 'datatables.net-buttons-dt';
@@ -33,9 +44,6 @@ import 'datatables.net-searchbuilder-bs5';
 /* import 'datatables.net-buttons/js/buttons.flash.js'; */
 /* import 'datatables.net-buttons/js/buttons.bootstrap5.js'; */
 
-window.axios = axios;
-window.$ = $;
-
 //Aqui le decimos que lo use en el documento
 window.Imask = Imask;
 
@@ -47,8 +55,15 @@ window.DataTable = DataTable;
 //SweetAlert
 window.Swal = Swal;
 
+//Select2
+/* window.Select2 = Select2;
+
+window.Select2 = $.fn.Select2; */
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
+
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

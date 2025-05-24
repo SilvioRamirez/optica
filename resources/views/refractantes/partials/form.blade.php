@@ -37,7 +37,7 @@
         $inputsAndTextareas.forEach(addHandleKeyup)
 
         IMask(document.getElementById('telefono'),{
-            mask: '000000000000'
+            mask: '+{00}0000000000'
         })
 
 

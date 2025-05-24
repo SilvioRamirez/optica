@@ -1,2 +1,2 @@
-{!! Html::decode(Form::label($name, '<strong>'.$show.':</strong>', array('class' => 'mb-1'))) !!}
+{!! Html::decode(Form::label($name, '<strong>'.$show.':</strong>', array('class' => 'mb-1 mt-1'))) !!}
 {!! Form::text($name, $value, array('placeholder' => $placeholder, 'id' => $name, 'class' => 'form-control mb-2 '. $name .' '. $class .'')) !!}
