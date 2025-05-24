@@ -122,6 +122,7 @@ class FormularioController extends Controller
     {
 
         $data = $request->except(
+            'refractante_id',
             'tipo_tratamiento_hidden_id',
             'saldo',
             'porcentaje_pago',
@@ -239,7 +240,7 @@ class FormularioController extends Controller
     public function update(UpdateFormularioRequest $request, Formulario $formulario): RedirectResponse
     {
 
-        $data = $request->except('tipo_tratamiento_hidden_id');
+        $data = $request->except('tipo_tratamiento_hidden_id', 'refractante_id');
 
         $data['saldo'] = $request->total;
 
