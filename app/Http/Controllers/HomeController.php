@@ -8,6 +8,8 @@ use App\Models\Pago;
 use App\Models\Operativo;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -26,11 +28,34 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Mes actual
-        $mesActual = now()->startOfMonth();
-        $mesAnterior = now()->subMonth()->startOfMonth();
+        // Obtener el mes seleccionado o usar el mes actual por defecto
+        $mesSeleccionado = $request->get('mes', now()->format('Y-m'));
+        
+        // Corregir el parsing de fechas
+        try {
+            // Agregar día explícitamente para evitar problemas de parsing
+            $fechaSeleccionada = Carbon::createFromFormat('Y-m-d', $mesSeleccionado . '-01');
+        } catch (\Exception $e) {
+            // Si hay error en el formato, usar mes actual
+            $fechaSeleccionada = now()->startOfMonth();
+            $mesSeleccionado = now()->format('Y-m');
+        }
+        
+        // Usar las fechas directamente sin copiar para evitar problemas
+        $mesActual = $fechaSeleccionada->copy();
+        $mesAnterior = $fechaSeleccionada->copy()->subMonth();
+
+        // Debug: verificar que las fechas son correctas
+        Log::info('Debug fechas CORREGIDO:', [
+            'mesSeleccionado' => $mesSeleccionado,
+            'fechaSeleccionada' => $fechaSeleccionada->format('Y-m-d'),
+            'mesActual' => $mesActual->format('Y-m-d'),
+            'mesAnterior' => $mesAnterior->format('Y-m-d'),
+            'mesActual_month' => $mesActual->month,
+            'mesActual_year' => $mesActual->year,
+        ]);
 
         // Formatear nombres de meses en español
         $meses = [
@@ -48,13 +73,24 @@ class HomeController extends Controller
             12 => 'Diciembre'
         ];
 
-        $mesActualNombre = $meses[$mesActual->month];
-        $mesAnteriorNombre = $meses[$mesAnterior->month];
+        $mesActualNombre = $meses[$mesActual->month] . ' ' . $mesActual->year;
+        $mesAnteriorNombre = $meses[$mesAnterior->month] . ' ' . $mesAnterior->year;
 
-        // Formularios
+        // Obtener meses disponibles con datos
+        $mesesDisponibles = $this->getMesesDisponibles();
+
+        // Formularios - Debug de la consulta
         $formulariosActual = Formulario::whereMonth('created_at', $mesActual->month)
             ->whereYear('created_at', $mesActual->year)
             ->count();
+        
+        // Debug: log de la consulta de formularios
+        Log::info('Consulta Formularios:', [
+            'mes' => $mesActual->month,
+            'año' => $mesActual->year,
+            'count' => $formulariosActual
+        ]);
+        
         $formulariosAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->count();
@@ -86,22 +122,6 @@ class HomeController extends Controller
             ->whereYear('created_at', $mesAnterior->year)
             ->count();
         $operativosVariacion = $this->calcularVariacion($operativosActual, $operativosAnterior);
-
-
-        /* $chart_options = [
-            'chart_title' => 'Formularios por mes',
-            'chart_type' => 'line',
-            'report_type' => 'group_by_date',
-            'model' => 'App\Models\Formulario',
-            'group_by_field' => 'created_at',
-            'group_by_period' => 'month',
-            'aggregate_function' => 'count',
-            'aggregate_field' => 'id',
-            'filter_field' => 'created_at',
-            'filter_days' => 365,
-            'filter_period' => 'month',
-            'continuous_time' => true,
-        ]; */
 
         $chart_options1 = [
             'chart_title' => 'Formularios por Mes',
@@ -164,7 +184,7 @@ class HomeController extends Controller
             'refractadosActual', 'refractadosAnterior', 'refractadosVariacion',
             'pagosActual', 'pagosAnterior', 'pagosVariacion',
             'operativosActual', 'operativosAnterior', 'operativosVariacion',
-            'mesActualNombre', 'mesAnteriorNombre',
+            'mesActualNombre', 'mesAnteriorNombre', 'mesesDisponibles', 'mesSeleccionado',
             'chart1', 'chart2', 'chart3', 'chart4'
         ));
     }
@@ -175,5 +195,69 @@ class HomeController extends Controller
             return $actual > 0 ? 100 : 0;
         }
         return round((($actual - $anterior) / $anterior) * 100, 2);
+    }
+
+    private function getMesesDisponibles()
+    {
+        $meses = [
+            1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+            5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+            9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+        ];
+
+        // Obtener fechas únicas de todas las tablas con validación
+        $fechasFormularios = Formulario::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
+            ->whereNotNull('created_at')
+            ->groupBy('year', 'month')->get();
+        
+        $fechasRefractantes = Refractante::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
+            ->whereNotNull('created_at')
+            ->groupBy('year', 'month')->get();
+        
+        $fechasPagos = Pago::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
+            ->whereNotNull('created_at')
+            ->groupBy('year', 'month')->get();
+        
+        $fechasOperativos = Operativo::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
+            ->whereNotNull('created_at')
+            ->groupBy('year', 'month')->get();
+
+        // Combinar todas las fechas
+        $todasLasFechas = collect()
+            ->merge($fechasFormularios)
+            ->merge($fechasRefractantes)
+            ->merge($fechasPagos)
+            ->merge($fechasOperativos)
+            ->filter(function ($item) {
+                // Filtrar elementos válidos
+                return $item && $item->year && $item->month && 
+                       $item->month >= 1 && $item->month <= 12;
+            })
+            ->unique(function ($item) {
+                return $item->year . '-' . $item->month;
+            })
+            ->sortByDesc(function ($item) {
+                return $item->year * 100 + $item->month;
+            });
+
+        $mesesDisponibles = [];
+        
+        // Si no hay datos, al menos mostrar el mes actual
+        if ($todasLasFechas->isEmpty()) {
+            $mesActual = now();
+            $valor = $mesActual->format('Y-m');
+            $texto = $meses[$mesActual->month] . ' ' . $mesActual->year;
+            $mesesDisponibles[$valor] = $texto;
+        } else {
+            foreach ($todasLasFechas as $fecha) {
+                if (isset($meses[$fecha->month])) {
+                    $valor = sprintf('%04d-%02d', $fecha->year, $fecha->month);
+                    $texto = $meses[$fecha->month] . ' ' . $fecha->year;
+                    $mesesDisponibles[$valor] = $texto;
+                }
+            }
+        }
+
+        return $mesesDisponibles;
     }
 }
