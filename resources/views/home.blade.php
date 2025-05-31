@@ -176,67 +176,169 @@
     </div>
 
     <!-- Estadísticas Adicionales -->
+    <div class="main-content">
+        <div class="header pb-5 pt-3">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row">
+                        <!-- Total de Ventas -->
+                        <div class="col-xl-2-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">VENTAS TOTALES</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">${{ number_format($totalVentasActual, 2) }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>${{ number_format($totalVentasAnterior, 2) }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $ventasVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $ventasVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($ventasVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promedio Total -->
+                        <div class="col-xl-2-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">PROMEDIO TOTAL</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">${{ number_format($promedioTotalActual, 2) }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>${{ number_format($promedioTotalAnterior, 2) }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                                <i class="fas fa-calculator"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $promedioVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $promedioVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($promedioVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Género Masculino -->
+                        <div class="col-xl-2-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">MASCULINO</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">{{ $generoMasculinoActual }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>{{ $generoMasculinoAnterior }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                                                <i class="fas fa-male"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $generoMasculinoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $generoMasculinoVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($generoMasculinoVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Género Femenino -->
+                        <div class="col-xl-2-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">FEMENINO</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">{{ $generoFemeninoActual }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>{{ $generoFemeninoAnterior }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-pink text-white rounded-circle shadow">
+                                                <i class="fas fa-female"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $generoFemeninoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $generoFemeninoVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($generoFemeninoVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Promedio de Edad -->
+                        <div class="col-xl-2-4 col-lg-6">
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">PROMEDIO EDAD</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">{{ number_format($promedioEdadActual, 1) }} años</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>{{ number_format($promedioEdadAnterior, 1) }} años</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                <i class="fas fa-birthday-cake"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $edadVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $edadVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($edadVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nueva fila: Operativo más activo y Gráfico de Géneros -->
     <div class="container pb-5 pt-3">
         <div class="row">
-            <!-- Total de Ventas -->
-            <div class="col-xl-3 col-lg-6 mb-4">
-                <div class="card card-stats shadow">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">VENTAS TOTALES</h5>
-                                <br>
-                                <span class="h2 font-weight-bold mb-0">${{ number_format($totalVentasActual, 2) }}</span>
-                                <br>
-                                <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
-                                    <strong>${{ number_format($totalVentasAnterior, 2) }}</strong></small>
-                            </div>
-                            <div class="col-auto">
-                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="mt-1 mb-0 text-muted text-sm">
-                            <span class="{{ $ventasVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
-                                <i class="fa fa-arrow-{{ $ventasVariacion >= 0 ? 'up' : 'down' }}"></i>
-                                {{ abs($ventasVariacion) }}%
-                            </span>
-                            <span class="text-nowrap">Respecto al mes anterior</span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Formulario más caro -->
-            <div class="col-xl-3 col-lg-6 mb-4">
-                <div class="card card-stats shadow">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h5 class="card-title text-uppercase text-muted mb-0">FORMULARIO MÁS CARO</h5>
-                                <br>
-                                @if($formularioMasCaro)
-                                    <span class="h2 font-weight-bold mb-0">${{ number_format($formularioMasCaro->total, 2) }}</span>
-                                    <br>
-                                    <small class="text-muted">Orden: <strong>{{ $formularioMasCaro->numero_orden }}</strong></small><br>
-                                    <small class="text-muted">Paciente: <strong>{{ $formularioMasCaro->paciente }}</strong></small>
-                                @else
-                                    <span class="h2 font-weight-bold mb-0">$0.00</span>
-                                    <br>
-                                    <small class="text-muted">No hay datos</small>
-                                @endif
-                            </div>
-                            <div class="col-auto">
-                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                    <i class="fas fa-crown"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Operativo más activo -->
             <div class="col-xl-6 col-lg-12 mb-4">
                 <div class="card card-stats shadow">
@@ -262,6 +364,16 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráfico de Géneros -->
+            <div class="col-xl-6 col-lg-12 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="text-center mb-4">{{ $chartGenero->options['chart_title'] }}</h5>
+                        {!! $chartGenero->renderHtml() !!}
                     </div>
                 </div>
             </div>
@@ -387,6 +499,9 @@
     {!! $chart4->renderChartJsLibrary() !!}
     {!! $chart4->renderJs() !!}
 
+    {!! $chartGenero->renderChartJsLibrary() !!}
+    {!! $chartGenero->renderJs() !!}
+
     <script type="text/javascript">
         // Cambiar el mes automáticamente al seleccionar
         document.getElementById('mes').addEventListener('change', function() {
@@ -406,6 +521,11 @@
         /* Color púrpura personalizado para la tarjeta de CASHEA */
         .bg-purple {
             background-color: #8e44ad !important;
+        }
+        
+        /* Color rosa personalizado para la tarjeta de género femenino */
+        .bg-pink {
+            background-color: #e91e63 !important;
         }
     </style>
 @endpush 
