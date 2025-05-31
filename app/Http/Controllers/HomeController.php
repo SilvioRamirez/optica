@@ -9,7 +9,6 @@ use App\Models\Operativo;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -47,16 +46,6 @@ class HomeController extends Controller
         $mesActual = $fechaSeleccionada->copy();
         $mesAnterior = $fechaSeleccionada->copy()->subMonth();
 
-        // Debug: verificar que las fechas son correctas
-        Log::info('Debug fechas CORREGIDO:', [
-            'mesSeleccionado' => $mesSeleccionado,
-            'fechaSeleccionada' => $fechaSeleccionada->format('Y-m-d'),
-            'mesActual' => $mesActual->format('Y-m-d'),
-            'mesAnterior' => $mesAnterior->format('Y-m-d'),
-            'mesActual_month' => $mesActual->month,
-            'mesActual_year' => $mesActual->year,
-        ]);
-
         // Formatear nombres de meses en español
         $meses = [
             1 => 'Enero',
@@ -83,13 +72,6 @@ class HomeController extends Controller
         $formulariosActual = Formulario::whereMonth('created_at', $mesActual->month)
             ->whereYear('created_at', $mesActual->year)
             ->count();
-        
-        // Debug: log de la consulta de formularios
-        Log::info('Consulta Formularios:', [
-            'mes' => $mesActual->month,
-            'año' => $mesActual->year,
-            'count' => $formulariosActual
-        ]);
         
         $formulariosAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
@@ -122,6 +104,60 @@ class HomeController extends Controller
             ->whereYear('created_at', $mesAnterior->year)
             ->count();
         $operativosVariacion = $this->calcularVariacion($operativosActual, $operativosAnterior);
+
+        // Formularios con CASHEA
+        $casheaActual = Formulario::whereMonth('created_at', $mesActual->month)
+            ->whereYear('created_at', $mesActual->year)
+            ->where('cashea', true)
+            ->count();
+        $casheaAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
+            ->whereYear('created_at', $mesAnterior->year)
+            ->where('cashea', true)
+            ->count();
+        $casheaVariacion = $this->calcularVariacion($casheaActual, $casheaAnterior);
+
+        // ===== NUEVAS ESTADÍSTICAS =====
+        
+        // 1. Estadísticas por Tipo de Lente (para el mes seleccionado)
+        $formulariosPorTipoLente = Formulario::whereMonth('formularios.created_at', $mesActual->month)
+            ->whereYear('formularios.created_at', $mesActual->year)
+            ->whereNotNull('tipo')
+            ->join('tipo_lentes', 'formularios.tipo', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_lentes.tipo_lente, COUNT(*) as cantidad, AVG(formularios.total) as precio_promedio, SUM(formularios.total) as total_ventas')
+            ->groupBy('tipo_lentes.id', 'tipo_lentes.tipo_lente')
+            ->orderByDesc('cantidad')
+            ->get();
+
+        // 2. Formulario más caro del mes
+        $formularioMasCaro = Formulario::whereMonth('created_at', $mesActual->month)
+            ->whereYear('created_at', $mesActual->year)
+            ->whereNotNull('total')
+            ->select('id', 'numero_orden', 'paciente', 'total', 'created_at')
+            ->orderByDesc('total')
+            ->first();
+
+        // 3. Operativo con más formularios del mes
+        $operativoConMasFormularios = Operativo::whereHas('formularios', function($query) use ($mesActual) {
+                $query->whereMonth('created_at', $mesActual->month)
+                      ->whereYear('created_at', $mesActual->year);
+            })
+            ->withCount(['formularios' => function($query) use ($mesActual) {
+                $query->whereMonth('created_at', $mesActual->month)
+                      ->whereYear('created_at', $mesActual->year);
+            }])
+            ->orderByDesc('formularios_count')
+            ->first();
+
+        // 4. Estadísticas adicionales para las tarjetas
+        $totalVentasActual = Formulario::whereMonth('created_at', $mesActual->month)
+            ->whereYear('created_at', $mesActual->year)
+            ->sum('total');
+        
+        $totalVentasAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
+            ->whereYear('created_at', $mesAnterior->year)
+            ->sum('total');
+        
+        $ventasVariacion = $this->calcularVariacion($totalVentasActual, $totalVentasAnterior);
 
         $chart_options1 = [
             'chart_title' => 'Formularios por Mes',
@@ -184,8 +220,11 @@ class HomeController extends Controller
             'refractadosActual', 'refractadosAnterior', 'refractadosVariacion',
             'pagosActual', 'pagosAnterior', 'pagosVariacion',
             'operativosActual', 'operativosAnterior', 'operativosVariacion',
+            'casheaActual', 'casheaAnterior', 'casheaVariacion',
             'mesActualNombre', 'mesAnteriorNombre', 'mesesDisponibles', 'mesSeleccionado',
-            'chart1', 'chart2', 'chart3', 'chart4'
+            'chart1', 'chart2', 'chart3', 'chart4',
+            'formulariosPorTipoLente', 'formularioMasCaro', 'operativoConMasFormularios', 
+            'totalVentasActual', 'totalVentasAnterior', 'ventasVariacion'
         ));
     }
 

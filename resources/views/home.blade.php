@@ -27,36 +27,7 @@
                 </div>
                 <div class="header-body">
                     <div class="row">
-                        <div class="col-xl-3 col-lg-6"> {{-- Operativos --}}
-                            <div class="card card-stats mb-4 mb-xl-0 shadow">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">OPERATIVOS</h5>
-                                            <br>
-                                            <span class="h2 font-weight-bold mb-0">{{ $operativosActual }}</span>
-                                            <br>
-                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
-                                                <strong>{{ $operativosAnterior }}</strong> </small>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
-                                                <i class="fas fa-location-dot"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span
-                                            class="{{ $operativosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
-                                            <i class="fa fa-arrow-{{ $operativosVariacion >= 0 ? 'up' : 'down' }}"></i>
-                                            {{ abs($operativosVariacion) }}%
-                                        </span>
-                                        <span class="text-nowrap">Respecto al mes anterior</span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-6"> {{-- Formularios --}}
+                        <div class="col-xl-2-4 col-lg-6"> {{-- Formularios --}}
                             <div class="card card-stats mb-4 mb-xl-0 shadow">
                                 <div class="card-body">
                                     <div class="row">
@@ -75,8 +46,7 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span
-                                            class="{{ $formulariosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                        <span class="{{ $formulariosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $formulariosVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($formulariosVariacion) }}%
                                         </span>
@@ -85,7 +55,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6"> {{-- Pagos --}}
+                        <div class="col-xl-2-4 col-lg-6"> {{-- Refractados --}}
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">REFRACTADOS</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">{{ $refractadosActual }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>{{ $refractadosAnterior }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-secondary text-white rounded-circle shadow">
+                                                <i class="fas fa-people-group"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $refractadosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $refractadosVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($refractadosVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-2-4 col-lg-6"> {{-- Pagos --}}
                             <div class="card card-stats mb-4 mb-xl-0 shadow">
                                 <div class="card-body">
                                     <div class="row">
@@ -113,43 +111,214 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-6"> {{-- Refractantes --}}
+                        <div class="col-xl-2-4 col-lg-6"> {{-- Operativos --}}
                             <div class="card card-stats mb-4 mb-xl-0 shadow">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">REFRACTADOS</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">OPERATIVOS</h5>
                                             <br>
-                                            <span class="h2 font-weight-bold mb-0">{{ $refractadosActual }}</span>
+                                            <span class="h2 font-weight-bold mb-0">{{ $operativosActual }}</span>
                                             <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
-                                                <strong>{{ $refractadosAnterior }}</strong></small>
+                                                <strong>{{ $operativosAnterior }}</strong></small>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="icon icon-shape bg-secondary text-white rounded-circle shadow">
-                                                <i class="fas fa-people-group"></i>
+                                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                                <i class="fas fa-location-dot"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span
-                                            class="{{ $refractadosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
-                                            <i class="fa fa-arrow-{{ $refractadosVariacion >= 0 ? 'up' : 'down' }}"></i>
-                                            {{ abs($refractadosVariacion) }}%
+                                        <span class="{{ $operativosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $operativosVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($operativosVariacion) }}%
                                         </span>
                                         <span class="text-nowrap">Respecto al mes anterior</span>
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        
-                        
+                        <div class="col-xl-2-4 col-lg-6"> {{-- CASHEA --}}
+                            <div class="card card-stats mb-4 mb-xl-0 shadow">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">CASHEA</h5>
+                                            <br>
+                                            <span class="h2 font-weight-bold mb-0">{{ $casheaActual }}</span>
+                                            <br>
+                                            <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                                <strong>{{ $casheaAnterior }}</strong></small>
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-purple text-white rounded-circle shadow">
+                                                <i class="fas fa-credit-card"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class="mt-1 mb-0 text-muted text-sm">
+                                        <span class="{{ $casheaVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                            <i class="fa fa-arrow-{{ $casheaVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                            {{ abs($casheaVariacion) }}%
+                                        </span>
+                                        <span class="text-nowrap">Respecto al mes anterior</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Estadísticas Adicionales -->
+    <div class="container pb-5 pt-3">
+        <div class="row">
+            <!-- Total de Ventas -->
+            <div class="col-xl-3 col-lg-6 mb-4">
+                <div class="card card-stats shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">VENTAS TOTALES</h5>
+                                <br>
+                                <span class="h2 font-weight-bold mb-0">${{ number_format($totalVentasActual, 2) }}</span>
+                                <br>
+                                <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
+                                    <strong>${{ number_format($totalVentasAnterior, 2) }}</strong></small>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-1 mb-0 text-muted text-sm">
+                            <span class="{{ $ventasVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                <i class="fa fa-arrow-{{ $ventasVariacion >= 0 ? 'up' : 'down' }}"></i>
+                                {{ abs($ventasVariacion) }}%
+                            </span>
+                            <span class="text-nowrap">Respecto al mes anterior</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario más caro -->
+            <div class="col-xl-3 col-lg-6 mb-4">
+                <div class="card card-stats shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">FORMULARIO MÁS CARO</h5>
+                                <br>
+                                @if($formularioMasCaro)
+                                    <span class="h2 font-weight-bold mb-0">${{ number_format($formularioMasCaro->total, 2) }}</span>
+                                    <br>
+                                    <small class="text-muted">Orden: <strong>{{ $formularioMasCaro->numero_orden }}</strong></small><br>
+                                    <small class="text-muted">Paciente: <strong>{{ $formularioMasCaro->paciente }}</strong></small>
+                                @else
+                                    <span class="h2 font-weight-bold mb-0">$0.00</span>
+                                    <br>
+                                    <small class="text-muted">No hay datos</small>
+                                @endif
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Operativo más activo -->
+            <div class="col-xl-6 col-lg-12 mb-4">
+                <div class="card card-stats shadow">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">OPERATIVO MÁS ACTIVO</h5>
+                                <br>
+                                @if($operativoConMasFormularios)
+                                    <span class="h2 font-weight-bold mb-0">{{ $operativoConMasFormularios->formularios_count }} formularios</span>
+                                    <br>
+                                    <small class="text-muted">Operativo: <strong>{{ $operativoConMasFormularios->nombre_operativo }}</strong></small><br>
+                                    <small class="text-muted">Lugar: <strong>{{ $operativoConMasFormularios->lugar }}</strong></small>
+                                @else
+                                    <span class="h2 font-weight-bold mb-0">0 formularios</span>
+                                    <br>
+                                    <small class="text-muted">No hay datos</small>
+                                @endif
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Tipos de Lentes -->
+    <div class="container pb-5 pt-3">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Formularios por Tipo de Lente - {{ $mesActualNombre }}</h1>
+                        @if($formulariosPorTipoLente->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Tipo de Lente</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">Precio Promedio</th>
+                                            <th class="text-center">Total Ventas</th>
+                                            <th class="text-center">% del Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $totalFormularios = $formulariosPorTipoLente->sum('cantidad'); @endphp
+                                        @foreach($formulariosPorTipoLente as $tipoLente)
+                                            <tr>
+                                                <td><strong>{{ $tipoLente->tipo_lente }}</strong></td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-primary">{{ $tipoLente->cantidad }}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    ${{ number_format($tipoLente->precio_promedio, 2) }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <strong>${{ number_format($tipoLente->total_ventas, 2) }}</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ round(($tipoLente->cantidad / $totalFormularios) * 100, 1) }}%
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <p class="text-muted">No hay datos de formularios para este mes.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
     <div class="container pb-5 pt-3 pt-md-8">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -222,4 +391,19 @@
             this.form.submit();
         });
     </script>
-@endpush
+
+    <style>
+        /* Clase personalizada para dividir 5 tarjetas equitativamente */
+        @media (min-width: 1200px) {
+            .col-xl-2-4 {
+                flex: 0 0 20%;
+                max-width: 20%;
+            }
+        }
+        
+        /* Color púrpura personalizado para la tarjeta de CASHEA */
+        .bg-purple {
+            background-color: #8e44ad !important;
+        }
+    </style>
+@endpush 
