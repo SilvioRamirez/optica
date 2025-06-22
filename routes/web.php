@@ -63,6 +63,7 @@ Route::get('/condiciones-servicio', [IndexController::class, 'condicionesServici
 Route::get('/acerca-de', [IndexController::class, 'acercaDe'])->name('acerca.de');
 Route::get('/politica-eliminacion', [IndexController::class, 'politicaEliminacion'])->name('politica.eliminacion');
 Route::get('/politica-whatsapp', [IndexController::class, 'politicaWhatsapp'])->name('politica.whatsapp');
+Route::get('/facebook', [IndexController::class, 'facebook'])->name('facebook');
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
 
 Route::get('/landing', function () {

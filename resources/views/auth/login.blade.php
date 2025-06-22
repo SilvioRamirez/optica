@@ -1,136 +1,82 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('landing.app.landing')
 
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="manifest" href="favicons/site.webmanifest">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
-
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-<style>
-
-</style>
-</head>
-
-<body>
-    <div id="app">
-            <nav class="navbar navbar-expand-lg bg-light border-light shadow" data-bs-theme="light">
-                <div class="container">
-                        <a class="navbar-brand" href="#">
-                            <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..." width="30" height="30">
-                            <a href="{{ url('/') }}" class="text-reset text-decoration-none">OptiRango</a>
-                        </a>
-                    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse" id="collapseNavbar">
-                        {{-- <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="//codeply.com">Codeply</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#myAlert" data-bs-toggle="collapse">Link</a>
-                            </li>
-                        </ul> --}}
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}"><i class="fa fa-right-to-bracket"></i> Login</a>
-                            </li>
-                        </ul>
+@section('content')
+    <div class="tw-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-my-20">
+        <div class="tw-max-w-2xl tw-mx-auto">
+            <div class="tw-bg-white tw-rounded-3xl tw-shadow-lg tw-border-2 tw-border-dashed tw-border-gray-300">
+                <div class="tw-p-8">
+                    <div class="tw-text-center tw-mb-8">
+                        <img src="{{ asset('storage/img/logo.png') }}" class="tw-h-32 tw-object-contain tw-mx-auto" alt="Logo Optirango">
                     </div>
-                </div>
-            </nav>
 
-        <div class="container mt-4">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card border-light mb-3 mt-4 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <img src="{{ asset('storage/img/logo.png') }}" class="rounded" style="display: inline-block" alt="..." width="250" >
+                    <form method="POST" action="{{ route('login') }}" class="tw-space-y-6">
+                        @csrf
+
+                        <div class="tw-space-y-4">
+                            <div>
+                                <label for="email" class="tw-block tw-text-lg tw-font-medium tw-text-gray-700">{{ __('Correo Electrónico') }}</label>
+                                <div class="tw-mt-1">
+                                    <input 
+                                        id="email" 
+                                        type="email" 
+                                        name="email" 
+                                        value="{{ old('email') }}" 
+                                        required 
+                                        autocomplete="email" 
+                                        autofocus
+                                        class="tw-block tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border-2 tw-border-gray-300 tw-shadow-sm focus:tw-border-blue-500 focus:tw-ring-blue-500 tw-text-lg @error('email') tw-border-red-500 @enderror"
+                                    >
+                                    @error('email')
+                                        <p class="tw-mt-2 tw-text-sm tw-text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
-                            <form method="POST" action="{{ route('login') }}">
-                                @csrf
-        
-                                <div class="row mb-3">
-                                    <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-        
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-        
-                                        @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+
+                            <div>
+                                <label for="password" class="tw-block tw-text-lg tw-font-medium tw-text-gray-700">{{ __('Contraseña') }}</label>
+                                <div class="tw-mt-1">
+                                    <input 
+                                        id="password" 
+                                        type="password" 
+                                        name="password" 
+                                        required 
+                                        autocomplete="current-password"
+                                        class="tw-block tw-w-full tw-px-4 tw-py-3 tw-rounded-xl tw-border-2 tw-border-gray-300 tw-shadow-sm focus:tw-border-blue-500 focus:tw-ring-blue-500 tw-text-lg @error('password') tw-border-red-500 @enderror"
+                                    >
+                                    @error('password')
+                                        <p class="tw-mt-2 tw-text-sm tw-text-red-600">{{ $message }}</p>
+                                    @enderror
                                 </div>
-        
-                                <div class="row mb-3">
-                                    <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-        
-                                    <div class="col-md-6">
-                                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-        
-                                        @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-        
-                                <div class="row mb-3">
-                                    <div class="col-md-6 offset-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-        
-                                            <label class="form-check-label" for="remember">
-                                                {{ __('Remember Me') }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-        
-                                <div class="row mb-0">
-                                    <div class="col-md-8 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-right-to-bracket"></i> {{ __('Login') }}
-                                        </button>
-        
-                                        @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                {{ __('Forgot Your Password?') }}
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
+
+                            <div class="tw-flex tw-items-center mb-4">
+                                <input 
+                                    type="checkbox" 
+                                    name="remember" 
+                                    id="remember" 
+                                    {{ old('remember') ? 'checked' : '' }}
+                                    class="tw-h-5 tw-w-5 tw-rounded tw-border-gray-300 tw-text-blue-600 focus:tw-ring-blue-500 "
+                                >
+                                <label for="remember" class="tw-ml-2 tw-block tw-text-lg tw-text-gray-700">
+                                    {{ __('Recordarme') }}
+                                </label>
+                            </div>
                         </div>
-                    </div>
+
+                        <div class="tw-flex tw-flex-col sm:tw-flex-row tw-items-center tw-justify-between tw-gap-4">
+                            <button type="submit" class="tw-inline-flex tw-items-center tw-px-8 tw-py-4 tw-bg-blue-600 tw-text-white tw-text-lg tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200 tw-w-full sm:tw-w-auto tw-justify-center">
+                                <i class="fa fa-right-to-bracket tw-mr-3"></i>{{ __('Iniciar Sesión') }}
+                            </button>
+
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" class="tw-text-blue-600 hover:tw-text-blue-700 tw-text-lg tw-no-underline">
+                                    {{ __('¿Olvidaste tu contraseña?') }}
+                                </a>
+                            @endif
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-<script>
-
-</script>
-</body>
-</html>
+@endsection

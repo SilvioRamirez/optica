@@ -11,7 +11,7 @@
     </ul>
 </nav> --}}
 
-<div class="container-fluid">
+{{-- <div class="container-fluid">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top p-4 mb-0 d-none d-md-flex d-lg-flex d-xl-flex d-sm-none d-xs-none">
         <p class="col-md-4 mb-0 text-body-secondary"><i class="fa fa-copyright"></i> {{ $configuracion->copyright }} {{ $configuracion->nombre_organizacion }}</p>
 			<a class="navbar-brand" href="#">
@@ -28,5 +28,19 @@
 			<li class="nav-item"><a target="_blank" rel="noopener noreferrer" href="https://wa.link/cdtl37" class="nav-link px-2 text-body-secondary" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
         </ul>
 		
+    </footer> --}}
+
+    <!-- Footer -->
+    <footer class="bg-secondary-color tw-text-white tw-py-8 tw-px-4 sm:tw-px-6 lg:tw-px-8">
+        <div class="tw-container tw-mx-auto tw-text-center md:tw-flex md:tw-justify-between md:tw-items-center">
+            <div class="tw-mb-4 md:tw-mb-0">
+                <p>&copy; 2025 Ópti Rango. Todos los derechos reservados.</p>
+            </div>
+            <div class="tw-flex tw-justify-center tw-space-x-6">
+                <a href="https://www.facebook.com/profile.php?id=61551175972400" class="tw-text-white hover:tw-text-teal-700 tw-transition tw-duration-300 tw-no-underline"><i class="fab fa-facebook-f tw-text-xl"></i></a>
+                <a href="https://www.instagram.com/opti_rango/" class="tw-text-white hover:tw-text-teal-700 tw-transition tw-duration-300 tw-no-underline"><i class="fab fa-instagram tw-text-xl"></i></a>
+                <a href="https://wa.me/584120883674" class="tw-text-white hover:tw-text-teal-700 tw-transition tw-duration-300 tw-no-underline"><i class="fab fa-whatsapp tw-text-xl"></i></a>
+            </div>
+        </div>
     </footer>
-</div>
+

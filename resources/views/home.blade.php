@@ -9,7 +9,7 @@
                 <div class="row align-items-center mb-4">
                     <div class="col-md-6">
                         <h2 class="mb-0 text-gray-800">Estadísticas <strong>{{ $mesActualNombre }}</strong></h2>
-                    </div>
+                    </div> 
                     <div class="col-md-6">
                         <form method="GET" action="/home" class="text-right">
                             <div class="form-group mb-0">
@@ -336,11 +336,10 @@
         </div>
     </div>
 
-    <!-- Nueva fila: Operativo más activo y Gráfico de Géneros -->
+    <!-- Operativo más activo -->
     <div class="container pb-5 pt-3">
-        <div class="row">
-            <!-- Operativo más activo -->
-            <div class="col-xl-6 col-lg-12 mb-4">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-8 mb-4">
                 <div class="card card-stats shadow">
                     <div class="card-body">
                         <div class="row">
@@ -364,16 +363,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gráfico de Géneros -->
-            <div class="col-xl-6 col-lg-12 mb-4">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="text-center mb-4">{{ $chartGenero->options['chart_title'] }}</h5>
-                        {!! $chartGenero->renderHtml() !!}
                     </div>
                 </div>
             </div>
@@ -499,8 +488,7 @@
     {!! $chart4->renderChartJsLibrary() !!}
     {!! $chart4->renderJs() !!}
 
-    {!! $chartGenero->renderChartJsLibrary() !!}
-    {!! $chartGenero->renderJs() !!}
+
 
     <script type="text/javascript">
         // Cambiar el mes automáticamente al seleccionar

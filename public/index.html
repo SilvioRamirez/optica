@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ópti Rango - Tu Visión, Nuestra Prioridad</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8; /* Light grey background */
+        }
+        .text-primary-color {
+            color: #00a89d; /* Teal/Turquoise from logo */
+        }
+        .bg-primary-color {
+            background-color: #00a89d; /* Teal/Turquoise from logo */
+        }
+        .border-primary-color {
+            border-color: #00a89d; /* Teal/Turquoise from logo */
+        }
+        .text-secondary-color {
+            color: #333333; /* Dark grey/black from logo */
+        }
+        .bg-secondary-color {
+            background-color: #333333; /* Dark grey/black from logo */
+        }
+        .focus-outline-primary:focus {
+            outline-color: #00a89d;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Ensure responsiveness for hero image and general layout */
+        @media (max-width: 768px) {
+            .hero-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content, .hero-image {
+                width: 100%;
+            }
+            .hero-image img {
+                max-width: 80%; /* Smaller image on mobile */
+                margin: 0 auto;
+            }
+            .product-grid {
+                grid-template-columns: 1fr; /* Single column on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4 px-4 sm:px-6 lg:px-8">
+        <nav class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2">
+                <!-- SVG Logo based on user's image colors -->
+                <svg width="40" height="40" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="250" cy="250" r="230" fill="#00a89d"/>
+                    <circle cx="250" cy="250" r="150" fill="#333333"/>
+                    <circle cx="350" cy="150" r="40" fill="#ffffff"/>
+                    <path d="M150 350 C100 300, 100 200, 150 150 L200 100 C250 50, 350 50, 400 100 L450 150 C400 200, 400 300, 450 350 L400 400 C350 450, 250 450, 200 400 L150 350 Z" fill="#333333"/>
+                    <path d="M180 320 C140 280, 140 220, 180 180 L220 140 C260 100, 320 100, 360 140 L320 180 C280 220, 280 280, 320 320 L280 360 C240 400, 180 400, 140 360 L180 320 Z" fill="#00a89d"/>
+                </svg>
+                <span class="text-2xl font-bold text-secondary-color">ÓPTI RANGO</span>
+            </div>
+            <!-- Navigation Links (Hidden on small screens, shown with hamburger) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#" class="text-secondary-color hover:text-primary-color font-medium transition duration-300 rounded-md py-1 px-3">Home</a>
+                <a href="#" class="text-secondary-color hover:text-primary-color font-medium transition duration-300 rounded-md py-1 px-3">Lentes</a>
+                <a href="#" class="text-secondary-color hover:text-primary-color font-medium transition duration-300 rounded-md py-1 px-3">Exámenes</a>
+                <a href="#" class="text-secondary-color hover:text-primary-color font-medium transition duration-300 rounded-md py-1 px-3">Nosotros</a>
+                <a href="#" class="text-secondary-color hover:text-primary-color font-medium transition duration-300 rounded-md py-1 px-3">Contacto</a>
+            </div>
+            <!-- Hamburger Menu for Mobile -->
+            <div class="md:hidden">
+                <button id="menu-button" class="text-secondary-color focus:outline-none focus-outline-primary">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white mt-4 rounded-b-lg shadow-lg">
+            <a href="#" class="block py-3 px-6 text-secondary-color hover:bg-gray-100 hover:text-primary-color font-medium transition duration-300">Home</a>
+            <a href="#" class="block py-3 px-6 text-secondary-color hover:bg-gray-100 hover:text-primary-color font-medium transition duration-300">Lentes</a>
+            <a href="#" class="block py-3 px-6 text-secondary-color hover:bg-gray-100 hover:text-primary-color font-medium transition duration-300">Exámenes</a>
+            <a href="#" class="block py-3 px-6 text-secondary-color hover:bg-gray-100 hover:text-primary-color font-medium transition duration-300">Nosotros</a>
+            <a href="#" class="block py-3 px-6 text-secondary-color hover:bg-gray-100 hover:text-primary-color font-medium transition duration-300">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section bg-gradient-to-r from-primary-color to-teal-500 py-16 px-4 sm:px-6 lg:px-8 text-white flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12 rounded-b-xl">
+            <div class="hero-content w-full md:w-1/2 text-center md:text-left">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 animate-fade-in-up">
+                    <span class="block">La Claridad Que Tus Ojos Merecen</span>
+                </h1>
+                <p class="text-lg sm:text-xl mb-8 opacity-90 animate-fade-in-up delay-200">
+                    Descubre una nueva perspectiva con nuestra amplia gama de lentes y servicios ópticos de alta calidad.
+                </p>
+                <a href="#" class="inline-block bg-white text-primary-color px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105 shadow-lg animate-fade-in-up delay-400">
+                    Explora Nuestros Lentes
+                </a>
+            </div>
+            <div class="hero-image w-full md:w-1/2 flex justify-center items-center">
+                <img src="https://placehold.co/600x400/00a89d/ffffff?text=Lentes+Modernos" alt="Lentes Modernos" class="rounded-xl shadow-2xl max-w-full h-auto transform transition-transform duration-500 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/00a89d/ffffff?text=Imagen+No+Disponible';">
+            </div>
+        </section>
+
+        <!-- Product Categories/Features Section -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-extrabold text-center text-secondary-color mb-12">Nuestros Productos Destacados</h2>
+                <div class="product-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Product Card 1 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <i class="fas fa-glasses text-primary-color text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold text-secondary-color mb-3">Lentes Oftálmicos</h3>
+                        <p class="text-gray-600 mb-4">Amplia variedad de armazones y micas personalizadas para tu visión.</p>
+                        <a href="#" class="text-primary-color font-semibold hover:underline">Ver Más <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <!-- Product Card 2 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <i class="fas fa-sunglasses text-primary-color text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold text-secondary-color mb-3">Lentes de Sol</h3>
+                        <p class="text-gray-600 mb-4">Protege tus ojos con estilo con nuestra colección de lentes de sol.</p>
+                        <a href="#" class="text-primary-color font-semibold hover:underline">Ver Más <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                    <!-- Product Card 3 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 text-center transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <i class="fas fa-eye text-primary-color text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold text-secondary-color mb-3">Exámenes de la Vista</h3>
+                        <p class="text-gray-600 mb-4">Diagnósticos precisos para asegurar la salud de tus ojos.</p>
+                        <a href="#" class="text-primary-color font-semibold hover:underline">Agendar Cita <i class="fas fa-arrow-right ml-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+            <div class="container mx-auto flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-12">
+                <div class="md:w-1/2">
+                    <img src="https://placehold.co/600x400/333333/ffffff?text=Equipo+Ópti+Rango" alt="Equipo Ópti Rango" class="rounded-xl shadow-lg max-w-full h-auto transform transition-transform duration-500 hover:scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/ffffff?text=Imagen+No+Disponible';">
+                </div>
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h2 class="text-4xl font-extrabold text-secondary-color mb-6">Sobre Nosotros</h2>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        En Ópti Rango, nos dedicamos a ofrecer soluciones visuales de la más alta calidad. Con años de experiencia y un equipo de profesionales comprometidos, garantizamos una atención personalizada y productos que se adaptan a tus necesidades y estilo de vida.
+                    </p>
+                    <a href="#" class="inline-block bg-primary-color text-white px-6 py-3 rounded-full font-bold hover:bg-teal-700 transition duration-300 transform hover:scale-105 shadow-md">
+                        Conoce Más
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-100">
+            <div class="container mx-auto">
+                <h2 class="text-4xl font-extrabold text-center text-secondary-color mb-12">Lo Que Dicen Nuestros Clientes</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <p class="text-gray-700 italic mb-4">"¡Increíble servicio y atención! Mis nuevos lentes son perfectos. Recomiendo Ópti Rango al 100%."</p>
+                        <p class="font-semibold text-secondary-color">- Ana R. (Cliente Satisfecha)</p>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 transform transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                        <p class="text-gray-700 italic mb-4">"El examen de la vista fue muy completo y el personal muy amable. Encontré el armazón ideal."</p>
+                        <p class="font-semibold text-secondary-color">- Carlos M. (Cliente Regular)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="py-16 px-4 sm:px-6 lg:px-8 bg-primary-color text-white rounded-t-xl">
+            <div class="container mx-auto text-center">
+                <h2 class="text-4xl font-extrabold mb-6">Contáctanos</h2>
+                <p class="text-lg opacity-90 mb-8">¿Listo para mejorar tu visión? Envíanos un mensaje o visítanos.</p>
+                <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-xl">
+                    <form class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-secondary-color text-left font-medium mb-2">Nombre Completo</label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary-color focus-outline-primary text-secondary-color" placeholder="Tu nombre">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-secondary-color text-left font-medium mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary-color focus-outline-primary text-secondary-color" placeholder="tu.email@ejemplo.com">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-secondary-color text-left font-medium mb-2">Tu Mensaje</label>
+                            <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary-color focus-outline-primary text-secondary-color" placeholder="Escribe tu mensaje aquí..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary-color text-white px-6 py-3 rounded-full font-bold text-lg hover:bg-teal-700 transition duration-300 transform hover:scale-105 shadow-md">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+                <p class="mt-8 text-lg opacity-90">
+                    O llámanos al: <span class="font-bold">+58 212-XXX-XXXX</span>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary-color text-white py-8 px-4 sm:px-6 lg:px-8 rounded-t-xl">
+        <div class="container mx-auto text-center md:flex md:justify-between md:items-center">
+            <div class="mb-4 md:mb-0">
+                <p>&copy; 2024 Ópti Rango. Todos los derechos reservados.</p>
+            </div>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="text-white hover:text-primary-color transition duration-300"><i class="fab fa-facebook-f text-xl"></i></a>
+                <a href="#" class="text-white hover:text-primary-color transition duration-300"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#" class="text-white hover:text-primary-color transition duration-300"><i class="fab fa-twitter text-xl"></i></a>
+                <a href="#" class="text-white hover:text-primary-color transition duration-300"><i class="fab fa-linkedin-in text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for mobile menu toggle
+        document.getElementById('menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Simple scroll animation for hero section elements (optional, can be expanded)
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroContent = document.querySelector('.hero-content');
+            const heroImage = document.querySelector('.hero-image');
+
+            if (heroContent) {
+                heroContent.style.opacity = 0;
+                heroContent.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    heroContent.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                    heroContent.style.opacity = 1;
+                    heroContent.style.transform = 'translateY(0)';
+                }, 100);
+            }
+
+            if (heroImage) {
+                heroImage.style.opacity = 0;
+                heroImage.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    heroImage.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                    heroImage.style.opacity = 1;
+                    heroImage.style.transform = 'translateY(0)';
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html> 

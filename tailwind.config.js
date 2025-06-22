@@ -8,7 +8,7 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/components/**/*.vue',
     ],
-
+    prefix: 'tw-',
     theme: {
         extend: {
             fontFamily: {

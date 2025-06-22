@@ -1,12 +1,11 @@
-<nav class="navbar navbar-expand-lg bg-light border-light shadow" data-bs-theme="light">
+{{-- <nav class="navbar navbar-expand-lg bg-light border-light shadow" data-bs-theme="light">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..."
-                width="30" height="30">
+            <img src="{{ asset('storage/img/logo_h.png') }}" class="d-inline-block align-text-top" alt="..." width="30"
+                height="30">
             <a href="{{ url('/') }}" class="text-reset text-decoration-none">OptiRango</a>
         </a>
-        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseNavbar">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse" id="collapseNavbar">
@@ -16,12 +15,12 @@
                     <a class="nav-link" href="{{ route('consulta') }}"><i class="fa-solid fa-magnifying-glass"></i>
                         Consulta Web</a>
                 </li>
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="#">Codeply</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#myAlert" data-bs-toggle="collapse">Link</a>
-                </li> --}}
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
@@ -30,4 +29,64 @@
             </ul>
         </div>
     </div>
-</nav>
+</nav> --}}
+
+
+<!-- Header -->
+<header class="tw-bg-white tw-shadow-md tw-py-4 tw-px-4 sm:tw-px-6 lg:tw-px-8">
+    <nav class="tw-container tw-mx-auto tw-flex tw-justify-between tw-items-center">
+        <!-- Logo -->
+        <div class="tw-flex tw-items-center tw-space-x-2">
+            <!-- SVG Logo based on user's image colors -->
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('storage/img/logo_h.png') }}" class="" alt="..." width="30" height="30">
+
+            </a>
+            <span class="tw-text-xl tw-font-bold tw-text-gray-700">ÓPTI RANGO</span>
+        </div>
+        <!-- Navigation Links (Hidden on small screens, shown with hamburger) -->
+        <div class="tw-hidden md:tw-flex tw-space-x-6">
+            <a href="{{ url('/') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-text-pretty tw-no-underline">
+                Inicio</a>
+            <a href="{{ route('consulta') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Consulta
+                Web</a>
+            <a href="{{ route('politica.privacidad') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Política
+                de Privacidad</a>
+            <a href="{{ route('condiciones.servicio') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Condiciones
+                de Servicio</a>
+            <a href="{{ route('acerca.de') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Acerca
+                de</a>
+            <a href="{{ route('login') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Login</a>
+        </div>
+        <!-- Hamburger Menu for Mobile -->
+        <div class="md:tw-hidden">
+            <button id="menu-button" class="text-secondary-color focus:tw-outline-none focus-outline-primary">
+                <i class="fas fa-bars tw-text-2xl"></i>
+            </button>
+        </div>
+    </nav>
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu" class="tw-hidden md:tw-hidden tw-bg-white tw-mt-4 tw-rounded-b-lg tw-shadow-lg">
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Inicio</a>
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Política
+            de Privacidad</a>
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Condiciones
+            de Servicio</a>
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Acerca
+            de</a>
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Contacto</a>
+        <a href="#"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Login</a>
+    </div>
+</header>

@@ -1,362 +1,128 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('landing.app.landing')
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+@section('content')
+    <div class="tw-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-my-20">
+        <div class="tw-max-w-3xl tw-mx-auto">
+            <div class="tw-bg-white tw-rounded-3xl tw-shadow-lg tw-border-2 tw-border-dashed tw-border-gray-300">
+                <div class="tw-p-8">
+                    <div class="tw-text-center">
+                        <div class="tw-mb-8">
+                            <img src="{{ asset('storage/img/logo.png') }}" class="tw-h-32 tw-object-contain tw-mx-auto" alt="Logo Optirango">
+                        </div>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+                        <div class="tw-text-gray-600 tw-mb-8">
+                            <p class="tw-text-lg">{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital'}}</p>
+                            <p class="tw-text-lg">{{ 'Telefonos: 0412-088.36.74 / 0412-642.67.97 / 0424-640.67.97 ' }}</p>
+                        </div>
 
-    <!-- Fonts -->
-    {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
+                        <div class="tw-flex tw-justify-center tw-gap-4 tw-mb-8">
+                            <a href="https://www.instagram.com/opti_rango/" target="_blank" rel="noopener noreferrer" 
+                               class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200">
+                                <i class="fa-brands fa-instagram tw-mr-2"></i> Instagram
+                            </a>
+                            <a href="https://www.facebook.com/profile.php?id=61551175972400" target="_blank" rel="noopener noreferrer"
+                               class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200">
+                                <i class="fa-brands fa-facebook tw-mr-2"></i> Facebook
+                            </a>
+                            <a href="https://wa.link/cdtl37" target="_blank" rel="noopener noreferrer"
+                               class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200">
+                                <i class="fa-brands fa-whatsapp tw-mr-2"></i> WhatsApp
+                            </a>
+                        </div>
 
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-
-<style>
-
-{ 
-    margin: 0; 
-    padding: 0
-} 
-
-html { 
-    height: 100%
-} 
-
-h2{ 
-    color: #0da5b4; 
-} 
-#form { 
-    text-align: center; 
-    position: relative; 
-    margin-top: 20px
-} 
-
-#form fieldset { 
-    background: white; 
-    border: 0 none; 
-    border-radius: 0.5rem; 
-    box-sizing: border-box; 
-    width: 100%; 
-    margin: 0; 
-    padding-bottom: 20px; 
-    position: relative
-} 
-
-.finish { 
-    text-align: center
-} 
-
-#form fieldset:not(:first-of-type) { 
-    display: none
-} 
-
-#form .previous-step, .next-step { 
-    width: 100px; 
-    font-weight: bold; 
-    color: white; 
-    border: 0 none; 
-    border-radius: 0px; 
-    cursor: pointer; 
-    padding: 10px 5px; 
-    margin: 10px 5px 10px 0px; 
-    float: right
-} 
-
-.form, .previous-step { 
-    background: #616161; 
-} 
-
-.form, .next-step { 
-    background: #0da5b4; 
-} 
-
-#form .previous-step:hover, 
-#form .previous-step:focus { 
-    background-color: #000000
-} 
-
-#form .next-step:hover, 
-#form .next-step:focus { 
-    background-color: #0da5b4
-} 
-
-.text { 
-    color: #0da5b4; 
-    font-weight: normal
-} 
-
-#progressbar { 
-    margin-bottom: 30px; 
-    overflow: hidden; 
-    color: lightgrey 
-} 
-
-#progressbar .active { 
-    color: #0da5b4
-} 
-
-#progressbar li { 
-    list-style-type: none; 
-    font-size: 15px; 
-    width: 25%; 
-    float: left; 
-    position: relative; 
-    font-weight: 400
-} 
-
-#progressbar #step1:before { 
-    content: "1"
-} 
-
-#progressbar #step2:before { 
-    content: "2"
-} 
-
-#progressbar #step3:before { 
-    content: "3"
-} 
-
-#progressbar #step4:before { 
-    content: "4"
-} 
-
-#progressbar li:before { 
-    width: 50px; 
-    height: 50px; 
-    line-height: 45px; 
-    display: block; 
-    font-size: 20px; 
-    color: #ffffff; 
-    background: lightgray; 
-    border-radius: 50%; 
-    margin: 0 auto 10px auto; 
-    padding: 2px
-} 
-
-#progressbar li:after { 
-    content: ''; 
-    width: 100%; 
-    height: 2px; 
-    background: lightgray; 
-    position: absolute; 
-    left: 0; 
-    top: 25px; 
-    z-index: -1
-} 
-
-#progressbar li.active:before, 
-#progressbar li.active:after { 
-    background: #0da5b4
-} 
-
-.progress { 
-    height: 20px
-} 
-
-.progress-bar { 
-    background-color: #0da5b4
-}
-
-
-</style>
-</head>
-
-<body>
-
-
-
-        <div id="app">
-            {{-- <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
-                    <div class="px-0 pt-4 pb-0 mt-3 mb-3">
-
-                        <form id="form">
-                            <ul id="progressbar">
-                                <li class="active" id="step1">
-                                    <strong>Step 1</strong>
-                                </li>
-                                <li id="step2"><strong>Step 2</strong></li>
-                                <li id="step3"><strong>Step 3</strong></li>
-                                <li id="step4"><strong>Step 4</strong></li>
-                            </ul>
-
-                            <div class="progress">
-                                <div class="progress-bar"></div>
-                            </div> <br>
-
-                            
-                            <fieldset>
-                                <h2>Welcome To GFG Step 1</h2>
-                                <input type="button" name="next-step"
-                                    class="next-step" value="Next Step" />
-                            </fieldset> 
-                            <fieldset> 
-                                <h2>Welcome To GFG Step 2</h2>
-                                <input type="button" name="next-step"
-                                    class="next-step" value="Next Step" />
-                                <input type="button" name="previous-step"
-                                    class="previous-step"
-                                    value="Previous Step" />
-                            </fieldset>
-                            <fieldset>
-                                <h2>Welcome To GFG Step 3</h2>
-                                <input type="button" name="next-step"
-                                    class="next-step" value="Final Step" />
-                                <input type="button" name="previous-step"
-                                    class="previous-step"
-                                    value="Previous Step" />
-                            </fieldset>
-                            <fieldset>
-                                <div class="finish">
-                                    <h2 class="text text-center">
-                                        <strong>FINISHED</strong>
-                                    </h2>
-                                </div>
-                                <input type="button" name="previous-step"
-                                    class="previous-step"
-                                    value="Previous Step" />
-                            </fieldset>
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-            </div> --}}
-
-            <div class="container mt-4">
-                <div class="row justify-content-center">
-                    <div class="col-md-6">
-                        <div class="card border-light mb-3 mt-4 shadow">
-                            <div class="card-body">
-                                <div class="text-center mb-4">
-                                    <div class="text-center mb-4">
-                                        <img src="{{ asset('storage/img/logo.png') }}" class="rounded" style="display: inline-block" alt="..." width="300" >
-                                    </div>
-                                    <p class="mt-2">{{ 'Av. Urdaneta Esq Pelota Edif Profesional Urdaneta Piso 7 Of D Urb Catedral Caracas Distrito Capital'}} <br>{{'Telefonos: 0412-088.36.74 / 0412-642.67.97 / 0424-640.67.97 ' }}</p>
-                                    <a class="btn btn-primary" href="https://www.instagram.com/opti_rango/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i> Instagram</a>
-                                    <a class="btn btn-primary" href="https://www.facebook.com/profile.php?id=61551175972400" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook"></i> Facebook</a>
-                                    <a class="btn btn-primary" href="https://wa.link/cdtl37" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-                                    @foreach($orden as $item)
-                                        <hr>
-                                        <h3>Información de la Orden Nro. <strong>{{ $item->numero_orden }}</strong></h3>
-                                        <h3>Estatus: <strong>{{ $item->estatus }}</strong></h3>
-                                        <p>Paciente: <strong>{{ $item->paciente }}</strong>
-                                        <br>Cedula: <strong>{{ $item->cedula }}</strong>
-                                        <br>Edad: <strong>{{ $item->edad }}</strong>
-                                        <br>Teléfono: <strong>{{ $item->telefono }}</strong>
-                                        <br>Fecha de Registro: <strong>{{ $item->fecha }}</strong>
-                                        <br>Días pasados desde el Registro: <strong>{{ \Carbon\Carbon::parse($item->fecha)->diffInDays(now(), 2) }}</strong>
-                                        <br>Fecha de Próxima Cita Gratuita: <strong>{{ $item->fecha_proxima_cita }}</strong>
-                                        <br>Dirección / Operativo: <strong>{{ $item->operativo->nombre_operativo }}</strong>
-                                        <br>Tipo de Lente: <strong>{{ $item->tipoLente->tipo_lente }}</strong>
-                                        @if($item->tipoTratamiento)
-                                            <br>Tipo de Tratamiento: <strong>{{ $item->tipoTratamiento->tipo_tratamiento }}</strong>
-                                        @endif
-                                        <br>Especialista: <strong>{{ $item->especialistaLente->nombre }}</strong>
-                                        <br>Monto Total: <strong>{{ $item->total }}</strong>
-                                        <br>Saldo Deudor: <strong>{{ $item->saldo }}</strong>
-                                        <br>Porcentaje Pagado: <strong>{{ $item->porcentaje_pago }}</strong>
-                                        </p>
-
-                                        <div class="alert alert-dismissible alert-info" bis_skin_checked="1">
-                                            <p class="text-center">Si deseas realizar un <strong>ABONO</strong> presiona este Link para comunicarte con nosotros <i class="fa fa-arrow-down"></i></p>
-                                            <a class="btn btn-lg btn-primary" href="https://wa.link/s5jouq" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+                        @if($orden->isEmpty())
+                            <div class="tw-border-t-2 tw-border-dashed tw-border-gray-200 tw-pt-8 tw-mt-8">
+                                <div class="tw-bg-yellow-50 tw-border-l-4 tw-border-yellow-400 tw-p-6 tw-rounded-lg tw-mb-8">
+                                    <div class="tw-flex tw-gap-4">
+                                        <div class="tw-flex-shrink-0">
+                                            <i class="fa fa-info-circle tw-text-2xl tw-text-yellow-600"></i>
                                         </div>
-
-                                        <p class="text-center lead">¡Gracias por confiar su salud visual en nosotros! <span style="color: Green"><i class="fa fa-heart"></i></span></p>
-
-
-
-                                    @endforeach
-                                    <hr>
-                                    <a href="{{ url('/') }}" class="btn btn-success btn-sm"><i class="fa fa-home"></i> Inicio</a>
+                                        <div class="tw-flex tw-flex-col tw-gap-2">
+                                            <p class="tw-text-lg tw-font-semibold tw-text-gray-900">No se encontraron resultados</p>
+                                            <p class="tw-text-gray-600">La cédula ingresada no se encuentra registrada en nuestro sistema. Si crees que esto es un error, por favor comunícate con nosotros.</p>
+                                        </div>
+                                    </div>
                                 </div>
 
+                                <div class="tw-flex tw-justify-center tw-gap-4">
+                                    <a href="{{ url('/consulta-web') }}" class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200">
+                                        <i class="fa fa-search tw-mr-2"></i> Nueva Consulta
+                                    </a>
+                                    <a href="https://wa.link/cdtl37" target="_blank" rel="noopener noreferrer" class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-green-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-green-700 tw-transition-colors tw-duration-200">
+                                        <i class="fa-brands fa-whatsapp tw-mr-2"></i> Contáctanos
+                                    </a>
+                                </div>
                             </div>
+                        @endif
+
+                        @foreach($orden as $item)
+                            <div class="tw-border-t-2 tw-border-dashed tw-border-gray-200 tw-pt-8 tw-mt-8">
+                                <div class="tw-mb-8">
+                                    <h3 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-2">Orden Nro. <span class="tw-text-blue-600">{{ $item->numero_orden }}</span></h3>
+                                    <h3 class="tw-text-xl tw-font-semibold tw-text-gray-900">Estatus: <span class="tw-text-blue-600">{{ $item->estatus }}</span></h3>
+                                </div>
+
+                                <div class="tw-bg-gray-50 tw-rounded-2xl tw-p-6 tw-mb-8">
+                                    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-6 tw-text-left">
+                                        <div class="tw-space-y-3">
+                                            <p class="tw-text-gray-600">Paciente: <span class="tw-font-semibold tw-text-gray-900">{{ $item->paciente }}</span></p>
+                                            <p class="tw-text-gray-600">Cedula: <span class="tw-font-semibold tw-text-gray-900">{{ $item->cedula }}</span></p>
+                                            <p class="tw-text-gray-600">Edad: <span class="tw-font-semibold tw-text-gray-900">{{ $item->edad }}</span></p>
+                                            <p class="tw-text-gray-600">Teléfono: <span class="tw-font-semibold tw-text-gray-900">{{ $item->telefono }}</span></p>
+                                            <p class="tw-text-gray-600">Fecha de Registro: <span class="tw-font-semibold tw-text-gray-900">{{ $item->fecha }}</span></p>
+                                            <p class="tw-text-gray-600">Días desde Registro: <span class="tw-font-semibold tw-text-gray-900">{{ \Carbon\Carbon::parse($item->fecha)->diffInDays(now(), 2) }}</span></p>
+                                        </div>
+                                        <div class="tw-space-y-3">
+                                            <p class="tw-text-gray-600">Próxima Cita Gratuita: <span class="tw-font-semibold tw-text-gray-900">{{ $item->fecha_proxima_cita }}</span></p>
+                                            <p class="tw-text-gray-600">Dirección / Operativo: <span class="tw-font-semibold tw-text-gray-900">{{ $item->operativo->nombre_operativo }}</span></p>
+                                            <p class="tw-text-gray-600">Tipo de Lente: <span class="tw-font-semibold tw-text-gray-900">{{ $item->tipoLente->tipo_lente }}</span></p>
+                                            @if($item->tipoTratamiento)
+                                                <p class="tw-text-gray-600">Tipo de Tratamiento: <span class="tw-font-semibold tw-text-gray-900">{{ $item->tipoTratamiento->tipo_tratamiento }}</span></p>
+                                            @endif
+                                            <p class="tw-text-gray-600">Especialista: <span class="tw-font-semibold tw-text-gray-900">{{ $item->especialistaLente->nombre }}</span></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="tw-mt-6 tw-pt-6 tw-border-t tw-border-gray-200">
+                                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-4">
+                                            <div class="tw-text-center tw-p-4 tw-bg-white tw-rounded-xl tw-shadow-sm">
+                                                <p class="tw-text-gray-600">Monto Total</p>
+                                                <p class="tw-text-xl tw-font-bold tw-text-blue-600">{{ $item->total }}</p>
+                                            </div>
+                                            <div class="tw-text-center tw-p-4 tw-bg-white tw-rounded-xl tw-shadow-sm">
+                                                <p class="tw-text-gray-600">Saldo Deudor</p>
+                                                <p class="tw-text-xl tw-font-bold tw-text-blue-600">{{ $item->saldo }}</p>
+                                            </div>
+                                            <div class="tw-text-center tw-p-4 tw-bg-white tw-rounded-xl tw-shadow-sm">
+                                                <p class="tw-text-gray-600">Porcentaje Pagado</p>
+                                                <p class="tw-text-xl tw-font-bold tw-text-blue-600">{{ $item->porcentaje_pago }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tw-bg-blue-50 tw-border-l-4 tw-border-blue-400 tw-p-6 tw-rounded-lg tw-mb-8">
+                                    <div class="tw-text-center">
+                                        <p class="tw-text-gray-600 tw-mb-4">Si deseas realizar un <strong class="tw-font-semibold">ABONO</strong> presiona este Link para comunicarte con nosotros</p>
+                                        <a class="tw-inline-flex tw-no-underline tw-items-center tw-px-8 tw-py-4 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-text-lg tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200" 
+                                           href="https://wa.link/s5jouq" target="_blank" rel="noopener noreferrer">
+                                            <i class="fa-brands fa-whatsapp tw-mr-3"></i> WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <p class="tw-text-xl tw-text-gray-600">¡Gracias por confiar su salud visual en nosotros! <span class="tw-text-green-500"><i class="fa fa-heart"></i></span></p>
+                            </div>
+                        @endforeach
+
+                        <div class="tw-mt-8 tw-pt-8 tw-border-t-2 tw-border-dashed tw-border-gray-200">
+                            <a href="{{ url('/') }}" class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-green-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-green-700 tw-transition-colors tw-duration-200">
+                                <i class="fa fa-home tw-mr-2"></i> Inicio
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    
-<script type="module">
-
-
-$(document).ready(function () { 
-    var currentGfgStep, nextGfgStep, previousGfgStep; 
-    var opacity; 
-    var current = 1; 
-    var steps = $("fieldset").length; 
-  
-    setProgressBar(current); 
-  
-    $(".next-step").click(function () { 
-  
-        currentGfgStep = $(this).parent(); 
-        nextGfgStep = $(this).parent().next(); 
-  
-        $("#progressbar li").eq($("fieldset") 
-            .index(nextGfgStep)).addClass("active"); 
-  
-        nextGfgStep.show(); 
-        currentGfgStep.animate({ opacity: 0 }, { 
-            step: function (now) { 
-                opacity = 1 - now; 
-  
-                currentGfgStep.css({ 
-                    'display': 'none', 
-                    'position': 'relative'
-                }); 
-                nextGfgStep.css({ 'opacity': opacity }); 
-            }, 
-            duration: 500 
-        }); 
-        setProgressBar(++current); 
-    }); 
-  
-    $(".previous-step").click(function () { 
-  
-        currentGfgStep = $(this).parent(); 
-        previousGfgStep = $(this).parent().prev(); 
-  
-        $("#progressbar li").eq($("fieldset") 
-            .index(currentGfgStep)).removeClass("active"); 
-  
-        previousGfgStep.show(); 
-  
-        currentGfgStep.animate({ opacity: 0 }, { 
-            step: function (now) { 
-                opacity = 1 - now; 
-  
-                currentGfgStep.css({ 
-                    'display': 'none', 
-                    'position': 'relative'
-                }); 
-                previousGfgStep.css({ 'opacity': opacity }); 
-            }, 
-            duration: 500 
-        }); 
-        setProgressBar(--current); 
-    }); 
-  
-    function setProgressBar(currentStep) { 
-        var percent = parseFloat(100 / steps) * current; 
-        percent = percent.toFixed(); 
-        $(".progress-bar") 
-            .css("width", percent + "%") 
-    } 
-  
-    $(".submit").click(function () { 
-        return false; 
-    }) 
-}); 
-
-</script>
-</body>
-</html>
+    </div>
+@endsection
