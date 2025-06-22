@@ -69,5 +69,17 @@
     </div>
 @endsection
 
+
+
 @push('scripts')
+    <script type="module">
+        IMask(document.getElementById('cedula'), {
+            mask: '{v}00000000-00000',
+            prepareChar: str => str.toUpperCase(),
+            definitions: {
+                'v': /[V,J,G,E,P]/
+            }
+        })
+    </script>
+
 @endpush
