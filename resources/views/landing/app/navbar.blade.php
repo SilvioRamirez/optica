@@ -73,20 +73,20 @@
     </nav>
     <!-- Mobile Menu (Hidden by default) -->
     <div id="mobile-menu" class="tw-hidden md:tw-hidden tw-bg-white tw-mt-4 tw-rounded-b-lg tw-shadow-lg">
-        <a href="#"
+        <a href="{{ url('/') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Inicio</a>
-        <a href="#"
+        <a href="{{ route('consulta') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Política
             de Privacidad</a>
-        <a href="#"
+        <a href="{{ route('politica.privacidad') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Condiciones
             de Servicio</a>
-        <a href="#"
+        <a href="{{ route('condiciones.servicio') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Acerca
             de</a>
-        <a href="#"
+        <a href="{{ route('acerca.de') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Contacto</a>
-        <a href="#"
+        <a href="{{ route('login') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Login</a>
     </div>
 </header>
