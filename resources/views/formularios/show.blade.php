@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
 @section('title', 'Ver Formulario')
 
 @section('content_header')
-    <h1 class="text-center"><i class="fa fa-eye-dropper"></i> Ver Formulario</h1>
+    <h1 class="text-center"><i class="fa fa-eye"></i> Ver Formulario</h1>
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
     <div class="card border-light mb-3 shadow">
         <div class="card-header bg-primary text-white">
             <div class="float-start">
-                <i class="fa fa-eye-dropper"></i> Ver Formulario
+                <i class="fa fa-eye"></i> Ver Formulario
             </div>
             <div class="float-end">
                 <a href="{{ route('home') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>

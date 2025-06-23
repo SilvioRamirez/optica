@@ -7,8 +7,8 @@ return [
      * The google-fonts:fetch command will prefetch these fonts.
      */
     'fonts' => [
-        'default' => 'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,700;1,400;1,700',
-        'nunito' => 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap',
+        'default' => 'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap',
+        'nunito' => 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap'
     ],
 
     /*
@@ -27,19 +27,19 @@ return [
      * By default, CSS will be inlined to reduce the amount of round trips
      * browsers need to make in order to load the requested font files.
      */
-    'inline' => true,
+    'inline' => false,
 
     /*
      * When something goes wrong fonts are loaded directly from Google.
      * With fallback disabled, this package will throw an exception.
      */
-    'fallback' => false,
+    'fallback' => true,
 
     /*
      * This user agent will be used to request the stylesheet from Google Fonts.
      * This is the Safari 14 user agent that only targets modern browsers. If
      * you want to target older browsers, use different user agent string.
      */
-    'user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+    'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
 
 ];

@@ -35,13 +35,18 @@
 
     <title>@yield('title', 'OPTIRANGO - Tu Visión, Nuestra Prioridad')</title>
 
+    {{-- Fonts --}}
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Nunito', sans-serif;
             background-color: #f8f8f8; /* Light grey background */
         }
         .text-primary-color {

@@ -32,11 +32,11 @@ class FormularioController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:formulario-list|formulario-create|formulario-edit|formulario-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:formulario-create', ['only' => ['create','store']]);
-        $this->middleware('permission:formulario-edit',   ['only' => ['edit','update']]);
-        $this->middleware('permission:formulario-delete', ['only' => ['delete','destroy']]);
-        $this->middleware('permission:formulario-estatus',['only' => ['estatusFormulario','cambiarEstatus']]);
+        $this->middleware('permission:formulario-list|formulario-create|formulario-edit|formulario-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:formulario-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:formulario-edit',   ['only' => ['edit', 'update']]);
+        $this->middleware('permission:formulario-delete', ['only' => ['delete', 'destroy']]);
+        $this->middleware('permission:formulario-estatus', ['only' => ['estatusFormulario', 'cambiarEstatus']]);
     }
 
     /**
@@ -49,11 +49,11 @@ class FormularioController extends Controller
 
         $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega', 'asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        $tipos = Tipo::orderBy('tipo','asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
+        $tipos = Tipo::orderBy('tipo', 'asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
 
-        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
         return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos', 'origens'));
     }
@@ -74,17 +74,17 @@ class FormularioController extends Controller
 
         $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
 
-        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
-        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
-        
-        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega', 'asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
+        $especialistas = Especialista::orderBy('id', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        /* $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', ''); */
 
-        $refractantes = Refractante::orderBy('id','desc')
+        $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+
+        $refractantes = Refractante::orderBy('id', 'desc')
             ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
             ->take(100)
             ->get()
@@ -98,8 +98,19 @@ class FormularioController extends Controller
                 ];
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
-        
-        $descuentos = Descuento::orderBy('id','asc')
+
+        $operativos = Operativo::orderBy('id', 'desc')
+            ->select('id', 'nombre_operativo')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre_operativo,
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --']);
+
+        $descuentos = Descuento::orderBy('id', 'asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
             ->map(function ($item) {
@@ -111,8 +122,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
-        return view('formularios.create',compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
-
+        return view('formularios.create', compact('operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
     /**
@@ -154,8 +164,7 @@ class FormularioController extends Controller
         $formulario = Formulario::create($data);
 
         return redirect()->route('formularios.index', $formulario->id)
-                            ->with('success','Registro creado exitosamente. Orden Nro. '.$formulario->numero_orden.'.');
-
+            ->with('success', 'Registro creado exitosamente. Orden Nro. ' . $formulario->numero_orden . '.');
     }
 
     /**
@@ -163,25 +172,25 @@ class FormularioController extends Controller
      */
     public function show(Formulario $formulario): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
+        /* $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', ''); */
 
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
-        
+
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $tipoLentes = TipoLente::get(['id','tipo_lente']);
+        $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
 
-        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
-        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega', 'asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $especialistas = Especialista::orderBy('id', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        $refractantes = Refractante::orderBy('id','desc')
+        $refractantes = Refractante::orderBy('id', 'desc')
             ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
             ->take(100)
             ->get()
@@ -196,7 +205,18 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
 
-        $descuentos = Descuento::orderBy('id','asc')
+        $operativos = Operativo::orderBy('id', 'desc')
+            ->select('id', 'nombre_operativo')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre_operativo,
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --']);
+
+        $descuentos = Descuento::orderBy('id', 'asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
             ->map(function ($item) {
@@ -216,25 +236,25 @@ class FormularioController extends Controller
      */
     public function edit(Formulario $formulario): View
     {
-        $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', '');
-        
+        /* $operativos = Operativo::orderBy('id', 'desc')->pluck('nombre_operativo', 'id')->prepend('-- Seleccione --', ''); */
+
         $tipos = Tipo::pluck('tipo', 'tipo')->prepend('-- Seleccione --', '');
 
         $laboratorios = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'razon_social')->prepend('-- Seleccione --', '');
 
         $estatuses = Estatus::orderBy('estatus', 'asc')->pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
 
-        $tipoLentes = TipoLente::get(['id','tipo_lente']);
+        $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
 
-        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento','asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
+        $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'asc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
 
-        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega','asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
+        $rutaEntregas = RutaEntrega::orderBy('ruta_entrega', 'asc')->pluck('ruta_entrega', 'id')->prepend('-- Seleccione --', '');
 
-        $especialistas = Especialista::orderBy('id','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $especialistas = Especialista::orderBy('id', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        $origens = Origen::orderBy('nombre','asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
+        $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        $refractantes = Refractante::orderBy('id','desc')
+        $refractantes = Refractante::orderBy('id', 'desc')
             ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
             ->take(100)
             ->get()
@@ -249,7 +269,18 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
 
-        $descuentos = Descuento::orderBy('id','asc')
+        $operativos = Operativo::orderBy('id','desc')
+            ->select('id', 'nombre_operativo')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'text' => $item->nombre_operativo,
+                ];
+            })
+            ->prepend(['id' => '', 'text' => '-- Seleccione --']);
+
+        $descuentos = Descuento::orderBy('id', 'asc')
             ->select('id', 'nombre', 'porcentaje')
             ->get()
             ->map(function ($item) {
@@ -260,8 +291,8 @@ class FormularioController extends Controller
                 ];
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
-            
-        return view('formularios.edit',compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
+
+        return view('formularios.edit', compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
     /**
@@ -274,13 +305,13 @@ class FormularioController extends Controller
 
         $data['saldo'] = $request->total;
 
-        if(!$formulario->update($data)){
+        if (!$formulario->update($data)) {
             return redirect()->back()
-                            ->with('danger','Registro no actualizado.');
+                ->with('danger', 'Registro no actualizado.');
         }
 
         return redirect()->route('formularios.index')
-                            ->with('success','Registro actualizado exitosamente.');
+            ->with('success', 'Registro actualizado exitosamente.');
     }
 
     /**
@@ -292,7 +323,7 @@ class FormularioController extends Controller
     public function delete($id): View
     {
         $formulario = Formulario::find($id);
-        return view('formularios.delete',compact('formulario'));
+        return view('formularios.delete', compact('formulario'));
     }
 
     /**
@@ -302,10 +333,11 @@ class FormularioController extends Controller
     {
         $formulario->delete();
         return redirect()->route('formularios.index')
-                            ->with('success','Registro eliminado exitosamente.');
+            ->with('success', 'Registro eliminado exitosamente.');
     }
 
-    public function estatusFormulario(Formulario $formulario){
+    public function estatusFormulario(Formulario $formulario)
+    {
         return $formulario = Formulario::where('id', $formulario->id)
             ->get([
                 'id',
@@ -327,7 +359,8 @@ class FormularioController extends Controller
             ->first()->toJson();
     }
 
-    public function cambiarEstatus(Formulario $formulario, Request $request){
+    public function cambiarEstatus(Formulario $formulario, Request $request)
+    {
 
         $formulario->update([
             'estatus'           => $request->params['estatus'],
@@ -337,14 +370,13 @@ class FormularioController extends Controller
         ]);
 
         return $formulario->toJson();
-
     }
 
     /**
-    * Write code on Method
-    *
-    * @return Laboratorio
-    */
+     * Write code on Method
+     *
+     * @return Laboratorio
+     */
     public function fetchLaboratorio(Request $request)
     {
         //Se utiliza params por los parametros de la peticion axios
@@ -353,7 +385,8 @@ class FormularioController extends Controller
     }
 
     /* Consulta de Pagos Formulario */
-    public function saldoFormulario(Formulario $formulario){
+    public function saldoFormulario(Formulario $formulario)
+    {
         return $formulario = Formulario::where('id', $formulario->id)
             ->get([
                 'id',
@@ -369,5 +402,4 @@ class FormularioController extends Controller
             ])
             ->first()->toJson();
     }
-
 }

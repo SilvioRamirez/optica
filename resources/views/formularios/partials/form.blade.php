@@ -48,9 +48,21 @@
                 @endforeach
             </select>
 
+            
             {{ Form::textComp('paciente', 'Paciente', null, null, '') }}
+            
+            <label for="operativo_id" class="mb-1 mt-2"><strong>Operativo</strong> <span id="operativo_info"
+                class="text-muted">(Autocompletar)</span>
+            </label>
+            <select name="operativo_id" id="operativo_id" class="form-control mb-2" autocomplete="off">
+                @foreach ($operativos as $operativo)
+                <option value="{{ $operativo['id'] }}" {{ is_object($formulario) && $formulario->operativo_id == $operativo['id'] ? 'selected' : '' }}>
+                    {{ $operativo['text'] }}
+                </option>
+                @endforeach
+            </select>
 
-            {{ Form::selectComp('operativo_id', 'Operativo', '', $operativos, null, '', is_object($formulario) ? $formulario->operativo_id : null) }}
+            {{-- {{ Form::selectComp('operativo_id', 'Operativo', '', $operativos, null, '', is_object($formulario) ? $formulario->operativo_id : null) }} --}}
 
             @canany(['formulario-telefono', 'formulario-create', 'formulario-edit'])
                 {{ Form::textComp('telefono', 'Telefono', null, null, '+584121234567') }}
@@ -425,7 +437,10 @@
             max: 10000,
         })
 
-        new TomSelect('#refractante_id', {
+        let tomSelectOperativo;
+        let tomSelectRefractante;
+
+        tomSelectRefractante = new TomSelect('#refractante_id', {
             placeholder: 'Selecciona un refractante para completar la información',
             onChange: function(value) {
                 if (value) {
@@ -440,10 +455,10 @@
                         // Autocompletar campos del formulario
                         var pacienteInput = document.getElementById('paciente');
                         var telefonoInput = document.getElementById('telefono');
-                        var idOperativoInput = document.getElementById('operativo_id');
 
-                        if (idOperativoInput && idOperativo) {
-                            idOperativoInput.value = idOperativo;
+                        if (idOperativo) {
+                            // Actualizar el TomSelect de operativo
+                            tomSelectOperativo.setValue(idOperativo, true);
                         }
 
                         if (pacienteInput && nombreApellido) {
@@ -460,6 +475,17 @@
                                 'text-muted').addClass('text-success');
                         }
                     }
+                }
+            }
+        });
+
+        tomSelectOperativo = new TomSelect('#operativo_id', {
+            placeholder: 'Selecciona un operativo para completar la información',
+            onInitialize: function() {
+                // Si estamos en modo edición, el valor ya estará seleccionado por el selected del HTML
+                if (document.querySelector('#operativo_id option[selected]')) {
+                    const selectedText = document.querySelector('#operativo_id option[selected]').text;
+                    $('#operativo_info').html(selectedText).removeClass('text-muted').addClass('text-success');
                 }
             }
         });
