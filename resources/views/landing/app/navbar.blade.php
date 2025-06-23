@@ -39,10 +39,10 @@
         <div class="tw-flex tw-items-center tw-space-x-2">
             <!-- SVG Logo based on user's image colors -->
             <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('storage/img/logo_h.png') }}" class="" alt="..." width="30" height="30">
+                <img src="{{ asset('storage/img/logo_horizontal_2.jpg') }}" class="" alt="..." width="185" >
 
             </a>
-            <span class="tw-text-xl tw-font-bold tw-text-gray-700">ÓPTI RANGO</span>
+            {{-- <span class="tw-text-xl tw-font-bold tw-text-gray-700">ÓPTI RANGO</span> --}}
         </div>
         <!-- Navigation Links (Hidden on small screens, shown with hamburger) -->
         <div class="tw-hidden md:tw-flex tw-space-x-6">

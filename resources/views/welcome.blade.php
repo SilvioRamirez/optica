@@ -55,8 +55,8 @@
         <!-- About Us Section -->
         <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-white">
             <div class="tw-container tw-mx-auto tw-flex tw-flex-col md:tw-flex-row tw-items-center tw-space-y-8 md:tw-space-y-0 md:tw-space-x-12">
-                <div class="md:tw-w-1/2">
-                    <img src="{{ asset('storage/img/equipo_optirango.png') }}" alt="Equipo Ópti Rango" class="tw-rounded-xl tw-shadow-lg tw-max-w-[80%] tw-h-auto tw-transform tw-transition-transform tw-duration-500 hover:tw-scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/ffffff?text=Imagen+No+Disponible';">
+                <div class="md:tw-w-1/2 tw-flex tw-justify-center tw-items-center">
+                    <img src="{{ asset('storage/img/equipo_optirango.png') }}" alt="Equipo Ópti Rango" class="tw-rounded-xl tw-shadow-lg tw-max-w-full tw-h-auto tw-transform tw-transition-transform tw-duration-500 hover:tw-scale-105" onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/ffffff?text=Imagen+No+Disponible';">
                 </div>
                 <div class="md:tw-w-1/2 tw-text-center md:tw-text-left">
                     <h2 class="tw-text-4xl tw-font-extrabold text-secondary-color tw-mb-6">Sobre Nosotros</h2>
