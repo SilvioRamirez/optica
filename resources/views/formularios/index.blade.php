@@ -243,7 +243,7 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             dictDefaultMessage: 'Arrastre una imagen al recuadro para subirla',
-            acceptedFiles: "image/jpeg,image/png,image/gif"
+            acceptedFiles: "image/jpeg,image/png,image/gif",
             maxFiles: 5,
             maxFilesize: 20, // Limitamos a 2MB por archivo
             parallelUploads: 1, // Subir de uno en uno
