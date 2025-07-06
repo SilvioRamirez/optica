@@ -261,7 +261,7 @@
                     });
                 });
                 this.on("success", function(file, response) {
-                    console.log("Éxito:", response);
+                    /* console.log("Éxito:", response); */
                     if (response && response.success) {
                         Swal.fire({
                             title: 'Éxito',
@@ -290,7 +290,7 @@
                 var laboratorio = document.getElementById("laboratorio-dropdown").value;
                 var fecha_entrega = document.getElementById("fecha_entrega").value;
 
-                console.log(estatus);
+                /* console.log(estatus); */
 
                 var url = /* SITEURL + */ '/api/cambiarEstatus/' + formulario_id;
 
@@ -325,7 +325,7 @@
 
                 }).catch(error => {
                     if (error.response) {
-                        console.log(error.response.data.errors)
+                        /* console.log(error.response.data.errors) */
                     }
                 });
             });
@@ -349,7 +349,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(message, status);
+                /* console.log(message, status); */
 
                 let formulario_id = response.data.id
 
@@ -381,7 +381,7 @@
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
@@ -411,7 +411,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
 
                 /* Se rellena el ID del formulario que esta hidden en el formulario de la carga de imagen */
                 let formulario_id = response.data.id
@@ -478,10 +478,10 @@
                                 axios.post(urlDelete).then(response => {
                                     let status = response.status;
                                     let message = response.statusText;
-                                    console.log(response.data);
+                                    /* console.log(response.data); */
                                 }).catch(error => {
                                     if (error.response) {
-                                        console.log(error.response.data.errors)
+                                        /* console.log(error.response.data.errors) */
                                     }
                                 });
 
@@ -520,7 +520,7 @@
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
@@ -546,7 +546,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
 
                 document.getElementById("saldoPaciente").innerHTML = '<strong>Paciente:</strong> ' + '' + response
                     .data.paciente + '';
@@ -560,7 +560,7 @@
                     response.data.cashea == 1 ? 'SI' : 'NO') + '';
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
@@ -577,7 +577,7 @@
             axios.post('/pagos', formData).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
                 /* document.getElementById('mensaje').innerText = 'Formulario enviado correctamente'; */
                 limpiarPagoForm();
                 consultaPagosTable(response.data.formulario_id);
@@ -598,7 +598,7 @@
             }).catch(error => {
                 if (error.response) {
                     /* document.getElementById('mensaje').innerText = 'Error al enviar formulario'; */
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
@@ -620,7 +620,7 @@
             var url = '/api/calculoPagos/' + id;
 
             axios.post(url).then(response => {
-                console.log(response.data);
+                /* console.log(response.data); */
                 document.getElementById("saldoSaldo").innerHTML = '<strong>Saldo:</strong> ' + '' + response.data
                     .saldo + '';
                 document.getElementById("saldoPorcentajePago").innerHTML = '<strong>Porcentaje Pagado:</strong> ' +
@@ -638,7 +638,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
 
                 const tbody = document.querySelector('#tablaPagos tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
@@ -762,7 +762,7 @@
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
         }

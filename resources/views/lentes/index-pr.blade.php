@@ -240,7 +240,7 @@
 
             }).catch(error => {                  
                 if(error.response){
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
             /* var linkURL = $(this).attr("href");
@@ -305,7 +305,7 @@
 
         }).catch(error => {                  
             if(error.response){
-                console.log(error.response.data.errors)
+                /* console.log(error.response.data.errors) */
             }
         });
 
@@ -327,7 +327,7 @@
         axios.post(url).then(response => {
             let status = response.status;
             let message = response.statusText;
-            console.log(message, status);
+            /* console.log(message, status); */
             
             let paciente_nombres =  response.data.pacientes[0].nombres + response.data.pacientes[0].apellidos;
 
@@ -386,7 +386,7 @@
 
         }).catch(error => {                  
             if(error.response){
-                console.log(error.response.data.errors)
+                /* console.log(error.response.data.errors) */
             }
         });
 
@@ -416,7 +416,7 @@
 
             }).catch(error => {                  
                 if(error.response){
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 

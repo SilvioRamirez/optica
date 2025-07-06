@@ -525,10 +525,10 @@
             var tipo_preselect = document.getElementById('tipo-lente-dropdown').value;
 
             if (tipo_preselect === "") {
-                console.log('strValue was empty string')
+                /* console.log('strValue was empty string') */
 
             } else {
-                console.log(tipo_preselect);
+                /* console.log(tipo_preselect); */
                 $("#tipo-tratamiento-dropdown").html('');
                 $.ajax({
                     url: "{{ url('api/fetch-tipo-tratamientos') }}",
@@ -598,11 +598,11 @@
         var fecha = document.getElementById('fecha');
 
         fecha.addEventListener("change", (event) => {
-            console.log(fecha.value);
+            /* console.log(fecha.value); */
 
             const aYearFromNow = new Date(fecha.value);
             aYearFromNow.setFullYear(aYearFromNow.getFullYear() + 1);
-            console.log(aYearFromNow);
+            /* console.log(aYearFromNow); */
 
             var toDate = aYearFromNow.toISOString().slice(0, 10);
 

@@ -30,7 +30,7 @@ var rows = '';
             let status = response.status;
             let message = response.statusText;
             let data = response.data.personas;
-            console.log(message, status, data);
+            //console.log(message, status, data);
             
             //alert(data[0].nombres);
             //alert(data.length);
@@ -82,6 +82,6 @@ var rows = '';
             }  */
         }).catch(error => {                  
             if(error.response){
-                console.log(error.response.data.errors)
+                //console.log(error.response.data.errors)
             }
         });

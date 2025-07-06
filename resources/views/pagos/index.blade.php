@@ -52,7 +52,7 @@
                     axios.post(urlDelete).then(response => {
                         let status = response.status;
                         let message = response.data.message; // Obtenemos el mensaje de la respuesta
-                        console.log(response.data);
+                        /* console.log(response.data); */
 
                         var tabla = $('#pagos-table').DataTable();
                         tabla.ajax.reload();
@@ -64,7 +64,7 @@
                         });
                     }).catch(error => {
                         if (error.response) {
-                            console.log(error.response.data.errors);
+                            /* console.log(error.response.data.errors); */
                             Swal.fire({
                                 title: "Error",
                                 text: error.response.data.message ||

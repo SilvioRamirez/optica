@@ -225,7 +225,7 @@
 
             }).catch(error => {                  
                 if(error.response){
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
             /* var linkURL = $(this).attr("href");
@@ -283,7 +283,7 @@
 
         }).catch(error => {                  
             if(error.response){
-                console.log(error.response.data.errors)
+                /* console.log(error.response.data.errors) */
             }
         });
 
@@ -305,7 +305,7 @@ const SITEURL = 'https://optirango.com';
         axios.post(url).then(response => {
             let status = response.status;
             let message = response.statusText;
-            console.log(message, status);
+            /* console.log(message, status); */
             
             let paciente_nombres =  response.data.pacientes[0].nombres + response.data.pacientes[0].apellidos;
 
@@ -363,7 +363,7 @@ const SITEURL = 'https://optirango.com';
 
         }).catch(error => {                  
             if(error.response){
-                console.log(error.response.data.errors)
+                /* console.log(error.response.data.errors) */
             }
         });
 

@@ -357,7 +357,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
 
                 const tbody = document.querySelector('#tablaGastosOperativo tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
@@ -383,7 +383,7 @@
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
         }
@@ -405,13 +405,13 @@
             axios.post('/gastoOperativos', formData).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
                 limpiarGastoOperativoForm();
                 consultaGastosOperativoTable(response.data.operativo_id);
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
@@ -443,7 +443,7 @@
             axios.post(url).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data.asesores);
+                /* console.log(response.data.asesores); */
 
                 const tbody = document.querySelector('#tablaColaboradoresOperativo tbody');
                 tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
@@ -461,7 +461,7 @@
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
         }
@@ -482,13 +482,13 @@
             axios.post('/operativos/colaboradores', formData).then(response => {
                 let status = response.status;
                 let message = response.statusText;
-                console.log(response.data);
+                /* console.log(response.data); */
                 limpiarColaboradoresOperativoForm();
                 consultaColaboradoresOperativoTable(response.data.id);
 
             }).catch(error => {
                 if (error.response) {
-                    console.log(error.response.data.errors)
+                    /* console.log(error.response.data.errors) */
                 }
             });
 
