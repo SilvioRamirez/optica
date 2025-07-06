@@ -7,7 +7,7 @@ import.meta.glob([
     '../fonts/**',
 ]);
 
-import Echo from 'laravel-echo';
+/* import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import { createApp } from 'vue'
 import MessengerComponent from "./components/Messenger/Chat/Messenger.vue";
@@ -40,7 +40,7 @@ if (element !== null) {
 
     app.mount('#messenger');
 }
-
+ */
 
 
 // const files = require.context('../myFolder', true, /(Module|Utils)\.js$/)
