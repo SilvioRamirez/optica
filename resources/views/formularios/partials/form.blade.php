@@ -373,7 +373,7 @@
             mask: '{v}00000000-00000',
             prepareChar: str => str.toUpperCase(),
             definitions: {
-                'v': /[V,J,G,E,P]/
+                'v': /[V,J,G,E,P,C]/
             }
         })
 

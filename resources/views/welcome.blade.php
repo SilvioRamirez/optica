@@ -138,7 +138,7 @@
                 <h2 class="tw-text-4xl tw-font-extrabold tw-mb-6">Contáctanos</h2>
                 <p class="tw-text-lg tw-opacity-90 tw-mb-8">¿Listo para mejorar tu visión? Envíanos un mensaje o visítanos.</p>
                 <div class="tw-max-w-md tw-mx-auto tw-bg-white tw-p-8 tw-rounded-xl tw-shadow-xl">
-                    <form class="tw-space-y-6" action="{{ route('home') }}" method="POST">
+                    <form class="tw-space-y-6" action="{{-- {{ route('home') }} --}}#" method="POST">
                         @csrf
                         <div>
                             <label for="name" class="tw-block text-secondary-color tw-text-left tw-font-medium tw-mb-2">Nombre Completo</label>
@@ -152,7 +152,7 @@
                             <label for="message" class="tw-block text-secondary-color tw-text-left tw-font-medium tw-mb-2">Tu Mensaje</label>
                             <textarea id="message" name="message" rows="5" required class="tw-w-full tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-gray-300 focus:tw-ring-2 focus:tw-ring-green-500 focus-outline-primary text-secondary-color" placeholder="Escribe tu mensaje aquí..."></textarea>
                         </div>
-                        <button type="submit" class="tw-w-full bg-primary-color tw-text-white tw-px-6 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-teal-700 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-md">
+                        <button type="button" class="tw-w-full bg-primary-color tw-text-white tw-px-6 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-teal-700 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-md">
                             Enviar Mensaje
                         </button>
                     </form>
