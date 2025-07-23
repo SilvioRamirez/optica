@@ -158,7 +158,7 @@
                             <p class="tw-text-lg">{{ 'Telefonos: 0412-088.36.74 / 0412-642.67.97 / 0424-640.67.97 ' }}</p>
                         </div>
 
-                        <div class="tw-flex tw-justify-center tw-gap-4 tw-mb-8">
+                        <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-6">
                             <a href="https://www.instagram.com/opti_rango/" target="_blank" rel="noopener noreferrer"
                                 class="tw-inline-flex tw-no-underline tw-items-center tw-px-6 tw-py-3 tw-bg-blue-600 tw-text-white hover:tw-text-white tw-font-semibold tw-rounded-xl hover:tw-bg-blue-700 tw-transition-colors tw-duration-200">
                                 <i class="fa-brands fa-instagram tw-mr-2"></i> Instagram
@@ -297,12 +297,12 @@
                                             <h1 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-2 tw-text-center mt-4">Calculadora de Pago</h1>
                                             <form action="{{ route('abono.web.store') }}" method="POST" enctype="multipart/form-data">
                                             <div class="tw-bg-white tw-rounded-xl tw-shadow-sm tw-p-4 tw-mb-4">
-                                                <div class="tw-flex tw-items-center tw-gap-4">
-                                                    <div class="tw-flex-1">
+                                                <div class="md:tw-grid md:tw-grid-cols-2 tw-grid-cols-1 tw-gap-4">
+                                                    <div class="">
                                                         <label class="tw-block tw-text-gray-600 tw-mb-1">Monto a Pagar en $</label>
                                                         <input type="number" id="montoUsd" name="monto_usd" step="0.01" min="0" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md" placeholder="0.00">
                                                     </div>
-                                                    <div class="tw-flex-1">
+                                                    <div class="">
                                                         <label class="tw-block tw-text-gray-600 tw-mb-1">Monto en Bs</label>
                                                         <p id="montoCalculadoBs" class="tw-p-2 tw-font-semibold tw-text-blue-600">0,00 Bs.</p>
                                                     </div>
@@ -321,7 +321,7 @@
                                                         {{-- <p class="tw-text-gray-600">Monto Bs: <span
                                                                 class="tw-font-semibold tw-text-gray-900">{{ $item->saldo_bs }}</span></p> --}}
 
-                                                        <button class="tw-w-block tw-mt-4 tw-p-2 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors" onclick="copyToClipboard('0134 J-505868454 04246406797')">
+                                                        <button type="button" class="tw-w-block tw-mt-4 tw-p-2 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors" onclick="copyToClipboard('0134 J-505868454 04246406797')">
                                                             <i class="fa fa-copy tw-mr-2"></i>Copiar a portapapeles
                                                         </button>
                                                     </div>
