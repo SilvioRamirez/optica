@@ -6,6 +6,7 @@ use App\Models\Configuracion;
 use App\Models\Formulario;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Facades\Http;
 
 class FormularioPdfController extends Controller
 {
@@ -47,9 +48,30 @@ class FormularioPdfController extends Controller
 
     }
 
+    public function tasa_cambio(){
+        $url = 'https://pydolarve.org/api/v1/dollar?page=bcv';
+
+        $response = Http::get($url);
+
+
+
+        return $response->json();
+
+       /*  if($data && $data['monitors'] && $data['monitors']['usd'] && $data['monitors']['usd']['price']){
+            $tasaCambio = $data['monitors']['usd']['price'];
+        }
+
+        return $tasaCambio; */
+    }
+
     public function orden_cedula(Request $request){
-        
-        /* $orden = Formulario::where('cedula', $request->cedula)->get(); */
+
+        $data = $this->tasa_cambio();
+
+        if($data && $data['monitors'] && $data['monitors']['usd'] && $data['monitors']['usd']['price']){
+            $tasaCambio['price'] = $data['monitors']['usd']['price'];
+            $tasaCambio['last_update'] = $data['monitors']['usd']['last_update'];
+        }
 
         $orden = Formulario::where('cedula', $request->cedula)
                     ->with('tipoLente')
@@ -59,15 +81,14 @@ class FormularioPdfController extends Controller
                     ->with('operativo')
         ->get();
 
-        /* dd($orden); */
-
-        /* return $orden; */
+        $orden = $orden->map(function($item) use ($tasaCambio){
+            $item['total_bs'] = number_format($item->total * $tasaCambio['price'], 2, '.', '');
+            $item['saldo_bs'] = number_format($item->saldo * $tasaCambio['price'], 2, '.', '');
+            return $item;
+        });
 
         if($orden){
-            /* $tipoLente = $orden->tipoLente;
-            $tipoTratamiento = $orden->tipoTratamiento; */
-
-            return view('formularios.web_consulta', compact('orden'));
+            return view('formularios.web_consulta', compact('orden', 'tasaCambio'));
         }
         return response([], 404);
 

@@ -42,7 +42,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
-    @livewireStyles
 
     <style>
         body {
@@ -109,7 +108,6 @@
     @include('landing.app.footer')
 
     @stack('scripts')
-    @livewireScripts
 
     <script>
         // JavaScript for mobile menu toggle

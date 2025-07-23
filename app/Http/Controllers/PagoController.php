@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Http\Request;
+use App\Models\Payment;
+
 class PagoController extends Controller
 {
     /**
@@ -39,12 +41,69 @@ class PagoController extends Controller
         return $dataTable->render('pagos.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function abonoWeb(Request $request)
     {
-        //
+        
+        $this->validate($request, [
+            'saldo' => 'required',
+            'saldo_bs' => 'required',
+            'total' => 'required',
+            'tasa_cambio' => 'required',
+            'fecha' => 'required',
+            'paciente' => 'required',
+            'numero_orden' => 'required',
+            'telefono' => 'required',
+            'banco_emisor' => 'required',
+            'referencia' => 'required',
+            'monto' => 'required',
+            'fecha_pago' => 'required',
+            'monto_usd' => 'required',
+            'file' => 'required|mimes:jpeg,png,jpg,gif,svg,pdf|max:10240',
+        ]);
+
+        $data = $request->all();
+        $data['created_by'] = 'Web';
+        $data['updated_by'] = 'Web';
+        $data['status'] = 'PENDIENTE';
+        $data['formulario_id'] = $request->id;
+        $data['saldo'] = $request->saldo;
+        $data['saldo_bs'] = $request->saldo_bs;
+        $data['total'] = $request->total;
+        $data['tasa_cambio'] = $request->tasa_cambio;
+        $data['fecha'] = $request->fecha;
+        $data['paciente'] = $request->paciente;
+        $data['numero_orden'] = $request->numero_orden;
+        $data['cedula'] = $request->cedula;
+        $data['edad'] = $request->edad;
+        $data['telefono'] = $request->telefono;
+        $data['banco_emisor'] = $request->banco_emisor;
+        $data['referencia'] = $request->referencia;
+        $data['monto'] = $request->monto;
+        $data['fecha_pago'] = $request->fecha_pago;
+        $data['monto_usd'] = $request->monto_usd;
+
+        if ($request->hasFile('file')) {
+            // Eliminar imagen anterior si existe
+            if ($data['file'] && Storage::exists($data['file'])) {
+                Storage::delete($data['file']);
+            }
+
+            $nombre = Str::random(10) . $request->file('file')->getClientOriginalName();
+
+            $ruta = public_path() . '/storage/img/pagos/' . $nombre;
+
+            Image::read($request->file('file'))
+                ->scaleDown(height: 1000)
+                ->save($ruta);
+
+            // Guardar nueva imagen
+            $data['file'] = '/storage/img/pagos/'. $nombre;
+
+        }
+
+        $pago = Payment::create($data);
+
+        return redirect()->back()->with('success', '¡Gracias! Su pago ha sido registrado correctamente, en un plazo de 48 horas se confirmara el estado del pago.');
     }
 
     public function show(Pago $pago)
@@ -64,6 +123,8 @@ class PagoController extends Controller
         $data['formulario_id'] = $formulario_id;
         $data['origen_id'] = $request->origen_id;
         $pago = Pago::create($data);
+
+        $pago->formulario->calculoPagos();
 
         return response()->json(['message' => 'Pago registrado correctamente', 'formulario_id' => $formulario_id]);
     }
@@ -139,6 +200,8 @@ class PagoController extends Controller
             $formulario->saldo = $saldo;
             $formulario->porcentaje_pago = $porcentaje;
             $formulario->save();
+
+            $formulario->calculoPagos();
 
             return response()->json([
                 'success' => true,

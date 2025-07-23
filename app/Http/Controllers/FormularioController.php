@@ -163,6 +163,8 @@ class FormularioController extends Controller
 
         $formulario = Formulario::create($data);
 
+        $formulario->calculoPagos();
+
         return redirect()->route('formularios.index', $formulario->id)
             ->with('success', 'Registro creado exitosamente. Orden Nro. ' . $formulario->numero_orden . '.');
     }
@@ -228,6 +230,8 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
+        $formulario->calculoPagos();
+
         return view('formularios.show', compact('formulario', 'laboratorios', 'tipos', 'operativos', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
@@ -292,6 +296,8 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'porcentaje' => 0]);
 
+        $formulario->calculoPagos();
+
         return view('formularios.edit', compact('formulario', 'operativos', 'tipos', 'laboratorios', 'estatuses', 'tipoLentes', 'tipoTratamientos', 'rutaEntregas', 'especialistas', 'descuentos', 'origens', 'refractantes'));
     }
 
@@ -309,6 +315,8 @@ class FormularioController extends Controller
             return redirect()->back()
                 ->with('danger', 'Registro no actualizado.');
         }
+
+        $formulario->calculoPagos();
 
         return redirect()->route('formularios.index')
             ->with('success', 'Registro actualizado exitosamente.');
@@ -368,6 +376,8 @@ class FormularioController extends Controller
             'laboratorio'       => $request->params['laboratorio'],
             'fecha_entrega'     => $request->params['fecha_entrega'],
         ]);
+
+        $formulario->calculoPagos();
 
         return $formulario->toJson();
     }

@@ -42,6 +42,7 @@ use App\Http\Controllers\ActividadController;
 use App\Http\Controllers\OrigenController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PaymentController;
 
 use Spatie\Activitylog\Models\Activity;
 
@@ -107,6 +108,7 @@ Route::post('api/fetch-tipo-tratamientos', [DropdownController::class, 'fetchTip
 
 Route::get('/formularios/{formulario}/{orden}/qrcode/',   [FormularioPdfController::class, 'orden_qrcode'])->name('formulario.orden.qrcode');
 Route::get('/formularios/cedula/',   [FormularioPdfController::class, 'orden_cedula'])->name('formulario.orden.cedula');
+Route::post('/abono', [PagoController::class, 'abonoWeb'])->name('abono.web.store');
 /* Route::get('test', fn () => phpinfo()); */
 
 Route::group(['middleware' => ['auth']], function() {
@@ -284,6 +286,11 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Origenes
     Route::post('api/origenDelete/{origen}',   [OrigenController::class, 'destroy']);
     Route::resource('origens', OrigenController::class);
+
+    //Rutas de Payments
+    Route::post('payments/{payment}/view',   [PaymentController::class, 'viewPayment']);
+    Route::post('payments/{payment}/confirm',   [PaymentController::class, 'confirmPayment']);
+    Route::resource('payments', PaymentController::class);
 
 });
 

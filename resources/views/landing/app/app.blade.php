@@ -43,7 +43,6 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
-    @livewireStyles
     <style>
 
     </style>
@@ -62,7 +61,6 @@
         @include('landing.app.footer')
 
         @stack('scripts')
-        @livewireScripts
     </div>
     <script>
         

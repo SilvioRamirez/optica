@@ -2,7 +2,7 @@
     <div class="alert alert-dismissible alert-success">
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <i class="fa fa-circle-check"></i> {{ $message }}
-    </div>        
+    </div>
 @endif
 
 @if(Session::has('info'))

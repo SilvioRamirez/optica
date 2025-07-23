@@ -336,6 +336,7 @@
     <script>
         const SITEURL = 'https://optirango.com';
 
+        /* Estatus formulario */
         function openModal(id) {
 
             document.getElementById('estatus').value = "";

@@ -339,6 +339,12 @@ return [
                     'icon' => 'fa fa-list',
                     'can' => 'pago-list',
                 ],
+                [
+                    'text' => 'Pagos Web',
+                    'url' => 'payments',
+                    'icon' => 'fa fa-hand-holding-dollar',
+                    'can' => 'pago-list',
+                ],
             ],
         ],
         

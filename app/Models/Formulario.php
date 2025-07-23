@@ -115,5 +115,25 @@ class Formulario extends Model
         return $this->belongsTo(Origen::class);
     }
 
+    public function calculoPagos()
+    {
 
+        $pagos = Pago::where('formulario_id', $this->id)->get();
+
+        $totalPagos = $pagos->sum('monto');
+
+        $totalFormulario = $this->total;
+
+        $saldo = $totalFormulario - $totalPagos;
+
+        $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+
+        // Actualizar los campos en el modelo Formulario
+        $this->saldo = $saldo;
+        $this->porcentaje_pago = $porcentaje;
+        $this->save();
+
+        return $this;
+
+    }
 }

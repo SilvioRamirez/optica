@@ -22,6 +22,49 @@
             </div>
         </section>
 
+        <!-- Consulta Section -->
+        <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-white">
+            <div class="tw-container tw-mx-auto tw-text-center">
+                <h2 class="tw-text-4xl tw-font-extrabold tw-mb-6">Registra tus pagos y consulta el Estado de tu Orden</h2>
+                <p class="tw-text-lg tw-opacity-90 tw-mb-8">Ingresa tu número de cédula</p>
+                <div class="tw-max-w-md tw-mx-auto tw-bg-white tw-p-8 tw-rounded-xl tw-shadow-xl">
+                    <form method="GET" action="{{ route('formulario.orden.cedula') }}" class="tw-space-y-6">
+                        @csrf
+                        <div>
+                            <label for="cedula" class="tw-block text-secondary-color tw-text-left tw-font-medium tw-mb-2">Número de Cédula</label>
+                            <input 
+                                type="text" 
+                                id="cedula" 
+                                name="cedula" 
+                                required 
+                                placeholder="Ej: V12345678"
+                                value="{{ old('cedula') }}"
+                                class="tw-w-full tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-gray-300 focus:tw-ring-2 focus:tw-ring-green-500 focus-outline-primary text-secondary-color"
+                            >
+                            @error('cedula')
+                                <p class="tw-mt-2 tw-text-sm tw-text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="tw-space-y-4">
+                            <div class="tw-bg-gray-50 tw-p-4 tw-rounded-md tw-text-left">
+                                <div class="tw-flex tw-items-start tw-gap-3">
+                                    <i class="fa fa-info-circle tw-text-teal-600 tw-mt-1"></i>
+                                    <p class="text-secondary-color tw-text-sm">
+                                        Coloca <span class="tw-font-semibold">V</span> para venezolanos o <span class="tw-font-semibold">E</span> para extranjeros al inicio de tu número de cédula.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="tw-w-full bg-primary-color tw-text-white tw-px-6 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-teal-700 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-md">
+                            <i class="fa fa-search tw-mr-2"></i> Consultar
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <!-- Product Categories/Features Section -->
         <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-gray-50">
             <div class="tw-container tw-mx-auto">
@@ -89,48 +132,7 @@
             </div>
         </section>
 
-        <!-- Consulta Section -->
-        <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-primary-colo">
-            <div class="tw-container tw-mx-auto tw-text-center">
-                <h2 class="tw-text-4xl tw-font-extrabold tw-mb-6">Consulta el Estado de tu Orden</h2>
-                <p class="tw-text-lg tw-opacity-90 tw-mb-8">Ingresa tu número de cédula para verificar el estado de tu lente</p>
-                <div class="tw-max-w-md tw-mx-auto tw-bg-white tw-p-8 tw-rounded-xl tw-shadow-xl">
-                    <form method="GET" action="{{ route('formulario.orden.cedula') }}" class="tw-space-y-6">
-                        @csrf
-                        <div>
-                            <label for="cedula" class="tw-block text-secondary-color tw-text-left tw-font-medium tw-mb-2">Número de Cédula</label>
-                            <input 
-                                type="text" 
-                                id="cedula" 
-                                name="cedula" 
-                                required 
-                                placeholder="Ej: V12345678"
-                                value="{{ old('cedula') }}"
-                                class="tw-w-full tw-px-4 tw-py-3 tw-rounded-md tw-border tw-border-gray-300 focus:tw-ring-2 focus:tw-ring-green-500 focus-outline-primary text-secondary-color"
-                            >
-                            @error('cedula')
-                                <p class="tw-mt-2 tw-text-sm tw-text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div class="tw-space-y-4">
-                            <div class="tw-bg-gray-50 tw-p-4 tw-rounded-md tw-text-left">
-                                <div class="tw-flex tw-items-start tw-gap-3">
-                                    <i class="fa fa-info-circle tw-text-teal-600 tw-mt-1"></i>
-                                    <p class="text-secondary-color tw-text-sm">
-                                        Coloca <span class="tw-font-semibold">V</span> para venezolanos o <span class="tw-font-semibold">E</span> para extranjeros al inicio de tu número de cédula.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="tw-w-full bg-primary-color tw-text-white tw-px-6 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-teal-700 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-md">
-                            <i class="fa fa-search tw-mr-2"></i> Consultar Estado
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
+        
 
         <!-- Contact Section -->
         <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 bg-primary-color tw-text-white tw-rounded-t-xl">
