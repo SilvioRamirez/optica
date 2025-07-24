@@ -300,11 +300,11 @@
                                                 <div class="md:tw-grid md:tw-grid-cols-2 tw-grid-cols-1 tw-gap-4">
                                                     <div class="">
                                                         <label class="tw-block tw-text-gray-600 tw-mb-1">Monto a Pagar en $</label>
-                                                        <input type="number" id="montoUsd" name="monto_usd" step="0.01" min="0" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md" placeholder="0.00">
+                                                        <input type="number" id="montoUsd" name="monto_usd" step="0.01" min="0" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md" placeholder="0.00">
                                                     </div>
                                                     <div class="">
                                                         <label class="tw-block tw-text-gray-600 tw-mb-1">Monto en Bs</label>
-                                                        <p id="montoCalculadoBs" class="tw-p-2 tw-font-semibold tw-text-blue-600">0,00 Bs.</p>
+                                                        <p id="montoCalculadoBs" class="tw-p-4 tw-font-semibold tw-text-blue-600">0.00 Bs.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -321,7 +321,7 @@
                                                         {{-- <p class="tw-text-gray-600">Monto Bs: <span
                                                                 class="tw-font-semibold tw-text-gray-900">{{ $item->saldo_bs }}</span></p> --}}
 
-                                                        <button type="button" class="tw-w-block tw-mt-4 tw-p-2 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors" onclick="copyToClipboard('0134 J-505868454 04246406797')">
+                                                        <button type="button" class="tw-w-block tw-mt-4 tw-p-4 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors" onclick="copyToClipboard('0134 J-505868454 04246406797')">
                                                             <i class="fa fa-copy tw-mr-2"></i>Copiar a portapapeles
                                                         </button>
                                                     </div>
@@ -352,7 +352,7 @@
                                                     <div class="tw-grid tw-grid-cols-1 tw-gap-4">
                                                         <div>
                                                             <label for="banco_emisor" class="tw-block tw-text-gray-600">Banco Emisor</label>
-                                                            <select name="banco_emisor" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md">
+                                                            <select name="banco_emisor" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md">
                                                                 <option value="">Seleccione un banco</option>
                                                                 @foreach($bancos as $banco)
                                                                     <option value="{{ $banco['codigo'] }} - {{ $banco['nombre'] }}">{{ $banco['codigo'] }} - {{ $banco['nombre'] }}</option>
@@ -362,27 +362,27 @@
 
                                                         <div>
                                                             <label for="referencia" class="tw-block tw-text-gray-600">Número de Referencia</label>
-                                                            <input type="text" name="referencia" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md" placeholder="Ingrese el número de referencia">
+                                                            <input type="text" name="referencia" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md" placeholder="Ingrese el número de referencia">
                                                         </div>
 
                                                         <div>
                                                             <label for="monto" class="tw-block tw-text-gray-600">Monto Transferido (Bs)</label>
-                                                            <input type="text" id="monto"  name="monto" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md" placeholder="0.00">
+                                                            <input type="text" id="monto"  name="monto" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md" placeholder="0.00">
                                                         </div>
 
                                                         <div>
                                                             <label for="fecha_pago" class="tw-block tw-text-gray-600">Fecha de Pago</label>
-                                                            <input type="date" name="fecha_pago" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md">
+                                                            <input type="date" name="fecha_pago" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md">
                                                         </div>
 
                                                         <div>
                                                             <label for="file" class="tw-block tw-text-gray-600">Comprobante de Pago</label>
-                                                            <input type="file" name="file" accept="image/*,.pdf" class="tw-w-full tw-p-2 tw-border tw-border-gray-300 tw-rounded-md">
+                                                            <input type="file" name="file" accept="image/*,.pdf" class="tw-w-full tw-p-4 tw-border tw-border-gray-300 tw-rounded-md">
                                                             <p class="tw-text-sm tw-text-gray-500">Formatos permitidos: imágenes y PDF</p>
                                                         </div>
                                                     </div>
 
-                                                    <button type="submit" class="tw-w-full tw-mt-4 tw-p-2 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors">
+                                                    <button type="submit" class="tw-w-full tw-mt-4 tw-p-4 tw-bg-blue-600 tw-text-white tw-rounded-md hover:tw-bg-blue-700 tw-transition-colors">
                                                         <i class="fa fa-upload tw-mr-2"></i> Registrar información
                                                     </button>
                                                 </div>
