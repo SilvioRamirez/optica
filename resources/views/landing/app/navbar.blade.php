@@ -51,7 +51,7 @@
                 Inicio</a>
             <a href="{{ route('consulta') }}"
                 class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Consulta
-                Web</a>
+                y Pagos</a>
             <a href="{{ route('politica.privacidad') }}"
                 class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Política
                 de Privacidad</a>
@@ -76,7 +76,7 @@
         <a href="{{ url('/') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Inicio</a>
         <a href="{{ route('consulta') }}"
-            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Consulta Web</a>
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Consulta y Pagos</a>
         <a href="{{ route('politica.privacidad') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Política
             de Privacidad</a>

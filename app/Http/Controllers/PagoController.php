@@ -103,7 +103,7 @@ class PagoController extends Controller
 
         $pago = Payment::create($data);
 
-        return redirect()->back()->with('success', '¡Gracias! Su pago ha sido registrado correctamente, en un plazo de 48 horas se confirmara el estado del pago.');
+        return redirect()->route('consulta')->with('success', '¡Gracias! Su pago ha sido registrado correctamente, en un plazo de 48 horas se confirmara el estado del pago.');
     }
 
     public function show(Pago $pago)

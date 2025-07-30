@@ -1,13 +1,16 @@
 @extends('landing.app.landing')
+@section('title', content: 'Optirango | Consulta y Pagos')
 
 @section('content')
-    <div class="tw-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-my-20">
-        <div class="tw-max-w-2xl tw-mx-auto">
-            <div class="tw-bg-white tw-rounded-3xl tw-shadow-lg tw-border-2 tw-border-dashed tw-border-gray-300">
-                <div class="tw-p-8">
-                    <div class="tw-text-center tw-mb-12">
-                        <img src="{{ asset('storage/img/logo.png') }}" class="tw-h-32 tw-object-contain tw-mx-auto" alt="Logo Optirango">
-                    </div>
+<div class="tw-container tw-mx-auto tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-my-20">
+    <div class="tw-max-w-2xl tw-mx-auto">
+        <div class="tw-bg-white tw-rounded-3xl tw-shadow-lg tw-border-2 tw-border-dashed tw-border-gray-300">
+            <div class="tw-p-8">
+                <div class="tw-text-center tw-mb-12">
+                    <img src="{{ asset('storage/img/logo.png') }}" class="tw-h-32 tw-object-contain tw-mx-auto" alt="Logo Optirango">
+                    <h1 class="tw-text-2xl tw-font-bold tw-text-gray-700 tw-mt-4">Consulta y Pagos</h1>
+                </div>
+                @include('fragment.success')
 
                     <form method="GET" action="{{ route('formulario.orden.cedula') }}" class="tw-space-y-8">
                         @csrf
@@ -46,7 +49,7 @@
                                         <i class="fa fa-info-circle tw-text-2xl tw-text-blue-600"></i>
                                     </div>
                                     <p class="tw-text-gray-600">
-                                        Por favor, revisa el estatus de tu lente ingresando tu <strong class="tw-font-semibold">Cédula</strong> aquí.
+                                        Por favor, ingresa tu <strong class="tw-font-semibold">Cédula</strong> aquí.
                                     </p>
                                 </div>
                             </div>
@@ -70,7 +73,6 @@
 @endsection
 
 
-
 @push('scripts')
     <script type="module">
         IMask(document.getElementById('cedula'), {
@@ -81,5 +83,4 @@
             }
         })
     </script>
-
 @endpush

@@ -107,6 +107,8 @@
 
     @include('landing.app.footer')
 
+    @include('partials.flash-swal')
+
     @stack('scripts')
 
     <script>
