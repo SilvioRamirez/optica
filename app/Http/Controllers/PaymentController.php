@@ -44,4 +44,12 @@ class PaymentController extends Controller
 
         return response()->json($payment);
     }
+
+    public function deletePayment($payment)
+    {
+        $payment = Payment::findOrFail($payment);
+        $payment->delete();
+
+        return response()->json($payment);
+    }
 }

@@ -280,6 +280,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Payments
     Route::post('payments/{payment}/view',   [PaymentController::class, 'viewPayment']);
     Route::post('payments/{payment}/confirm',   [PaymentController::class, 'confirmPayment']);
+    Route::post('payments/{payment}/delete',   [PaymentController::class, 'deletePayment']);
     Route::resource('payments', PaymentController::class);
 
 });

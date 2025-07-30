@@ -69,7 +69,11 @@
                 
             </div>
             <div class="modal-footer">
+                
                 <button type="button" class="btn btn-primary" id="btnConfirmPayment" style="display: none;" onclick="confirmPayment()"><i class="fa fa-check mr-2"></i>Confirmado</button>
+                @role('Super Admin')
+                    <button type="button" class="btn btn-danger" id="btnDeletePayment" style="display: none;" onclick="openModalDelete()"><i class="fa fa-trash mr-2"></i>Eliminar Pago</button>
+                @endrole
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa fa-close mr-2"></i>Cerrar</button>
             </div>
         </div>
@@ -82,7 +86,9 @@
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
     <script>
-        function openModalDelete(id) {
+        function openModalDelete() {
+            var id = document.getElementById('payment_id').value;
+            var urlDelete = '/payments/' + id + '/delete';
             Swal.fire({
                 title: "¿Estás seguro?",
                 text: "Este pago se eliminara definitivamente y se recalculara el saldo pendiente de la orden.",
@@ -94,14 +100,14 @@
                 cancelButtonText: "Cancelar"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var urlDelete = 'api/pagoDelete/' + `${id}`;
                     axios.post(urlDelete).then(response => {
                         let status = response.status;
                         let message = response.data.message; // Obtenemos el mensaje de la respuesta
                         /* console.log(response.data); */
 
-                        var tabla = $('#pagos-table').DataTable();
+                        var tabla = $('#payments-table').DataTable();
                         tabla.ajax.reload();
+                        bootstrap.Modal.getOrCreateInstance(document.getElementById('viewPaymentModal')).hide();
 
                         Swal.fire({
                             title: "¡Eliminado!",
@@ -186,10 +192,12 @@
 
                 if (response.data.status === 'CONFIRMADO') {
                     document.getElementById('btnConfirmPayment').style.display = 'none';
+                    document.getElementById('btnDeletePayment').style.display = 'none';
                 }
-
+                
                 if (response.data.status === 'PENDIENTE') {
                     document.getElementById('btnConfirmPayment').style.display = 'block';
+                    document.getElementById('btnDeletePayment').style.display = 'block';
                 }
 
             }).catch(error => {
