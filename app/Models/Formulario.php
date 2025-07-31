@@ -126,7 +126,13 @@ class Formulario extends Model
 
         $saldo = $totalFormulario - $totalPagos;
 
-        $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+        // Evitar división por cero para formularios gratuitos
+        if ($totalFormulario == 0) {
+            // Si el formulario es gratuito (total = 0), el porcentaje es 100%
+            $porcentaje = 100;
+        } else {
+            $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+        }
 
         // Actualizar los campos en el modelo Formulario
         $this->saldo = $saldo;

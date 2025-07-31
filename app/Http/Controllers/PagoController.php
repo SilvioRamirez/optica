@@ -162,7 +162,11 @@ class PagoController extends Controller
 
         $saldo = $totalFormulario - $totalPagos;
 
-        $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+        if ($totalFormulario == 0) {
+            $porcentaje = 100;
+        } else {
+            $porcentaje = round(($totalPagos / $totalFormulario) * 100);
+        }
 
         // Actualizar los campos en el modelo Formulario
         $formulario->saldo = $saldo;
