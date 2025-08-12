@@ -52,4 +52,19 @@ class PaymentController extends Controller
 
         return response()->json($payment);
     }
+
+    public function edit(Payment $payment)
+    {
+        return view('payments.edit', compact('payment'));
+    }
+
+    public function update(Request $request, Payment $payment)
+    {
+        $payment->update($request->only([
+            'monto',
+            'monto_usd',
+        ]));
+
+        return redirect()->route('payments.index')->with('success', 'Pago actualizado correctamente');
+    }
 }

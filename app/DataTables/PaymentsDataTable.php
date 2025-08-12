@@ -28,6 +28,9 @@ class PaymentsDataTable extends DataTable
                 if (auth()->user()->can('pago-show')) {
                     $buttons .= '<a class="btn btn-info btn-sm" title="Mostrar" data-argid="' . $query->id . '" onclick="openModalViewPayment(\''  .$query->id.  '\')"><i class="fa fa-eye"></i></a>';
                 }
+                if (auth()->user()->can('pago-edit')) {
+                    $buttons .= '<a class="btn btn-primary btn-sm"   title="Editar Información Basica"     href="'.route('payments.edit',$query->id).'">              <i class="fa fa-pen-to-square"></i></a>';
+                }
 
                 return '<div class="btn-group" role="group" aria-label="Opciones">' . $buttons . '</div>';
             })
