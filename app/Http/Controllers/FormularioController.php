@@ -15,6 +15,8 @@ use App\Models\TipoTratamiento;
 use App\Models\Descuento;
 use App\Models\Origen;
 use App\Models\Refractante;
+use App\Exports\FormulariosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Http\Requests\StoreFormularioRequest;
 use App\Http\Requests\UpdateFormularioRequest;
@@ -411,5 +413,10 @@ class FormularioController extends Controller
                 'origen_id'
             ])
             ->first()->toJson();
+    }
+
+    public function export()
+    {
+        return Excel::download(new FormulariosExport, 'formularios.xlsx');
     }
 }

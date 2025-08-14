@@ -23,7 +23,11 @@
                 @can('formulario-create')
                     <div class="float-start">
                         <a href="{{ route('formularios.create') }}" class="btn btn-light btn-sm"><i class="fa fa-plus"></i>
-                            {{ __('Create New') }}</a>
+                            {{ __('Create New') }}
+                        </a>
+                        <a href="{{ route('formularios.export') }}" class="btn btn-light btn-sm"><i class="fa fa-file-excel"></i>
+                            {{ __('Exportar') }}
+                        </a>
                     </div>
                 @endcan
                 <div class="float-end">

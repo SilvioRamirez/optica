@@ -142,4 +142,24 @@ class Formulario extends Model
         return $this;
 
     }
+
+    public function getPhoneAttribute()
+    {
+        // Eliminar espacios o guiones
+        $telefono = preg_replace('/\D/', '', $this->telefono); // Solo deja números
+
+        // Verifica que empiece con el código de Venezuela
+        if (strpos($telefono, '58') === 0) {
+            // Remover el 58 y agregar el 0 inicial
+            $telefono = '0' . substr($telefono, 2);
+        }
+
+        // Formato: 0XXX-XXXXXXX
+        if (strlen($telefono) === 11) {
+            return substr($telefono, 0, 4) . '-' . substr($telefono, 4);
+        }
+
+        // Si no cumple el largo esperado, retornar tal cual
+        return  $telefono;
+    }
 }

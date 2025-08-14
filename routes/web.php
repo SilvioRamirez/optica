@@ -175,7 +175,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     Route::get('/formularios/{formulario}/delete',    [FormularioController::class, 'delete'])->name('formularios.delete');
     Route::resource('formularios', FormularioController::class);
-
+    Route::get('/formularios/export/excel', [FormularioController::class, 'export'])->name('formularios.export');
 
     //Refractantes
     Route::get('/refractantes/{refractante}/delete',    [RefractanteController::class, 'delete'])->name('refractantes.delete');
