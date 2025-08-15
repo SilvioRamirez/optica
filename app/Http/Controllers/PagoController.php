@@ -43,6 +43,11 @@ class PagoController extends Controller
 
     public function abonoWeb(Request $request)
     {
+        $pagoPorConfirmar = Payment::where('status', 'PENDIENTE')->where('formulario_id', $request->id)->count();
+
+        if ($pagoPorConfirmar > 0) {
+            return redirect()->route('consulta')->with('error', 'Pago no registrado. Usted ya tiene un pago pendiente de confirmación. Por favor, espere a que se confirme el pago anterior.');
+        }
         
         $this->validate($request, [
             'saldo' => 'required',
