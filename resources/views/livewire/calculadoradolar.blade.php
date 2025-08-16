@@ -77,7 +77,7 @@ new class extends Component {
 </li>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    /* document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('dolares').addEventListener('keyup', function() {
             const dolares = document.getElementById('dolares').value;
             const tasaBcv = document.getElementById('tasa-bcv-hidden').value;
@@ -87,5 +87,5 @@ new class extends Component {
             const totalCalculado = document.getElementById('total');
             totalCalculado.innerHTML = parseFloat(calculo).toFixed(2);
         });
-    });
+    }); */
 </script>
