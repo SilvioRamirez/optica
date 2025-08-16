@@ -186,6 +186,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Livewire\LivewireServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -195,6 +196,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\VoltServiceProvider::class,
 
         //DataTables
         Yajra\DataTables\DataTablesServiceProvider::class,

@@ -6,6 +6,10 @@
     
 @stop
 
+@section('content_top_nav_right')
+    <livewire:calculadoradolar />
+@endsection
+
 @section('content')
     
     <p>Welcome to this beautiful admin panel.</p>
