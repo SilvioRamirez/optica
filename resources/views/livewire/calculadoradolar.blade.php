@@ -56,7 +56,7 @@ new class extends Component {
         <h6 class="dropdown-header">Calculadora $ → Bs</h6>
 
         <div class="form-group mb-2">
-            <input type="number" wire:model.live="dolares" id="dolares" class="form-control form-control-sm"
+            <input type="number" id="dolares" class="form-control form-control-sm"
                 placeholder="Monto en USD" step="0.01" min="0">
         </div>
 
