@@ -421,13 +421,13 @@
             max: 10000,
         })
 
-        IMask(document.getElementById('total'), {
+        /* IMask(document.getElementById('total'), {
             mask: Number,
             scale: 2,
             radix: '.',
             min: 0,
             max: 10000,
-        })
+        }) */
 
         IMask(document.getElementById('precio_montura'), {
             mask: Number,
