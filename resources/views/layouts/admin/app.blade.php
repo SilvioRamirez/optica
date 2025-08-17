@@ -7,7 +7,7 @@
 @stop
 
 @section('content_top_nav_right')
-    <livewire:calculadoradolar />
+    {{-- <livewire:calculadoradolar /> --}}
 @endsection
 
 @section('content')
