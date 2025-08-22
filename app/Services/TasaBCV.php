@@ -11,8 +11,8 @@ class TasaBCV
 
     public function __construct()
     {
-        $this->apiKey = env('API_KEY_TASA');
-        $this->baseUrl = env('API_TASA_URL', 'https://automatizaciones.ipsistemas.com.ve/webhook/tasa');
+        $this->apiKey = config('app.api_key_tasa');
+        $this->baseUrl = config('app.api_tasa_url');
     }
 
     private function callApi(string $event, array $params = []): array
