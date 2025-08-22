@@ -43,7 +43,7 @@ use App\Http\Controllers\OrigenController;
 use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PaymentController;
-
+use App\Http\Controllers\TasaController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -55,10 +55,8 @@ Route::get('/politica-eliminacion', [IndexController::class, 'politicaEliminacio
 Route::get('/politica-whatsapp', [IndexController::class, 'politicaWhatsapp'])->name('politica.whatsapp');
 Route::get('/facebook', [IndexController::class, 'facebook'])->name('facebook');
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
-
-Route::get('/landing', function () {
-    return view('landing.landing');
-});
+Route::get('/tasa', [TasaController::class, 'index'])->name('tasa.index');
+Route::get('/tasa/last', [TasaController::class, 'getLastTasa'])->name('tasa.last');
 
 /* Auth::routes(['register' => false]); */
 

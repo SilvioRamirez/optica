@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Services\TasaBCV;
+use App\Models\Tasa;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +14,19 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $service = new TasaBCV();
+            $data = $service->getTasaActivaHoy();
+
+            //dd($data);
+    
+            if (isset($data[0]['tasa'], $data[0]['effective_date'])) {
+                Tasa::updateOrCreate(
+                    ['fecha' => $data[0]['effective_date']],
+                    ['valor' => $data[0]['tasa']]
+                );
+            }
+        })->everyMinute(); // cada hora
     }
 
     /**

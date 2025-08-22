@@ -7,6 +7,8 @@ use App\Models\Formulario;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Http;
+use App\Services\TasaBCV;
+use App\Models\Tasa;
 
 class FormularioPdfController extends Controller
 {
@@ -48,29 +50,23 @@ class FormularioPdfController extends Controller
 
     }
 
-    public function tasa_cambio(){
-        $url = 'https://pydolarve.org/api/v1/dollar?page=bcv';
+    public function tasa_cambio(TasaBCV $tasaService){
+        
 
-        $response = Http::get($url);
+        $tasaHoy = $tasaService->getTasaActivaHoy();
 
-
-
-        return $response->json();
-
-       /*  if($data && $data['monitors'] && $data['monitors']['usd'] && $data['monitors']['usd']['price']){
-            $tasaCambio = $data['monitors']['usd']['price'];
-        }
-
-        return $tasaCambio; */
+        return response()->json($tasaHoy);
     }
 
     public function orden_cedula(Request $request){
 
-        $data = $this->tasa_cambio();
+        $data = Tasa::getLastTasa();
+        $tasaCambio['price'] = 0;
+        $tasaCambio['last_update'] = 'No hay tasa disponible';
 
-        if($data && $data['monitors'] && $data['monitors']['usd'] && $data['monitors']['usd']['price']){
-            $tasaCambio['price'] = $data['monitors']['usd']['price'];
-            $tasaCambio['last_update'] = $data['monitors']['usd']['last_update'];
+        if($data){
+            $tasaCambio['price'] = number_format($data->valor, 2, '.', '');
+            $tasaCambio['last_update'] = $data->fecha;
         }
 
         $orden = Formulario::where('cedula', $request->cedula)

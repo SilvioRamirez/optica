@@ -1,3 +1,7 @@
+@php
+    $tasaGlobal = App\Models\Tasa::getLastTasa();
+@endphp
+
 <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
         <i class="fas fa-dollar-sign"></i> Tasa BCV <span id="tasa-bcv-display">Cargando...</span> Bs
@@ -15,7 +19,7 @@
         </p>
 
         <p class="mb-1">
-            <strong>Total:</strong> <span id="total">0.00</span> Bs
+            <strong>Total:</strong> <span id="total_calculadora">0.00</span> Bs
         </p>
 
         <small class="text-muted">
@@ -63,7 +67,7 @@
 
         async obtenerTasa() {
             try {
-                const response = await fetch('https://pydolarve.org/api/v1/dollar?page=bcv');
+                const response = await fetch('{{ route('tasa.last') }}');
                 
                 if (!response.ok) {
                     throw new Error('Error en la respuesta de la API');
@@ -71,9 +75,9 @@
                 
                 const data = await response.json();
 
-                if (data && data.monitors && data.monitors.usd && data.monitors.usd.price) {
-                    this.tasaCambio = parseFloat(data.monitors.usd.price);
-                    this.lastUpdate = data.monitors.usd.last_update;
+                if (data) {
+                    this.tasaCambio = parseFloat(data.valor);
+                    this.lastUpdate = data.fecha;
                     
                     this.updateUI();
                     this.calcular();
@@ -94,9 +98,9 @@
             
             if (this.tasaCambio > 0 && dolares >= 0) {
                 const resultado = dolares * this.tasaCambio;
-                document.getElementById('total').textContent = this.formatNumber(resultado);
+                document.getElementById('total_calculadora').textContent = this.formatNumber(resultado);
             } else {
-                document.getElementById('total').textContent = '0.00';
+                document.getElementById('total_calculadora').textContent = '0.00';
             }
         }
 
