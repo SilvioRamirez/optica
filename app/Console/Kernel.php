@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
                     ['valor' => $data[0]['tasa']]
                 );
             }
-        })->everyHour(); // cada hora
+        })->hourly(); // cada hora
     }
 
     /**
