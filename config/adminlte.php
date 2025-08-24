@@ -375,6 +375,43 @@ return [
                 ],
             ],
         ],
+        [
+            'text' => 'Ordenes Externas',
+            'icon' => 'fa fa-outdent',
+            'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+            'submenu' => [
+                [
+                    'text' => 'Ordenes',
+                    'url' => 'ordens',
+                    'icon' => 'fa-solid fa-file-signature',
+                    'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+                ],
+                [
+                    'text' => 'Pagos',
+                    'url' => 'pagos',
+                    'icon' => 'fa-solid fa-list-check',
+                    'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+                ],
+                [
+                    'text' => 'Pagos Web',
+                    'url' => 'payments',
+                    'icon' => 'fa-solid fa-list-check',
+                    'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+                ],
+                [
+                    'text' => 'Clientes',
+                    'url' => 'clientes',
+                    'icon' => 'fa-solid fa-users-line',
+                    'canany' => ['cliente-list', 'cliente-create', 'cliente-edit', 'cliente-delete'],
+                ],
+                [
+                    'text' => 'Identidades',
+                    'url' => 'identities',
+                    'icon' => 'fa-solid fa-id-badge',
+                    'canany' => ['identity-list', 'identity-create', 'identity-edit', 'identity-delete'],
+                ],
+            ],
+        ],
         
         
         [

@@ -44,6 +44,10 @@ use App\Http\Controllers\FacebookController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TasaController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\OrdenPaymentController;
+use App\Http\Controllers\OrdenController;
+use App\Http\Controllers\IdentityController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -280,6 +284,23 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('payments/{payment}/confirm',   [PaymentController::class, 'confirmPayment']);
     Route::post('payments/{payment}/delete',   [PaymentController::class, 'deletePayment']);
     Route::resource('payments', PaymentController::class);
+
+    //Rutas de Clientes
+    Route::get('/clientes/{cliente}/delete',    [ClienteController::class, 'delete'])->name('clientes.delete');
+    Route::resource('clientes', ClienteController::class);
+
+    //Rutas de Identidades
+    Route::get('/identities/{identity}/delete',    [IdentityController::class, 'delete'])->name('identities.delete');
+    Route::resource('identities', IdentityController::class);
+
+    //Rutas de Ordenes
+    Route::get('/ordens/{orden}/delete',    [OrdenController::class, 'delete'])->name('ordens.delete');
+    Route::resource('ordens', OrdenController::class);
+
+    //Rutas de Orden Payments
+    Route::post('api/orden-payments/{orden}',   [OrdenController::class, 'ordenPayments']);
+    Route::post('api/consultar-payments/{orden}',   [OrdenController::class, 'consultarPayments']);
+    Route::resource('orden-payments', OrdenPaymentController::class);
 
 });
 
