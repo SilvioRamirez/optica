@@ -12,6 +12,7 @@ use App\Http\Requests\StoreOrdenRequest;
 use App\Http\Requests\UpdateOrdenRequest;
 use App\Models\Tipo;
 use App\Models\Origen;
+use Illuminate\Http\Request;
 
 class OrdenController extends Controller
 {
@@ -36,7 +37,8 @@ class OrdenController extends Controller
     {
         $tipos = Tipo::orderBy('tipo', 'asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
         $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
-        return $dataTable->render('ordens.index', compact('tipos', 'origens'));
+        $statuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
+        return $dataTable->render('ordens.index', compact('tipos', 'origens', 'statuses'));
     }
 
     /**
@@ -61,13 +63,13 @@ class OrdenController extends Controller
     {
         $data = $request->all();
 
-        if(!Orden::create($data)){
+        if (!Orden::create($data)) {
             return redirect()->back()
-                            ->with('danger','Error al crear la orden.');
+                ->with('danger', 'Error al crear la orden.');
         }
 
         return redirect()->route('ordens.index')
-                            ->with('success','Orden creada correctamente.');
+            ->with('success', 'Orden creada correctamente.');
     }
 
     /**
@@ -94,7 +96,7 @@ class OrdenController extends Controller
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'desc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
         $tipoFormulas = ['TERMINADA' => 'TERMINADA', 'TALLADA' => 'TALLADA'];
         $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
-        
+
 
         return view('ordens.edit', compact('orden', 'clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'estatuses'));
     }
@@ -106,13 +108,13 @@ class OrdenController extends Controller
     {
         $data = $request->all();
 
-        if(!$orden->update($data)){
+        if (!$orden->update($data)) {
             return redirect()->back()
-                            ->with('danger','Error al actualizar la orden.');
+                ->with('danger', 'Error al actualizar la orden.');
         }
 
         return redirect()->route('ordens.index')
-                            ->with('success','Orden actualizada correctamente.');
+            ->with('success', 'Orden actualizada correctamente.');
     }
 
     /**
@@ -120,13 +122,13 @@ class OrdenController extends Controller
      */
     public function destroy(Orden $orden)
     {
-        if(!$orden->delete()){
+        if (!$orden->delete()) {
             return redirect()->back()
-                            ->with('danger','Error al eliminar la orden.');
+                ->with('danger', 'Error al eliminar la orden.');
         }
 
         return redirect()->route('ordens.index')
-                            ->with('success','Orden eliminada correctamente.');
+            ->with('success', 'Orden eliminada correctamente.');
     }
 
     /**
@@ -141,16 +143,36 @@ class OrdenController extends Controller
     public function ordenPayments(Orden $orden)
     {
         return $orden = Orden::where('id', $orden->id)
-        ->with('cliente')
-        ->with('tipoTratamiento')
-        ->with('tipoLente')
-        ->with('ordenPayments', function($query){
-            $query->with('origen')
-            ->with('tipo');
-        })
-        ->get()
-        ->first()
-        ->toJson();
+            ->with('cliente')
+            ->with('tipoTratamiento')
+            ->with('tipoLente')
+            ->with('ordenPayments', function ($query) {
+                $query->with('origen')
+                    ->with('tipo');
+            })
+            ->get()
+            ->first()
+            ->toJson();
     }
-    
+
+    /* Actualizar Estatus de la Orden */
+    public function updateStatus(Request $request)
+    {
+        $data = $request->all();
+        $orden = Orden::find($data['orden_id']);
+        $orden->status = $data['status'];
+        $orden->fecha_entrega = $data['fecha_entrega'];
+        $orden->save();
+
+        /* $orden->load(
+            'cliente', 
+            'tipoTratamiento', 
+            'tipoLente', 
+            'ordenPayments',
+            'ordenPayments.origen',
+            'ordenPayments.tipo'
+        ); */
+
+        return response()->json(['message' => 'Estatus actualizado correctamente', 'orden' => $orden]);
+    }
 }

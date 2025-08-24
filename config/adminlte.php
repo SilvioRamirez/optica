@@ -387,9 +387,9 @@ return [
                     'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
                 ],
                 [
-                    'text' => 'Pagos',
-                    'url' => 'pagos',
-                    'icon' => 'fa-solid fa-list-check',
+                    'text' => 'Pagos de Ordenes',
+                    'url' => 'orden-payments',
+                    'icon' => 'fa-solid fa-hand-holding-dollar',
                     'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
                 ],
                 [

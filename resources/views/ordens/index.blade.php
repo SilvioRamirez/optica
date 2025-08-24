@@ -49,13 +49,28 @@
                                 <h1 class="text-center"><i class="fa fa-file-invoice-dollar mb-2"></i> Información de
                                     Pagos de Orden</h1>
                                 <div class="col-md-12 row">
-                                    <h3 id="saldoCliente">Cliente: </h3>
-                                    <h3 id="saldoPaciente">Paciente: </h3>
-                                    <h3 id="saldoNumeroOrden">Numero de Orden: </h3>
-                                    <h3 id="saldoEstatus">Estatus: </h3>
-                                    <h3 id="saldoTotal">Total: </h3>
-                                    <h3 id="saldoSaldo">Saldo: </h3>
-                                    <h3 id="saldoPorcentajePago">Porcentaje Pagado: </h3>
+                                    <div class="col-md-6">
+                                        <h5 id="saldoCliente">Cliente: </h5>
+                                        <h5 id="saldoPaciente">Paciente: </h5>
+                                        <h5 id="saldoNumeroOrden">Numero de Orden: </h5>
+                                        <h5 id="saldoEstatus">Estatus: </h5>
+                                        <h5 id="saldoFechaRecibido">Fecha de Recibido: </h5>
+                                        <h5 id="saldoTotal">Total: </h5>
+                                        <h5 id="saldoSaldo">Saldo: </h5>
+                                        <h5 id="saldoPorcentajePago">Porcentaje Pagado: </h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 class="text-center">Estatus y Fecha de Entrega</h4>
+                                        <form action="#{{-- {{ route('ordens.update') }} --}}" method="POST" id="statusForm"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            
+                                            {{ Form::selectComp('status', 'Estatus', '', $statuses) }}
+                                            {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
+                                            <button type="submit" class="btn btn-primary btn-block" title="Guardar"><i
+                                                    class="fa fa-floppy-disk"></i></button>
+                                        </form>
+                                    </div>
                                 </div>
                                 <hr>
 
@@ -132,6 +147,7 @@
             document.getElementById("saldoPaciente").innerHTML = '';
             document.getElementById("saldoNumeroOrden").innerHTML = '';
             document.getElementById("saldoEstatus").innerHTML = '';
+            document.getElementById("saldoFechaRecibido").innerHTML = '';
             document.getElementById("saldoTotal").innerHTML = '';
             document.getElementById("saldoSaldo").innerHTML = '';
             document.getElementById("saldoPorcentajePago").innerHTML = '';
@@ -151,11 +167,14 @@
 
                 document.getElementById('saldoCliente').innerHTML = '<strong>Cliente:</strong> ' + '' + response.data.cliente.name ?? '' + '';
                 document.getElementById("saldoPaciente").innerHTML = '<strong>Paciente:</strong> ' + '' + response.data.paciente ?? '' + '';
-                document.getElementById("saldoNumeroOrden").innerHTML = '<strong>Nro. Orden:</strong> ' + '' +response.data.numero_orden ?? '' + '';
-                document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> ' + '' + response .data.status ?? '' + '';
+                document.getElementById("saldoNumeroOrden").innerHTML = '<strong>Nro. Orden:</strong> ' + '' + response.data.numero_orden ?? '' + '';
+                document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> ' + '' + response.data.status ?? '' + '';
+                document.getElementById("saldoFechaRecibido").innerHTML = '<strong>Fecha de Recibido:</strong> ' + '' + response.data.fecha_recibida ?? '' + '';
                 document.getElementById("saldoTotal").innerHTML = '<strong>Total:</strong> ' + '' + response.data.precio_total ?? '' + '';
                 document.getElementById("saldoSaldo").innerHTML = '<strong>Saldo:</strong> ' + '' + response.data.precio_saldo ?? '' + '';
                 document.getElementById("saldoPorcentajePago").innerHTML = '<strong>Porcentaje Pagado:</strong> ' + '' + response.data.precio_porcentaje_pago ?? '' + '%';
+                document.getElementById('fecha_entrega').value = response.data.fecha_entrega;
+                document.getElementById('status').value = response.data.status;
 
                 consultaPagosTable(response.data);
 
@@ -205,152 +224,177 @@
 
         });
 
+        /* Evento que envia el formulario para registrar un nuevo pago */
+        document.getElementById('statusForm').addEventListener('submit', function (event) {
+            event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
+
+            const formData = new FormData(this); //Obtiene los datos del formulario
+            formData.append('orden_id', document.getElementById('orden_id').value);
+
+            axios.post('/api/ordens/update-status', formData).then(response => {
+                let status = response.status;
+                let message = response.statusText;
+                /* console.log(response.data); */
+                /* document.getElementById('mensaje').innerText = 'Formulario enviado correctamente'; */
+                limpiarPagoForm();
+                openModalPagos(response.data.orden.id);
+
+                // Intentar varios métodos de actualización de DataTables
+                try {
+                    // Método 1: Usando API moderna
+                    /* $('#ordens-table').DataTable().ajax.reload(null, false); */
+                    // Método 2: Usando método antiguo
+                    /* var oTable = $('#ordens-table').dataTable();
+                    oTable.fnDraw(false); */
+                    // Método 3: Redraw directo
+                    $('#ordens-table').DataTable().draw(false);
+                } catch (error) {
+                    console.error("Error al actualizar tabla:", error);
+                }
+
+            }).catch(error => {
+                if (error.response) {
+                    /* document.getElementById('mensaje').innerText = 'Error al enviar formulario'; */
+                    /* console.log(error.response.data.errors) */
+                }
+            });
+
+        });
+
         function limpiarPagoForm() {
             document.getElementById('monto').value = '';
             document.getElementById('pago_fecha').value = '';
             document.getElementById('tipo_id').value = '';
             document.getElementById('origen_id').value = '';
             document.getElementById('referencia').value = '';
+            document.getElementById('status').value = '';
+            document.getElementById('fecha_entrega').value = '';
 
             const tbody = document.querySelector('#tablaPagos tbody');
             tbody.innerHTML = '';
         }
 
-        /* function calculoPagos(id) {
-
-            var url = '/api/calculoPagos/' + id;
-
-            axios.post(url).then(response => {
-                document.getElementById("saldoSaldo").innerHTML = '<strong>Saldo:</strong> ' + '' + response.data
-                    .saldo + '';
-                document.getElementById("saldoPorcentajePago").innerHTML = '<strong>Porcentaje Pagado:</strong> ' +
-                    '' + response.data.porcentaje + '%';
-            });
-
-        } */
-
         function consultaPagosTable(data) {
             console.log(data);
 
-                const tbody = document.querySelector('#tablaPagos tbody');
-                tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
+            const tbody = document.querySelector('#tablaPagos tbody');
+            tbody.innerHTML = ''; // Limpiar tabla antes de agregar nuevos datos
 
-                data.orden_payments.forEach(pago => {
+            data.orden_payments.forEach(pago => {
 
-                    const fila = document.createElement('tr'); // Crear una nueva fila
+                const fila = document.createElement('tr'); // Crear una nueva fila
 
-                    const celdaId = document.createElement('td');
-                    celdaId.textContent = pago.id;
-                    fila.appendChild(celdaId);
+                const celdaId = document.createElement('td');
+                celdaId.textContent = pago.id;
+                fila.appendChild(celdaId);
 
-                    const celdaMonto = document.createElement('td');
-                    celdaMonto.textContent = pago.monto;
-                    fila.appendChild(celdaMonto);
+                const celdaMonto = document.createElement('td');
+                celdaMonto.textContent = pago.monto;
+                fila.appendChild(celdaMonto);
 
-                    const celdaPagoFecha = document.createElement('td');
-                    celdaPagoFecha.textContent = pago.pago_fecha;
-                    fila.appendChild(celdaPagoFecha);
+                const celdaPagoFecha = document.createElement('td');
+                celdaPagoFecha.textContent = pago.pago_fecha;
+                fila.appendChild(celdaPagoFecha);
 
-                    const celdaTipoId = document.createElement('td');
-                    celdaTipoId.textContent = pago.tipo.tipo;
-                    fila.appendChild(celdaTipoId);
+                const celdaTipoId = document.createElement('td');
+                celdaTipoId.textContent = pago.tipo.tipo;
+                fila.appendChild(celdaTipoId);
 
-                    const celdaOrigenId = document.createElement('td');
-                    celdaOrigenId.textContent = pago.origen.nombre;
-                    fila.appendChild(celdaOrigenId);
+                const celdaOrigenId = document.createElement('td');
+                celdaOrigenId.textContent = pago.origen.nombre;
+                fila.appendChild(celdaOrigenId);
 
-                    const celdaReferencia = document.createElement('td');
-                    celdaReferencia.textContent = pago.referencia;
-                    fila.appendChild(celdaReferencia);
+                const celdaReferencia = document.createElement('td');
+                celdaReferencia.textContent = pago.referencia;
+                fila.appendChild(celdaReferencia);
 
-                    const celdaImagePath = document.createElement('td');
-                    if (pago.image_path) {
-                        const img = document.createElement('img');
-                        img.src = `${pago.image_path}`;
-                        img.style.width = '50px';
-                        img.style.height = '50px';
-                        img.className = 'img-fluid m-1';
-                        celdaImagePath.appendChild(img);
+                const celdaImagePath = document.createElement('td');
+                if (pago.image_path) {
+                    const img = document.createElement('img');
+                    img.src = `${pago.image_path}`;
+                    img.style.width = '50px';
+                    img.style.height = '50px';
+                    img.className = 'img-fluid m-1';
+                    celdaImagePath.appendChild(img);
 
-                        const btnVer = document.createElement('a');
-                        btnVer.className = 'btn btn-primary btn-sm m-1';
-                        btnVer.href = `${pago.image_path}`;
-                        btnVer.target = '_blank';
-                        btnVer.innerHTML = '<i class="fa fa-magnifying-glass-plus"></i>';
-                        celdaImagePath.appendChild(btnVer);
-                    }
+                    const btnVer = document.createElement('a');
+                    btnVer.className = 'btn btn-primary btn-sm m-1';
+                    btnVer.href = `${pago.image_path}`;
+                    btnVer.target = '_blank';
+                    btnVer.innerHTML = '<i class="fa fa-magnifying-glass-plus"></i>';
+                    celdaImagePath.appendChild(btnVer);
+                }
 
-                    // Agregar botón de carga
-                    const inputFile = document.createElement('input');
-                    inputFile.type = 'file';
-                    inputFile.accept = 'image/*';
-                    inputFile.style.display = 'none';
-                    inputFile.id = `file-input-${pago.id}`;
+                // Agregar botón de carga
+                const inputFile = document.createElement('input');
+                inputFile.type = 'file';
+                inputFile.accept = 'image/*';
+                inputFile.style.display = 'none';
+                inputFile.id = `file-input-${pago.id}`;
 
 
-                    const btnCargar = document.createElement('button');
-                    btnCargar.className = 'btn btn-primary btn-sm m-1';
-                    btnCargar.innerHTML = '<i class="fa fa-upload"></i> Cargar';
-                    btnCargar.onclick = function () {
-                        inputFile.click();
-                    };
+                const btnCargar = document.createElement('button');
+                btnCargar.className = 'btn btn-primary btn-sm m-1';
+                btnCargar.innerHTML = '<i class="fa fa-upload"></i> Cargar';
+                btnCargar.onclick = function () {
+                    inputFile.click();
+                };
 
-                    inputFile.onchange = function (e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const formData = new FormData();
-                            formData.append('image', file);
-                            formData.append('pago_id', pago.id);
+                inputFile.onchange = function (e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const formData = new FormData();
+                        formData.append('image', file);
+                        formData.append('payment_id', pago.id);
 
-                            axios.post('/api/cargar-imagen-pago', formData, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
+                        axios.post('/api/cargar-imagen-payment', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                            .then(response => {
+                                if (response.data.success) {
+                                    // Actualizar la imagen en la tabla
+                                    consultaPagosTable(response.data.orden);
+
+                                    // Intentar varios métodos de actualización de DataTables
+                                    try {
+                                        // Método 1: Usando API moderna
+                                        /* $('#formularios-table').DataTable().ajax.reload(null, false); */
+                                        // Método 2: Usando método antiguo
+                                        /* var oTable = $('#formularios-table').dataTable();
+                                        oTable.fnDraw(false); */
+                                        // Método 3: Redraw directo
+                                        $('#formularios-table').DataTable().draw(false);
+                                    } catch (error) {
+                                        console.error("Error al actualizar tabla:", error);
+                                    }
+
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Éxito',
+                                        text: 'Imagen cargada correctamente'
+                                    });
                                 }
                             })
-                                .then(response => {
-                                    if (response.data.success) {
-                                        // Actualizar la imagen en la tabla
-                                        consultaPagosTable(id); // Recargar la tabla
-
-                                        // Intentar varios métodos de actualización de DataTables
-                                        try {
-                                            // Método 1: Usando API moderna
-                                            $('#formularios-table').DataTable().ajax.reload(null,
-                                                false);
-                                            // Método 2: Usando método antiguo
-                                            var oTable = $('#formularios-table').dataTable();
-                                            oTable.fnDraw(false);
-                                            // Método 3: Redraw directo
-                                            $('#formularios-table').DataTable().draw(false);
-                                        } catch (error) {
-                                            console.error("Error al actualizar tabla:", error);
-                                        }
-
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Éxito',
-                                            text: 'Imagen cargada correctamente'
-                                        });
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: 'Error al cargar la imagen'
-                                    });
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al cargar la imagen'
                                 });
-                        }
-                    };
+                            });
+                    }
+                };
 
-                    celdaImagePath.appendChild(inputFile);
+                celdaImagePath.appendChild(inputFile);
 
-                    celdaImagePath.appendChild(btnCargar);
-                    fila.appendChild(celdaImagePath);
+                celdaImagePath.appendChild(btnCargar);
+                fila.appendChild(celdaImagePath);
 
-                    tbody.appendChild(fila);
-                });
+                tbody.appendChild(fila);
+            });
 
         }
     </script>

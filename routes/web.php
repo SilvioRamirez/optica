@@ -300,6 +300,9 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Orden Payments
     Route::post('api/orden-payments/{orden}',   [OrdenController::class, 'ordenPayments']);
     Route::post('api/consultar-payments/{orden}',   [OrdenController::class, 'consultarPayments']);
+    Route::post('api/cargar-imagen-payment', [OrdenPaymentController::class, 'cargarImagen']);
+    Route::post('api/ordens/update-status', [OrdenController::class, 'updateStatus']);
+    Route::post('api/orden-payment-delete/{ordenPayment}', [OrdenPaymentController::class, 'destroy']);
     Route::resource('orden-payments', OrdenPaymentController::class);
 
 });
