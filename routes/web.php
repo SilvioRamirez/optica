@@ -52,6 +52,7 @@ use App\Http\Controllers\OrdenStatusController;
 use App\Http\Controllers\OrdenPaymentTypeController;
 use App\Http\Controllers\OrdenPaymentOriginController;
 use App\Http\Controllers\ConsultaWebClienteController;
+use App\Http\Controllers\ClientePaymentController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -324,6 +325,14 @@ Route::group(['middleware' => ['auth']], function() {
     //Ruta de Consulta Web Cliente
     Route::get('/consulta-web-cliente', [ConsultaWebClienteController::class, 'index'])->name('consulta-web-cliente.index');
     Route::get('/consulta-web-cliente/buscar', [ConsultaWebClienteController::class, 'buscar'])->name('consulta-web-cliente.buscar');
+    Route::get('/consulta-web-cliente/{cliente}/create/payment', [ConsultaWebClienteController::class, 'paymentsCreate'])->name('consulta-web-cliente.payments.create');
+    Route::post('/consulta-web-cliente/{cliente}/store/payment', [ConsultaWebClienteController::class, 'paymentsStore'])->name('consulta-web-cliente.payments.store');
+
+    //Rutas de Cliente Payments
+    Route::post('cliente-payments/{clientePayment}/view',   [ClientePaymentController::class, 'viewClientePayment']);
+    Route::post('cliente-payments/{clientePayment}/confirm',   [ClientePaymentController::class, 'confirmClientePayment']);
+    Route::post('cliente-payments/{clientePayment}/delete',   [ClientePaymentController::class, 'deleteClientePayment']);
+    Route::resource('cliente-payments', ClientePaymentController::class);
 
 });
 

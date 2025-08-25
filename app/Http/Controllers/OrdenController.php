@@ -63,10 +63,12 @@ class OrdenController extends Controller
     {
         $data = $request->all();
 
-        if (!Orden::create($data)) {
+        if (!$orden = Orden::create($data)) {
             return redirect()->back()
                 ->with('danger', 'Error al crear la orden.');
         }
+
+        $orden->calculoPagos();
 
         return redirect()->route('ordens.index')
             ->with('success', 'Orden creada correctamente.');

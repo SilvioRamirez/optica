@@ -68,6 +68,11 @@ class Orden extends Model
         return $this->belongsTo(OrdenStatus::class);
     }
 
+    public function diasPasados()
+    {
+        return \Carbon\Carbon::parse($this->attributes['fecha_recibida'])->diffInDays(\Carbon\Carbon::now());
+    }
+
     public function getCreatedAtAttribute()
     {
         return \Carbon\Carbon::parse($this->attributes['created_at'])->format('Y-m-d h:m:s');

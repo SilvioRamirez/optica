@@ -9,7 +9,7 @@
                     <div class="tw-text-center tw-mb-12">
                         <img src="{{ asset('storage/img/logo.png') }}" class="tw-h-32 tw-object-contain tw-mx-auto"
                             alt="Logo Optirango">
-                        <h1 class="tw-text-2xl tw-font-bold tw-text-gray-700 tw-mt-4">Consulta Cliente</h1>
+                        <h1 class="tw-text-2xl tw-font-bold tw-text-gray-700 tw-mt-4">Consulta Cliente Laboratorio</h1>
                     </div>
                     @include('fragment.success')
 

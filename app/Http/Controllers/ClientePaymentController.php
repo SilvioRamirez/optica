@@ -5,62 +5,72 @@ namespace App\Http\Controllers;
 use App\Models\ClientePayment;
 use App\Http\Requests\StoreClientePaymentRequest;
 use App\Http\Requests\UpdateClientePaymentRequest;
+use App\DataTables\ClientePaymentsDataTable;
+use Illuminate\Http\Request;
 
 class ClientePaymentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ClientePaymentsDataTable $dataTable)
     {
-        //
+        return $dataTable->render('clientePayments.index');
+
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function viewClientePayment($clientePayment)
     {
-        //
+        $clientePayment = ClientePayment::findOrFail($clientePayment);
+
+        $clientePayment->toJson();
+
+        return response()->json($clientePayment);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreClientePaymentRequest $request)
+    public function confirmClientePayment($clientePayment)
     {
-        //
+        $clientePayment = ClientePayment::findOrFail($clientePayment);
+
+        /* ClientePayment::create([
+            'cliente_id' => $clientePayment->cliente_id,
+            'origen_id' => 5,
+            'monto' => $clientePayment->monto_usd,
+            'pago_fecha' => $clientePayment->fecha_pago,
+            'tipo_id' => 2,
+            'referencia' => $clientePayment->referencia,
+            'image_path' => $clientePayment->file,
+        ]); */
+
+        $clientePayment->status = 'CONFIRMADO';
+        $clientePayment->save();
+
+        /* $clientePayment->cliente->calculoPagos(); */
+
+        return response()->json($clientePayment);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ClientePayment $clientePayment)
+    public function deleteClientePayment($clientePayment)
     {
-        //
+        $clientePayment = ClientePayment::findOrFail($clientePayment);
+        $clientePayment->delete();
+
+        return response()->json($clientePayment);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ClientePayment $clientePayment)
     {
-        //
+        return view('clientePayments.edit', compact('clientePayment'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateClientePaymentRequest $request, ClientePayment $clientePayment)
+    public function update(Request $request, ClientePayment $clientePayment)
     {
-        //
-    }
+        $clientePayment->update($request->only([
+            'monto',
+            'monto_usd',
+        ]));
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ClientePayment $clientePayment)
-    {
-        //
+        return redirect()->route('payments.index')->with('success', 'Pago actualizado correctamente');
     }
 }

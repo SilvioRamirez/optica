@@ -394,7 +394,7 @@ return [
                 ],
                 [
                     'text' => 'Pagos Web',
-                    'url' => 'payments',
+                    'url' => 'cliente-payments',
                     'icon' => 'fa-solid fa-list-check',
                     'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
                 ],

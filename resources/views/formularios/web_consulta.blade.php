@@ -1,20 +1,20 @@
 @php
-    $bancos = [
-  [
-    "codigo" => "0102",
-    "nombre" => "Banco de Venezuela",
-    "rif" => "G200099976"
-  ],
-  [
-    "codigo" => "0104",
-    "nombre" => "Venezolano de Crédito",
-    "rif" => "J000029709"
-  ],
-  [
+$bancos = [
+    [
+        "codigo" => "0102",
+        "nombre" => "Banco de Venezuela",
+        "rif" => "G200099976"
+    ],
+    [
+        "codigo" => "0104",
+        "nombre" => "Venezolano de Crédito",
+        "rif" => "J000029709"
+    ],
+    [
     "codigo" => "0105",
     "nombre" => "Mercantil Banco",
     "rif" => "J000029610"
-  ],
+    ],
   [
     "codigo" => "0108",
     "nombre" => "BBVA Provincial",
@@ -62,7 +62,7 @@
   ],
   [
     "codigo" => "0156",
-        "nombre" => "100% Banco",
+    "nombre" => "100% Banco",
     "rif" => "J085007768"
   ],
   [
