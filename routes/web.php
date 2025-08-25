@@ -51,6 +51,7 @@ use App\Http\Controllers\IdentityController;
 use App\Http\Controllers\OrdenStatusController;
 use App\Http\Controllers\OrdenPaymentTypeController;
 use App\Http\Controllers\OrdenPaymentOriginController;
+use App\Http\Controllers\ConsultaWebClienteController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -319,6 +320,10 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Orden Payment Origins
     Route::get('/orden-payment-origins/{ordenPaymentOrigin}/delete',    [OrdenPaymentOriginController::class, 'delete'])->name('orden-payment-origins.delete');
     Route::resource('orden-payment-origins', OrdenPaymentOriginController::class);
+
+    //Ruta de Consulta Web Cliente
+    Route::get('/consulta-web-cliente', [ConsultaWebClienteController::class, 'index'])->name('consulta-web-cliente.index');
+    Route::get('/consulta-web-cliente/buscar', [ConsultaWebClienteController::class, 'buscar'])->name('consulta-web-cliente.buscar');
 
 });
 
