@@ -65,7 +65,7 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             
-                                            {{ Form::selectComp('status', 'Estatus', '', $statuses) }}
+                                            {{ Form::selectComp('orden_status_id', 'Estatus', '', $ordenStatuses) }}
                                             {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
                                             <button type="submit" class="btn btn-primary btn-block" title="Guardar"><i
                                                     class="fa fa-floppy-disk"></i></button>
@@ -87,10 +87,10 @@
                                             {{ Form::dateComp('pago_fecha', 'Fecha', null, null, '') }}
                                         </div>
                                         <div class="col-xs-2 col-sm-2 col-md-2">
-                                            {{ Form::selectComp('tipo_id', 'Tipo', '', $tipos) }}
+                                            {{ Form::selectComp('orden_payment_type_id', 'Tipo', '', $paymentTypes) }}
                                         </div>
                                         <div class="col-xs-2 col-sm-2 col-md-2">
-                                            {{ Form::selectComp('origen_id', 'Origen del Registro', '', $origens) }}
+                                            {{ Form::selectComp('orden_payment_origin_id', 'Origen del Registro', '', $paymentOrigins) }}
                                         </div>
                                         <div class="col-xs-2 col-sm-2 col-md-2">
                                             {{ Form::textComp('referencia', 'Ref', null, null, '') }}
@@ -168,13 +168,13 @@
                 document.getElementById('saldoCliente').innerHTML = '<strong>Cliente:</strong> ' + '' + response.data.cliente.name ?? '' + '';
                 document.getElementById("saldoPaciente").innerHTML = '<strong>Paciente:</strong> ' + '' + response.data.paciente ?? '' + '';
                 document.getElementById("saldoNumeroOrden").innerHTML = '<strong>Nro. Orden:</strong> ' + '' + response.data.numero_orden ?? '' + '';
-                document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> ' + '' + response.data.status ?? '' + '';
+                document.getElementById("saldoEstatus").innerHTML = '<strong>Estatus:</strong> ' + '' + response.data.orden_status.name ?? '' + '';
                 document.getElementById("saldoFechaRecibido").innerHTML = '<strong>Fecha de Recibido:</strong> ' + '' + response.data.fecha_recibida ?? '' + '';
                 document.getElementById("saldoTotal").innerHTML = '<strong>Total:</strong> ' + '' + response.data.precio_total ?? '' + '';
                 document.getElementById("saldoSaldo").innerHTML = '<strong>Saldo:</strong> ' + '' + response.data.precio_saldo ?? '' + '';
                 document.getElementById("saldoPorcentajePago").innerHTML = '<strong>Porcentaje Pagado:</strong> ' + '' + response.data.precio_porcentaje_pago ?? '' + '%';
                 document.getElementById('fecha_entrega').value = response.data.fecha_entrega;
-                document.getElementById('status').value = response.data.status;
+                document.getElementById('orden_status_id').value = response.data.orden_status_id;
 
                 consultaPagosTable(response.data);
 
@@ -204,12 +204,6 @@
 
                 // Intentar varios métodos de actualización de DataTables
                 try {
-                    // Método 1: Usando API moderna
-                    /* $('#ordens-table').DataTable().ajax.reload(null, false); */
-                    // Método 2: Usando método antiguo
-                    /* var oTable = $('#ordens-table').dataTable();
-                    oTable.fnDraw(false); */
-                    // Método 3: Redraw directo
                     $('#ordens-table').DataTable().draw(false);
                 } catch (error) {
                     console.error("Error al actualizar tabla:", error);
@@ -238,15 +232,8 @@
                 /* document.getElementById('mensaje').innerText = 'Formulario enviado correctamente'; */
                 limpiarPagoForm();
                 openModalPagos(response.data.orden.id);
-
                 // Intentar varios métodos de actualización de DataTables
                 try {
-                    // Método 1: Usando API moderna
-                    /* $('#ordens-table').DataTable().ajax.reload(null, false); */
-                    // Método 2: Usando método antiguo
-                    /* var oTable = $('#ordens-table').dataTable();
-                    oTable.fnDraw(false); */
-                    // Método 3: Redraw directo
                     $('#ordens-table').DataTable().draw(false);
                 } catch (error) {
                     console.error("Error al actualizar tabla:", error);
@@ -264,10 +251,10 @@
         function limpiarPagoForm() {
             document.getElementById('monto').value = '';
             document.getElementById('pago_fecha').value = '';
-            document.getElementById('tipo_id').value = '';
-            document.getElementById('origen_id').value = '';
+            document.getElementById('orden_payment_type_id').value = '';
+            document.getElementById('orden_payment_origin_id').value = '';
             document.getElementById('referencia').value = '';
-            document.getElementById('status').value = '';
+            document.getElementById('orden_status_id').value = '';
             document.getElementById('fecha_entrega').value = '';
 
             const tbody = document.querySelector('#tablaPagos tbody');
@@ -297,11 +284,11 @@
                 fila.appendChild(celdaPagoFecha);
 
                 const celdaTipoId = document.createElement('td');
-                celdaTipoId.textContent = pago.tipo.tipo;
+                celdaTipoId.textContent = pago.payment_type.name;
                 fila.appendChild(celdaTipoId);
 
                 const celdaOrigenId = document.createElement('td');
-                celdaOrigenId.textContent = pago.origen.nombre;
+                celdaOrigenId.textContent = pago.payment_origin.name;
                 fila.appendChild(celdaOrigenId);
 
                 const celdaReferencia = document.createElement('td');
@@ -345,7 +332,7 @@
                     if (file) {
                         const formData = new FormData();
                         formData.append('image', file);
-                        formData.append('payment_id', pago.id);
+                        formData.append('orden_payment_id', pago.id);
 
                         axios.post('/api/cargar-imagen-payment', formData, {
                             headers: {
@@ -359,12 +346,6 @@
 
                                     // Intentar varios métodos de actualización de DataTables
                                     try {
-                                        // Método 1: Usando API moderna
-                                        /* $('#formularios-table').DataTable().ajax.reload(null, false); */
-                                        // Método 2: Usando método antiguo
-                                        /* var oTable = $('#formularios-table').dataTable();
-                                        oTable.fnDraw(false); */
-                                        // Método 3: Redraw directo
                                         $('#formularios-table').DataTable().draw(false);
                                     } catch (error) {
                                         console.error("Error al actualizar tabla:", error);

@@ -43,6 +43,45 @@ class OrdensDataTable extends DataTable
 
                 return '<div class="btn-group" role="group" aria-label="Opciones">' . $buttons . '</div>';
             })
+            ->addColumn('tipoLente', function ($query) {
+                return $query->tipoLente ? $query->tipoLente->tipo_lente : '';
+            })
+            ->orderColumn('tipoLente', function ($query, $order) {
+                $query->whereHas('tipoLente', function ($q) use ($order) {
+                    $q->orderBy('tipo_lente', $order);
+                });
+            })
+            ->filterColumn('tipoLente', function ($query, $keyword) {
+                $query->whereHas('tipoLente', function ($query) use ($keyword) {
+                    $query->where('tipo_lente', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('tipoTratamiento', function ($query) {
+                return $query->tipoTratamiento ? $query->tipoTratamiento->tipo_tratamiento : '';
+            })
+            ->orderColumn('tipoTratamiento', function ($query, $order) {
+                $query->whereHas('tipoTratamiento', function ($q) use ($order) {
+                    $q->orderBy('tipo_tratamiento', $order);
+                });
+            })
+            ->filterColumn('tipoTratamiento', function ($query, $keyword) {
+                $query->whereHas('tipoTratamiento', function ($query) use ($keyword) {
+                    $query->where('tipo_tratamiento', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('ordenStatus', function ($query) {
+                return $query->ordenStatus ? $query->ordenStatus->name : '';
+            })
+            ->orderColumn('ordenStatus', function ($query, $order) {
+                $query->whereHas('ordenStatus', function ($q) use ($order) {
+                    $q->orderBy('name', $order);
+                });
+            })
+            ->filterColumn('ordenStatus', function ($query, $keyword) {
+                $query->whereHas('ordenStatus', function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%$keyword%");
+                });
+            })
             ->setRowId('id');
     }
 
@@ -59,6 +98,7 @@ class OrdensDataTable extends DataTable
                 'tipoTratamiento:id,tipo_tratamiento',
                 'tipoLente:id,tipo_lente',
                 'cliente:id,name',
+                'ordenStatus:id,name',
             ]);
     }
 
@@ -138,13 +178,28 @@ class OrdensDataTable extends DataTable
         $columns[] = Column::make('numero_orden')->title('Número de Orden');
         $columns[] = Column::make('fecha_recibida')->title('Fecha Recibida');
         $columns[] = Column::make('fecha_entrega')->title('Fecha Entrega');
-        $columns[] = Column::make('status')->title('Estatus');
+        $columns[] = Column::computed('ordenStatus')->title('Estatus de Orden')->orderable(true)
+                                ->searchable(true)
+                                ->exportable(true)
+                                ->printable(true)
+                                ->width(60)
+                                ->addClass('text-center');
         $columns[] = Column::make('cedula')->title('Cédula');
         $columns[] = Column::make('paciente')->title('Paciente');
         $columns[] = Column::make('edad')->title('Edad');
         $columns[] = Column::make('genero')->title('Género');
-        $columns[] = Column::make('tipo_lente.tipo_lente')->title('Tipo de Lente');
-        $columns[] = Column::make('tipo_tratamiento.tipo_tratamiento')->title('Tipo de Tratamiento');
+        $columns[] = Column::computed('tipoLente')->title('Tipo de Lente')->orderable(true)
+                                ->searchable(true)
+                                ->exportable(true)
+                                ->printable(true)
+                                ->width(60)
+                                ->addClass('text-center');
+        $columns[] = Column::computed('tipoTratamiento')->title('Tipo de Tratamiento')->orderable(true)
+                                ->searchable(true)
+                                ->exportable(true)
+                                ->printable(true)
+                                ->width(60)
+                                ->addClass('text-center');
         $columns[] = Column::make('od_esf')->title('OD Esfera');
         $columns[] = Column::make('od_cil')->title('OD Cilindro');
         $columns[] = Column::make('od_eje')->title('OD Eje');

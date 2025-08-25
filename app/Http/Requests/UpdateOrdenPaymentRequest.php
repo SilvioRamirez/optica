@@ -23,12 +23,12 @@ class UpdateOrdenPaymentRequest extends FormRequest
     {
         return [
             'orden_id' => 'required|exists:ordens,id',
-            'payment_date' => 'required|date',
-            'amount' => 'required|numeric',
-            'status' => 'required|in:pending,paid,failed',
-            'payment_method' => 'required|in:cash,bank_transfer,credit_card,other',
-            'payment_reference' => 'nullable|string',
-            'payment_notes' => 'nullable|string',
+            'orden_payment_origin_id' => 'required|exists:orden_payment_origins,id',
+            'orden_payment_type_id' => 'required|exists:orden_payment_types,id',
+            'monto' => 'required|numeric',
+            'pago_fecha' => 'required|date',
+            'referencia' => 'nullable|string',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

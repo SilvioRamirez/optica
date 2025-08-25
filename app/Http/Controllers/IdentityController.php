@@ -89,7 +89,7 @@ class IdentityController extends Controller
      * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function delete(Identity $identity): View
+    public function delete(Identity $identity)
     {
         return view('identities.delete',compact('identity'));
     }

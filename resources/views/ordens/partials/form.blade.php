@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            {{ Form::selectComp('status', 'Estatus', '', $estatuses) }}
+            {{ Form::selectComp('orden_status_id', 'Estatus de Orden', '', $estatuses) }}
             <h5 class="mt-4">Datos del Paciente</h5>
             <hr>
             {{ Form::textComp('cedula', 'Cedula', null, null, '') }}

@@ -9,26 +9,22 @@ class OrdenPayment extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['orden_id', 'origen_id', 'tipo_id', 'monto', 'pago_fecha', 'referencia', 'image_path', 'created_by', 'updated_by'];
+    protected $fillable = ['orden_id', 'orden_payment_origin_id', 'orden_payment_type_id', 'monto', 'pago_fecha', 'referencia', 'image_path', 'created_by', 'updated_by'];
 
     public function orden()
     {
         return $this->belongsTo(Orden::class);
     }
 
-    public function cliente()
+
+    public function paymentOrigin()
     {
-        return $this->belongsTo(Cliente::class);
+        return $this->belongsTo(OrdenPaymentOrigin::class, 'orden_payment_origin_id');
     }
 
-    public function origen()
+    public function paymentType()
     {
-        return $this->belongsTo(Origen::class);
-    }
-
-    public function tipo()
-    {
-        return $this->belongsTo(Tipo::class);
+        return $this->belongsTo(OrdenPaymentType::class, 'orden_payment_type_id');
     }
 
     public function getCreatedAtAttribute()

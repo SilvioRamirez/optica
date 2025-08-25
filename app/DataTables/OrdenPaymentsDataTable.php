@@ -43,6 +43,38 @@ class OrdenPaymentsDataTable extends DataTable
                     $query->where('numero_orden', 'like', "%$keyword%");
                 });
             })
+            ->addColumn('cliente', function ($query) {
+                return $query->orden->cliente->name;
+            })
+            ->filterColumn('cliente', function ($query, $keyword) {
+                $query->whereHas('orden.cliente', function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('orden_payment_origin_id', function ($query) {
+                return $query->paymentOrigin->name;
+            })
+            ->filterColumn('orden_payment_origin_id', function ($query, $keyword) {
+                $query->whereHas('paymentOrigin', function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('orden_payment_type_id', function ($query) {
+                return $query->paymentType->name;
+            })
+            ->filterColumn('orden_payment_type_id', function ($query, $keyword) {
+                $query->whereHas('paymentType', function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%$keyword%");
+                });
+            })
+            ->addColumn('orden_payment_origin_id', function ($query) {
+                return $query->paymentOrigin->name;
+            })
+            ->filterColumn('orden_payment_origin_id', function ($query, $keyword) {
+                $query->whereHas('paymentOrigin', function ($query) use ($keyword) {
+                    $query->where('name', 'like', "%$keyword%");
+                });
+            })
             ->addColumn('monto', function ($query) {
                 return $query->monto ? $query->monto : 'N/A';
             })
@@ -77,7 +109,7 @@ class OrdenPaymentsDataTable extends DataTable
      */
     public function query(OrdenPayment $model): QueryBuilder
     {
-        return $model->newQuery()->with('origen', 'tipo', 'orden', 'orden.cliente'); //Se reduce de 82 consultas a 9 con los with
+        return $model->newQuery()->with('paymentOrigin', 'paymentType', 'orden', 'orden.cliente'); //Se reduce de 82 consultas a 9 con los with
     }
 
     /**
@@ -120,10 +152,24 @@ class OrdenPaymentsDataTable extends DataTable
             ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
         $columns[] = Column::make('orden_id')->title('Orden ID');
-        $columns[] = Column::make('origen_id')->title('Origen del Pago');
+        $columns[] = Column::make('orden.cliente.name')->title('Cliente');
+        $columns[] = Column::computed('orden_payment_origin_id')->title('Origen del Pago')
+            ->orderable(true)
+            ->searchable(true)
+            ->exportable(true)
+            ->printable(true)
+            ->width(60)
+            ->addClass('text-center');
+        $columns[] = Column::computed('orden_payment_type_id')->title('Tipo Pago')
+                ->orderable(true)
+                ->searchable(true)
+                ->exportable(true)
+                ->printable(true)
+                ->width(60)
+                ->addClass('text-center');
+
         $columns[] = Column::make('monto')->title('Monto');
         $columns[] = Column::make('pago_fecha')->title('Fecha Pago');
-        $columns[] = Column::make('tipo_id')->title('Tipo Pago');
         $columns[] = Column::make('referencia')->title('Referencia');
         if (auth()->user()->can('pago-list')) {
             $columns[] = Column::make('image_path')->title('Imagen');

@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Cliente;
+use App\Models\OrdenStatus;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class ClientesDataTable extends DataTable
+class OrdenStatusesDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,16 +26,16 @@ class ClientesDataTable extends DataTable
 
                     $buttons = '';
 
-                    if(auth()->user()->can('cliente-list')){
-                        $buttons .= '<a class="btn btn-info btn-sm" title="Estadisticas de Cliente" href="'.route('clientes.show',$query->id).'"> <i class="fa fa-chart-line"></i></a>';
+                    if(auth()->user()->can('orden-status-list')){
+                        $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="'.route('orden-statuses.show',$query->id).'"> <i class="fa fa-eye"></i></a>';
                     }
 
-                    if(auth()->user()->can('cliente-edit')){
-                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('clientes.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
+                    if(auth()->user()->can('orden-status-edit')){
+                        $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="'.route('orden-statuses.edit',$query->id).'"> <i class="fa fa-pen-to-square"></i></a>';
                     }
 
-                    if(auth()->user()->can('cliente-delete')){
-                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('clientes.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
+                    if(auth()->user()->can('orden-status-delete')){
+                        $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="'.route('orden-statuses.delete',$query->id).'"> <i class="fa fa-trash"></i></a>';
                     }
 
                     return '<div class="btn-group" role="group" aria-label="Opciones">'.$buttons.'</div>';
@@ -47,7 +47,7 @@ class ClientesDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Cliente $model): QueryBuilder
+    public function query(OrdenStatus $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -58,7 +58,7 @@ class ClientesDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('clientes-table')
+                    ->setTableId('identities-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->language([
@@ -73,7 +73,7 @@ class ClientesDataTable extends DataTable
     {
         $buttons = [];
         
-        if(auth()->user()->can('cliente-download')){
+        if(auth()->user()->can('orden-status-download')){
             $buttons[] = Button::make('excel');
             $buttons[] = Button::make('csv');
             $buttons[] = Button::make('print');
@@ -99,9 +99,7 @@ class ClientesDataTable extends DataTable
                     ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
         $columns[] = Column::make('name')->title('Nombre');
-        $columns[] = Column::make('email')->title('Email');
-        $columns[] = Column::make('address')->title('Dirección');
-        $columns[] = Column::make('phone')->title('Teléfono');
+        $columns[] = Column::make('description')->title('Descripción');
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
 
@@ -113,6 +111,6 @@ class ClientesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Clientes_' . date('YmdHis');
+        return 'Estatus de Ordenes_' . date('YmdHis');
     }
 }

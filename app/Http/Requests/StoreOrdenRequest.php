@@ -26,7 +26,7 @@ class StoreOrdenRequest extends FormRequest
             'numero_orden' => 'required|string',
             'fecha_recibida' => 'required|date',
             'fecha_entrega' => 'nullable|date',
-            'status' => 'required|string',
+            'orden_status_id' => 'required|exists:orden_statuses,id',
             'cedula' => 'required|string',
             'paciente' => 'required|string',
             'edad' => 'nullable|string',

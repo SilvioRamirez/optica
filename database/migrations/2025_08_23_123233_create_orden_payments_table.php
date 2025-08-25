@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\Orden;
-use App\Models\Origen;
-use App\Models\Tipo;
+use App\Models\OrdenPaymentOrigin;
+use App\Models\OrdenPaymentType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('orden_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Orden::class);
-            $table->foreignIdFor(Origen::class);
-            $table->foreignIdFor(Tipo::class);
+            $table->foreignIdFor(OrdenPaymentOrigin::class);
+            $table->foreignIdFor(OrdenPaymentType::class);
             $table->decimal('monto', 8, 2)->nullable();
             $table->string('pago_fecha')->nullable();
             $table->string('referencia')->nullable();

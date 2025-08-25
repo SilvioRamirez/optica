@@ -410,6 +410,24 @@ return [
                     'icon' => 'fa-solid fa-id-badge',
                     'canany' => ['identity-list', 'identity-create', 'identity-edit', 'identity-delete'],
                 ],
+                [
+                    'text' => 'Estatus de Ordenes',
+                    'url' => 'orden-statuses',
+                    'icon' => 'fa-solid fa-layer-group',
+                    'canany' => ['orden-status-list', 'orden-status-create', 'orden-status-edit', 'orden-status-delete'],
+                ],
+                [
+                    'text' => 'Tipos de Pago de Ordenes',
+                    'url' => 'orden-payment-types',
+                    'icon' => 'fa-solid fa-hand-holding-dollar',
+                    'canany' => ['orden-payment-type-list', 'orden-payment-type-create', 'orden-payment-type-edit', 'orden-payment-type-delete'],
+                ],
+                [
+                    'text' => 'Origenes de Pago de Ordenes',
+                    'url' => 'orden-payment-origins',
+                    'icon' => 'fa-solid fa-street-view',
+                    'canany' => ['orden-payment-origin-list', 'orden-payment-origin-create', 'orden-payment-origin-edit', 'orden-payment-origin-delete'],
+                ],
             ],
         ],
         

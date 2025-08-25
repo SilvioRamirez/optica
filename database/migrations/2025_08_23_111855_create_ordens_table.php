@@ -3,6 +3,9 @@
 use App\Models\Cliente;
 use App\Models\TipoLente;
 use App\Models\TipoTratamiento;
+use App\Models\OrdenStatus;
+use App\Models\OrdenPaymentOrigin;
+use App\Models\OrdenPaymentType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +23,7 @@ return new class extends Migration
             $table->string('numero_orden');
             $table->date('fecha_recibida')->nullable();
             $table->date('fecha_entrega')->nullable();
-            $table->string('status');
+            $table->foreignIdFor(OrdenStatus::class);
             $table->string('cedula');
             $table->string('paciente');
             $table->string('edad');
@@ -38,12 +41,12 @@ return new class extends Migration
             $table->string('alt')->nullable();
             $table->string('observaciones_extras')->nullable();
             $table->enum('tipo_formula', ['TERMINADA', 'TALLADA']);
-            $table->float('precio_cristal', 8, 2)->default(0);
-            $table->float('precio_montaje', 8, 2)->default(0);
-            $table->float('precio_total', 8, 2)->default(0);
-            $table->float('precio_descuento', 8, 2)->default(0);
-            $table->float('precio_saldo', 8, 2)->default(0);
-            $table->float('precio_porcentaje_pago', 8, 2)->default(0);
+            $table->float('precio_cristal', 8, 2)->nullable()->default(0);
+            $table->float('precio_montaje', 8, 2)->nullable()->default(0);
+            $table->float('precio_total', 8, 2)->nullable()->default(0);
+            $table->float('precio_descuento', 8, 2)->nullable()->default(0);
+            $table->float('precio_saldo', 8, 2)->nullable()->default(0);
+            $table->float('precio_porcentaje_pago', 8, 2)->nullable()->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

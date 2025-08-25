@@ -15,7 +15,7 @@ class Orden extends Model
         'numero_orden', 
         'fecha_recibida', 
         'fecha_entrega', 
-        'status', 
+        'orden_status_id', 
         'cedula', 
         'paciente', 
         'edad', 
@@ -61,6 +61,11 @@ class Orden extends Model
     public function ordenPayments()
     {
         return $this->hasMany(OrdenPayment::class);
+    }
+
+    public function ordenStatus()
+    {
+        return $this->belongsTo(OrdenStatus::class);
     }
 
     public function getCreatedAtAttribute()

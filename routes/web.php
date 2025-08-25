@@ -48,6 +48,9 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\OrdenPaymentController;
 use App\Http\Controllers\OrdenController;
 use App\Http\Controllers\IdentityController;
+use App\Http\Controllers\OrdenStatusController;
+use App\Http\Controllers\OrdenPaymentTypeController;
+use App\Http\Controllers\OrdenPaymentOriginController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -304,6 +307,18 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/ordens/update-status', [OrdenController::class, 'updateStatus']);
     Route::post('api/orden-payment-delete/{ordenPayment}', [OrdenPaymentController::class, 'destroy']);
     Route::resource('orden-payments', OrdenPaymentController::class);
+
+    //Rutas de Orden Status
+    Route::get('/orden-statuses/{ordenStatus}/delete',    [OrdenStatusController::class, 'delete'])->name('orden-statuses.delete');
+    Route::resource('orden-statuses', OrdenStatusController::class);
+
+    //Rutas de Orden Payment Types
+    Route::get('/orden-payment-types/{ordenPaymentType}/delete',    [OrdenPaymentTypeController::class, 'delete'])->name('orden-payment-types.delete');
+    Route::resource('orden-payment-types', OrdenPaymentTypeController::class);
+
+    //Rutas de Orden Payment Origins
+    Route::get('/orden-payment-origins/{ordenPaymentOrigin}/delete',    [OrdenPaymentOriginController::class, 'delete'])->name('orden-payment-origins.delete');
+    Route::resource('orden-payment-origins', OrdenPaymentOriginController::class);
 
 });
 

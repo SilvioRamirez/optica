@@ -98,10 +98,10 @@ class OrdenPaymentController extends Controller
         try {
             $request->validate([
                 'image' => 'required|image|max:10240', // máximo 10mb
-                'payment_id' => 'required|exists:pagos,id'
+                'orden_payment_id' => 'required|exists:orden_payments,id'
             ]);
 
-            $pago = OrdenPayment::findOrFail($request->payment_id);
+            $pago = OrdenPayment::findOrFail($request->orden_payment_id);
 
             if ($request->hasFile('image')) {
                 // Eliminar imagen anterior si existe
@@ -133,8 +133,8 @@ class OrdenPaymentController extends Controller
                     ->with('tipoTratamiento')
                     ->with('tipoLente')
                     ->with('ordenPayments', function($query){
-                        $query->with('origen')
-                        ->with('tipo');
+                        $query->with('paymentOrigin')
+                        ->with('paymentType');
                     });
                 }]);
 

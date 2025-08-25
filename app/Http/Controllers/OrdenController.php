@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\DataTables\OrdensDataTable;
 use App\Models\Cliente;
 use App\Models\Orden;
-use App\Models\Estatus;
+use App\Models\OrdenStatus;
 use App\Models\TipoLente;
 use App\Models\TipoTratamiento;
 use App\Http\Requests\StoreOrdenRequest;
 use App\Http\Requests\UpdateOrdenRequest;
-use App\Models\Tipo;
-use App\Models\Origen;
+use App\Models\OrdenPaymentType;
+use App\Models\OrdenPaymentOrigin;
 use Illuminate\Http\Request;
 
 class OrdenController extends Controller
@@ -35,10 +35,10 @@ class OrdenController extends Controller
      */
     public function index(OrdensDataTable $dataTable)
     {
-        $tipos = Tipo::orderBy('tipo', 'asc')->pluck('tipo', 'id')->prepend('-- Seleccione --', '');
-        $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
-        $statuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
-        return $dataTable->render('ordens.index', compact('tipos', 'origens', 'statuses'));
+        $paymentTypes = OrdenPaymentType::orderBy('name', 'asc')->pluck('name', 'id')->prepend('-- Seleccione --', '');
+        $paymentOrigins = OrdenPaymentOrigin::orderBy('name', 'asc')->pluck('name', 'id')->prepend('-- Seleccione --', '');
+        $ordenStatuses = OrdenStatus::pluck('name', 'id')->prepend('-- Seleccione --', '');
+        return $dataTable->render('ordens.index', compact('paymentTypes', 'paymentOrigins', 'ordenStatuses'));
     }
 
     /**
@@ -50,10 +50,10 @@ class OrdenController extends Controller
         $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'desc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
         $tipoFormulas = ['TERMINADA' => 'TERMINADA', 'TALLADA' => 'TALLADA'];
-        $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
+        $ordenStatuses = OrdenStatus::pluck('name', 'id')->prepend('-- Seleccione --', '');
         $orden = null;
 
-        return view('ordens.create', compact('clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'estatuses', 'orden'));
+        return view('ordens.create', compact('clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'ordenStatuses', 'orden'));
     }
 
     /**
@@ -81,9 +81,9 @@ class OrdenController extends Controller
         $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'desc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
         $tipoFormulas = ['TERMINADA' => 'TERMINADA', 'TALLADA' => 'TALLADA'];
-        $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
+        $ordenStatuses = OrdenStatus::pluck('name', 'id')->prepend('-- Seleccione --', '');
 
-        return view('ordens.show', compact('orden', 'clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'estatuses'));
+        return view('ordens.show', compact('orden', 'clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'ordenStatuses'));
     }
 
     /**
@@ -95,10 +95,10 @@ class OrdenController extends Controller
         $tipoLentes = TipoLente::get(['id', 'tipo_lente']);
         $tipoTratamientos = TipoTratamiento::orderBy('tipo_tratamiento', 'desc')->pluck('tipo_tratamiento', 'id')->prepend('-- Seleccione --', '');
         $tipoFormulas = ['TERMINADA' => 'TERMINADA', 'TALLADA' => 'TALLADA'];
-        $estatuses = Estatus::pluck('estatus', 'estatus')->prepend('-- Seleccione --', '');
+        $ordenStatuses = OrdenStatus::pluck('name', 'id')->prepend('-- Seleccione --', '');
 
 
-        return view('ordens.edit', compact('orden', 'clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'estatuses'));
+        return view('ordens.edit', compact('orden', 'clientes', 'tipoLentes', 'tipoTratamientos', 'tipoFormulas', 'ordenStatuses'));
     }
 
     /**
@@ -146,9 +146,10 @@ class OrdenController extends Controller
             ->with('cliente')
             ->with('tipoTratamiento')
             ->with('tipoLente')
+            ->with('ordenStatus')
             ->with('ordenPayments', function ($query) {
-                $query->with('origen')
-                    ->with('tipo');
+                $query->with('paymentOrigin')
+                    ->with('paymentType');
             })
             ->get()
             ->first()
@@ -160,18 +161,9 @@ class OrdenController extends Controller
     {
         $data = $request->all();
         $orden = Orden::find($data['orden_id']);
-        $orden->status = $data['status'];
+        $orden->orden_status_id = $data['orden_status_id'];
         $orden->fecha_entrega = $data['fecha_entrega'];
         $orden->save();
-
-        /* $orden->load(
-            'cliente', 
-            'tipoTratamiento', 
-            'tipoLente', 
-            'ordenPayments',
-            'ordenPayments.origen',
-            'ordenPayments.tipo'
-        ); */
 
         return response()->json(['message' => 'Estatus actualizado correctamente', 'orden' => $orden]);
     }
