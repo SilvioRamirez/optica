@@ -292,6 +292,7 @@ Route::group(['middleware' => ['auth']], function() {
 
     //Rutas de Clientes
     Route::get('/clientes/{cliente}/delete',    [ClienteController::class, 'delete'])->name('clientes.delete');
+    Route::get('/clientes/{cliente}/pdf', [ClienteController::class, 'generatePdf'])->name('clientes.pdf');
     Route::resource('clientes', ClienteController::class);
 
     //Rutas de Identidades
@@ -308,6 +309,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('api/cargar-imagen-payment', [OrdenPaymentController::class, 'cargarImagen']);
     Route::post('api/ordens/update-status', [OrdenController::class, 'updateStatus']);
     Route::post('api/orden-payment-delete/{ordenPayment}', [OrdenPaymentController::class, 'destroy']);
+    Route::get('/ordens/{orden}/pdf', [OrdenController::class, 'generatePdf'])->name('ordens.pdf');
     Route::resource('orden-payments', OrdenPaymentController::class);
 
     //Rutas de Orden Status

@@ -13,7 +13,8 @@ use App\Http\Requests\UpdateOrdenRequest;
 use App\Models\OrdenPaymentType;
 use App\Models\OrdenPaymentOrigin;
 use Illuminate\Http\Request;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use App\Models\Configuracion;
 class OrdenController extends Controller
 {
 
@@ -168,5 +169,28 @@ class OrdenController extends Controller
         $orden->save();
 
         return response()->json(['message' => 'Estatus actualizado correctamente', 'orden' => $orden]);
+    }
+
+    /* Generar PDF de la Orden */
+    public function generatePdf(Orden $orden)
+    {
+        $orden->load(['cliente' => function($query){
+            $query->with('identity');
+        }]);
+        $orden->load('tipoTratamiento');
+        $orden->load('tipoLente');
+        $orden->load('ordenStatus');
+        $orden->load([ 'ordenPayments' => function ($query) {
+            $query->with('paymentOrigin')
+                ->with('paymentType');
+        }]);
+
+        $configuracion = Configuracion::find(1);
+
+        $pdf = PDF::loadView('ordens.pdf', compact('orden','configuracion'))
+                    ->setOption(['dpi' => 150, 'isRemoteEnabled' => true])
+                    ->setPaper([0, 0, 164.409448819, 595.275590551]);
+
+        return $pdf->download('Orden Nro. '.$orden->numero_orden.'.pdf');
     }
 }

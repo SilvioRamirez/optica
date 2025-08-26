@@ -7,6 +7,8 @@ use App\Models\Cliente;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
 use App\Models\Identity;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use App\Models\Configuracion;
 use Illuminate\Contracts\View\View;
 
 class ClienteController extends Controller
@@ -61,7 +63,68 @@ class ClienteController extends Controller
     {
         $identities = Identity::orderBy('name', 'desc')->pluck('name', 'id')->prepend('-- Seleccione --', '');
 
-        return view('clientes.show', compact('cliente', 'identities'));
+        // Estadísticas de pagos del cliente
+        $totalClientePayments = $cliente->clientePayments()->count();
+        $sumaClientePayments = $cliente->clientePayments()->sum('monto_usd');
+        $saldoCliente = $cliente->clientePayments()->sum('saldo');
+
+        // Estadísticas de órdenes del cliente
+        $totalOrdenes = $cliente->ordens()->count();
+        $sumaMontoOrdenes = $cliente->ordens()->sum('precio_total');
+        $sumaSaldoOrdenes = $cliente->ordens()->sum('precio_saldo');
+        $sumaPagosOrdenes = $cliente->ordens()->sum('precio_total') - $cliente->ordens()->sum('precio_saldo');
+
+        // Órdenes por estatus
+        $ordenesPorEstatus = $cliente->ordens()
+            ->join('orden_statuses', 'ordens.orden_status_id', '=', 'orden_statuses.id')
+            ->selectRaw('orden_statuses.name as estatus_nombre, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('orden_statuses.id', 'orden_statuses.name')
+            ->get();
+
+        // Órdenes por tipo de lente
+        $ordenesPorTipoLente = $cliente->ordens()
+            ->join('tipo_lentes', 'ordens.tipo_lente_id', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_lentes.tipo_lente, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('tipo_lentes.id', 'tipo_lentes.tipo_lente')
+            ->get();
+
+        // Órdenes por tipo de tratamiento
+        $ordenesPorTipoTratamiento = $cliente->ordens()
+            ->join('tipo_tratamientos', 'ordens.tipo_tratamiento_id', '=', 'tipo_tratamientos.id')
+            ->selectRaw('tipo_tratamientos.tipo_tratamiento, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('tipo_tratamientos.id', 'tipo_tratamientos.tipo_tratamiento')
+            ->get();
+
+        // Pagos de órdenes por tipo
+        $pagosPorTipo = $cliente->ordens()
+            ->join('orden_payments', 'ordens.id', '=', 'orden_payments.orden_id')
+            ->join('orden_payment_types', 'orden_payments.orden_payment_type_id', '=', 'orden_payment_types.id')
+            ->selectRaw('orden_payment_types.name as tipo_nombre, COUNT(*) as total_pagos, SUM(orden_payments.monto) as monto_total')
+            ->groupBy('orden_payment_types.id', 'orden_payment_types.name')
+            ->get();
+
+        // Estado de pagos de ClientePayment por status
+        $clientePaymentsPorStatus = $cliente->clientePayments()
+            ->selectRaw('status, COUNT(*) as total, SUM(monto_usd) as monto_total')
+            ->groupBy('status')
+            ->get();
+
+        return view('clientes.show', compact(
+            'cliente', 
+            'identities',
+            'totalClientePayments',
+            'sumaClientePayments',
+            'saldoCliente',
+            'totalOrdenes',
+            'sumaMontoOrdenes',
+            'sumaSaldoOrdenes',
+            'sumaPagosOrdenes',
+            'ordenesPorEstatus',
+            'ordenesPorTipoLente',
+            'ordenesPorTipoTratamiento',
+            'pagosPorTipo',
+            'clientePaymentsPorStatus'
+        ));
     }
 
     /**
@@ -118,5 +181,81 @@ class ClienteController extends Controller
 
         return redirect()->route('clientes.index')
                             ->with('success','Registro eliminado exitosamente.');
+    }
+
+    /**
+     * Generar PDF del cliente con sus estadísticas
+     */
+    public function generatePdf(Cliente $cliente)
+    {
+        // Estadísticas de pagos del cliente
+        $totalClientePayments = $cliente->clientePayments()->count();
+        $sumaClientePayments = $cliente->clientePayments()->sum('monto_usd');
+        $saldoCliente = $cliente->clientePayments()->sum('saldo');
+
+        // Estadísticas de órdenes del cliente
+        $totalOrdenes = $cliente->ordens()->count();
+        $sumaMontoOrdenes = $cliente->ordens()->sum('precio_total');
+        $sumaSaldoOrdenes = $cliente->ordens()->sum('precio_saldo');
+        $sumaPagosOrdenes = $cliente->ordens()->sum('precio_total') - $cliente->ordens()->sum('precio_saldo');
+
+        // Órdenes por estatus
+        $ordenesPorEstatus = $cliente->ordens()
+            ->join('orden_statuses', 'ordens.orden_status_id', '=', 'orden_statuses.id')
+            ->selectRaw('orden_statuses.name as estatus_nombre, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('orden_statuses.id', 'orden_statuses.name')
+            ->get();
+
+        // Órdenes por tipo de lente
+        $ordenesPorTipoLente = $cliente->ordens()
+            ->join('tipo_lentes', 'ordens.tipo_lente_id', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_lentes.tipo_lente, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('tipo_lentes.id', 'tipo_lentes.tipo_lente')
+            ->get();
+
+        // Órdenes por tipo de tratamiento
+        $ordenesPorTipoTratamiento = $cliente->ordens()
+            ->join('tipo_tratamientos', 'ordens.tipo_tratamiento_id', '=', 'tipo_tratamientos.id')
+            ->selectRaw('tipo_tratamientos.tipo_tratamiento, COUNT(*) as total, SUM(ordens.precio_total) as monto_total')
+            ->groupBy('tipo_tratamientos.id', 'tipo_tratamientos.tipo_tratamiento')
+            ->get();
+
+        // Pagos de órdenes por tipo
+        $pagosPorTipo = $cliente->ordens()
+            ->join('orden_payments', 'ordens.id', '=', 'orden_payments.orden_id')
+            ->join('orden_payment_types', 'orden_payments.orden_payment_type_id', '=', 'orden_payment_types.id')
+            ->selectRaw('orden_payment_types.name as tipo_nombre, COUNT(*) as total_pagos, SUM(orden_payments.monto) as monto_total')
+            ->groupBy('orden_payment_types.id', 'orden_payment_types.name')
+            ->get();
+
+        // Estado de pagos de ClientePayment por status
+        $clientePaymentsPorStatus = $cliente->clientePayments()
+            ->selectRaw('status, COUNT(*) as total, SUM(monto_usd) as monto_total')
+            ->groupBy('status')
+            ->get();
+
+        // Cargar relaciones del cliente
+        $cliente->load('identity');
+
+        $configuracion = Configuracion::find(1);
+
+        $pdf = PDF::loadView('clientes.pdf', compact(
+            'cliente',
+            'totalClientePayments',
+            'sumaClientePayments',
+            'saldoCliente',
+            'totalOrdenes',
+            'sumaMontoOrdenes',
+            'sumaSaldoOrdenes',
+            'sumaPagosOrdenes',
+            'ordenesPorEstatus',
+            'ordenesPorTipoLente',
+            'ordenesPorTipoTratamiento',
+            'pagosPorTipo',
+            'clientePaymentsPorStatus',
+            'configuracion'
+        ));
+
+        return $pdf->download('cliente_' . $cliente->document_number . '.pdf');
     }
 }

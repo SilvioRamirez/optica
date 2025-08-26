@@ -37,6 +37,11 @@ class OrdensDataTable extends DataTable
                 if (auth()->user()->can('orden-delete')) {
                     $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="' . route('ordens.delete', $query->id) . '"> <i class="fa fa-trash"></i></a>';
                 }
+
+                if (auth()->user()->can('orden-estatus')) {
+                    $buttons .= '<a class="btn btn-secondary btn-sm" title="Generar PDF" href="' . route('ordens.pdf', $query->id) . '" target="_blank" rel="noopener noreferrer"> <i class="fa fa-file-pdf"></i></a>';
+                }
+
                 if (auth()->user()->can('orden-estatus')) {
                     $buttons .= '<button type="button" class="btn btn-success btn-sm" title="Registro de Pagos" data-argid="' . $query->id . '" onclick="openModalPagos(\'' . $query->id . '\')"><i class="fa fa-file-invoice-dollar"></i></button>';
                 }
