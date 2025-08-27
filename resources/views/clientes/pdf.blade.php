@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Reporte del Cliente {{ $cliente->name }}</title>
+    <title>Reporte Cliente {{ $cliente->name }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,7 +60,7 @@
             <div class=""><strong>{{ 'WEB: '.$configuracion->pagina_web ?? '' }}</strong></div>
         </div>
 
-        <h1>Reporte del Cliente</h1>
+        <h1>Reporte Cliente {{ $cliente->name }}</h1>
 
     </div>
 
@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <td><strong>Documento:</strong></td>
-                <td>{{ $cliente->identity->name ?? 'N/A' }}: {{ $cliente->document_number }}</td>
+                <td>{{ $cliente->identity->name ?? 'N/A' }}-{{ $cliente->document_number }}</td>
             </tr>
             <tr>
                 <td><strong>Email:</strong></td>
@@ -87,18 +87,15 @@
                 <td><strong>Dirección:</strong></td>
                 <td>{{ $cliente->address }}</td>
             </tr>
-            <tr>
-                <td><strong>Fecha de Registro:</strong></td>
-                <td>{{ $cliente->created_at }}</td>
-            </tr>
         </table>
     </div>
 
     <div class="section">
         <div class="section-title">Estadísticas Generales</div>
+        <p style="margin-bottom: 10px; font-style: italic;"><strong>Nota:</strong> Las estadísticas de órdenes muestran solo las órdenes pendientes: aquellas con saldo > $0 o que no han sido entregadas.</p>
         <table>
             <tr>
-                <td><strong>Total de Órdenes:</strong></td>
+                <td><strong>Total de Órdenes Pendientes:</strong></td>
                 <td class="text-end">{{ $totalOrdenes }}</td>
             </tr>
             <tr>
@@ -106,11 +103,11 @@
                 <td class="text-end">{{ $totalClientePayments }}</td>
             </tr>
             <tr>
-                <td><strong>Monto Total de Órdenes:</strong></td>
+                <td><strong>Monto Total de Órdenes Pendientes:</strong></td>
                 <td class="text-end">${{ number_format($sumaMontoOrdenes, 2) }}</td>
             </tr>
             <tr>
-                <td><strong>Pagos Realizados (Órdenes):</strong></td>
+                <td><strong>Pagos Realizados (Órdenes Pendientes):</strong></td>
                 <td class="text-end">${{ number_format($sumaPagosOrdenes, 2) }}</td>
             </tr>
             <tr>
@@ -312,6 +309,59 @@
         </table>
     </div>
     @endif
+
+    <div class="section">
+        <div class="section-title">Detalle de Órdenes Pendientes</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>N° Orden</th>
+                    <th>Paciente</th>
+                    <th>Fecha Recibida</th>
+                    <th>Días Pasados</th>
+                    <th>Estatus</th>
+                    <th>Tipo Lente</th>
+                    <th>Tratamiento</th>
+                    <th>Monto Total</th>
+                    <th>Saldo Pendiente</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if($ordenesPendientesDetalle->count() > 0)
+                    @php
+                        $totalMontoPendiente = 0;
+                        $totalSaldoPendiente = 0;
+                    @endphp
+                    @foreach($ordenesPendientesDetalle as $orden)
+                        <tr>
+                            <td>{{ $orden->numero_orden }}</td>
+                            <td>{{ $orden->paciente }}</td>
+                            <td>{{ $orden->fecha_recibida }}</td>
+                            <td class="text-center">{{ $orden->diasPasados() }}</td>
+                            <td>{{ $orden->ordenStatus->name ?? 'Sin estatus' }}</td>
+                            <td>{{ $orden->tipoLente->tipo_lente ?? 'Sin tipo' }}</td>
+                            <td>{{ $orden->tipoTratamiento->tipo_tratamiento ?? 'Sin tratamiento' }}</td>
+                            <td class="text-end">${{ number_format($orden->precio_total, 2) }}</td>
+                            <td class="text-end">${{ number_format($orden->precio_saldo, 2) }}</td>
+                        </tr>
+                        @php
+                            $totalMontoPendiente += $orden->precio_total;
+                            $totalSaldoPendiente += $orden->precio_saldo;
+                        @endphp
+                    @endforeach
+                    <tr style="background-color: #f0f0f0;">
+                        <td colspan="7" class="text-end"><strong>Total:</strong></td>
+                        <td class="text-end"><strong>${{ number_format($totalMontoPendiente, 2) }}</strong></td>
+                        <td class="text-end"><strong>${{ number_format($totalSaldoPendiente, 2) }}</strong></td>
+                    </tr>
+                @else
+                    <tr>
+                        <td colspan="9" class="text-center">No hay órdenes pendientes</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>
