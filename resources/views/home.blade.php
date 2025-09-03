@@ -421,6 +421,110 @@
         </div>
     </div>
 
+    <!-- Condiciones Ópticas -->
+    <div class="container pb-5 pt-3">
+        <div class="row">
+            <!-- Tabla de Evaluación General de Ojos (eval_oj) -->
+            <div class="col-lg-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="text-center mb-4">Condiciones Ópticas - {{ $mesActualNombre }}</h3>
+                        @if($evalOjStats->count() > 0)
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Condición</th>
+                                            <th class="text-center">Cantidad</th>
+                                            <th class="text-center">%</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $totalEvalOj = $evalOjStats->sum(); @endphp
+                                        @foreach($evalOjStats as $condicion => $cantidad)
+                                            <tr>
+                                                <td><strong>{{ $condicion }}</strong></td>
+                                                <td class="text-center">
+                                                    <span class="badge badge-info">{{ $cantidad }}</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    {{ $totalEvalOj > 0 ? round(($cantidad / $totalEvalOj) * 100, 1) : 0 }}%
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <p class="text-muted">No hay datos de evaluación de ojos para este mes.</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos de Presbicia y Miopía Magna -->
+            <div class="col-lg-6">
+                <!-- Presbicia -->
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <h4 class="text-center mb-3">Presbicia - {{ $mesActualNombre }}</h4>
+                        <div class="row text-center">
+                            @php $totalPresbicia = $presbiciaCount + $sinPresbiciaCount; @endphp
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white">
+                                    <div class="card-body">
+                                        <h5>SIN PRESBICIA</h5>
+                                        <h2>{{ $sinPresbiciaCount }}</h2>
+                                        <small>{{ $totalPresbicia > 0 ? round(($sinPresbiciaCount / $totalPresbicia) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h5>PRESBICIA</h5>
+                                        <h2>{{ $presbiciaCount }}</h2>
+                                        <small>{{ $totalPresbicia > 0 ? round(($presbiciaCount / $totalPresbicia) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Miopía Magna -->
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4 class="text-center mb-3">Miopía Magna - {{ $mesActualNombre }}</h4>
+                        <div class="row text-center">
+                            @php $totalMiopiaMagna = $miopiaMagnaCount + $sinMiopiaMagnaCount; @endphp
+                            <div class="col-6">
+                                <div class="card bg-secondary text-white">
+                                    <div class="card-body">
+                                        <h5>SIN MIOPÍA</h5>
+                                        <h2>{{ $sinMiopiaMagnaCount }}</h2>
+                                        <small>{{ $totalMiopiaMagna > 0 ? round(($sinMiopiaMagnaCount / $totalMiopiaMagna) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-danger text-white">
+                                    <div class="card-body">
+                                        <h5>MIOPÍA MAGNA</h5>
+                                        <h2>{{ $miopiaMagnaCount }}</h2>
+                                        <small>{{ $totalMiopiaMagna > 0 ? round(($miopiaMagnaCount / $totalMiopiaMagna) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Gráficos -->
     <div class="container pb-5 pt-3 pt-md-8">
         <div class="row justify-content-center">
@@ -487,8 +591,6 @@
 
     {!! $chart4->renderChartJsLibrary() !!}
     {!! $chart4->renderJs() !!}
-
-
 
     <script type="text/javascript">
         // Cambiar el mes automáticamente al seleccionar

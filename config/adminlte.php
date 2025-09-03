@@ -324,6 +324,12 @@ return [
                     'icon' => 'fa fa-people-group',
                     'canany' => ['refractante-list', 'refractante-create'],
                 ],
+                [
+                    'text' => 'Condiciones Opticas',
+                    'url' => 'condicion-opticas',
+                    'icon' => 'fa fa-eye',
+                    'canany' => ['condicion-optica-list', 'condicion-optica-create'],
+                ],
             ],
         ],
         

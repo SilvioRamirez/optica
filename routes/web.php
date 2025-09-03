@@ -53,6 +53,7 @@ use App\Http\Controllers\OrdenPaymentTypeController;
 use App\Http\Controllers\OrdenPaymentOriginController;
 use App\Http\Controllers\ConsultaWebClienteController;
 use App\Http\Controllers\ClientePaymentController;
+use App\Http\Controllers\CondicionOpticaController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -335,6 +336,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('cliente-payments/{clientePayment}/confirm',   [ClientePaymentController::class, 'confirmClientePayment']);
     Route::post('cliente-payments/{clientePayment}/delete',   [ClientePaymentController::class, 'deleteClientePayment']);
     Route::resource('cliente-payments', ClientePaymentController::class);
+
+    //Rutas de Condiciones Opticas
+    Route::get('/condicion-opticas/{condicionOptica}/delete',    [CondicionOpticaController::class, 'delete'])->name('orden-payment-types.delete');
+    Route::resource('condicion-opticas', CondicionOpticaController::class);
 
 });
 

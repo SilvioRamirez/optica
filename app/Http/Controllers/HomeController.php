@@ -205,6 +205,30 @@ class HomeController extends Controller
             ->orderByDesc('formularios_count')
             ->first();
 
+        // 7. Estadísticas de Condiciones Ópticas del mes
+        $condicionesOpticas = \App\Models\CondicionOptica::whereHas('formulario', function($query) use ($mesActual) {
+                $query->whereMonth('created_at', $mesActual->month)
+                      ->whereYear('created_at', $mesActual->year);
+            })
+            ->get();
+
+        // Procesar eval_oj (eliminar valores null y vacíos)
+        $evalOjStats = $condicionesOpticas->whereNotNull('eval_oj')
+            ->where('eval_oj', '!=', '')
+            ->groupBy('eval_oj')
+            ->map(function ($group) {
+                return $group->count();
+            })
+            ->sortDesc();
+
+        // Procesar presbicia (solo contar los que tienen "PRESBICIA")
+        $presbiciaCount = $condicionesOpticas->where('presbicia', 'PRESBICIA')->count();
+        $sinPresbiciaCount = $condicionesOpticas->where('presbicia', '!=', 'PRESBICIA')->count();
+
+        // Procesar miopía magna (solo contar los que tienen "MIOPÍA MAGNA")
+        $miopiaMagnaCount = $condicionesOpticas->where('miopia_magna', 'MIOPÍA MAGNA')->count();
+        $sinMiopiaMagnaCount = $condicionesOpticas->where('miopia_magna', '!=', 'MIOPÍA MAGNA')->count();
+
         $chart_options1 = [
             'chart_title' => 'Formularios por Mes',
             'report_type' => 'group_by_date',
@@ -290,7 +314,8 @@ class HomeController extends Controller
             'generoMasculinoVariacion', 'generoFemeninoVariacion',
             'promedioEdadActual', 'promedioEdadAnterior', 'edadVariacion',
             'totalVentasActual', 'totalVentasAnterior', 'ventasVariacion',
-            'chartGenero'
+            'chartGenero',
+            'evalOjStats', 'presbiciaCount', 'sinPresbiciaCount', 'miopiaMagnaCount', 'sinMiopiaMagnaCount'
         ));
     }
 

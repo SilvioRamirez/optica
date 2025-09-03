@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
+use App\Support\OpticalEvaluator;
 
 class Formulario extends Model
 {
@@ -43,6 +44,37 @@ class Formulario extends Model
                 $model->updated_by = Auth::user()->name;
             }
         });
+
+        static::saved(function ($formulario) {
+            // Evaluar datos
+            $data = [
+                'od_esf' => $formulario->od_esf,
+                'od_cil' => $formulario->od_cil,
+                'oi_esf' => $formulario->oi_esf,
+                'oi_cil' => $formulario->oi_cil,
+                'add'    => $formulario->add,
+            ];
+
+            $result = OpticalEvaluator::evaluate($data);
+
+            // Crear o actualizar registro relacionado
+            $formulario->condicionOptica()->updateOrCreate(
+                ['formulario_id' => $formulario->id],
+                [
+                    'eval_esf_od'   => $result['AQ_EVAL_ESF_OD'],
+                    'eval_esf_oi'   => $result['AR_EVAL_ESF_OI'],
+                    'eval_esf'      => $result['AS_EVAL_ESF'],
+                    'eval_cil_od'   => $result['AT_EVAL_CIL_OD'],
+                    'eval_cil_oi'   => $result['AU_EVAL_CIL_OI'],
+                    'eval_cil'      => $result['AV_EVAL_CIL'],
+                    'cond_od'       => $result['AW_COND_OD'],
+                    'cond_oi'       => $result['AX_COND_OI'],
+                    'eval_oj'       => $result['AY_EVAL_OJ'],
+                    'presbicia'     => $result['AZ_PRESBICIA'],
+                    'miopia_magna'  => $result['BA_MIOPIA_MAGNA'],
+                ]
+            );
+        });
     }
 
     public function getCreatedAtAttribute()
@@ -51,7 +83,6 @@ class Formulario extends Model
         /* return \Carbon\Carbon::parse($this->attributes['created_at'])->diffForHumans(now()); */
 
         /* return \Carbon\Carbon::parse($this->attributes['created_at'])->diffInDays(now(), 2); */
-
     }
 
     public function getUpdatedAtAttribute()
@@ -68,7 +99,7 @@ class Formulario extends Model
     {
         return \Carbon\Carbon::parse($this->attributes['fecha'])->diffInDays(now(), 2);
     } */
-    
+
     public function tipoLente()
     {
         return $this->belongsTo(TipoLente::class, 'tipo');
@@ -140,7 +171,6 @@ class Formulario extends Model
         $this->save();
 
         return $this;
-
     }
 
     public function getPhoneAttribute()
@@ -161,5 +191,20 @@ class Formulario extends Model
 
         // Si no cumple el largo esperado, retornar tal cual
         return  $telefono;
+    }
+
+    public function getCondicionOdAttribute(): string
+    {
+        return OpticalEvaluator::condicionOjo($this->od_esf, $this->od_cil);
+    }
+
+    public function getPresbiciaAttribute(): string
+    {
+        return OpticalEvaluator::presbicia($this->add);
+    }
+
+    public function condicionOptica()
+    {
+        return $this->hasOne(CondicionOptica::class);
     }
 }
