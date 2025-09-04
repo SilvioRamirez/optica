@@ -39,11 +39,9 @@
 
                                 <hr>
                                 <h3>Información de la Orden Nro: <strong>{{ $orden->numero_orden }}</strong></h3>
-                                <p>Paciente: <strong>{{ $orden->paciente }}</strong>
                                 <br>Cliente: <strong>{{ $orden->cliente->name }}</strong>
-                                <br>Teléfono: <strong>{{ $orden->telefono }}</strong>
-                                <br>Fecha: <strong>{{ $orden->fecha_recibida }}</strong>
-                                <br>Dirección / Operativo: <strong>{{ $orden->operativo->nombre_operativo }}</strong>
+                                <p>Paciente: <strong>{{ $orden->paciente }}</strong>
+                                <br>Fecha Recibida: <strong>{{ $orden->fecha_recibida }}</strong>
                                 <br>Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
 
                                         <table class="table table-hover table-bordered">
