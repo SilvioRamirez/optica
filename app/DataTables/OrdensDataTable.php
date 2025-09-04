@@ -39,6 +39,10 @@ class OrdensDataTable extends DataTable
                 }
 
                 if (auth()->user()->can('orden-estatus')) {
+                    $buttons .= '<a class="btn btn-success btn-sm" title="Envíar WhatsApp" href="https://api.whatsapp.com/send?phone=' . $query->cliente->phone . '&text=¡Hola!" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-whatsapp"></i></a>';
+                }
+
+                if (auth()->user()->can('orden-estatus')) {
                     $buttons .= '<a class="btn btn-secondary btn-sm" title="Generar PDF" href="' . route('ordens.pdf', $query->id) . '" target="_blank" rel="noopener noreferrer"> <i class="fa fa-file-pdf"></i></a>';
                 }
 
@@ -105,7 +109,7 @@ class OrdensDataTable extends DataTable
             ->with([
                 'tipoTratamiento:id,tipo_tratamiento',
                 'tipoLente:id,tipo_lente',
-                'cliente:id,name',
+                'cliente:id,name,phone',
                 'ordenStatus:id,name',
             ]);
     }
@@ -122,28 +126,28 @@ class OrdensDataTable extends DataTable
             ->lengthMenu([10, 25, 50, 100, 500, 1000])
             ->parameters([
                 'initComplete' => 'function(){
-                                    const table =this.api();
-                                    const $thead = $(table.table().header());
-                                    const $filterRow = $thead.find("tr").clone().addClass("filter");
-                                    $filterRow.find("th").each(function(){
-                                        const $currentTh = $(this);
-                                        if(!$currentTh.hasClass("no-search")){
-                                            const input = $(`<input type="text" class="form-control form-control-sm" placeholder="Buscar ${$currentTh.text()}" />`);
-                                            $currentTh.html(input);
-                                            $(input).on("click", function(event){
-                                                event.stopPropagation();
-                                            });
-                                            $(input).on("keyup change clear", function(){
-                                                if (table.column($currentTh.index()).search() !== this.value){
-                                                    table.column($currentTh.index()).search(this.value).draw();
-                                                }
-                                            });
-                                        }else{
-                                            $currentTh.empty();
-                                        }
-                                    });
-                                    $thead.append($filterRow);
-                                }'
+                    const table =this.api();
+                    const $thead = $(table.table().header());
+                    const $filterRow = $thead.find("tr").clone().addClass("filter");
+                    $filterRow.find("th").each(function(){
+                        const $currentTh = $(this);
+                        if(!$currentTh.hasClass("no-search")){
+                            const input = $(`<input type="text" class="form-control form-control-sm" placeholder="Buscar ${$currentTh.text()}" />`);
+                            $currentTh.html(input);
+                            $(input).on("click", function(event){
+                                event.stopPropagation();
+                            });
+                            $(input).on("keyup change clear", function(){
+                                if (table.column($currentTh.index()).search() !== this.value){
+                                    table.column($currentTh.index()).search(this.value).draw();
+                                }
+                            });
+                        }else{
+                            $currentTh.empty();
+                        }
+                    });
+                    $thead.append($filterRow);
+                }'
             ])
             ->language([
                 'url' => url('storage/js/datatables/Spanish.json')

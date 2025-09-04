@@ -42,7 +42,10 @@
                                 <br>Cliente: <strong>{{ $orden->cliente->name }}</strong>
                                 <p>Paciente: <strong>{{ $orden->paciente }}</strong>
                                 <br>Fecha Recibida: <strong>{{ $orden->fecha_recibida }}</strong>
+                                <br>Fecha Entrega: <strong>{{ $orden->fecha_entrega ?? 'No asignada' }}</strong>
+                                <br>Estatus: <strong>{{ $orden->ordenStatus->name }}</strong>
                                 <br>Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
+                                <br>Tipo de Tratamiento: <strong>{{ $tipoTratamiento->tipo_tratamiento }}</strong>
 
                                         <table class="table table-hover table-bordered">
                                             <thead>
@@ -84,7 +87,7 @@
                                         </table>
 
                                         <p>Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong>
-
+                                        <br>
                                         <a href="{{ url('/') }}" class="btn btn-success btn-sm"><i class="fa fa-home"></i> Inicio</a>
                             </div>
 
