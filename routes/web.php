@@ -334,7 +334,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('cliente-payments', ClientePaymentController::class);
 
     //Rutas de Condiciones Opticas
-    Route::get('/condicion-opticas/{condicionOptica}/delete',    [CondicionOpticaController::class, 'delete'])->name('orden-payment-types.delete');
+    Route::get('/condicion-opticas/{condicionOptica}/delete',    [CondicionOpticaController::class, 'delete'])->name('condicion-opticas.delete');
     Route::resource('condicion-opticas', CondicionOpticaController::class);
 
 });
