@@ -40,10 +40,9 @@
                                 <hr>
                                 <h3>Información de la Orden Nro: <strong>{{ $orden->numero_orden }}</strong></h3>
                                 <p>Paciente: <strong>{{ $orden->paciente }}</strong>
-                                <br>Cedula: <strong>{{ $orden->cedula }}</strong>
-                                <br>Edad: <strong>{{ $orden->edad }}</strong>
+                                <br>Cliente: <strong>{{ $orden->cliente->name }}</strong>
                                 <br>Teléfono: <strong>{{ $orden->telefono }}</strong>
-                                <br>Fecha: <strong>{{ $orden->fecha }}</strong>
+                                <br>Fecha: <strong>{{ $orden->fecha_recibida }}</strong>
                                 <br>Dirección / Operativo: <strong>{{ $orden->operativo->nombre_operativo }}</strong>
                                 <br>Tipo de Lente: <strong>{{ $tipoLente->tipo_lente }}</strong></p>
 
@@ -87,10 +86,6 @@
                                         </table>
 
                                         <p>Observaciones Extras: <strong>{{ $orden->observaciones_extras }}</strong>
-                                        {{-- <br>Total: <strong>{{ $orden->total }}</strong>
-                                        <br>Abono: <strong>{{ $orden->abono_1_decimal }}</strong>
-                                        <br>Saldo: <strong>{{ $orden->saldo }}</strong> --}}
-                                        <br>Especialista: <strong>{{ $especialista->nombre ?? '' }}</strong></p>
 
                                         <a href="{{ url('/') }}" class="btn btn-success btn-sm"><i class="fa fa-home"></i> Inicio</a>
                             </div>

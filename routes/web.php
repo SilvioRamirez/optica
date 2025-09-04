@@ -344,7 +344,7 @@ Route::get('/consulta-web-cliente', [ConsultaWebClienteController::class, 'index
 Route::get('/consulta-web-cliente/buscar', [ConsultaWebClienteController::class, 'buscar'])->name('consulta-web-cliente.buscar');
 Route::get('/consulta-web-cliente/{cliente}/create/payment', [ConsultaWebClienteController::class, 'paymentsCreate'])->name('consulta-web-cliente.payments.create');
 Route::post('/consulta-web-cliente/{cliente}/store/payment', [ConsultaWebClienteController::class, 'paymentsStore'])->name('consulta-web-cliente.payments.store');
-
+Route::get('/ordens/{orden}/qrcode/',   [OrdenController::class, 'orden_qrcode'])->name('orden.qrcode');
 
 
 Route::get('/messenger', fn() => view('messenger'));

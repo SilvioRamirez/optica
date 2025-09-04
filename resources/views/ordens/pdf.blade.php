@@ -319,9 +319,8 @@
         <p class="font-size-15">Número de Orden: <strong>{{ $orden->numero_orden ?? '' }}</strong></p>
         <p class="font-size-15">Fecha Recibida: <strong>{{ $orden->fecha_recibida ?? '' }}</strong></p>
         <p class="font-size-15">Fecha Entrega: <strong>{{ $orden->fecha_entrega ?? '' }}</strong></p>
+        <p class="font-size-15">Cliente: <strong>{{ $orden->cliente->name ?? '' }}</strong></p>
         <p class="font-size-15">Paciente: <strong>{{ $orden->paciente ?? '' }}</strong></p>
-        <p class="font-size-15">Cedula: <strong>{{ $orden->cedula ?? '' }}</strong></p>
-        <p class="font-size-15">Edad: <strong>{{ $orden->edad ?? '' }}</strong></p>
         <p class="font-size-15">Tipo de Lente: <strong>{{ $orden->tipoLente->tipo_lente ?? '' }}</strong></p>
         <p class="font-size-15">Tipo de Tratamiento: <strong>{{ $orden->tipoTratamiento->tipo_tratamiento ?? '' }}</strong></p>
     </div>

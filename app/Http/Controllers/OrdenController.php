@@ -193,4 +193,17 @@ class OrdenController extends Controller
 
         return $pdf->download('Orden Nro. '.$orden->numero_orden.'.pdf');
     }
+
+    public function orden_qrcode($ordenId, $numeroOrden){
+
+        $orden = Orden::findOrFail($ordenId);
+
+        if($orden->numero_orden == $numeroOrden){
+            $tipoLente = $orden->tipoLente;
+            $tipoTratamiento = $orden->tipoTratamiento;
+            return view('ordens.web', compact('orden', 'tipoLente', 'tipoTratamiento'));
+        }
+        return response([], 404);
+
+    }
 }
