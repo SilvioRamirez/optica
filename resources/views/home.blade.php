@@ -428,7 +428,7 @@
             <div class="col-lg-6 mb-4">
                 <div class="card shadow">
                     <div class="card-body">
-                        <h3 class="text-center mb-4">Condiciones Ópticas - {{ $mesActualNombre }}</h3>
+                        <h3 class="text-center mb-4">Análisis de Errores Refractivos - {{ $mesActualNombre }}</h3>
                         @if($evalOjStats->count() > 0)
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
@@ -473,20 +473,18 @@
                         <div class="row text-center">
                             @php $totalPresbicia = $presbiciaCount + $sinPresbiciaCount; @endphp
                             <div class="col-6">
-                                <div class="card bg-secondary text-white">
-                                    <div class="card-body">
-                                        <h5>SIN PRESBICIA</h5>
-                                        <h2>{{ $sinPresbiciaCount }}</h2>
-                                        <small>{{ $totalPresbicia > 0 ? round(($sinPresbiciaCount / $totalPresbicia) * 100, 1) : 0 }}%</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
                                 <div class="card bg-success text-white">
                                     <div class="card-body">
                                         <h5>PRESBICIA</h5>
                                         <h2>{{ $presbiciaCount }}</h2>
                                         <small>{{ $totalPresbicia > 0 ? round(($presbiciaCount / $totalPresbicia) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="">
+                                    <div class=" text-center">
+                                        <img src="{{ asset('storage/img/presbicia.webp') }}"  alt="Presbicia" class="img-fluid" width="200">
                                     </div>
                                 </div>
                             </div>
@@ -501,20 +499,18 @@
                         <div class="row text-center">
                             @php $totalMiopiaMagna = $miopiaMagnaCount + $sinMiopiaMagnaCount; @endphp
                             <div class="col-6">
-                                <div class="card bg-secondary text-white">
-                                    <div class="card-body">
-                                        <h5>SIN MIOPÍA</h5>
-                                        <h2>{{ $sinMiopiaMagnaCount }}</h2>
-                                        <small>{{ $totalMiopiaMagna > 0 ? round(($sinMiopiaMagnaCount / $totalMiopiaMagna) * 100, 1) : 0 }}%</small>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
                                 <div class="card bg-danger text-white">
                                     <div class="card-body">
                                         <h5>MIOPÍA MAGNA</h5>
                                         <h2>{{ $miopiaMagnaCount }}</h2>
                                         <small>{{ $totalMiopiaMagna > 0 ? round(($miopiaMagnaCount / $totalMiopiaMagna) * 100, 1) : 0 }}%</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="">
+                                    <div class=" text-center">
+                                        <img src="{{ asset('storage/img/miopiamagna.webp') }}"  alt="Miopía Magna" class="img-fluid" width="200">
                                     </div>
                                 </div>
                             </div>
@@ -577,6 +573,21 @@
             </div>
         </div>
     </div>
+
+    <div class="container pb-5 pt-3 pt-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="text-center">{{ $chartCondicionesOpticas->options['chart_title'] }}</h1>
+                        {!! $chartCondicionesOpticas->renderHtml() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 @endsection
 
 @push('scripts')
@@ -591,6 +602,9 @@
 
     {!! $chart4->renderChartJsLibrary() !!}
     {!! $chart4->renderJs() !!}
+
+    {!! $chartCondicionesOpticas->renderChartJsLibrary() !!}
+    {!! $chartCondicionesOpticas->renderJs() !!}
 
     <script type="text/javascript">
         // Cambiar el mes automáticamente al seleccionar

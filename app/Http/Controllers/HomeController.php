@@ -285,20 +285,16 @@ class HomeController extends Controller
 
         $chart4 = new LaravelChart($chart_options4);
 
-        // Gráfico de torta para géneros
-        $chart_options_genero = [
-            'chart_title' => 'Distribución por Género - ' . $mesActualNombre,
+        $chart_options_condicionesOpticas = [
+            'chart_title' => 'Estadísticas de Errores Refractivos - General',
             'report_type' => 'group_by_string',
-            'model' => 'App\Models\Formulario',
-            'group_by_field' => 'genero',
-            'chart_type' => 'pie',
-            'filter_field' => 'created_at',
-            'filter_period' => 'month',
-            'filter_days' => 30,
-            'chart_color' => '255,99,132',
+            'model' => 'App\Models\CondicionOptica',
+            'group_by_field' => 'eval_oj',
+            'chart_type' => 'bar',
+            'chart_color' => '5, 68, 255',
         ];
 
-        $chartGenero = new LaravelChart($chart_options_genero);
+        $chartCondicionesOpticas = new LaravelChart($chart_options_condicionesOpticas);
 
         return view('home', compact(
             'formulariosActual', 'formulariosAnterior', 'formulariosVariacion',
@@ -314,7 +310,7 @@ class HomeController extends Controller
             'generoMasculinoVariacion', 'generoFemeninoVariacion',
             'promedioEdadActual', 'promedioEdadAnterior', 'edadVariacion',
             'totalVentasActual', 'totalVentasAnterior', 'ventasVariacion',
-            'chartGenero',
+            'condicionesOpticas', 'chartCondicionesOpticas',
             'evalOjStats', 'presbiciaCount', 'sinPresbiciaCount', 'miopiaMagnaCount', 'sinMiopiaMagnaCount'
         ));
     }
