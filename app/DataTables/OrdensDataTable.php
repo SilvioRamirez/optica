@@ -87,7 +87,10 @@ class OrdensDataTable extends DataTable
                     $query->where('name', 'like', "%$keyword%");
                 });
             })
-            ->setRowId('id');
+            ->addColumn('pasados', function ($query) {
+                return \Carbon\Carbon::parse($query->fecha_recibida)->diffInDays(now(), 2);
+            })
+            ->setRowId('id', 'pasados');
     }
 
     /**
@@ -182,6 +185,12 @@ class OrdensDataTable extends DataTable
         $columns[] = Column::make('cliente.name')->title('Cliente');
         $columns[] = Column::make('numero_orden')->title('Número de Orden');
         $columns[] = Column::make('fecha_recibida')->title('Fecha Recibida');
+        $columns[] = Column::computed('pasados')->title('Días desde Recibida')->orderable(true)
+                                ->searchable(true)
+                                ->exportable(true)
+                                ->printable(true)
+                                ->width(60)
+                                ->addClass('text-center');
         $columns[] = Column::make('fecha_entrega')->title('Fecha Entrega');
         $columns[] = Column::computed('ordenStatus')->title('Estatus de Orden')->orderable(true)
                                 ->searchable(true)

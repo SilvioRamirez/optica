@@ -27,9 +27,14 @@
                 <div class="col-xs-6 col-sm-6 col-md-6">
                     {{ Form::selectComp('ruta_entrega_id', 'Ruta de Entrega', '', $rutaEntregas) }}
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
+                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                    @if (Route::current()->getName() == 'formularios.edit')
+                        <div class="col-xs-6 col-sm-6 col-md-6">
+                            {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
+                        </div>
+                    @endif
                 </div>
+
             </div>
 
             <br>
@@ -48,17 +53,18 @@
                 @endforeach
             </select>
 
-            
+
             {{ Form::textComp('paciente', 'Paciente', null, null, '') }}
-            
+
             <label for="operativo_id" class="mb-1 mt-2"><strong>Operativo</strong> <span id="operativo_info"
-                class="text-muted">(Autocompletar)</span>
+                    class="text-muted">(Autocompletar)</span>
             </label>
             <select name="operativo_id" id="operativo_id" class="form-control mb-2" autocomplete="off">
                 @foreach ($operativos as $operativo)
-                <option value="{{ $operativo['id'] }}" {{ is_object($formulario) && $formulario->operativo_id == $operativo['id'] ? 'selected' : '' }}>
-                    {{ $operativo['text'] }}
-                </option>
+                    <option value="{{ $operativo['id'] }}"
+                        {{ is_object($formulario) && $formulario->operativo_id == $operativo['id'] ? 'selected' : '' }}>
+                        {{ $operativo['text'] }}
+                    </option>
                 @endforeach
             </select>
 
@@ -174,6 +180,7 @@
             <h5 class="">Datos del Pago y Abonos</h5>
             <hr>
             {{ Form::numberComp('precio_montura', 'Precio Montura', null, null, '') }}
+            {{ Form::numberComp('precio_cristal', 'Precio Cristal', null, null, '') }}
             {{ Form::numberComp('total', 'Total Lente', null, null, '') }}
             {{-- {{ Form::selectComp('descuento', 'Descuento', '', $descuentos) }} --}}
             <label for="descuento_id" class="mb-1"><strong>Descuento</strong></label>
@@ -196,78 +203,92 @@
             </div>
 
             <hr>
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_1_decimal', 'Abono 1', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::dateComp('abono_fecha_1', 'Abono Fecha 1', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('tipo_pago_1', 'Tipo Pago 1', '', $tipos) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('ref_pago_1', 'Ref. Pago 1', null, null, '') }}
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_2_decimal', 'Abono 2', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::dateComp('abono_fecha_2', 'Abono Fecha 2', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('tipo_pago_2', 'Tipo Pago 2', '', $tipos) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('ref_pago_2', 'Ref. Pago 2', null, null, '') }}
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            Abonos modulo anterior
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample" style="">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('abono_1_decimal', 'Abono 1', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::dateComp('abono_fecha_1', 'Abono Fecha 1', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::selectComp('tipo_pago_1', 'Tipo Pago 1', '', $tipos) }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('ref_pago_1', 'Ref. Pago 1', null, null, '') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('abono_2_decimal', 'Abono 2', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::dateComp('abono_fecha_2', 'Abono Fecha 2', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::selectComp('tipo_pago_2', 'Tipo Pago 2', '', $tipos) }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('ref_pago_2', 'Ref. Pago 2', null, null, '') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('abono_3_decimal', 'Abono 3', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::dateComp('abono_fecha_3', 'Abono Fecha 3', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::selectComp('tipo_pago_3', 'Tipo Pago 3', '', $tipos) }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('ref_pago_3', 'Ref. Pago 3', null, null, '') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('abono_4_decimal', 'Abono 4', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::dateComp('abono_fecha_4', 'Abono Fecha 4', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::selectComp('tipo_pago_4', 'Tipo Pago 4', '', $tipos) }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('ref_pago_4', 'Ref. Pago 4', null, null, '') }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('abono_5_decimal', 'Abono 5', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::dateComp('abono_fecha_5', 'Abono Fecha 5', null, null, '') }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::selectComp('tipo_pago_5', 'Tipo Pago 5', '', $tipos) }}
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                    {{ Form::textComp('ref_pago_5', 'Ref. Pago 5', null, null, '') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_3_decimal', 'Abono 3', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::dateComp('abono_fecha_3', 'Abono Fecha 3', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('tipo_pago_3', 'Tipo Pago 3', '', $tipos) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('ref_pago_3', 'Ref. Pago 3', null, null, '') }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_4_decimal', 'Abono 4', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::dateComp('abono_fecha_4', 'Abono Fecha 4', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('tipo_pago_4', 'Tipo Pago 4', '', $tipos) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('ref_pago_4', 'Ref. Pago 4', null, null, '') }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('abono_5_decimal', 'Abono 5', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::dateComp('abono_fecha_5', 'Abono Fecha 5', null, null, '') }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::selectComp('tipo_pago_5', 'Tipo Pago 5', '', $tipos) }}
-                </div>
-                <div class="col-xs-3 col-sm-3 col-md-3">
-                    {{ Form::textComp('ref_pago_5', 'Ref. Pago 5', null, null, '') }}
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -437,6 +458,14 @@
             max: 10000,
         })
 
+        IMask(document.getElementById('precio_cristal'), {
+            mask: Number,
+            scale: 2,
+            radix: '.',
+            min: 0,
+            max: 10000,
+        })
+
         let tomSelectOperativo;
         let tomSelectRefractante;
 
@@ -445,8 +474,9 @@
             onChange: function(value) {
                 if (value) {
                     // Obtener el option seleccionado para acceder a los atributos data-*
-                    var selectedOption = document.querySelector('#refractante_id option[value="' + value + '"]');
-                    
+                    var selectedOption = document.querySelector('#refractante_id option[value="' + value +
+                        '"]');
+
                     if (selectedOption) {
                         var telefono = selectedOption.getAttribute('data-telefono');
                         var nombreApellido = selectedOption.getAttribute('data-nombre-apellido');
@@ -489,7 +519,7 @@
                 }
             }
         });
-        
+
         $(document).ready(function() {
 
             /*
@@ -592,6 +622,18 @@
                 aeje.value = beje.value
             }
         }
+
+        /* Función que suma el precio del cristal y el precio de la montura para obtener el precio total automáticamente */
+        function calcularPrecioTotal() {
+            var precio_cristal = parseFloat(document.getElementById('precio_cristal').value) || 0;
+            var precio_montura = parseFloat(document.getElementById('precio_montura').value) || 0;
+            var precio_total = document.getElementById('total');
+            precio_total.value = (precio_cristal + precio_montura).toFixed(2);
+        }
+
+        /* Función que agrega un listener al precio del cristal y el precio de la montura para obtener el precio total automáticamente */
+        document.getElementById('precio_cristal').addEventListener('keyup', calcularPrecioTotal);
+        document.getElementById('precio_montura').addEventListener('keyup', calcularPrecioTotal);
 
         /* Funcion que agrega un año a la fecha seleccionada */
 

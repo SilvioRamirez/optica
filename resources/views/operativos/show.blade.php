@@ -18,6 +18,9 @@
                 <a href="{{ route('operativos.pdf', $operativo->id) }}" class="btn btn-light btn-sm me-2">
                     <i class="fa fa-file-pdf"></i> Descargar PDF
                 </a>
+                <a href="{{ route('operativos.pdf-comunidad', $operativo->id) }}" class="btn btn-light btn-sm me-2">
+                    <i class="fa fa-file-lines"></i> Reporte de Operativo Comunidad
+                </a>
                 <a href="{{ route('operativos.index') }}" class="btn btn-light btn-sm"><i class="fa fa-arrow-left"></i>
                     {{ __('Volver') }}</a>
             </div>

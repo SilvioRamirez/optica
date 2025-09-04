@@ -406,5 +406,17 @@
         deshabilitarInputs([
             'precio_saldo',
         ]);
+
+        /* Función que suma el precio del cristal y el precio de la montura para obtener el precio total automáticamente */
+        function calcularPrecioTotal() {
+            var precio_cristal = parseFloat(document.getElementById('precio_cristal').value) || 0;
+            var precio_montaje = parseFloat(document.getElementById('precio_montaje').value) || 0;
+            var precio_total = document.getElementById('precio_total');
+            precio_total.value = (precio_cristal + precio_montaje).toFixed(2);
+        }
+
+        /* Función que agrega un listener al precio del cristal y el precio de la montura para obtener el precio total automáticamente */
+        document.getElementById('precio_cristal').addEventListener('keyup', calcularPrecioTotal);
+        document.getElementById('precio_montaje').addEventListener('keyup', calcularPrecioTotal);
     </script>
 @endpush

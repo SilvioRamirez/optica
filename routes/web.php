@@ -222,6 +222,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('operativos',                   OperativoController::class);
 
     Route::get('operativos/{id}/pdf', [OperativoController::class, 'generatePdf'])->name('operativos.pdf');
+    Route::get('operativos/{id}/pdf-comunidad', [OperativoController::class, 'generatePdfComunidad'])->name('operativos.pdf-comunidad');
 
     //Rutas de Operativos
     Route::get('/especialistas/{especialista}/delete',  [EspecialistaController::class, 'delete'])->name('especialistas.delete');
@@ -325,12 +326,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/orden-payment-origins/{ordenPaymentOrigin}/delete',    [OrdenPaymentOriginController::class, 'delete'])->name('orden-payment-origins.delete');
     Route::resource('orden-payment-origins', OrdenPaymentOriginController::class);
 
-    //Ruta de Consulta Web Cliente
-    Route::get('/consulta-web-cliente', [ConsultaWebClienteController::class, 'index'])->name('consulta-web-cliente.index');
-    Route::get('/consulta-web-cliente/buscar', [ConsultaWebClienteController::class, 'buscar'])->name('consulta-web-cliente.buscar');
-    Route::get('/consulta-web-cliente/{cliente}/create/payment', [ConsultaWebClienteController::class, 'paymentsCreate'])->name('consulta-web-cliente.payments.create');
-    Route::post('/consulta-web-cliente/{cliente}/store/payment', [ConsultaWebClienteController::class, 'paymentsStore'])->name('consulta-web-cliente.payments.store');
-
+    
     //Rutas de Cliente Payments
     Route::post('cliente-payments/{clientePayment}/view',   [ClientePaymentController::class, 'viewClientePayment']);
     Route::post('cliente-payments/{clientePayment}/confirm',   [ClientePaymentController::class, 'confirmClientePayment']);
@@ -342,6 +338,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('condicion-opticas', CondicionOpticaController::class);
 
 });
+
+//Ruta de Consulta Web Cliente
+Route::get('/consulta-web-cliente', [ConsultaWebClienteController::class, 'index'])->name('consulta-web-cliente.index');
+Route::get('/consulta-web-cliente/buscar', [ConsultaWebClienteController::class, 'buscar'])->name('consulta-web-cliente.buscar');
+Route::get('/consulta-web-cliente/{cliente}/create/payment', [ConsultaWebClienteController::class, 'paymentsCreate'])->name('consulta-web-cliente.payments.create');
+Route::post('/consulta-web-cliente/{cliente}/store/payment', [ConsultaWebClienteController::class, 'paymentsStore'])->name('consulta-web-cliente.payments.store');
+
 
 
 Route::get('/messenger', fn() => view('messenger'));

@@ -52,6 +52,8 @@
             <a href="{{ route('consulta') }}"
                 class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Consulta
                 y Pagos</a>
+            <a href="{{ route('consulta-web-cliente.index') }}"
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Laboratorio Consulta</a>
             <a href="{{ route('politica.privacidad') }}"
                 class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Política
                 de Privacidad</a>

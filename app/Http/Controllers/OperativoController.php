@@ -15,8 +15,8 @@ use Illuminate\View\View;
 use App\Models\TipoGasto;
 use App\Models\GastoOperativo;
 use App\Models\Persona;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Configuracion;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class OperativoController extends Controller
 {
@@ -436,5 +436,77 @@ class OperativoController extends Controller
         ));
         
         return $pdf->download('operativo_' . $operativo->id . '.pdf');
+    }
+
+    public function generatePdfComunidad($id)
+    {
+        $operativo = Operativo::findOrFail($id);
+        
+        // Total de Refractados
+        $totalRefractados = $operativo->refractantes()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios
+        $totalFormularios = $operativo->formularios()->whereNull('deleted_at')->count();
+        
+        // Total de Formularios por tipo_tratamiento_id con el nombre del tratamiento y tipo de fórmula
+        $formulariosPorTipo = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, COUNT(*) as total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula')
+            ->with('tipoTratamiento:id,tipo_tratamiento')
+            ->get();
+        
+        // Formularios por tipo de tratamiento, fórmula y especialista
+        $formulariosPorTipoYEspecialista = $operativo->formularios()
+            ->whereNull('formularios.deleted_at')
+            ->join('especialistas', 'formularios.especialista', '=', 'especialistas.id')
+            ->whereNull('especialistas.deleted_at')
+            ->join('tipo_tratamientos', 'formularios.tipo_tratamiento_id', '=', 'tipo_tratamientos.id')
+            ->join('tipo_lentes', 'tipo_tratamientos.tipo_lente_id', '=', 'tipo_lentes.id')
+            ->selectRaw('tipo_tratamiento_id, tipo_formula, especialistas.nombre as especialista_nombre, tipo_tratamientos.tipo_lente_id, tipo_lentes.tipo_lente, COUNT(*) as total')
+            ->groupBy('tipo_tratamiento_id', 'tipo_formula', 'especialistas.nombre', 'tipo_tratamientos.tipo_lente_id', 'tipo_lentes.tipo_lente')
+            ->orderBy('especialistas.nombre')
+            ->orderBy('tipo_lentes.tipo_lente')
+            ->orderBy('tipo_tratamientos.tipo_tratamiento')
+            ->orderBy('tipo_formula')
+            ->with(['tipoTratamiento:id,tipo_tratamiento'])
+            ->get();
+        
+        // Formularios con estatus
+        $formulariosConEstatus = $operativo->formularios()
+            ->whereNull('deleted_at')
+            ->selectRaw('estatus, COUNT(*) as total')
+            ->groupBy('estatus')
+            ->get();
+        
+        // Total de asesores
+        $totalAsesores = $operativo->asesores()->count();
+        
+        // Obtener condiciones ópticas del operativo
+        $condicionesOpticas = \App\Models\CondicionOptica::whereHas('formulario', function($query) use ($operativo) {
+                $query->where('operativo_id', $operativo->id)
+                      ->whereNull('formularios.deleted_at');
+            })
+            ->whereNull('condicion_opticas.deleted_at')
+            ->get();
+
+        // Cargar relaciones del operativo
+        $operativo->load('asesores');
+
+        $configuracion = Configuracion::find(1);
+        
+        $pdf = PDF::loadView('operativos.pdf-comunidad', compact(
+            'operativo',
+            'totalRefractados',
+            'totalFormularios',
+            'formulariosPorTipo',
+            'formulariosPorTipoYEspecialista',
+            'formulariosConEstatus',
+            'totalAsesores',
+            'condicionesOpticas',
+            'configuracion'
+        ));
+        
+        return $pdf->download('operativo_comunidad_' . $operativo->id . '.pdf');
     }
 }
