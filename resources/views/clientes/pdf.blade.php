@@ -114,6 +114,7 @@
     </div>
 
     @if($ordenesPorEstatus->count() > 0)
+    
     <div class="section">
         <div class="section-title">Órdenes por Estatus</div>
         <table>
@@ -147,6 +148,8 @@
     </div>
     @endif
 
+    <div style="page-break-after:always;"></div>
+    
     <div class="section">
         <div class="section-title">Detalle de Órdenes Pendientes</div>
         <table>
