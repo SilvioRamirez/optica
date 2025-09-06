@@ -107,8 +107,8 @@
                 <td class="text-end">${{ number_format($sumaPagosOrdenes, 2) }}</td>
             </tr>
             <tr>
-                <td><strong>Saldo del Cliente:</strong></td>
-                <td class="text-end">${{ number_format($saldoCliente, 2) }}</td>
+                <td><strong>Saldo Pendiente (Órdenes):</strong></td>
+                <td class="text-end">${{ number_format($sumaSaldoOrdenes, 2) }}</td>
             </tr>
         </table>
     </div>
