@@ -99,28 +99,12 @@
                 <td class="text-end">{{ $totalOrdenes }}</td>
             </tr>
             <tr>
-                <td><strong>Total de Abonos del Cliente:</strong></td>
-                <td class="text-end">{{ $totalClientePayments }}</td>
-            </tr>
-            <tr>
-                <td><strong>Monto Total de Órdenes Pendientes:</strong></td>
+                <td><strong>Monto Total de Órdenes Pendientes (Saldo):</strong></td>
                 <td class="text-end">${{ number_format($sumaMontoOrdenes, 2) }}</td>
             </tr>
             <tr>
                 <td><strong>Pagos Realizados (Órdenes Pendientes):</strong></td>
                 <td class="text-end">${{ number_format($sumaPagosOrdenes, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Saldo Pendiente (Órdenes):</strong></td>
-                <td class="text-end">${{ number_format($sumaSaldoOrdenes, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Abonos del Cliente (USD):</strong></td>
-                <td class="text-end">${{ number_format($sumaClientePayments, 2) }}</td>
-            </tr>
-            <tr>
-                <td><strong>Saldo del Cliente:</strong></td>
-                <td class="text-end">${{ number_format($saldoCliente, 2) }}</td>
             </tr>
         </table>
     </div>
@@ -133,7 +117,6 @@
                 <tr>
                     <th>Estatus</th>
                     <th>Total Órdenes</th>
-                    <th>Monto Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -145,7 +128,6 @@
                     <tr>
                         <td>{{ $orden->estatus_nombre }}</td>
                         <td class="text-end">{{ $orden->total }}</td>
-                        <td class="text-end">${{ number_format($orden->monto_total, 2) }}</td>
                     </tr>
                     @php
                         $totalOrdenesGeneral += $orden->total;
@@ -155,155 +137,6 @@
                 <tr style="background-color: #f0f0f0;">
                     <td class="text-end"><strong>Total General:</strong></td>
                     <td class="text-end"><strong>{{ $totalOrdenesGeneral }}</strong></td>
-                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    @endif
-
-    @if($ordenesPorTipoLente->count() > 0)
-    <div class="section">
-        <div class="section-title">Órdenes por Tipo de Lente</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo de Lente</th>
-                    <th>Total Órdenes</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalOrdenesGeneral = 0;
-                    $montoTotalGeneral = 0;
-                @endphp
-                @foreach($ordenesPorTipoLente as $orden)
-                    <tr>
-                        <td>{{ $orden->tipo_lente }}</td>
-                        <td class="text-end">{{ $orden->total }}</td>
-                        <td class="text-end">${{ number_format($orden->monto_total, 2) }}</td>
-                    </tr>
-                    @php
-                        $totalOrdenesGeneral += $orden->total;
-                        $montoTotalGeneral += $orden->monto_total;
-                    @endphp
-                @endforeach
-                <tr style="background-color: #f0f0f0;">
-                    <td class="text-end"><strong>Total General:</strong></td>
-                    <td class="text-end"><strong>{{ $totalOrdenesGeneral }}</strong></td>
-                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    @endif
-
-    @if($ordenesPorTipoTratamiento->count() > 0)
-    <div class="section">
-        <div class="section-title">Órdenes por Tipo de Tratamiento</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo de Tratamiento</th>
-                    <th>Total Órdenes</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalOrdenesGeneral = 0;
-                    $montoTotalGeneral = 0;
-                @endphp
-                @foreach($ordenesPorTipoTratamiento as $orden)
-                    <tr>
-                        <td>{{ $orden->tipo_tratamiento }}</td>
-                        <td class="text-end">{{ $orden->total }}</td>
-                        <td class="text-end">${{ number_format($orden->monto_total, 2) }}</td>
-                    </tr>
-                    @php
-                        $totalOrdenesGeneral += $orden->total;
-                        $montoTotalGeneral += $orden->monto_total;
-                    @endphp
-                @endforeach
-                <tr style="background-color: #f0f0f0;">
-                    <td class="text-end"><strong>Total General:</strong></td>
-                    <td class="text-end"><strong>{{ $totalOrdenesGeneral }}</strong></td>
-                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    @endif
-
-    @if($pagosPorTipo->count() > 0)
-    <div class="section">
-        <div class="section-title">Pagos de Órdenes por Tipo</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Tipo de Pago</th>
-                    <th>Total Pagos</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalPagosGeneral = 0;
-                    $montoTotalGeneral = 0;
-                @endphp
-                @foreach($pagosPorTipo as $pago)
-                    <tr>
-                        <td>{{ $pago->tipo_nombre }}</td>
-                        <td class="text-end">{{ $pago->total_pagos }}</td>
-                        <td class="text-end">${{ number_format($pago->monto_total, 2) }}</td>
-                    </tr>
-                    @php
-                        $totalPagosGeneral += $pago->total_pagos;
-                        $montoTotalGeneral += $pago->monto_total;
-                    @endphp
-                @endforeach
-                <tr style="background-color: #f0f0f0;">
-                    <td class="text-end"><strong>Total General:</strong></td>
-                    <td class="text-end"><strong>{{ $totalPagosGeneral }}</strong></td>
-                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    @endif
-
-    @if($clientePaymentsPorStatus->count() > 0)
-    <div class="section">
-        <div class="section-title">Abonos del Cliente por Estado</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Estado</th>
-                    <th>Total Abonos</th>
-                    <th>Monto Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalAbonosGeneral = 0;
-                    $montoTotalGeneral = 0;
-                @endphp
-                @foreach($clientePaymentsPorStatus as $payment)
-                    <tr>
-                        <td>{{ $payment->status ?? 'Sin estado' }}</td>
-                        <td class="text-end">{{ $payment->total }}</td>
-                        <td class="text-end">${{ number_format($payment->monto_total, 2) }}</td>
-                    </tr>
-                    @php
-                        $totalAbonosGeneral += $payment->total;
-                        $montoTotalGeneral += $payment->monto_total;
-                    @endphp
-                @endforeach
-                <tr style="background-color: #f0f0f0;">
-                    <td class="text-end"><strong>Total General:</strong></td>
-                    <td class="text-end"><strong>{{ $totalAbonosGeneral }}</strong></td>
-                    <td class="text-end"><strong>${{ number_format($montoTotalGeneral, 2) }}</strong></td>
                 </tr>
             </tbody>
         </table>
