@@ -106,6 +106,10 @@
                 <td><strong>Pagos Realizados (Órdenes Pendientes):</strong></td>
                 <td class="text-end">${{ number_format($sumaPagosOrdenes, 2) }}</td>
             </tr>
+            <tr>
+                <td><strong>Saldo del Cliente:</strong></td>
+                <td class="text-end">${{ number_format($saldoCliente, 2) }}</td>
+            </tr>
         </table>
     </div>
 
