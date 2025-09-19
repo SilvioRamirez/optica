@@ -26,8 +26,19 @@ class ConsultaWebClienteController extends Controller
                         'identity', 
                         'clientePayments', 
                         'ordens' => function($query) {
-                            $query->with(['tipoTratamiento', 'tipoLente', 'ordenStatus', 'ordenPayments'])
-                                  ->orderBy('created_at', 'desc');
+                            $query->join('orden_statuses', 'ordens.orden_status_id', '=', 'orden_statuses.id')
+                                  ->where(function($q) {
+                                      $q->where('ordens.precio_saldo', '>', 0)
+                                        ->orWhere(function($subQuery) {
+                                            $subQuery->where('ordens.precio_saldo', '=', 0)
+                                                     ->where('orden_statuses.name', '!=', 'ENTREGADO')
+                                                     ->where('orden_statuses.name', '!=', 'Entregado')
+                                                     ->where('orden_statuses.name', '!=', 'entregado');
+                                        });
+                                  })
+                                  ->select('ordens.*')
+                                  ->with(['tipoTratamiento', 'tipoLente', 'ordenStatus', 'ordenPayments'])
+                                  ->orderBy('ordens.created_at', 'desc');
                         }
                     ])
                     ->first();
