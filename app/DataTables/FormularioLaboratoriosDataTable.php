@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Orden;
+use App\Models\FormularioLaboratorio;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class OrdensDataTable extends DataTable
+class FormularioLaboratoriosDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,32 +26,16 @@ class OrdensDataTable extends DataTable
 
                 $buttons = '';
 
-                if (auth()->user()->can('orden-list')) {
+                if (auth()->user()->can('orden-laboratorio-list')) {
                     $buttons .= '<a class="btn btn-info btn-sm" title="Ver Información" href="' . route('ordens.show', $query->id) . '"> <i class="fa fa-eye"></i></a>';
                 }
 
-                if (auth()->user()->can('orden-edit')) {
+                if (auth()->user()->can('orden-laboratorio-edit')) {
                     $buttons .= '<a class="btn btn-primary btn-sm" title="Editar Información" href="' . route('ordens.edit', $query->id) . '"> <i class="fa fa-pen-to-square"></i></a>';
                 }
 
-                if (auth()->user()->can('orden-delete')) {
+                if (auth()->user()->can('orden-laboratorio-delete')) {
                     $buttons .= '<a class="btn btn-danger btn-sm" title="Eliminar" href="' . route('ordens.delete', $query->id) . '"> <i class="fa fa-trash"></i></a>';
-                }
-
-                if (auth()->user()->can('orden-estatus')) {
-                    $buttons .= '<a class="btn btn-success btn-sm" title="Envíar WhatsApp" href="https://api.whatsapp.com/send?phone=' . $query->cliente->phone . '&text=¡Hola!" target="_blank" rel="noopener noreferrer"> <i class="fa-brands fa-whatsapp"></i></a>';
-                }
-
-                if (auth()->user()->can('orden-estatus')) {
-                    $buttons .= '<a class="btn btn-secondary btn-sm" title="Generar PDF" href="' . route('ordens.pdf', $query->id) . '" target="_blank" rel="noopener noreferrer"> <i class="fa fa-file-pdf"></i></a>';
-                }
-
-                if (auth()->user()->can('orden-estatus')) {
-                    $buttons .= '<button type="button" class="btn btn-success btn-sm" title="Registro de Pagos" data-argid="' . $query->id . '" onclick="openModalPagos(\'' . $query->id . '\')"><i class="fa fa-file-invoice-dollar"></i></button>';
-                }
-
-                if (auth()->user()->can('orden-estatus')) {
-                    $buttons .= '<button type="button" class="btn btn-outline-primary btn-sm" title="Registro de Laboratorios" data-argid="' . $query->id . '" onclick="openModalLaboratorios(\'' . $query->id . '\')"><i class="fa fa-truck-medical"></i></button>';
                 }
 
                 return '<div class="btn-group" role="group" aria-label="Opciones">' . $buttons . '</div>';
@@ -96,7 +80,24 @@ class OrdensDataTable extends DataTable
                 });
             })
             ->addColumn('pasados', function ($query) {
-                return \Carbon\Carbon::parse($query->fecha_recibida)->diffInDays(now(), 2);
+                return \Carbon\Carbon::parse($query->fecha_envio)->diffInDays(now(), 2);
+            })
+            // Columnas para relaciones de orden
+            ->addColumn('orden.tipoLente.tipo_lente', function ($query) {
+                return $query->orden && $query->orden->tipoLente ? $query->orden->tipoLente->tipo_lente : '';
+            })
+            ->addColumn('orden.tipoTratamiento.tipo_tratamiento', function ($query) {
+                return $query->orden && $query->orden->tipoTratamiento ? $query->orden->tipoTratamiento->tipo_tratamiento : '';
+            })
+            ->addColumn('orden.ordenStatus.name', function ($query) {
+                return $query->orden && $query->orden->ordenStatus ? $query->orden->ordenStatus->name : '';
+            })
+            // Columnas para relaciones de formulario
+            ->addColumn('formulario.tipoLente.tipo_lente', function ($query) {
+                return $query->formulario && $query->formulario->tipoLente ? $query->formulario->tipoLente->tipo_lente : '';
+            })
+            ->addColumn('formulario.tipoTratamiento.tipo_tratamiento', function ($query) {
+                return $query->formulario && $query->formulario->tipoTratamiento ? $query->formulario->tipoTratamiento->tipo_tratamiento : '';
             })
             ->setRowId('id', 'pasados');
     }
@@ -104,17 +105,21 @@ class OrdensDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(Orden $model): QueryBuilder
+    public function query(FormularioLaboratorio $model): QueryBuilder
     {
         return $model->newQuery()
             ->select([
-                'ordens.*',
+                'formulario_laboratorios.*',
             ])
             ->with([
-                'tipoTratamiento:id,tipo_tratamiento',
-                'tipoLente:id,tipo_lente',
-                'cliente:id,name,phone',
-                'ordenStatus:id,name',
+                'laboratorio:id,razon_social',
+                'orden:id,numero_orden,paciente,tipo_tratamiento_id,tipo_lente_id,orden_status_id',
+                'orden.tipoTratamiento:id,tipo_tratamiento',
+                'orden.tipoLente:id,tipo_lente',
+                'orden.ordenStatus:id,name',
+                'formulario:id,numero_orden,paciente,tipo_tratamiento_id,tipo,estatus',
+                'formulario.tipoTratamiento:id,tipo_tratamiento',
+                'formulario.tipoLente:id,tipo_lente',
             ]);
     }
 
@@ -124,7 +129,7 @@ class OrdensDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('ordens-table')
+            ->setTableId('formulario-laboratorios-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->lengthMenu([10, 25, 50, 100, 500, 1000])
@@ -165,7 +170,7 @@ class OrdensDataTable extends DataTable
     {
         $buttons = [];
 
-        if (auth()->user()->can('orden-download')) {
+        if (auth()->user()->can('formulario-laboratorio-download')) {
             $buttons[] = Button::make('excel');
             $buttons[] = Button::make('csv');
             $buttons[] = Button::make('print');
@@ -190,55 +195,26 @@ class OrdensDataTable extends DataTable
             ->width(60)
             ->addClass('text-center');
         $columns[] = Column::make('id')->title('ID');
-        $columns[] = Column::make('cliente.name')->title('Cliente');
-        $columns[] = Column::make('numero_orden')->title('Número de Orden');
-        $columns[] = Column::make('fecha_recibida')->title('Fecha Recibida');
+        $columns[] = Column::make('laboratorio.razon_social')->title('Laboratorio');
+        $columns[] = Column::make('orden.numero_orden')->title('Número de Orden Externa');
+        $columns[] = Column::make('orden.ordenStatus.name')->title('Estatus de Orden');
+        $columns[] = Column::make('orden.paciente')->title('Paciente Externo');
+        $columns[] = Column::make('orden.tipoLente.tipo_lente')->title('Tipo de Lente');
+        $columns[] = Column::make('orden.tipoTratamiento.tipo_tratamiento')->title('Tipo de Tratamiento');
+        $columns[] = Column::make('formulario.numero_orden')->title('Número de Orden Interno');
+        $columns[] = Column::make('formulario.estatus')->title('Estatus');
+        $columns[] = Column::make('formulario.paciente')->title('Paciente Interno');
+        $columns[] = Column::make('formulario.tipoLente.tipo_lente')->title('Tipo de Lente');
+        $columns[] = Column::make('formulario.tipoTratamiento.tipo_tratamiento')->title('Tipo de Tratamiento');
+        $columns[] = Column::make('fecha_envio')->title('Fecha Recibida');
         $columns[] = Column::computed('pasados')->title('Días desde Recibida')->orderable(true)
                                 ->searchable(true)
                                 ->exportable(true)
                                 ->printable(true)
                                 ->width(60)
                                 ->addClass('text-center');
-        $columns[] = Column::make('fecha_entrega')->title('Fecha Entrega');
-        $columns[] = Column::computed('ordenStatus')->title('Estatus de Orden')->orderable(true)
-                                ->searchable(true)
-                                ->exportable(true)
-                                ->printable(true)
-                                ->width(60)
-                                ->addClass('text-center');
-        $columns[] = Column::make('cedula')->title('Cédula');
-        $columns[] = Column::make('paciente')->title('Paciente');
-        $columns[] = Column::make('edad')->title('Edad');
-        $columns[] = Column::make('genero')->title('Género');
-        $columns[] = Column::computed('tipoLente')->title('Tipo de Lente')->orderable(true)
-                                ->searchable(true)
-                                ->exportable(true)
-                                ->printable(true)
-                                ->width(60)
-                                ->addClass('text-center');
-        $columns[] = Column::computed('tipoTratamiento')->title('Tipo de Tratamiento')->orderable(true)
-                                ->searchable(true)
-                                ->exportable(true)
-                                ->printable(true)
-                                ->width(60)
-                                ->addClass('text-center');
-        $columns[] = Column::make('od_esf')->title('OD Esfera');
-        $columns[] = Column::make('od_cil')->title('OD Cilindro');
-        $columns[] = Column::make('od_eje')->title('OD Eje');
-        $columns[] = Column::make('oi_esf')->title('OI Esfera');
-        $columns[] = Column::make('oi_cil')->title('OI Cilindro');
-        $columns[] = Column::make('oi_eje')->title('OI Eje');
-        $columns[] = Column::make('add')->title('Add');
-        $columns[] = Column::make('dp')->title('Dp');
-        $columns[] = Column::make('alt')->title('Alt');
-        $columns[] = Column::make('tipo_formula')->title('Tipo de Formula');
-        $columns[] = Column::make('observaciones_extras')->title('Observaciones Extras');
-        $columns[] = Column::make('precio_cristal')->title('Precio Cristal');
-        $columns[] = Column::make('precio_montaje')->title('Precio Montaje');
-        $columns[] = Column::make('precio_total')->title('Monto Total');
-        $columns[] = Column::make('precio_descuento')->title('Monto Descuento');
-        $columns[] = Column::make('precio_saldo')->title('Saldo');
-        $columns[] = Column::make('precio_porcentaje_pago')->title('Porcentaje Pagado');
+        $columns[] = Column::make('fecha_retorno')->title('Fecha Entrega');
+        $columns[] = Column::make('observacion')->title('Observación');
         $columns[] = Column::make('created_at')->title('Creado');
         $columns[] = Column::make('updated_at')->title('Actualizado');
 
@@ -250,6 +226,6 @@ class OrdensDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Ordens_' . date('YmdHis');
+        return 'FormularioLaboratorios_' . date('YmdHis');
     }
 }

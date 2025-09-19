@@ -58,6 +58,10 @@ class FormulariosDataTable extends DataTable
                     $buttons .= '<button type="button" class="btn btn-light btn-sm" title="Registro de Pagos" data-argid="' . $query->id . '" onclick="openModalPagosContrato(\'' . $query->id . '\')"><i class="fa fa-file-invoice-dollar"></i></button>';
                 }
 
+                if (auth()->user()->can('formulario-estatus')) {
+                    $buttons .= '<button type="button" class="btn btn-outline-primary btn-sm" title="Registro de Laboratorios" data-argid="' . $query->id . '" onclick="openModalLaboratorios(\'' . $query->id . '\')"><i class="fa fa-truck-medical"></i></button>';
+                }
+
 
                 return '<div class="btn-group" role="group" aria-label="Opciones">' . $buttons . '</div>';
             })

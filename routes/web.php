@@ -54,6 +54,7 @@ use App\Http\Controllers\OrdenPaymentOriginController;
 use App\Http\Controllers\ConsultaWebClienteController;
 use App\Http\Controllers\ClientePaymentController;
 use App\Http\Controllers\CondicionOpticaController;
+use App\Http\Controllers\FormularioLaboratorioController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -336,6 +337,24 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Condiciones Opticas
     Route::get('/condicion-opticas/{condicionOptica}/delete',    [CondicionOpticaController::class, 'delete'])->name('condicion-opticas.delete');
     Route::resource('condicion-opticas', CondicionOpticaController::class);
+
+    //Guardar nuevo envio
+    Route::post('/formularios/{formulario}/laboratorios', [FormularioLaboratorioController::class, 'store'])->name('formularios.laboratorios.store');
+    //Actualizar último envío
+    Route::put('/formularios/{formulario}/laboratorios/{envio}', [FormularioLaboratorioController::class, 'update'])->name('formularios.laboratorios.update');
+    //Consultar ultimo envio
+    Route::get('/formularios/{formulario}/laboratorios/ultimo', [FormularioLaboratorioController::class, 'ultimo'])->name('formularios.laboratorios.ultimo');
+    
+    //Guardar nuevo envio
+    Route::post('/ordens/{orden}/laboratorios', [FormularioLaboratorioController::class, 'storeOrden'])->name('ordens.laboratorios.store');
+    //Actualizar último envío
+    Route::put('/ordens/{orden}/laboratorios/{envio}', [FormularioLaboratorioController::class, 'updateOrden'])->name('ordens.laboratorios.update');
+    //Consultar ultimo envio
+    Route::get('/ordens/{orden}/laboratorios/ultimo', [FormularioLaboratorioController::class, 'ultimoOrden'])->name('ordens.laboratorios.ultimo');
+
+    //Rutas de Formulario Laboratorios
+    Route::get('/formulario-laboratorios/{formularioLaboratorio}/delete', [FormularioLaboratorioController::class, 'delete'])->name('formulario-laboratorios.delete');
+    Route::resource('formulario-laboratorios', FormularioLaboratorioController::class);
 
 });
 

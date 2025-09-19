@@ -64,7 +64,7 @@
                                         <form action="#{{-- {{ route('ordens.update') }} --}}" method="POST" id="statusForm"
                                             enctype="multipart/form-data">
                                             @csrf
-                                            
+
                                             {{ Form::selectComp('orden_status_id', 'Estatus', '', $ordenStatuses) }}
                                             {{ Form::dateComp('fecha_entrega', 'Fecha de Entrega', null, null, '') }}
                                             <button type="submit" class="btn btn-primary btn-block" title="Guardar"><i
@@ -131,6 +131,51 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal Laboratorios de Contrato --}}
+    <div class="modal fade" id="laboratoriosModal" tabindex="-1" aria-labelledby="laboratoriosModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5"><i class="fa fa-truck-medical"></i> Enviar a Laboratorio</h1>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formLaboratorio">
+                        @csrf
+                        <input type="hidden" id="orden_envio_id">
+
+                        <div class="mb-3">
+                            {{ Form::selectComp('laboratorio_envio_id', 'Laboratorio', '', $laboratorios_externos) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_envio" class="form-label">Fecha de Envío</label>
+                            <input type="date" class="form-control" id="fecha_envio" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_retorno" class="form-label">Fecha de Retorno</label>
+                            <input type="date" class="form-control" id="fecha_retorno">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="observacion" class="form-label">Observación</label>
+                            <textarea class="form-control" id="observacion" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarFormularioLaboratorio()"><i
+                            class="fa fa-save"></i> Guardar</button>
                 </div>
             </div>
         </div>
@@ -378,5 +423,91 @@
             });
 
         }
+
+        let ordenSeleccionado = null;
+        let envioSeleccionado = null; // último envío cargado
+
+        async function openModalLaboratorios(id) {
+            document.getElementById('formLaboratorio').reset();
+            ordenSeleccionado = id;
+            envioSeleccionado = null; // limpiar
+            document.getElementById('orden_envio_id').value = ordenSeleccionado;
+
+            try {
+                const response = await axios.get(`/ordens/${id}/laboratorios/ultimo`);
+
+                if (response.data.success && response.data.envio) {
+                    const envio = response.data.envio;
+                    envioSeleccionado = envio.id; // guardamos el id
+
+                    document.getElementById('laboratorio_envio_id').value = envio.laboratorio_id;
+                    document.getElementById('fecha_envio').value = envio.fecha_envio ?? '';
+                    document.getElementById('fecha_retorno').value = envio.fecha_retorno ?? '';
+                    document.getElementById('observacion').value = envio.observacion ?? '';
+                }
+            } catch (error) {
+                console.error("Error cargando datos del laboratorio", error);
+            }
+
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('laboratoriosModal')).show();
+        }
+
+        async function enviarFormularioLaboratorio() {
+            const laboratorio_id = document.getElementById('laboratorio_envio_id').value;
+            const fecha_envio = document.getElementById('fecha_envio').value;
+            const fecha_retorno = document.getElementById('fecha_retorno').value;
+            const observacion = document.getElementById('observacion').value;
+
+            if (!laboratorio_id || !fecha_envio) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Debe seleccionar laboratorio y fecha de envío.'
+                });
+                return;
+            }
+
+            try {
+                // Determinar si es una actualización o creación
+                let url = `/ordens/${ordenSeleccionado}/laboratorios`;
+                let method = 'post';
+
+                if (envioSeleccionado) {
+                    url = `/ordens/${ordenSeleccionado}/laboratorios/${envioSeleccionado}`;
+                    method = 'put';
+                }
+
+                const response = await axios({
+                    method,
+                    url,
+                    data: { laboratorio_id, fecha_envio, fecha_retorno, observacion }
+                });
+
+                if (response.data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.data.message
+                    });
+
+                    // cerrar modal
+                    bootstrap.Modal.getInstance(document.getElementById('laboratoriosModal')).hide();
+
+                    // opcional: limpiar campos
+                    document.getElementById('formLaboratorio').reset();
+
+                    $('#formularios-table').DataTable().ajax.reload(null, false);
+                }
+
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al enviar el formulario al laboratorio'
+                });
+            }
+        }
+
     </script>
 @endpush

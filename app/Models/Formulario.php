@@ -9,6 +9,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use App\Support\OpticalEvaluator;
+use App\Models\Laboratorio;
+use App\Models\FormularioLaboratorio;
 
 class Formulario extends Model
 {
@@ -206,5 +208,10 @@ class Formulario extends Model
     public function condicionOptica()
     {
         return $this->hasOne(CondicionOptica::class);
+    }
+
+    public function laboratoriosExternos()
+    {
+        return $this->hasMany(FormularioLaboratorio::class);
     }
 }

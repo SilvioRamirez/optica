@@ -12,6 +12,7 @@ use App\Http\Requests\StoreOrdenRequest;
 use App\Http\Requests\UpdateOrdenRequest;
 use App\Models\OrdenPaymentType;
 use App\Models\OrdenPaymentOrigin;
+use App\Models\Laboratorio;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Models\Configuracion;
@@ -39,7 +40,8 @@ class OrdenController extends Controller
         $paymentTypes = OrdenPaymentType::orderBy('name', 'asc')->pluck('name', 'id')->prepend('-- Seleccione --', '');
         $paymentOrigins = OrdenPaymentOrigin::orderBy('name', 'asc')->pluck('name', 'id')->prepend('-- Seleccione --', '');
         $ordenStatuses = OrdenStatus::pluck('name', 'id')->prepend('-- Seleccione --', '');
-        return $dataTable->render('ordens.index', compact('paymentTypes', 'paymentOrigins', 'ordenStatuses'));
+        $laboratorios_externos = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'id')->prepend('-- Seleccione --', '');
+        return $dataTable->render('ordens.index', compact('paymentTypes', 'paymentOrigins', 'ordenStatuses', 'laboratorios_externos'));
     }
 
     /**
@@ -115,6 +117,8 @@ class OrdenController extends Controller
             return redirect()->back()
                 ->with('danger', 'Error al actualizar la orden.');
         }
+
+        $orden->calculoPagos();
 
         return redirect()->route('ordens.index')
             ->with('success', 'Orden actualizada correctamente.');

@@ -436,8 +436,25 @@ return [
                 ],
             ],
         ],
-        
-        
+        [
+            'text' => 'Laboratorios',
+            'icon' => 'fa fa-house-medical-flag',
+            'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+            'submenu' => [
+                [
+                    'text' => 'Ordenes de Laboratorios',
+                    'url' => 'formulario-laboratorios',
+                    'icon' => 'fa-solid fa-file-medical',
+                    'canany' => ['orden-list', 'orden-create', 'orden-edit', 'orden-delete', 'orden-pago-list', 'orden-pago-create', 'orden-pago-edit', 'orden-pago-delete'],
+                ],
+                [
+                    'text' => 'Laboratorios',
+                    'url' => 'laboratorios',
+                    'icon' => 'fa fa-house-medical',
+                    'canany' => ['laboratorio-list', 'laboratorio-create'],
+                ],
+            ],
+        ],
         [
             'text' => 'Configuración',
             'icon' => 'fa fa-gear',
@@ -467,12 +484,7 @@ return [
                     'icon' => 'fa-solid fa-id-badge',
                     'canany' => ['especialista-list', 'especialista-create'],
                 ],
-                [
-                    'text' => 'Laboratorios',
-                    'url' => 'laboratorios',
-                    'icon' => 'fa fa-microscope',
-                    'canany' => ['laboratorio-list', 'laboratorio-create'],
-                ],
+                
                 [
                     'text' => 'Tipos de Pago',
                     'url' => 'tipos',

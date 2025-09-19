@@ -57,7 +57,9 @@ class FormularioController extends Controller
 
         $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
-        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos', 'origens'));
+        $laboratorios_externos = Laboratorio::orderBy('id', 'desc')->pluck('razon_social', 'id')->prepend('-- Seleccione --', '');
+
+        return $dataTable->render('formularios.index', compact('laboratorios', 'estatuses', 'rutaEntregas', 'tipos', 'origens', 'laboratorios_externos'));
     }
 
     /**

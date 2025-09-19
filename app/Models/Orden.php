@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\FormularioLaboratorio;
 
 class Orden extends Model
 {
@@ -109,5 +110,10 @@ class Orden extends Model
 
         return $this;
 
+    }
+
+    public function laboratoriosExternos()
+    {
+        return $this->hasMany(FormularioLaboratorio::class);
     }
 }

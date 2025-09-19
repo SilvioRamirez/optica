@@ -3,7 +3,7 @@
 @section('title', 'Administración de Formularios')
 
 @section('content_header')
-    <h1 class="text-center"><i class="fa fa-square-pen"></i> Administración de Formularios</h1>
+<h1 class="text-center"><i class="fa fa-square-pen"></i> Administración de Formularios</h1>
 @stop
 
 @section('content')
@@ -150,8 +150,7 @@
                 <div class="modal-header bg-primary text-white">
                     <h1 class="modal-title fs-5" id="pagosModalLabel"><i class="fa fa-file-invoice-dollar"></i> Pagos de
                         Contrato</h1>
-                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -195,8 +194,8 @@
                                         </div>
                                         <div class="col-xs-1 col-sm-1 col-md-1">
                                             <div class="d-grid gap-2 mt-md-4 mt-sm-0 mt-lg-4 mt-sm-0">
-                                                <button type="submit" class="btn btn-primary btn-block"
-                                                    title="Guardar"><i class="fa fa-floppy-disk"></i></button>
+                                                <button type="submit" class="btn btn-primary btn-block" title="Guardar"><i
+                                                        class="fa fa-floppy-disk"></i></button>
                                             </div>
                                         </div>
                                     </div>
@@ -234,6 +233,51 @@
         </div>
     </div>
 
+    {{-- Modal Laboratorios de Contrato --}}
+    <div class="modal fade" id="laboratoriosModal" tabindex="-1" aria-labelledby="laboratoriosModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h1 class="modal-title fs-5"><i class="fa fa-truck-medical"></i> Enviar a Laboratorio</h1>
+                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formLaboratorio">
+                        @csrf
+                        <input type="hidden" id="formulario_envio_id">
+
+                        <div class="mb-3">
+                            {{ Form::selectComp('laboratorio_envio_id', 'Laboratorio', '', $laboratorios_externos) }}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_envio" class="form-label">Fecha de Envío</label>
+                            <input type="date" class="form-control" id="fecha_envio" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fecha_retorno" class="form-label">Fecha de Retorno</label>
+                            <input type="date" class="form-control" id="fecha_retorno">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="observacion" class="form-label">Observación</label>
+                            <textarea class="form-control" id="observacion" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="enviarFormularioLaboratorio()"><i
+                            class="fa fa-save"></i> Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -252,8 +296,8 @@
             maxFilesize: 20, // Limitamos a 2MB por archivo
             parallelUploads: 1, // Subir de uno en uno
             timeout: 180000, // 3 minutos de timeout
-            init: function() {
-                this.on("error", function(file, errorMessage, xhr) {
+            init: function () {
+                this.on("error", function (file, errorMessage, xhr) {
                     console.error("Error de carga:", errorMessage);
                     // Mostrar error al usuario
                     Swal.fire({
@@ -264,7 +308,7 @@
                         confirmButtonColor: "#dc3545",
                     });
                 });
-                this.on("success", function(file, response) {
+                this.on("success", function (file, response) {
                     /* console.log("Éxito:", response); */
                     if (response && response.success) {
                         Swal.fire({
@@ -283,9 +327,9 @@
 
 
     <script type="module">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('.btn-revisarLente').click(function(e) {
+            $('.btn-revisarLente').click(function (e) {
                 e.preventDefault();
 
                 var formulario_id = document.getElementById("formulario_id").value;
@@ -573,8 +617,93 @@
 
         }
 
+        let formularioSeleccionado = null;
+        let envioSeleccionado = null; // último envío cargado
+
+        async function openModalLaboratorios(id) {
+            document.getElementById('formLaboratorio').reset();
+            formularioSeleccionado = id;
+            envioSeleccionado = null; // limpiar
+            document.getElementById('formulario_envio_id').value = formularioSeleccionado;
+
+            try {
+                const response = await axios.get(`/formularios/${id}/laboratorios/ultimo`);
+
+                if (response.data.success && response.data.envio) {
+                    const envio = response.data.envio;
+                    envioSeleccionado = envio.id; // guardamos el id
+
+                    document.getElementById('laboratorio_envio_id').value = envio.laboratorio_id;
+                    document.getElementById('fecha_envio').value = envio.fecha_envio ?? '';
+                    document.getElementById('fecha_retorno').value = envio.fecha_retorno ?? '';
+                    document.getElementById('observacion').value = envio.observacion ?? '';
+                }
+            } catch (error) {
+                console.error("Error cargando datos del laboratorio", error);
+            }
+
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('laboratoriosModal')).show();
+        }
+
+        async function enviarFormularioLaboratorio() {
+            const laboratorio_id = document.getElementById('laboratorio_envio_id').value;
+            const fecha_envio = document.getElementById('fecha_envio').value;
+            const fecha_retorno = document.getElementById('fecha_retorno').value;
+            const observacion = document.getElementById('observacion').value;
+
+            if (!laboratorio_id || !fecha_envio) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Debe seleccionar laboratorio y fecha de envío.'
+                });
+                return;
+            }
+
+            try {
+                // Determinar si es una actualización o creación
+                let url = `/formularios/${formularioSeleccionado}/laboratorios`;
+                let method = 'post';
+
+                if (envioSeleccionado) {
+                    url = `/formularios/${formularioSeleccionado}/laboratorios/${envioSeleccionado}`;
+                    method = 'put';
+                }
+
+                const response = await axios({
+                    method,
+                    url,
+                    data: { laboratorio_id, fecha_envio, fecha_retorno, observacion }
+                });
+
+                if (response.data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: response.data.message
+                    });
+
+                    // cerrar modal
+                    bootstrap.Modal.getInstance(document.getElementById('laboratoriosModal')).hide();
+
+                    // opcional: limpiar campos
+                    document.getElementById('formLaboratorio').reset();
+
+                    $('#formularios-table').DataTable().ajax.reload(null, false);
+                }
+
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al enviar el formulario al laboratorio'
+                });
+            }
+        }
+
         /* Evento que envia el formulario para registrar un nuevo pago */
-        document.getElementById('pagoForm').addEventListener('submit', function(event) {
+        document.getElementById('pagoForm').addEventListener('submit', function (event) {
             event.preventDefault(); //Evita que el formulario se envie (su comportamiento normal)
 
             const formData = new FormData(this); //Obtiene los datos del formulario
@@ -704,11 +833,11 @@
                     const btnCargar = document.createElement('button');
                     btnCargar.className = 'btn btn-primary btn-sm m-1';
                     btnCargar.innerHTML = '<i class="fa fa-upload"></i> Cargar';
-                    btnCargar.onclick = function() {
+                    btnCargar.onclick = function () {
                         inputFile.click();
                     };
 
-                    inputFile.onchange = function(e) {
+                    inputFile.onchange = function (e) {
                         const file = e.target.files[0];
                         if (file) {
                             const formData = new FormData();
@@ -716,10 +845,10 @@
                             formData.append('pago_id', pago.id);
 
                             axios.post('/api/cargar-imagen-pago', formData, {
-                                    headers: {
-                                        'Content-Type': 'multipart/form-data'
-                                    }
-                                })
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            })
                                 .then(response => {
                                     if (response.data.success) {
                                         // Actualizar la imagen en la tabla
