@@ -45,15 +45,6 @@
                 </div>
                 
                 <div class="col-md-3">
-                    <div class="card bg-success text-white shadow mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Pagos del Cliente</h5>
-                            <p class="card-text display-6"><strong>{{ $totalClientePayments }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3">
                     <div class="card bg-warning text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Monto Total (Pendientes)</h5>
@@ -70,30 +61,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-3">
                     <div class="card bg-info text-white shadow mb-3">
                         <div class="card-body">
                             <h5 class="card-title">Pagos Realizados (Pendientes)</h5>
                             <p class="card-text display-6"><strong>${{ number_format($sumaPagosOrdenes, 2) }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-secondary text-white shadow mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Abonos Cliente</h5>
-                            <p class="card-text display-6"><strong>${{ number_format($sumaClientePayments, 2) }}</strong></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card bg-dark text-white shadow mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Saldo Cliente</h5>
-                            <p class="card-text display-6"><strong>${{ number_format($saldoCliente, 2) }}</strong></p>
                         </div>
                     </div>
                 </div>

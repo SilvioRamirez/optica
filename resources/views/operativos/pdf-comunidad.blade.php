@@ -159,9 +159,9 @@
                 @endphp
                 @foreach($tratamientos as $tratamientoId => $formularios)
                     @php
-                        $terminada = $formularios->where('tipo_formula', 'TERMINADA')->count();
-                        $tallada = $formularios->where('tipo_formula', 'TALLADA')->count();
-                        $total = $formularios->count();
+                        $terminada = $formularios->where('tipo_formula', 'TERMINADA')->sum('total');
+                        $tallada = $formularios->where('tipo_formula', 'TALLADA')->sum('total');
+                        $total = $formularios->sum('total');
                     @endphp
                     <tr>
                         <td>{{ $formularios->first()->tipoTratamiento->tipo_tratamiento ?? 'Sin tratamiento' }}</td>

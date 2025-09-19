@@ -205,6 +205,7 @@ Route::group(['middleware' => ['auth']], function() {
     //Rutas de Laboratorios
     Route::post('api/fetch-laboratorios',               [DropdownController::class, 'fetchLaboratorio']);
     Route::get('/laboratorios/{laboratorio}/delete',    [LaboratorioController::class, 'delete'])->name('laboratorios.delete');
+    Route::get('/laboratorios/{laboratorio}/pdf',       [LaboratorioController::class, 'generatePdf'])->name('laboratorios.generatePdf');
     Route::resource('laboratorios',                     LaboratorioController::class);
 
     //Rutas de Personas

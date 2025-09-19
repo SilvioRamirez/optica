@@ -111,7 +111,26 @@
                                                 <td class="tw-px-4 tw-py-4 tw-whitespace-nowrap">
                                                     <span
                                                         class="tw-inline-flex tw-px-2 tw-py-1 tw-text-xs tw-font-semibold tw-rounded-full 
-                                                                                {{ $orden->ordenStatus ? 'tw-bg-green-100 tw-text-green-800' : 'tw-bg-gray-100 tw-text-gray-800' }}">
+                                                                                @if($orden->ordenStatus)
+                                                                                    @switch($orden->ordenStatus->name)
+                                                                                        @case('RECIBIDO')
+                                                                                            tw-bg-blue-100 tw-text-blue-800
+                                                                                            @break
+                                                                                        @case('EN PROCESO')
+                                                                                            tw-bg-yellow-100 tw-text-yellow-800
+                                                                                            @break
+                                                                                        @case('ENTREGADO')
+                                                                                            tw-bg-green-100 tw-text-green-800
+                                                                                            @break
+                                                                                        @case('LISTOS, POR ENTREGAR')
+                                                                                            tw-bg-purple-100 tw-text-purple-800
+                                                                                            @break
+                                                                                        @default
+                                                                                            tw-bg-gray-100 tw-text-gray-800
+                                                                                    @endswitch
+                                                                                @else
+                                                                                    tw-bg-gray-100 tw-text-gray-800
+                                                                                @endif">
                                                         {{ $orden->ordenStatus ? $orden->ordenStatus->name : 'Sin Estado' }}
                                                     </span>
                                                 </td>
