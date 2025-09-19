@@ -21,10 +21,11 @@ class LaboratorioController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index','show']]);
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
-        $this->middleware('permission:product-edit',   ['only' => ['edit','update']]);
-        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:laboratorio-list|laboratorio-create|laboratorio-edit|laboratorio-delete', ['only' => ['index','show']]);
+        $this->middleware('permission:laboratorio-create', ['only' => ['create','store']]);
+        $this->middleware('permission:laboratorio-edit',   ['only' => ['edit','update']]);
+        $this->middleware('permission:laboratorio-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:laboratorio-download', ['only' => ['generatePdf']]);
     }
 
     /**
