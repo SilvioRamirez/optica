@@ -32,8 +32,8 @@ class FormularioLaboratorioController extends Controller
     public function store(Request $request, $formularioId)
     {
         try {
-            // Buscar el formulario explícitamente
-            $formulario = Formulario::findOrFail($formularioId);
+            // Buscar el formulario explícitamente (incluyendo eliminados)
+            $formulario = Formulario::withTrashed()->findOrFail($formularioId);
             
             $validated = $request->validate([
                 'laboratorio_id' => 'required|exists:laboratorios,id',
@@ -67,8 +67,8 @@ class FormularioLaboratorioController extends Controller
     public function update(Request $request, $formularioId, $envioId)
     {
         try {
-            // Buscar el formulario explícitamente
-            $formulario = Formulario::findOrFail($formularioId);
+            // Buscar el formulario explícitamente (incluyendo eliminados)
+            $formulario = Formulario::withTrashed()->findOrFail($formularioId);
             
             $validated = $request->validate([
                 'laboratorio_id' => 'required|exists:laboratorios,id',
@@ -103,8 +103,8 @@ class FormularioLaboratorioController extends Controller
     public function ultimo($formularioId)
     {
         try {
-            // Buscar el formulario explícitamente
-            $formulario = Formulario::findOrFail($formularioId);
+            // Buscar el formulario explícitamente (incluyendo eliminados)
+            $formulario = Formulario::withTrashed()->findOrFail($formularioId);
             
             $ultimo = $formulario->laboratoriosExternos()
                 ->with('laboratorio')
