@@ -10,6 +10,15 @@ use App\Models\Orden;
 use App\DataTables\FormularioLaboratoriosDataTable;
 class FormularioLaboratorioController extends Controller
 {
+    /**
+     * Realiza las validaciones en los permisos de spatie
+     *
+     */
+    function __construct()
+    {
+        $this->middleware('permission:formulario-list|formulario-create|formulario-edit|formulario-delete', ['only' => ['index', 'show', 'store', 'update', 'ultimo']]);
+        $this->middleware('permission:orden-list|orden-create|orden-edit|orden-delete', ['only' => ['storeOrden', 'updateOrden', 'ultimoOrden']]);
+    }
 
     /**
      * Display a listing of the resource.
