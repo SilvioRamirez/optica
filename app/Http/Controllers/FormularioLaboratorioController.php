@@ -8,6 +8,7 @@ use App\Models\Formulario;
 use App\Models\Laboratorio;
 use App\Models\Orden;
 use App\DataTables\FormularioLaboratoriosDataTable;
+use Illuminate\Support\Facades\Log;
 class FormularioLaboratorioController extends Controller
 {
     /**
@@ -28,54 +29,105 @@ class FormularioLaboratorioController extends Controller
         return $dataTable->render('formularioLaboratorios.index');
     }
 
-    public function store(Request $request, Formulario $formulario)
+    public function store(Request $request, $formularioId)
     {
-        $validated = $request->validate([
-            'laboratorio_id' => 'required|exists:laboratorios,id',
-            'fecha_envio' => 'required|date',
-            'fecha_retorno' => 'nullable|date|after_or_equal:fecha_envio',
-            'observacion' => 'nullable|string|max:500',
-        ]);
+        try {
+            // Buscar el formulario explícitamente
+            $formulario = Formulario::findOrFail($formularioId);
+            
+            $validated = $request->validate([
+                'laboratorio_id' => 'required|exists:laboratorios,id',
+                'fecha_envio' => 'required|date',
+                'fecha_retorno' => 'nullable|date|after_or_equal:fecha_envio',
+                'observacion' => 'nullable|string|max:500',
+            ]);
 
-        $envio = $formulario->laboratoriosExternos()->create($validated);
+            $envio = $formulario->laboratoriosExternos()->create($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Formulario enviado al laboratorio correctamente',
-            'envio' => $envio->load('laboratorio')
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Formulario enviado al laboratorio correctamente',
+                'envio' => $envio->load('laboratorio')
+            ]);
+            
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Formulario no encontrado'
+            ], 404);
+        } catch (\Exception $e) {
+            Log::error('Error al crear envío de laboratorio: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error interno del servidor'
+            ], 500);
+        }
     }
 
-    public function update(Request $request, Formulario $formulario, $envioId)
+    public function update(Request $request, $formularioId, $envioId)
     {
-        $validated = $request->validate([
-            'laboratorio_id' => 'required|exists:laboratorios,id',
-            'fecha_envio' => 'required|date',
-            'fecha_retorno' => 'nullable|date|after_or_equal:fecha_envio',
-            'observacion' => 'nullable|string|max:500',
-        ]);
+        try {
+            // Buscar el formulario explícitamente
+            $formulario = Formulario::findOrFail($formularioId);
+            
+            $validated = $request->validate([
+                'laboratorio_id' => 'required|exists:laboratorios,id',
+                'fecha_envio' => 'required|date',
+                'fecha_retorno' => 'nullable|date|after_or_equal:fecha_envio',
+                'observacion' => 'nullable|string|max:500',
+            ]);
 
-        $envio = $formulario->laboratoriosExternos()->findOrFail($envioId);
-        $envio->update($validated);
+            $envio = $formulario->laboratoriosExternos()->findOrFail($envioId);
+            $envio->update($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Envío actualizado correctamente',
-            'envio' => $envio->load('laboratorio')
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Envío actualizado correctamente',
+                'envio' => $envio->load('laboratorio')
+            ]);
+            
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Formulario o envío no encontrado'
+            ], 404);
+        } catch (\Exception $e) {
+            Log::error('Error al actualizar envío de laboratorio: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error interno del servidor'
+            ], 500);
+        }
     }
 
-    public function ultimo(Formulario $formulario)
+    public function ultimo($formularioId)
     {
-        $ultimo = $formulario->laboratoriosExternos()
-            ->with('laboratorio')
-            ->latest('created_at')
-            ->first();
+        try {
+            // Buscar el formulario explícitamente
+            $formulario = Formulario::findOrFail($formularioId);
+            
+            $ultimo = $formulario->laboratoriosExternos()
+                ->with('laboratorio')
+                ->latest('created_at')
+                ->first();
 
-        return response()->json([
-            'success' => true,
-            'envio' => $ultimo
-        ]);
+            return response()->json([
+                'success' => true,
+                'envio' => $ultimo
+            ]);
+            
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Formulario no encontrado'
+            ], 404);
+        } catch (\Exception $e) {
+            Log::error('Error al consultar último envío: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Error interno del servidor'
+            ], 500);
+        }
     }
 
     public function storeOrden(Request $request, Orden $orden)
