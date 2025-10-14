@@ -470,18 +470,15 @@
             try {
                 // Determinar si es una actualización o creación
                 let url = `/ordens/${ordenSeleccionado}/laboratorios`;
+                let payload = { laboratorio_id, fecha_envio, fecha_retorno, observacion };
                 let method = 'post';
 
                 if (envioSeleccionado) {
                     url = `/ordens/${ordenSeleccionado}/laboratorios/${envioSeleccionado}`;
-                    method = 'put';
+                    payload._method = 'PUT';
                 }
 
-                const response = await axios({
-                    method,
-                    url,
-                    data: { laboratorio_id, fecha_envio, fecha_retorno, observacion }
-                });
+                const response = await axios.post(url, payload);
 
                 if (response.data.success) {
                     Swal.fire({
