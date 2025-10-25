@@ -22,9 +22,17 @@ class Tasa extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "Este modelo ha sido {$eventName}")
             ->dontSubmitEmptyLogs();
     }
-    protected $fillable = ['valor', 'fecha'];
+    protected $fillable = ['valor', 'fecha', 'fuente'];
     
     public static function getLastTasa(){
-        return self::orderBy('fecha', 'desc')->first();
+        return self::where('fuente', 'BCV')
+            ->orderBy('fecha', 'desc')
+            ->first();
+    }
+
+    public static function getLastTasaBinance(){
+        return self::where('fuente', 'Binance')
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
 }

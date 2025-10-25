@@ -68,6 +68,9 @@ Route::get('/facebook', [IndexController::class, 'facebook'])->name('facebook');
 /* Route::get('/', [HomeController::class, 'index'])->name('index'); */
 Route::get('/tasa', [TasaController::class, 'index'])->name('tasa.index');
 Route::get('/tasa/last', [TasaController::class, 'getLastTasa'])->name('tasa.last');
+Route::get('/tasa/binance', [TasaController::class, 'getBinance'])->name('tasa.binance');
+Route::get('/tasa/binance/last', [TasaController::class, 'getLastTasaBinance'])->name('tasa.binance.last');
+Route::get('/tasa/comparar', [TasaController::class, 'compararTasas'])->name('tasa.comparar');
 
 /* Auth::routes(['register' => false]); */
 

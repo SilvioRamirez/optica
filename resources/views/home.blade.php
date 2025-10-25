@@ -9,12 +9,13 @@
                 <div class="row align-items-center mb-4">
                     <div class="col-md-6">
                         <h2 class="mb-0 text-gray-800">Estadísticas <strong>{{ $mesActualNombre }}</strong></h2>
-                    </div> 
+                    </div>
                     <div class="col-md-6">
                         <form method="GET" action="/home" class="text-right">
                             <div class="form-group mb-0">
                                 <label for="mes" class="form-label text-muted small">Seleccionar Mes:</label>
-                                <select name="mes" id="mes" class="form-control form-control-sm d-inline-block w-auto" onchange="this.form.submit()">
+                                <select name="mes" id="mes" class="form-control form-control-sm d-inline-block w-auto"
+                                    onchange="this.form.submit()">
                                     @foreach($mesesDisponibles as $valor => $texto)
                                         <option value="{{ $valor }}" {{ $mesSeleccionado == $valor ? 'selected' : '' }}>
                                             {{ $texto }}
@@ -74,7 +75,8 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span class="{{ $formulariosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                        <span
+                                            class="{{ $formulariosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $formulariosVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($formulariosVariacion) }}%
                                         </span>
@@ -130,7 +132,8 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span class="{{ $refractadosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                        <span
+                                            class="{{ $refractadosVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $refractadosVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($refractadosVariacion) }}%
                                         </span>
@@ -139,8 +142,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="col-xl-2-4 col-lg-6"> {{-- CASHEA --}}
                             <div class="card card-stats mb-4 mb-xl-0 shadow">
                                 <div class="card-body">
@@ -189,7 +192,8 @@
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">VENTAS TOTALES</h5>
                                             <br>
-                                            <span class="h2 font-weight-bold mb-0">${{ number_format($totalVentasActual, 2) }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">${{ number_format($totalVentasActual, 2) }}</span>
                                             <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>${{ number_format($totalVentasAnterior, 2) }}</strong></small>
@@ -219,7 +223,8 @@
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">PROMEDIO TOTAL</h5>
                                             <br>
-                                            <span class="h2 font-weight-bold mb-0">${{ number_format($promedioTotalActual, 2) }}</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">${{ number_format($promedioTotalActual, 2) }}</span>
                                             <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>${{ number_format($promedioTotalAnterior, 2) }}</strong></small>
@@ -261,7 +266,8 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span class="{{ $generoMasculinoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                        <span
+                                            class="{{ $generoMasculinoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $generoMasculinoVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($generoMasculinoVariacion) }}%
                                         </span>
@@ -291,7 +297,8 @@
                                         </div>
                                     </div>
                                     <p class="mt-1 mb-0 text-muted text-sm">
-                                        <span class="{{ $generoFemeninoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
+                                        <span
+                                            class="{{ $generoFemeninoVariacion >= 0 ? 'text-success' : 'text-danger' }} mr-2">
                                             <i class="fa fa-arrow-{{ $generoFemeninoVariacion >= 0 ? 'up' : 'down' }}"></i>
                                             {{ abs($generoFemeninoVariacion) }}%
                                         </span>
@@ -309,7 +316,9 @@
                                         <div class="col">
                                             <h5 class="card-title text-uppercase text-muted mb-0">PROMEDIO EDAD</h5>
                                             <br>
-                                            <span class="h2 font-weight-bold mb-0">{{ number_format($promedioEdadActual, 1) }} años</span>
+                                            <span
+                                                class="h2 font-weight-bold mb-0">{{ number_format($promedioEdadActual, 1) }}
+                                                años</span>
                                             <br>
                                             <small class="text-muted">Mes anterior ({{ $mesAnteriorNombre }}):
                                                 <strong>{{ number_format($promedioEdadAnterior, 1) }} años</strong></small>
@@ -347,10 +356,13 @@
                                 <h5 class="card-title text-uppercase text-muted mb-0">OPERATIVO MÁS ACTIVO</h5>
                                 <br>
                                 @if($operativoConMasFormularios)
-                                    <span class="h2 font-weight-bold mb-0">{{ $operativoConMasFormularios->formularios_count }} formularios</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ $operativoConMasFormularios->formularios_count }}
+                                        formularios</span>
                                     <br>
-                                    <small class="text-muted">Operativo: <strong>{{ $operativoConMasFormularios->nombre_operativo }}</strong></small><br>
-                                    <small class="text-muted">Lugar: <strong>{{ $operativoConMasFormularios->lugar }}</strong></small>
+                                    <small class="text-muted">Operativo:
+                                        <strong>{{ $operativoConMasFormularios->nombre_operativo }}</strong></small><br>
+                                    <small class="text-muted">Lugar:
+                                        <strong>{{ $operativoConMasFormularios->lugar }}</strong></small>
                                 @else
                                     <span class="h2 font-weight-bold mb-0">0 formularios</span>
                                     <br>
@@ -484,7 +496,8 @@
                             <div class="col-6">
                                 <div class="">
                                     <div class=" text-center">
-                                        <img src="{{ asset('storage/img/presbicia.webp') }}"  alt="Presbicia" class="img-fluid" width="200">
+                                        <img src="{{ asset('storage/img/presbicia.webp') }}" alt="Presbicia"
+                                            class="img-fluid" width="200">
                                     </div>
                                 </div>
                             </div>
@@ -510,10 +523,40 @@
                             <div class="col-6">
                                 <div class="">
                                     <div class=" text-center">
-                                        <img src="{{ asset('storage/img/miopiamagna.webp') }}"  alt="Miopía Magna" class="img-fluid" width="200">
+                                        <img src="{{ asset('storage/img/miopiamagna.webp') }}" alt="Miopía Magna"
+                                            class="img-fluid" width="200">
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Cotización del Dólar -->
+    <div class="container pb-5 pt-3 pt-md-8">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h1 class="text-center mb-4">Cotización del Dólar - Últimos 30 días</h1>
+                        <div class="row mb-3">
+                            <div class="col-md-6 text-center">
+                                <span class="badge badge-danger p-2">
+                                    <i class="fas fa-university"></i> BCV (Banco Central)
+                                </span>
+                            </div>
+                            <div class="col-md-6 text-center">
+                                <span class="badge badge-warning p-2">
+                                    <i class="fab fa-bitcoin"></i> Binance (P2P)
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Contenedor con altura definida -->
+                        <div style="position: relative; height: 400px;">
+                            <canvas id="chartTasas"></canvas>
                         </div>
                     </div>
                 </div>
@@ -587,7 +630,6 @@
         </div>
     </div>
 
-    
 @endsection
 
 @push('scripts')
@@ -608,8 +650,94 @@
 
     <script type="text/javascript">
         // Cambiar el mes automáticamente al seleccionar
-        document.getElementById('mes').addEventListener('change', function() {
+        document.getElementById('mes').addEventListener('change', function () {
             this.form.submit();
+        });
+
+        // Gráfico de Tasas
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('chartTasas').getContext('2d');
+            const chartData = @json($chartTasas);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: chartData.datasets
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Precio en Bs',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: {
+                                callback: function (value) {
+                                    return value.toLocaleString('es-VE', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    }) + ' Bs';
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Fecha',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y.toLocaleString('es-VE', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        }) + ' Bs';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                }
+            });
         });
     </script>
 
@@ -621,15 +749,15 @@
                 max-width: 20%;
             }
         }
-        
+
         /* Color púrpura personalizado para la tarjeta de CASHEA */
         .bg-purple {
             background-color: #8e44ad !important;
         }
-        
+
         /* Color rosa personalizado para la tarjeta de género femenino */
         .bg-pink {
             background-color: #e91e63 !important;
         }
     </style>
-@endpush 
+@endpush

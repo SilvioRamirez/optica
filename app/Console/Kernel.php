@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Services\TasaBCV;
 use App\Models\Tasa;
+use App\Services\TasaBinance;
 
 class Kernel extends ConsoleKernel
 {
@@ -23,9 +24,14 @@ class Kernel extends ConsoleKernel
             if (isset($data[0]['tasa'], $data[0]['effective_date'])) {
                 Tasa::updateOrCreate(
                     ['fecha' => $data[0]['effective_date']],
-                    ['valor' => $data[0]['tasa']]
+                    ['valor' => $data[0]['tasa'], 'fuente' => 'BCV']
                 );
             }
+        })->hourly(); // cada hora
+
+        $schedule->call(function () {
+            $service = new TasaBinance();
+            $data = $service->getTasaBinance();
         })->hourly(); // cada hora
     }
 

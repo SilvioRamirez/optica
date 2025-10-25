@@ -6,6 +6,7 @@ use App\Models\Formulario;
 use App\Models\Refractante;
 use App\Models\Pago;
 use App\Models\Operativo;
+use App\Models\Tasa;
 use Illuminate\Http\Request;
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Carbon\Carbon;
@@ -31,7 +32,7 @@ class HomeController extends Controller
     {
         // Obtener el mes seleccionado o usar el mes actual por defecto
         $mesSeleccionado = $request->get('mes', now()->format('Y-m'));
-        
+
         // Corregir el parsing de fechas
         try {
             // Agregar día explícitamente para evitar problemas de parsing
@@ -41,7 +42,7 @@ class HomeController extends Controller
             $fechaSeleccionada = now()->startOfMonth();
             $mesSeleccionado = now()->format('Y-m');
         }
-        
+
         // Usar las fechas directamente sin copiar para evitar problemas
         $mesActual = $fechaSeleccionada->copy();
         $mesAnterior = $fechaSeleccionada->copy()->subMonth();
@@ -72,7 +73,7 @@ class HomeController extends Controller
         $formulariosActual = Formulario::whereMonth('created_at', $mesActual->month)
             ->whereYear('created_at', $mesActual->year)
             ->count();
-        
+
         $formulariosAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->count();
@@ -117,7 +118,7 @@ class HomeController extends Controller
         $casheaVariacion = $this->calcularVariacion($casheaActual, $casheaAnterior);
 
         // ===== NUEVAS ESTADÍSTICAS =====
-        
+
         // 1. Estadísticas por Tipo de Lente (para el mes seleccionado)
         $formulariosPorTipoLente = Formulario::whereMonth('formularios.created_at', $mesActual->month)
             ->whereYear('formularios.created_at', $mesActual->year)
@@ -134,13 +135,13 @@ class HomeController extends Controller
             ->whereNotNull('total')
             ->selectRaw('AVG(CAST(total AS DECIMAL(10,2))) as promedio')
             ->value('promedio') ?? 0;
-            
+
         $promedioTotalAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->whereNotNull('total')
             ->selectRaw('AVG(CAST(total AS DECIMAL(10,2))) as promedio')
             ->value('promedio') ?? 0;
-            
+
         $promedioVariacion = $this->calcularVariacion($promedioTotalActual, $promedioTotalAnterior);
 
         // 3. Estadísticas por género del mes
@@ -148,22 +149,22 @@ class HomeController extends Controller
             ->whereYear('created_at', $mesActual->year)
             ->where('genero', 'Masculino')
             ->count();
-            
+
         $generoFemeninoActual = Formulario::whereMonth('created_at', $mesActual->month)
             ->whereYear('created_at', $mesActual->year)
             ->where('genero', 'Femenino')
             ->count();
-            
+
         $generoMasculinoAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->where('genero', 'Masculino')
             ->count();
-            
+
         $generoFemeninoAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->where('genero', 'Femenino')
             ->count();
-            
+
         $generoMasculinoVariacion = $this->calcularVariacion($generoMasculinoActual, $generoMasculinoAnterior);
         $generoFemeninoVariacion = $this->calcularVariacion($generoFemeninoActual, $generoFemeninoAnterior);
 
@@ -172,12 +173,12 @@ class HomeController extends Controller
             ->whereYear('created_at', $mesActual->year)
             ->whereNotNull('edad')
             ->avg('edad') ?? 0;
-            
+
         $promedioEdadAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->whereNotNull('edad')
             ->avg('edad') ?? 0;
-            
+
         $edadVariacion = $this->calcularVariacion($promedioEdadActual, $promedioEdadAnterior);
 
         // 5. Estadísticas adicionales para las tarjetas (ventas totales)
@@ -185,31 +186,31 @@ class HomeController extends Controller
             ->whereYear('created_at', $mesActual->year)
             ->selectRaw('SUM(CAST(total AS DECIMAL(10,2))) as total_sum')
             ->value('total_sum') ?? 0;
-        
+
         $totalVentasAnterior = Formulario::whereMonth('created_at', $mesAnterior->month)
             ->whereYear('created_at', $mesAnterior->year)
             ->selectRaw('SUM(CAST(total AS DECIMAL(10,2))) as total_sum')
             ->value('total_sum') ?? 0;
-        
+
         $ventasVariacion = $this->calcularVariacion($totalVentasActual, $totalVentasAnterior);
 
         // 6. Operativo con más formularios del mes
-        $operativoConMasFormularios = Operativo::whereHas('formularios', function($query) use ($mesActual) {
+        $operativoConMasFormularios = Operativo::whereHas('formularios', function ($query) use ($mesActual) {
+            $query->whereMonth('created_at', $mesActual->month)
+                ->whereYear('created_at', $mesActual->year);
+        })
+            ->withCount(['formularios' => function ($query) use ($mesActual) {
                 $query->whereMonth('created_at', $mesActual->month)
-                      ->whereYear('created_at', $mesActual->year);
-            })
-            ->withCount(['formularios' => function($query) use ($mesActual) {
-                $query->whereMonth('created_at', $mesActual->month)
-                      ->whereYear('created_at', $mesActual->year);
+                    ->whereYear('created_at', $mesActual->year);
             }])
             ->orderByDesc('formularios_count')
             ->first();
 
         // 7. Estadísticas de Condiciones Ópticas del mes
-        $condicionesOpticas = \App\Models\CondicionOptica::whereHas('formulario', function($query) use ($mesActual) {
-                $query->whereMonth('created_at', $mesActual->month)
-                      ->whereYear('created_at', $mesActual->year);
-            })
+        $condicionesOpticas = \App\Models\CondicionOptica::whereHas('formulario', function ($query) use ($mesActual) {
+            $query->whereMonth('created_at', $mesActual->month)
+                ->whereYear('created_at', $mesActual->year);
+        })
             ->get();
 
         // Procesar eval_oj (eliminar valores null y vacíos)
@@ -296,22 +297,58 @@ class HomeController extends Controller
 
         $chartCondicionesOpticas = new LaravelChart($chart_options_condicionesOpticas);
 
+        // Gráfico de Cotización del Dólar (BCV vs Binance)
+        $chartTasas = $this->crearGraficoTasas();
+
         return view('home', compact(
-            'formulariosActual', 'formulariosAnterior', 'formulariosVariacion',
-            'refractadosActual', 'refractadosAnterior', 'refractadosVariacion',
-            'pagosActual', 'pagosAnterior', 'pagosVariacion',
-            'operativosActual', 'operativosAnterior', 'operativosVariacion',
-            'casheaActual', 'casheaAnterior', 'casheaVariacion',
-            'mesActualNombre', 'mesAnteriorNombre', 'mesesDisponibles', 'mesSeleccionado',
-            'chart1', 'chart2', 'chart3', 'chart4',
-            'formulariosPorTipoLente', 'operativoConMasFormularios', 
-            'promedioTotalActual', 'promedioTotalAnterior', 'promedioVariacion',
-            'generoMasculinoActual', 'generoFemeninoActual', 'generoMasculinoAnterior', 'generoFemeninoAnterior',
-            'generoMasculinoVariacion', 'generoFemeninoVariacion',
-            'promedioEdadActual', 'promedioEdadAnterior', 'edadVariacion',
-            'totalVentasActual', 'totalVentasAnterior', 'ventasVariacion',
-            'condicionesOpticas', 'chartCondicionesOpticas',
-            'evalOjStats', 'presbiciaCount', 'sinPresbiciaCount', 'miopiaMagnaCount', 'sinMiopiaMagnaCount'
+            'formulariosActual',
+            'formulariosAnterior',
+            'formulariosVariacion',
+            'refractadosActual',
+            'refractadosAnterior',
+            'refractadosVariacion',
+            'pagosActual',
+            'pagosAnterior',
+            'pagosVariacion',
+            'operativosActual',
+            'operativosAnterior',
+            'operativosVariacion',
+            'casheaActual',
+            'casheaAnterior',
+            'casheaVariacion',
+            'mesActualNombre',
+            'mesAnteriorNombre',
+            'mesesDisponibles',
+            'mesSeleccionado',
+            'chart1',
+            'chart2',
+            'chart3',
+            'chart4',
+            'formulariosPorTipoLente',
+            'operativoConMasFormularios',
+            'promedioTotalActual',
+            'promedioTotalAnterior',
+            'promedioVariacion',
+            'generoMasculinoActual',
+            'generoFemeninoActual',
+            'generoMasculinoAnterior',
+            'generoFemeninoAnterior',
+            'generoMasculinoVariacion',
+            'generoFemeninoVariacion',
+            'promedioEdadActual',
+            'promedioEdadAnterior',
+            'edadVariacion',
+            'totalVentasActual',
+            'totalVentasAnterior',
+            'ventasVariacion',
+            'condicionesOpticas',
+            'chartCondicionesOpticas',
+            'chartTasas',
+            'evalOjStats',
+            'presbiciaCount',
+            'sinPresbiciaCount',
+            'miopiaMagnaCount',
+            'sinMiopiaMagnaCount'
         ));
     }
 
@@ -326,24 +363,33 @@ class HomeController extends Controller
     private function getMesesDisponibles()
     {
         $meses = [
-            1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
-            5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
-            9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
         ];
 
         // Obtener fechas únicas de todas las tablas con validación
         $fechasFormularios = Formulario::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
             ->whereNotNull('created_at')
             ->groupBy('year', 'month')->get();
-        
+
         $fechasRefractantes = Refractante::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
             ->whereNotNull('created_at')
             ->groupBy('year', 'month')->get();
-        
+
         $fechasPagos = Pago::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
             ->whereNotNull('created_at')
             ->groupBy('year', 'month')->get();
-        
+
         $fechasOperativos = Operativo::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month')
             ->whereNotNull('created_at')
             ->groupBy('year', 'month')->get();
@@ -356,8 +402,8 @@ class HomeController extends Controller
             ->merge($fechasOperativos)
             ->filter(function ($item) {
                 // Filtrar elementos válidos
-                return $item && $item->year && $item->month && 
-                       $item->month >= 1 && $item->month <= 12;
+                return $item && $item->year && $item->month &&
+                    $item->month >= 1 && $item->month <= 12;
             })
             ->unique(function ($item) {
                 return $item->year . '-' . $item->month;
@@ -367,7 +413,7 @@ class HomeController extends Controller
             });
 
         $mesesDisponibles = [];
-        
+
         // Si no hay datos, al menos mostrar el mes actual
         if ($todasLasFechas->isEmpty()) {
             $mesActual = now();
@@ -385,5 +431,75 @@ class HomeController extends Controller
         }
 
         return $mesesDisponibles;
+    }
+
+    private function crearGraficoTasas()
+    {
+        // Obtener tasas de los últimos 30 días
+        $fechaInicio = Carbon::now()->subDays(30)->startOfDay();
+
+        $tasasBCV = Tasa::where('fuente', 'BCV')
+            ->where('created_at', '>=', $fechaInicio)
+            ->orderBy('created_at')
+            ->get();
+
+        $tasasBinance = Tasa::where('fuente', 'Binance')
+            ->where('created_at', '>=', $fechaInicio)
+            ->orderBy('created_at')
+            ->get();
+
+        // Preparar datos para el gráfico
+        $labels = [];
+        $datosBCV = [];
+        $datosBinance = [];
+
+        // Crear un array de fechas de los últimos 30 días
+        for ($i = 29; $i >= 0; $i--) {
+            $fecha = Carbon::now()->subDays($i);
+            $fechaStr = $fecha->format('Y-m-d');
+
+            // Label para mostrar
+            $labels[] = $fecha->format('d/m');
+
+            // Buscar tasa BCV del día (usando whereDate para comparar solo la fecha)
+            $tasaBCV = $tasasBCV->first(function ($tasa) use ($fechaStr) {
+                return Carbon::parse($tasa->created_at)->format('Y-m-d') === $fechaStr;
+            });
+            $datosBCV[] = $tasaBCV ? floatval($tasaBCV->valor) : null;
+
+            // Buscar tasa Binance del día
+            $tasaBinance = $tasasBinance->first(function ($tasa) use ($fechaStr) {
+                return Carbon::parse($tasa->created_at)->format('Y-m-d') === $fechaStr;
+            });
+            $datosBinance[] = $tasaBinance ? floatval($tasaBinance->valor) : null;
+        }
+
+        return [
+            'labels' => $labels,
+            'datasets' => [
+                [
+                    'label' => 'BCV',
+                    'data' => $datosBCV,
+                    'borderColor' => 'rgb(220, 53, 69)',
+                    'backgroundColor' => 'rgba(220, 53, 69, 0.1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                    'pointRadius' => 3,
+                    'pointHoverRadius' => 5,
+                    'spanGaps' => true // Conecta los puntos aunque haya nulls
+                ],
+                [
+                    'label' => 'Binance',
+                    'data' => $datosBinance,
+                    'borderColor' => 'rgb(255, 193, 7)',
+                    'backgroundColor' => 'rgba(255, 193, 7, 0.1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                    'pointRadius' => 3,
+                    'pointHoverRadius' => 5,
+                    'spanGaps' => true
+                ]
+            ]
+        ];
     }
 }

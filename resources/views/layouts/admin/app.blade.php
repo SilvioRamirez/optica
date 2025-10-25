@@ -7,6 +7,7 @@
 @stop
 
 @section('content_top_nav_right')
+    @include('components.calculadorabinance')
     @include('components.calculadora')
 @endsection
 
