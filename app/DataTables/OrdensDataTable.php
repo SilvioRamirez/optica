@@ -136,7 +136,7 @@ class OrdensDataTable extends DataTable
                     $filterRow.find("th").each(function(){
                         const $currentTh = $(this);
                         if(!$currentTh.hasClass("no-search")){
-                            const input = $(`<input type="text" class="form-control form-control-sm" placeholder="Buscar ${$currentTh.text()}" />`);
+                            const input = $(`<input type="text" class="form-control form-control-sm" placeholder="${$currentTh.text()}" />`);
                             $currentTh.html(input);
                             $(input).on("click", function(event){
                                 event.stopPropagation();

@@ -1,5 +1,7 @@
 <?php
 
+use PHPUnit\Util\InvalidVersionOperatorException;
+
 return [
 
     /*
@@ -452,6 +454,25 @@ return [
                     'url' => 'laboratorios',
                     'icon' => 'fa fa-house-medical',
                     'canany' => ['laboratorio-list', 'laboratorio-create'],
+                ],
+            ],
+        ],
+        [
+            'text' => 'Inventario',
+            'icon' => 'fa fa-boxes-stacked',
+            'canany' => ['inventario-list', 'inventario-create'],
+            'submenu' => [
+                [
+                    'text' => 'Categorias',
+                    'url' => 'categorias',
+                    'icon' => 'fa fa-boxes-packing',
+                    'canany' => ['categoria-list', 'categoria-create'],
+                ],
+                [
+                    'text' => 'Productos',
+                    'url' => 'productos',
+                    'icon' => 'fa fa-box-open',
+                    'canany' => ['producto-list', 'producto-create'],
                 ],
             ],
         ],

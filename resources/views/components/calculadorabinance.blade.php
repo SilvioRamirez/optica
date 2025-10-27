@@ -5,7 +5,7 @@
 
 <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="fab fa-bitcoin"></i> Tasa Binance <span id="tasa-binance-display">Cargando...</span> Bs
+        <i class="fab fa-bitcoin"></i> <span id="tasa-binance-display">Cargando...</span> Bs
         <span id="diferencia-display" class="badge badge-info ml-1">-</span>
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3" style="min-width: 300px;">

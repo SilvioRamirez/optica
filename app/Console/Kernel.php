@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $service = new TasaBinance();
             $data = $service->getTasaBinance();
-        })->hourly(); // cada hora
+        })->everyTwoHours(); // dos horas
     }
 
     /**

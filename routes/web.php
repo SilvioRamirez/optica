@@ -55,6 +55,8 @@ use App\Http\Controllers\ConsultaWebClienteController;
 use App\Http\Controllers\ClientePaymentController;
 use App\Http\Controllers\CondicionOpticaController;
 use App\Http\Controllers\FormularioLaboratorioController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
 use Spatie\Activitylog\Models\Activity;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -360,6 +362,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/formulario-laboratorios/{formularioLaboratorio}/delete', [FormularioLaboratorioController::class, 'delete'])->name('formulario-laboratorios.delete');
     Route::resource('formulario-laboratorios', FormularioLaboratorioController::class);
 
+    //Rutas de Formulario Laboratorios
+    Route::get('/categorias/{categoria}/delete', [CategoriaController::class, 'delete'])->name('categorias.delete');
+    Route::resource('categorias', CategoriaController::class);
+
+    //Rutas de Productos
+    Route::get('/productos/{producto}/delete', [ProductoController::class, 'delete'])->name('productos.delete');
+    Route::resource('productos', ProductoController::class);
 });
 
 //Ruta de Consulta Web Cliente

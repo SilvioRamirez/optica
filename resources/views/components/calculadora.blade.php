@@ -4,7 +4,7 @@
 
 <li class="nav-item dropdown">
     <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="fas fa-dollar-sign"></i> Tasa BCV <span id="tasa-bcv-display">Cargando...</span> Bs
+        <i class="fas fa-dollar-sign"></i> <span id="tasa-bcv-display">Cargando...</span> Bs
     </a>
     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3" style="min-width: 250px;">
         <h6 class="dropdown-header">Calculadora $ → Bs</h6>
