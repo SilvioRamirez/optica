@@ -7,7 +7,9 @@
 @stop
 
 @section('content_top_nav_right')
-    @include('components.calculadorabinance')
+    @canany(['calculadorabinance-list'])
+        @include('components.calculadorabinance')
+    @endcanany
     @include('components.calculadora')
     @include('components.listadodeprecios')
 @endsection
