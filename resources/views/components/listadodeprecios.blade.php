@@ -63,14 +63,17 @@
                                                     <tr>
                                                         <th style="width: 60px; text-align: center; font-weight: 600;">#</th>
                                                         <th style="font-weight: 600;">PRODUCTO</th>
-                                                        <th style="width: 250px; text-align: center; font-weight: 600;">PRECIO (Bs)</th>
+                                                        <th style="width: 200px; text-align: center; font-weight: 600;">PRECIO (USD)</th>
+                                                        <th style="width: 200px; text-align: center; font-weight: 600;">PRECIO (Bs)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($categoria->productos as $index => $producto)
                                                         @php
                                                             // Cálculo: precio_producto * tasa_binance = precio en Bs
+                                                            // (precio_producto * tasa_binance) / tasa_bcv = precio en USD mostrado
                                                             $precioBs = ($tasaBinance && $producto->precio) ? $producto->precio * $tasaBinance->valor : 0;
+                                                            $precioUSD = ($tasaBCV && $tasaBCV->valor > 0 && $precioBs > 0) ? $precioBs / $tasaBCV->valor : 0;
                                                         @endphp
                                                         <tr style="background-color: {{ $index % 2 == 0 ? '#f8f9fa' : '#ffffff' }};">
                                                             <td style="text-align: center; font-weight: 600; color: #495057;">
@@ -82,7 +85,10 @@
                                                                     <br><small class="text-muted">{{ $producto->descripcion }}</small>
                                                                 @endif
                                                             </td>
-                                                            <td style="text-align: center; font-weight: 600; color: #007bff; font-size: 1.1em;">
+                                                            <td style="text-align: center; font-weight: 600; color: #28a745;">
+                                                                ${{ number_format($precioUSD, 0, ',', '.') }}
+                                                            </td>
+                                                            <td style="text-align: center; font-weight: 600; color: #007bff;">
                                                                 {{ number_format($precioBs, 2, ',', '.') }} Bs
                                                             </td>
                                                         </tr>
