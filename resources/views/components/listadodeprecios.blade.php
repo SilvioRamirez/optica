@@ -63,17 +63,24 @@
                                                     <tr>
                                                         <th style="width: 60px; text-align: center; font-weight: 600;">#</th>
                                                         <th style="font-weight: 600;">PRODUCTO</th>
-                                                        <th style="width: 200px; text-align: center; font-weight: 600;">PRECIO (USD)</th>
-                                                        <th style="width: 200px; text-align: center; font-weight: 600;">PRECIO (Bs)</th>
+                                                        @if(auth()->user()->id == 1 || auth()->user()->id == 2)
+                                                            <th style="width: 180px; text-align: center; font-weight: 600;">PRECIO USD (Binance)</th>
+                                                        @endif
+                                                        <th style="width: 180px; text-align: center; font-weight: 600;">PRECIO USD (BCV)</th>
+                                                        <th style="width: 180px; text-align: center; font-weight: 600;">PRECIO (Bs)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach($categoria->productos as $index => $producto)
                                                         @php
+                                                            // Precio base del producto (en USD a tasa Binance)
+                                                            $precioBaseBinance = $producto->precio;
+                                                            
                                                             // Cálculo: precio_producto * tasa_binance = precio en Bs
-                                                            // (precio_producto * tasa_binance) / tasa_bcv = precio en USD mostrado
                                                             $precioBs = ($tasaBinance && $producto->precio) ? $producto->precio * $tasaBinance->valor : 0;
-                                                            $precioUSD = ($tasaBCV && $tasaBCV->valor > 0 && $precioBs > 0) ? $precioBs / $tasaBCV->valor : 0;
+                                                            
+                                                            // (precio_producto * tasa_binance) / tasa_bcv = precio en USD a tasa BCV
+                                                            $precioUSD_BCV = ($tasaBCV && $tasaBCV->valor > 0 && $precioBs > 0) ? $precioBs / $tasaBCV->valor : 0;
                                                         @endphp
                                                         <tr style="background-color: {{ $index % 2 == 0 ? '#f8f9fa' : '#ffffff' }};">
                                                             <td style="text-align: center; font-weight: 600; color: #495057;">
@@ -85,8 +92,13 @@
                                                                     <br><small class="text-muted">{{ $producto->descripcion }}</small>
                                                                 @endif
                                                             </td>
+                                                            @if(auth()->user()->id == 1 || auth()->user()->id == 2)
+                                                                <td style="text-align: center; font-weight: 600; color: #ff6b6b;">
+                                                                    ${{ number_format($precioBaseBinance, 2, ',', '.') }}
+                                                                </td>
+                                                            @endif
                                                             <td style="text-align: center; font-weight: 600; color: #28a745;">
-                                                                ${{ number_format($precioUSD, 0, ',', '.') }}
+                                                                ${{ number_format($precioUSD_BCV, 0, ',', '.') }}
                                                             </td>
                                                             <td style="text-align: center; font-weight: 600; color: #007bff;">
                                                                 {{ number_format($precioBs, 2, ',', '.') }} Bs
