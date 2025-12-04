@@ -39,7 +39,7 @@ class TasaBinance
             }
 
             // Tomar el precio del primer resultado
-            $precio = floatval($data['data'][1]['adv']['price']);
+            $precio = floatval($data['data'][2]['adv']['price']);
 
             // Guardar en base de datos
             $this->guardarTasaBinance($precio);
