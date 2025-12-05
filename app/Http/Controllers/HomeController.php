@@ -514,8 +514,8 @@ class HomeController extends Controller
                 [
                     'label' => 'Euro BCV',
                     'data' => $datosEuro,
-                    'borderColor' => 'rgb(0, 0, 255)',
-                    'backgroundColor' => 'rgba(0, 0, 255, 0.1)',
+                    'borderColor' => 'rgb(0, 123, 255)',
+                    'backgroundColor' => 'rgba(0, 123, 255, 0.1)',
                     'fill' => true,
                     'tension' => 0.4,
                     'pointRadius' => 3,
