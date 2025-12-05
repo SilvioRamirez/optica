@@ -72,6 +72,7 @@ Route::get('/tasa', [TasaController::class, 'index'])->name('tasa.index');
 Route::get('/tasa/last', [TasaController::class, 'getLastTasa'])->name('tasa.last');
 Route::get('/tasa/binance', [TasaController::class, 'getBinance'])->name('tasa.binance');
 Route::get('/tasa/binance/last', [TasaController::class, 'getLastTasaBinance'])->name('tasa.binance.last');
+Route::get('/tasa/euro/last', [TasaController::class, 'getLastTasaEuro'])->name('tasa.euro.last');
 Route::get('/tasa/comparar', [TasaController::class, 'compararTasas'])->name('tasa.comparar');
 
 /* Auth::routes(['register' => false]); */

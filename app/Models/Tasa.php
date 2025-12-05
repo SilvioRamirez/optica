@@ -35,4 +35,10 @@ class Tasa extends Model
             ->orderBy('created_at', 'desc')
             ->first();
     }
+
+    public static function getLastTasaEuro(){
+        return self::where('fuente', 'Euro')
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
 }

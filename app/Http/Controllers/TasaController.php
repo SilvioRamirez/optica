@@ -31,6 +31,11 @@ class TasaController extends Controller
         return response()->json($tasa);
     }
 
+    public function getLastTasaEuro(){
+        $tasa = Tasa::getLastTasaEuro();
+        return response()->json($tasa);
+    }
+
     public function compararTasas(TasaBinance $binanceService)
     {
         $comparacion = $binanceService->compararConBCV();

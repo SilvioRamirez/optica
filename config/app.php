@@ -160,6 +160,7 @@ return [
     | This URL is used to authenticate the API calls to the TasaBCV service.
     */
     'api_tasa_url' => env('API_TASA_URL'),
+    'api_tasa_euro_url' => env('API_TASA_EURO_URL'),
 
     /*
     |--------------------------------------------------------------------------

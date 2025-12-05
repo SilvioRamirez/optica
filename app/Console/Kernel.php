@@ -7,6 +7,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Services\TasaBCV;
 use App\Models\Tasa;
 use App\Services\TasaBinance;
+use App\Services\TasaEuro;
 
 class Kernel extends ConsoleKernel
 {
@@ -30,10 +31,17 @@ class Kernel extends ConsoleKernel
         })->hourly(); // cada hora
 
         $schedule->call(function () {
+            $service = new TasaEuro();
+            $data = $service->getTasaActivaHoy();
+        })->hourly(); // cada hora
+
+        $schedule->call(function () {
             $service = new TasaBinance();
             $data = $service->getTasaBinance();
         })->everyTwoHours(); // dos horas
     }
+
+
 
     /**
      * Register the commands for the application.
