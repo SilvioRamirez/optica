@@ -447,11 +447,17 @@ class HomeController extends Controller
             ->where('created_at', '>=', $fechaInicio)
             ->orderBy('created_at')
             ->get();
+        
+        $tasasEuro = Tasa::where('fuente', 'Euro')
+            ->where('created_at', '>=', $fechaInicio)
+            ->orderBy('created_at')
+            ->get();
 
         // Preparar datos para el gráfico
         $labels = [];
         $datosBCV = [];
         $datosBinance = [];
+        $datosEuro = [];
 
         // Crear un array de fechas de los últimos 30 días
         for ($i = 29; $i >= 0; $i--) {
@@ -472,6 +478,12 @@ class HomeController extends Controller
                 return Carbon::parse($tasa->created_at)->format('Y-m-d') === $fechaStr;
             });
             $datosBinance[] = $tasaBinance ? floatval($tasaBinance->valor) : null;
+
+            // Buscar tasa Euro del día
+            $tasaEuro = $tasasEuro->first(function ($tasa) use ($fechaStr) {
+                return Carbon::parse($tasa->created_at)->format('Y-m-d') === $fechaStr;
+            });
+            $datosEuro[] = $tasaEuro ? floatval($tasaEuro->valor) : null;
         }
 
         return [
@@ -493,6 +505,17 @@ class HomeController extends Controller
                     'data' => $datosBinance,
                     'borderColor' => 'rgb(255, 193, 7)',
                     'backgroundColor' => 'rgba(255, 193, 7, 0.1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                    'pointRadius' => 3,
+                    'pointHoverRadius' => 5,
+                    'spanGaps' => true
+                ],
+                [
+                    'label' => 'Euro',
+                    'data' => $datosEuro,
+                    'borderColor' => 'rgb(0, 0, 255)',
+                    'backgroundColor' => 'rgba(0, 0, 255, 0.1)',
                     'fill' => true,
                     'tension' => 0.4,
                     'pointRadius' => 3,
