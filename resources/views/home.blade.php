@@ -543,12 +543,17 @@
                     <div class="card-body">
                         <h1 class="text-center mb-4">Cotización del Dólar - Últimos 30 días</h1>
                         <div class="row mb-3">
-                            <div class="col-md-6 text-center">
+                            <div class="col-md-4 text-center">
                                 <span class="badge badge-danger p-2">
-                                    <i class="fas fa-university"></i> BCV (Banco Central)
+                                    <i class="fas fa-university"></i> Dolar BCV (Banco Central)
                                 </span>
                             </div>
-                            <div class="col-md-6 text-center">
+                            <div class="col-md-4 text-center">
+                                <span class="badge badge-primary p-2">
+                                    <i class="fa-solid fa-euro-sign"></i> Euro BCV (Banco Central)
+                                </span>
+                            </div>
+                            <div class="col-md-4 text-center">
                                 <span class="badge badge-warning p-2">
                                     <i class="fab fa-bitcoin"></i> Binance (P2P)
                                 </span>

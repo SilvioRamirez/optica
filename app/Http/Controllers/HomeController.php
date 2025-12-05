@@ -490,7 +490,7 @@ class HomeController extends Controller
             'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => 'BCV',
+                    'label' => 'Dolar BCV',
                     'data' => $datosBCV,
                     'borderColor' => 'rgb(220, 53, 69)',
                     'backgroundColor' => 'rgba(220, 53, 69, 0.1)',
@@ -501,7 +501,7 @@ class HomeController extends Controller
                     'spanGaps' => true // Conecta los puntos aunque haya nulls
                 ],
                 [
-                    'label' => 'Binance',
+                    'label' => 'Dolar Binance',
                     'data' => $datosBinance,
                     'borderColor' => 'rgb(255, 193, 7)',
                     'backgroundColor' => 'rgba(255, 193, 7, 0.1)',
@@ -512,7 +512,7 @@ class HomeController extends Controller
                     'spanGaps' => true
                 ],
                 [
-                    'label' => 'Euro',
+                    'label' => 'Euro BCV',
                     'data' => $datosEuro,
                     'borderColor' => 'rgb(0, 0, 255)',
                     'backgroundColor' => 'rgba(0, 0, 255, 0.1)',
