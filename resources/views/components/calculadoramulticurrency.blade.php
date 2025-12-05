@@ -20,6 +20,11 @@
                 </div>
                 <input type="number" id="bolivares-multi" class="form-control"
                     placeholder="0.00" step="0.01" min="0" value="">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-copy" type="button" onclick="copiarMonto(event, 'bolivares-multi')" title="Copiar">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -33,6 +38,9 @@
                 <input type="number" id="euro-multi" class="form-control"
                     placeholder="0.00" step="0.01" min="0">
                 <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-copy" type="button" onclick="copiarMonto(event, 'euro-multi')" title="Copiar">
+                        <i class="fas fa-copy"></i>
+                    </button>
                     <span class="input-group-text badge-diff" id="diff-euro">-</span>
                 </div>
             </div>
@@ -48,6 +56,9 @@
                 <input type="number" id="usd-bcv-multi" class="form-control"
                     placeholder="0.00" step="0.01" min="0" value="1">
                 <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-copy" type="button" onclick="copiarMonto(event, 'usd-bcv-multi')" title="Copiar">
+                        <i class="fas fa-copy"></i>
+                    </button>
                     <span class="input-group-text badge-diff" id="diff-bcv">-</span>
                 </div>
             </div>
@@ -63,6 +74,9 @@
                 <input type="number" id="usd-binance-multi" class="form-control"
                     placeholder="0.00" step="0.01" min="0">
                 <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-copy" type="button" onclick="copiarMonto(event, 'usd-binance-multi')" title="Copiar">
+                        <i class="fas fa-copy"></i>
+                    </button>
                     <span class="input-group-text badge-diff" id="diff-binance">-</span>
                 </div>
             </div>
@@ -97,6 +111,24 @@
         font-size: 0.75rem;
         min-width: 50px;
         font-weight: 600;
+    }
+    
+    .btn-copy {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        border-color: #ced4da;
+    }
+    
+    .btn-copy:hover {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
+    }
+    
+    .btn-copy.copied {
+        background-color: #28a745;
+        border-color: #28a745;
+        color: white;
     }
 </style>
 
@@ -340,5 +372,71 @@
     document.addEventListener('DOMContentLoaded', function() {
         new CalculadoraMulticurrency();
     });
+
+    // Función para copiar el monto al portapapeles
+    function copiarMonto(event, inputId) {
+        // Prevenir que el evento cierre el dropdown
+        event.preventDefault();
+        event.stopPropagation();
+        
+        const input = document.getElementById(inputId);
+        const button = event.currentTarget;
+        const icon = button.querySelector('i');
+        
+        if (input && input.value) {
+            const originalClass = icon.className;
+            
+            // Intentar usar la API moderna del portapapeles
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(input.value)
+                    .then(() => {
+                        // Feedback visual - cambiar ícono temporalmente
+                        icon.className = 'fas fa-check';
+                        button.classList.add('copied');
+                        
+                        setTimeout(() => {
+                            icon.className = originalClass;
+                            button.classList.remove('copied');
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        console.error('Error al copiar:', err);
+                        // Fallback al método antiguo
+                        copiarConFallback(input.value, button, icon, originalClass);
+                    });
+            } else {
+                // Fallback para navegadores más antiguos
+                copiarConFallback(input.value, button, icon, originalClass);
+            }
+        }
+    }
+
+    // Función fallback para copiar
+    function copiarConFallback(valor, button, icon, originalClass) {
+        const tempInput = document.createElement('input');
+        tempInput.value = valor;
+        tempInput.style.position = 'absolute';
+        tempInput.style.left = '-9999px';
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        
+        try {
+            document.execCommand('copy');
+            
+            // Feedback visual
+            icon.className = 'fas fa-check';
+            button.classList.add('copied');
+            
+            setTimeout(() => {
+                icon.className = originalClass;
+                button.classList.remove('copied');
+            }, 1500);
+            
+        } catch (err) {
+            console.error('Error al copiar:', err);
+        }
+        
+        document.body.removeChild(tempInput);
+    }
 </script>
 

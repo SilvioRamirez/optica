@@ -7,10 +7,10 @@
 @stop
 
 @section('content_top_nav_right')
+    @canany(['calculadoramulticurrency-list'])
+        @include('components.calculadoramulticurrency')
+    @endcanany
     @canany(['calculadorabinance-list'])
-        @if(auth()->user()->id == 1 || auth()->user()->id == 2)
-            @include('components.calculadoramulticurrency')
-        @endif
         @include('components.calculadorabinance')
     @endcanany
     @include('components.calculadora')
