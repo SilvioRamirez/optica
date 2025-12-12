@@ -27,7 +27,7 @@
         
         <div class="card-body tab-content">
             <div class="tab-pane active" id="dhcp">
-                {!! Form::open(array('route' => 'productos.store','method'=>'POST')) !!}
+                {!! Form::open(array('route' => 'productos.store','method'=>'POST', 'files' => true)) !!}
                     @include('productos.partials.form')
                 {!! Form::close() !!}
             </div>

@@ -13,8 +13,8 @@
                 <p class="tw-text-lg sm:tw-text-xl tw-mb-8 tw-opacity-90">
                     Descubre una nueva perspectiva con nuestra amplia gama de lentes y servicios ópticos de alta calidad.
                 </p>
-                <a href="#" class="tw-inline-block tw-bg-white tw-text-gray-600 hover:tw-text-gray-800 tw-px-8 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-gray-100 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-lg tw-no-underline">
-                    Explora Nuestros Lentes
+                <a href="{{ route('catalogo.index') }}" class="tw-inline-block tw-bg-white tw-text-gray-600 hover:tw-text-gray-800 tw-px-8 tw-py-3 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-gray-100 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-lg tw-no-underline">
+                    Explora Nuestro Catálogo
                 </a>
             </div>
             <div class="hero-image tw-w-full md:tw-w-1/2 tw-flex tw-justify-center tw-items-center">
@@ -68,32 +68,106 @@
         <!-- Product Categories/Features Section -->
         <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-gray-50">
             <div class="tw-container tw-mx-auto">
-                <h2 class="tw-text-4xl tw-font-extrabold tw-text-center text-secondary-color tw-mb-12">Nuestros Productos Destacados</h2>
+                <h2 class="tw-text-4xl tw-font-extrabold tw-text-center text-secondary-color tw-mb-4">Nuestros Servicios</h2>
+                <p class="tw-text-center tw-text-gray-600 tw-mb-12">Soluciones visuales completas para toda la familia</p>
                 <div class="product-grid tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-8">
-                    <!-- Product Card 1 -->
+                    <!-- Service Card 1 -->
                     <div class="tw-bg-white tw-rounded-xl tw-shadow-lg tw-p-6 tw-text-center tw-transform tw-transition-transform tw-duration-300 hover:tw-scale-105 hover:tw-shadow-xl">
                         <i class="fas fa-glasses text-primary-color tw-text-5xl tw-mb-4"></i>
                         <h3 class="tw-text-2xl tw-font-bold text-secondary-color tw-mb-3">Lentes Oftálmicos</h3>
                         <p class="tw-text-gray-600 tw-mb-4">Amplia variedad de armazones y micas personalizadas para tu visión.</p>
-                        <a href="#" class="tw-text-primary-color tw-font-semibold  tw-no-underline">Ver Más <i class="fas fa-arrow-right tw-ml-1"></i></a>
+                        <a href="{{ route('catalogo.index') }}" class="tw-text-primary-color tw-font-semibold tw-no-underline">Ver Catálogo <i class="fas fa-arrow-right tw-ml-1"></i></a>
                     </div>
-                    <!-- Product Card 2 -->
+                    <!-- Service Card 2 -->
                     <div class="tw-bg-white tw-rounded-xl tw-shadow-lg tw-p-6 tw-text-center tw-transform tw-transition-transform tw-duration-300 hover:tw-scale-105 hover:tw-shadow-xl">
                         <i class="fas fa-sun text-primary-color tw-text-5xl tw-mb-4"></i>
                         <h3 class="tw-text-2xl tw-font-bold text-secondary-color tw-mb-3">Lentes de Sol</h3>
                         <p class="tw-text-gray-600 tw-mb-4">Protege tus ojos con estilo con nuestra colección de lentes de sol.</p>
-                        <a href="#" class="tw-text-primary-color tw-font-semibold  tw-no-underline">Ver Más <i class="fas fa-arrow-right tw-ml-1"></i></a>
+                        <a href="{{ route('catalogo.index') }}" class="tw-text-primary-color tw-font-semibold tw-no-underline">Ver Catálogo <i class="fas fa-arrow-right tw-ml-1"></i></a>
                     </div>
-                    <!-- Product Card 3 -->
+                    <!-- Service Card 3 -->
                     <div class="tw-bg-white tw-rounded-xl tw-shadow-lg tw-p-6 tw-text-center tw-transform tw-transition-transform tw-duration-300 hover:tw-scale-105 hover:tw-shadow-xl">
                         <i class="fas fa-eye text-primary-color tw-text-5xl tw-mb-4"></i>
                         <h3 class="tw-text-2xl tw-font-bold text-secondary-color tw-mb-3">Exámenes de la Vista</h3>
                         <p class="tw-text-gray-600 tw-mb-4">Diagnósticos precisos para asegurar la salud de tus ojos.</p>
-                        <a href="#" class="tw-text-primary-color tw-font-semibold tw-no-underline">Agendar Cita <i class="fas fa-arrow-right tw-ml-1"></i></a>
+                        <a href="{{ route('acerca.de') }}" class="tw-text-primary-color tw-font-semibold tw-no-underline">Más Información <i class="fas fa-arrow-right tw-ml-1"></i></a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Catalog Products Section -->
+        @if(isset($productosDestacados) && $productosDestacados->count() > 0)
+        <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-white">
+            <div class="tw-container tw-mx-auto">
+                <div class="tw-text-center tw-mb-12">
+                    <h2 class="tw-text-4xl tw-font-extrabold text-secondary-color tw-mb-4">Explora Nuestro Catálogo</h2>
+                    <p class="tw-text-gray-600 tw-text-lg">Monturas, cristales y accesorios de las mejores marcas</p>
+                </div>
+                
+                <div class="tw-grid tw-grid-cols-1 sm:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6 tw-mb-10">
+                    @foreach($productosDestacados as $producto)
+                        <div class="tw-bg-white tw-rounded-xl tw-shadow-lg tw-overflow-hidden tw-transform tw-transition-all tw-duration-300 hover:tw-scale-105 hover:tw-shadow-xl tw-border tw-border-gray-100">
+                            <!-- Product Image -->
+                            <a href="{{ route('catalogo.show', $producto) }}" class="tw-block tw-relative tw-h-48 tw-overflow-hidden tw-bg-gray-100">
+                                @if($producto->imagen)
+                                    <img src="{{ asset('storage/' . $producto->imagen) }}" 
+                                         alt="{{ $producto->nombre }}" 
+                                         class="tw-w-full tw-h-full tw-object-cover tw-transition-transform tw-duration-300 hover:tw-scale-110"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/400x300/e2e8f0/64748b?text=Sin+Imagen';">
+                                @else
+                                    <div class="tw-w-full tw-h-full tw-flex tw-items-center tw-justify-center tw-bg-gray-100">
+                                        <i class="fas fa-glasses tw-text-6xl tw-text-gray-300"></i>
+                                    </div>
+                                @endif
+                            </a>
+                            
+                            <!-- Product Info -->
+                            <div class="tw-p-4">
+                                <span class="tw-text-xs tw-text-teal-600 tw-font-semibold tw-uppercase tw-tracking-wide">
+                                    {{ $producto->categoria->nombre ?? 'Producto' }}
+                                </span>
+                                <a href="{{ route('catalogo.show', $producto) }}" class="tw-no-underline">
+                                    <h3 class="tw-text-lg tw-font-bold text-secondary-color tw-mt-1 tw-mb-2 tw-truncate hover:tw-text-teal-600 tw-transition">
+                                        {{ $producto->nombre }}
+                                    </h3>
+                                </a>
+                                
+                                <!-- Prices -->
+                                <div class="tw-flex tw-items-baseline tw-justify-between">
+                                    <div>
+                                        <p class="tw-text-xl tw-font-bold text-primary-color tw-mb-0">
+                                            ${{ number_format($producto->precio_con_iva, 2) }}
+                                        </p>
+                                        @if($producto->exento_iva)
+                                            <span class="tw-text-xs tw-text-green-600">Exento IVA</span>
+                                        @endif
+                                        <p class="tw-text-sm tw-text-gray-500 tw-mb-0">
+                                            Bs. {{ number_format($producto->precio_bs, 2) }}
+                                        </p>
+                                    </div>
+                                    <button 
+                                        onclick="agregarAlCarritoHome({{ $producto->id }})"
+                                        class="tw-p-2 tw-rounded-full bg-primary-color tw-text-white hover:tw-bg-teal-700 tw-transition tw-duration-300"
+                                        title="Agregar al carrito"
+                                    >
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
+                <!-- Ver Catálogo Button -->
+                <div class="tw-text-center">
+                    <a href="{{ route('catalogo.index') }}" class="tw-inline-block bg-primary-color tw-text-white hover:tw-text-white tw-px-8 tw-py-4 tw-rounded-full tw-font-bold tw-text-lg hover:tw-bg-teal-700 tw-transition tw-duration-300 tw-transform hover:tw-scale-105 tw-shadow-lg tw-no-underline">
+                        <i class="fas fa-glasses tw-mr-2"></i>Ver Catálogo Completo
+                    </a>
+                </div>
+            </div>
+        </section>
+        @endif
 
         <!-- About Us Section -->
         <section class="tw-py-16 tw-px-4 sm:tw-px-6 lg:tw-px-8 tw-bg-white">
@@ -181,5 +255,55 @@
         })
     </script>
 
-
+    <script>
+        function agregarAlCarritoHome(productoId) {
+            fetch('{{ route("carrito.agregar") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    producto_id: productoId,
+                    cantidad: 1
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar contador del carrito
+                    const cartBadge = document.getElementById('cart-count');
+                    if (cartBadge) {
+                        cartBadge.textContent = data.cartCount;
+                        cartBadge.style.display = data.cartCount > 0 ? 'flex' : 'none';
+                    }
+                    
+                    // Mostrar notificación
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Agregado!',
+                        text: data.message,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true,
+                        position: 'top-end'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error al agregar el producto'
+                });
+            });
+        }
+    </script>
 @endpush

@@ -23,7 +23,7 @@
         </div>
         <div class="card-body">
 
-            {!! Form::model($producto, ['method' => 'PATCH','route' => ['productos.update', $producto->id]]) !!}
+            {!! Form::model($producto, ['method' => 'PATCH','route' => ['productos.update', $producto->id], 'files' => true]) !!}
                 @include('productos.partials.form')
             {!! Form::close() !!}
 

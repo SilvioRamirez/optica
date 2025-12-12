@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Configuracion;
-
+use App\Models\Producto;
+use App\Models\Tasa;
 
 use Illuminate\Http\Request;
 
@@ -12,7 +13,14 @@ class IndexController extends Controller
     public function index()
     {
         $configuracion = Configuracion::first();
-        return view('welcome', compact('configuracion'));
+        $productosDestacados = Producto::activo()
+            ->with('categoria')
+            ->orderBy('created_at', 'desc')
+            ->limit(6)
+            ->get();
+        $tasa = Tasa::getLastTasa();
+        
+        return view('welcome', compact('configuracion', 'productosDestacados', 'tasa'));
     }
 
     public function consulta()

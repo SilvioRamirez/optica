@@ -75,6 +75,24 @@ Route::get('/tasa/binance/last', [TasaController::class, 'getLastTasaBinance'])-
 Route::get('/tasa/euro/last', [TasaController::class, 'getLastTasaEuro'])->name('tasa.euro.last');
 Route::get('/tasa/comparar', [TasaController::class, 'compararTasas'])->name('tasa.comparar');
 
+// Catálogo público
+use App\Http\Controllers\CatalogoController;
+
+Route::get('/catalogo', [CatalogoController::class, 'index'])->name('catalogo.index');
+Route::get('/catalogo/{producto}', [CatalogoController::class, 'show'])->name('catalogo.show');
+
+// Carrito de compras
+Route::post('/carrito/agregar', [CatalogoController::class, 'addToCart'])->name('carrito.agregar');
+Route::post('/carrito/quitar', [CatalogoController::class, 'removeFromCart'])->name('carrito.quitar');
+Route::post('/carrito/actualizar', [CatalogoController::class, 'updateCart'])->name('carrito.actualizar');
+Route::get('/carrito', [CatalogoController::class, 'cart'])->name('carrito.index');
+Route::get('/carrito/data', [CatalogoController::class, 'getCartData'])->name('carrito.data');
+
+// Checkout
+Route::get('/checkout', [CatalogoController::class, 'checkout'])->name('checkout.index');
+Route::post('/checkout', [CatalogoController::class, 'processOrder'])->name('checkout.procesar');
+Route::get('/pedido/{pedido}/confirmacion', [CatalogoController::class, 'orderSuccess'])->name('catalogo.orden.success');
+
 /* Auth::routes(['register' => false]); */
 
 // Login and Logout Routes...

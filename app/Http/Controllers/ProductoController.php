@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateProductoRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -48,6 +49,18 @@ class ProductoController extends Controller
     {
         $data = $request->all();
 
+        // Procesar la imagen si se subió una
+        if ($request->hasFile('imagen')) {
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $rutaImagen = $imagen->storeAs('productos', $nombreImagen, 'public');
+            $data['imagen'] = $rutaImagen;
+        }
+
+        // Procesar checkboxes
+        $data['status'] = $request->has('status') ? 1 : 0;
+        $data['exento_iva'] = $request->has('exento_iva') ? 1 : 0;
+
         $producto = Producto::create($data);
 
         return redirect()->route('productos.index', $producto->id)
@@ -77,6 +90,23 @@ class ProductoController extends Controller
     public function update(Request $request, Producto $producto): RedirectResponse
     {
         $data = $request->all();
+
+        // Procesar la imagen si se subió una nueva
+        if ($request->hasFile('imagen')) {
+            // Eliminar imagen anterior si existe
+            if ($producto->imagen && \Storage::disk('public')->exists($producto->imagen)) {
+                \Storage::disk('public')->delete($producto->imagen);
+            }
+            
+            $imagen = $request->file('imagen');
+            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+            $rutaImagen = $imagen->storeAs('productos', $nombreImagen, 'public');
+            $data['imagen'] = $rutaImagen;
+        }
+
+        // Procesar checkboxes
+        $data['status'] = $request->has('status') ? 1 : 0;
+        $data['exento_iva'] = $request->has('exento_iva') ? 1 : 0;
 
         if (!$producto->update($data)) {
             return redirect()->back()

@@ -7,11 +7,26 @@
             {{ Form::textComp('nombre','Nombre', null, null, '') }}
             {{ Form::textComp('precio','Precio', null, null, '') }}
             {{ Form::textComp('descripcion','Descripción', null, null, '') }}
-            {{ Form::fileComp('imagen','Imagen', null, null, '') }}
-            {{ Form::checkboxComp('status','Estatus', null, null, '') }}
-            {{ Form::checkboxComp('barcode','Barcode', null, null, '') }}
+            
+            <div class="form-group">
+                <label for="imagen">Imagen</label>
+                @if(isset($producto) && $producto->imagen)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $producto->imagen) }}" alt="{{ $producto->nombre }}" 
+                             class="img-thumbnail" style="max-height: 150px;"
+                             onerror="this.style.display='none'">
+                        <p class="text-muted small">Imagen actual. Seleccione una nueva para reemplazarla.</p>
+                    </div>
+                @endif
+                <input type="file" name="imagen" id="imagen" class="form-control" accept="image/*">
+            </div>
+
+            {{ Form::checkboxComp('status','Estatus', is_object($producto) ? $producto->status : null, null, '') }}
+            {{ Form::checkboxComp('barcode','Barcode', is_object($producto) ? $producto->barcode : null, null, '') }}
             {{ Form::textComp('qrcode','QR Code', null, null, '') }}
             {{ Form::textComp('stock','Stock', null, null, '') }}
+            {{ Form::checkboxComp('exento_iva','Exento de IVA', is_object($producto) ? $producto->exento_iva : null, null, '') }}
+            <small class="form-text text-muted">Marcar si el producto está exento de IVA según la legislación vigente.</small>
 
         </div>
     </div>

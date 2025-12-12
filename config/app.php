@@ -173,6 +173,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | IVA (Impuesto al Valor Agregado)
+    |--------------------------------------------------------------------------
+    |
+    | Porcentaje de IVA aplicable a los productos. Algunos productos pueden
+    | estar exentos de IVA según la legislación vigente.
+    |
+    */
+    'iva' => env('APP_IVA', 16),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

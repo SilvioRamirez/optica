@@ -45,26 +45,25 @@
             {{-- <span class="tw-text-xl tw-font-bold tw-text-gray-700">ÓPTI RANGO</span> --}}
         </div>
         <!-- Navigation Links (Hidden on small screens, shown with hamburger) -->
-        <div class="tw-hidden md:tw-flex tw-space-x-6">
+        <div class="tw-hidden md:tw-flex tw-items-center tw-space-x-6">
             <a href="{{ url('/') }}"
                 class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-text-pretty tw-no-underline">
-                Inicio</a>
+                <i class="fas fa-home"></i> Inicio</a>
+            <a href="{{ route('catalogo.index') }}"
+                class="tw-text-gray-600 hover:tw-text-teal-600 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline tw-flex tw-items-center tw-gap-1">
+                <i class="fas fa-glasses"></i> Catálogo</a>
             <a href="{{ route('consulta') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Consulta
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline"> <i class="fas fa-search"></i> Consulta
                 y Pagos</a>
             <a href="{{ route('consulta-web-cliente.index') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Laboratorio Consulta</a>
-            <a href="{{ route('politica.privacidad') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Política
-                de Privacidad</a>
-            <a href="{{ route('condiciones.servicio') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Condiciones
-                de Servicio</a>
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-font-medium tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline"> <i class="fas fa-flask"></i> Laboratorio Consulta</a>
             <a href="{{ route('acerca.de') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Acerca
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline"> <i class="fas fa-info-circle"></i> Acerca
                 de</a>
+            <!-- Cart Icon -->
+            <x-cart-icon />
             <a href="{{ route('login') }}"
-                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline">Login</a>
+                class="tw-text-gray-600 hover:tw-text-gray-700 tw-gray-700m tw-transition tw-duration-300 tw-rounded-md tw-py-1 tw-px-3 tw-no-underline"> <i class="fas fa-right-to-bracket"></i> Login</a>
         </div>
         <!-- Hamburger Menu for Mobile -->
         <div class="md:tw-hidden">
@@ -77,16 +76,16 @@
     <div id="mobile-menu" class="tw-hidden md:tw-hidden tw-bg-white tw-mt-4 tw-rounded-b-lg tw-shadow-lg">
         <a href="{{ url('/') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Inicio</a>
+        <a href="{{ route('catalogo.index') }}"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">
+            <i class="fas fa-glasses tw-mr-2"></i>Catálogo</a>
+        <a href="{{ route('carrito.index') }}"
+            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">
+            <i class="fas fa-shopping-cart tw-mr-2"></i>Carrito</a>
         <a href="{{ route('consulta') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Consulta y Pagos</a>
         <a href="{{ route('consulta-web-cliente.index') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Laboratorio Consulta</a>
-        <a href="{{ route('politica.privacidad') }}"
-            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Política
-            de Privacidad</a>
-        <a href="{{ route('condiciones.servicio') }}"
-            class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Condiciones
-            de Servicio</a>
         <a href="{{ route('acerca.de') }}"
             class="tw-block tw-py-3 tw-px-6 tw-text-gray-600 hover:tw-bg-gray-100 hover:tw-text-primary-color tw-font-medium tw-transition tw-duration-300 tw-no-underline">Acerca
             de</a>
