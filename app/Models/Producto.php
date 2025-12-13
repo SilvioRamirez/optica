@@ -35,11 +35,15 @@ class Producto extends Model
         'stock',
         'categoria_id',
         'exento_iva',
+        'mostrar_externo',
+        'mostrar_interno',
     ];
 
     protected $casts = [
         'exento_iva' => 'boolean',
         'status' => 'boolean',
+        'mostrar_externo' => 'boolean',
+        'mostrar_interno' => 'boolean',
     ];
 
     public function categoria()
@@ -55,6 +59,22 @@ class Producto extends Model
     {
         return $query->where('status', 1)
                      ->whereRaw('CAST(stock AS UNSIGNED) > 0');
+    }
+
+    /**
+     * Scope para filtrar productos visibles en el catálogo externo (e-commerce)
+     */
+    public function scopeExterno($query)
+    {
+        return $query->where('mostrar_externo', true);
+    }
+
+    /**
+     * Scope para filtrar productos visibles en el listado interno
+     */
+    public function scopeInterno($query)
+    {
+        return $query->where('mostrar_interno', true);
     }
 
     public function getCreatedAtAttribute()

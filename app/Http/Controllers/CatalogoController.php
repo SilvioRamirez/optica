@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Configuracion;
 use App\Models\Producto;
 use App\Models\Tasa;
 use App\Models\PedidoCatalogo;
@@ -15,13 +16,15 @@ use Illuminate\Http\RedirectResponse;
 class CatalogoController extends Controller
 {
     /**
-     * Muestra el catálogo de productos
+     * Muestra el catálogo de productos (solo productos marcados como externos)
      */
     public function index(Request $request): View
     {
         $categorias = Categoria::orderBy('nombre', 'asc')->get();
+        $configuracion = Configuracion::first();
         
-        $query = Producto::activo()->with('categoria');
+        // Solo productos activos y marcados para mostrar en el catálogo externo
+        $query = Producto::activo()->externo()->with('categoria');
         
         // Filtro por categoría
         if ($request->filled('categoria')) {
@@ -36,7 +39,7 @@ class CatalogoController extends Controller
         $productos = $query->orderBy('nombre', 'asc')->paginate(12);
         $tasa = Tasa::getLastTasa();
         
-        return view('catalogo.index', compact('productos', 'categorias', 'tasa'));
+        return view('catalogo.index', compact('productos', 'categorias', 'tasa', 'configuracion'));
     }
 
     /**
@@ -45,13 +48,14 @@ class CatalogoController extends Controller
     public function show(Producto $producto): View
     {
         $tasa = Tasa::getLastTasa();
-        $productosRelacionados = Producto::activo()
+        $configuracion = Configuracion::first();
+        $productosRelacionados = Producto::activo()->externo()
             ->where('categoria_id', $producto->categoria_id)
             ->where('id', '!=', $producto->id)
             ->limit(4)
             ->get();
             
-        return view('catalogo.show', compact('producto', 'tasa', 'productosRelacionados'));
+        return view('catalogo.show', compact('producto', 'tasa', 'productosRelacionados', 'configuracion'));
     }
 
     /**

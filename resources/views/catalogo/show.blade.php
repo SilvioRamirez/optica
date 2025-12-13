@@ -108,7 +108,7 @@
 
                     <!-- Quantity Selector and Add to Cart -->
                     @if($producto->stock > 0)
-                        <div class="tw-flex tw-flex-col sm:tw-flex-row tw-gap-4 tw-mb-6">
+                        <div class="tw-flex tw-flex-col sm:tw-flex-row tw-gap-4 tw-mb-4">
                             <div class="tw-flex tw-items-center tw-border tw-border-gray-300 tw-rounded-lg tw-overflow-hidden">
                                 <button type="button" onclick="decrementQuantity()" class="tw-px-4 tw-py-3 tw-bg-gray-100 hover:tw-bg-gray-200 tw-transition">
                                     <i class="fas fa-minus"></i>
@@ -127,6 +127,18 @@
                                 Agregar al carrito
                             </button>
                         </div>
+                    @endif
+
+                    <!-- WhatsApp Button -->
+                    @if(isset($configuracion) && $configuracion->telefono_uno)
+                        <a 
+                            href="https://api.whatsapp.com/send/?phone={{ preg_replace('/\D/', '', $configuracion->telefono_uno) }}&text={{ urlencode('Hola, estoy interesado en *' . $producto->nombre . '* ($' . number_format($producto->precio_con_iva, 2) . '). ¿Está disponible? ' . url()->current()) }}&type=phone_number&app_absent=0"
+                            target="_blank"
+                            class="tw-w-full tw-bg-green-500 tw-text-white tw-py-3 tw-px-8 tw-rounded-lg tw-font-bold tw-text-lg hover:tw-bg-green-600 tw-transition tw-duration-300 tw-flex tw-items-center tw-justify-center tw-gap-2 tw-no-underline tw-mb-6"
+                        >
+                            <i class="fab fa-whatsapp tw-text-xl"></i>
+                            Consultar por WhatsApp
+                        </a>
                     @endif
 
                     <!-- Additional Info -->

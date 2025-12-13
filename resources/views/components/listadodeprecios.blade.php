@@ -8,9 +8,12 @@
 @once
     @push('js')
         @php
+            // Solo productos activos y marcados para mostrar en el listado interno
             $categorias = \App\Models\Categoria::with([
                 'productos' => function ($query) {
-                    $query->where('status', 1)->orderBy('nombre');
+                    $query->where('status', 1)
+                          ->where('mostrar_interno', true)
+                          ->orderBy('nombre');
                 }
             ])->orderBy('nombre')->get();
             $tasaBinance = \App\Models\Tasa::where('fuente', 'Binance')->orderBy('created_at', 'desc')->first();

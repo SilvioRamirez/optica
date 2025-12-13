@@ -13,7 +13,8 @@ class IndexController extends Controller
     public function index()
     {
         $configuracion = Configuracion::first();
-        $productosDestacados = Producto::activo()
+        // Solo productos activos y marcados para mostrar en el catálogo externo
+        $productosDestacados = Producto::activo()->externo()
             ->with('categoria')
             ->orderBy('created_at', 'desc')
             ->limit(6)

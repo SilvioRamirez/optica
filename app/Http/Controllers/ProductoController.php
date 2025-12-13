@@ -60,6 +60,8 @@ class ProductoController extends Controller
         // Procesar checkboxes
         $data['status'] = $request->has('status') ? 1 : 0;
         $data['exento_iva'] = $request->has('exento_iva') ? 1 : 0;
+        $data['mostrar_externo'] = $request->has('mostrar_externo') ? 1 : 0;
+        $data['mostrar_interno'] = $request->has('mostrar_interno') ? 1 : 0;
 
         $producto = Producto::create($data);
 
@@ -107,6 +109,8 @@ class ProductoController extends Controller
         // Procesar checkboxes
         $data['status'] = $request->has('status') ? 1 : 0;
         $data['exento_iva'] = $request->has('exento_iva') ? 1 : 0;
+        $data['mostrar_externo'] = $request->has('mostrar_externo') ? 1 : 0;
+        $data['mostrar_interno'] = $request->has('mostrar_interno') ? 1 : 0;
 
         if (!$producto->update($data)) {
             return redirect()->back()

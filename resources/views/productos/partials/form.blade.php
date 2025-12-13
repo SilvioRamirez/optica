@@ -26,7 +26,16 @@
             {{ Form::textComp('qrcode','QR Code', null, null, '') }}
             {{ Form::textComp('stock','Stock', null, null, '') }}
             {{ Form::checkboxComp('exento_iva','Exento de IVA', is_object($producto) ? $producto->exento_iva : null, null, '') }}
-            <small class="form-text text-muted">Marcar si el producto está exento de IVA según la legislación vigente.</small>
+            <small class="form-text text-muted mb-3">Marcar si el producto está exento de IVA según la legislación vigente.</small>
+
+            <hr>
+            <h6 class="text-muted"><i class="fas fa-eye"></i> Visibilidad del Producto</h6>
+            
+            {{ Form::checkboxComp('mostrar_externo','Mostrar en Catálogo Web (E-commerce)', isset($producto) ? $producto->mostrar_externo : null, null, '') }}
+            <small class="form-text text-muted mb-2">El producto será visible en el catálogo público para clientes.</small>
+            
+            {{ Form::checkboxComp('mostrar_interno','Mostrar en Listado Interno (Precios)', isset($producto) ? $producto->mostrar_interno : 1, null, '') }}
+            <small class="form-text text-muted">El producto será visible en el listado de precios interno del sistema.</small>
 
         </div>
     </div>
