@@ -130,7 +130,7 @@
                                         <a 
                                             href="https://api.whatsapp.com/send/?phone={{ preg_replace('/\D/', '', $configuracion->telefono_uno) }}&text={{ urlencode('Hola, estoy interesado en *' . $producto->nombre . '*. ¿Está disponible? ' . route('catalogo.show', $producto)) }}&type=phone_number&app_absent=0"
                                             target="_blank"
-                                            class="tw-flex-1 tw-bg-green-500 tw-text-white tw-py-2 tw-px-3 tw-rounded-lg tw-font-semibold hover:tw-bg-green-600 tw-transition tw-duration-300 tw-flex tw-items-center tw-justify-center tw-gap-1 tw-no-underline"
+                                            class="tw-flex-1 tw-bg-green-500 tw-text-white hover:tw-text-white tw-py-2 tw-px-3 tw-rounded-lg tw-font-semibold hover:tw-bg-green-600 tw-transition tw-duration-300 tw-flex tw-items-center tw-justify-center tw-gap-1 tw-no-underline"
                                             title="Consultar por WhatsApp"
                                         >
                                             <i class="fab fa-whatsapp"></i>
