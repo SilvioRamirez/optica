@@ -21,11 +21,11 @@
                 <input type="file" name="imagen" id="imagen" class="form-control" accept="image/*">
             </div>
 
-            {{ Form::checkboxComp('status','Estatus', is_object($producto) ? $producto->status : null, null, '') }}
-            {{ Form::checkboxComp('barcode','Barcode', is_object($producto) ? $producto->barcode : null, null, '') }}
+            {{ Form::checkboxComp('status','Estatus', isset($producto) ? $producto->status : null, null, '') }}
+            {{ Form::checkboxComp('barcode','Barcode', isset($producto) ? $producto->barcode : null, null, '') }}
             {{ Form::textComp('qrcode','QR Code', null, null, '') }}
             {{ Form::textComp('stock','Stock', null, null, '') }}
-            {{ Form::checkboxComp('exento_iva','Exento de IVA', is_object($producto) ? $producto->exento_iva : null, null, '') }}
+            {{ Form::checkboxComp('exento_iva','Exento de IVA', isset($producto) ? $producto->exento_iva : null, null, '') }}
             <small class="form-text text-muted mb-3">Marcar si el producto está exento de IVA según la legislación vigente.</small>
 
             <hr>
