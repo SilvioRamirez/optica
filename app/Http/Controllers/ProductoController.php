@@ -11,6 +11,8 @@ use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
 
 class ProductoController extends Controller
 {
@@ -49,12 +51,26 @@ class ProductoController extends Controller
     {
         $data = $request->all();
 
-        // Procesar la imagen si se subió una
+        // Procesar la imagen si se subió una (con optimización)
         if ($request->hasFile('imagen')) {
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            $rutaImagen = $imagen->storeAs('productos', $nombreImagen, 'public');
-            $data['imagen'] = $rutaImagen;
+            $file = $request->file('imagen');
+            $nombreImagen = Str::random(10) . '_' . time() . '.jpg';
+            
+            // Asegurar que existe el directorio
+            $directorio = public_path('storage/productos');
+            if (!file_exists($directorio)) {
+                mkdir($directorio, 0755, true);
+            }
+            
+            $rutaCompleta = $directorio . '/' . $nombreImagen;
+            
+            // Optimizar imagen: redimensionar y comprimir
+            Image::read($file)
+                ->scaleDown(width: 800, height: 800)
+                ->toJpeg(quality: 80)
+                ->save($rutaCompleta);
+            
+            $data['imagen'] = 'productos/' . $nombreImagen;
         }
 
         // Procesar checkboxes
@@ -93,17 +109,34 @@ class ProductoController extends Controller
     {
         $data = $request->all();
 
-        // Procesar la imagen si se subió una nueva
+        // Procesar la imagen si se subió una nueva (con optimización)
         if ($request->hasFile('imagen')) {
             // Eliminar imagen anterior si existe
-            if ($producto->imagen && \Storage::disk('public')->exists($producto->imagen)) {
-                \Storage::disk('public')->delete($producto->imagen);
+            if ($producto->imagen) {
+                $rutaAnterior = public_path('storage/' . $producto->imagen);
+                if (file_exists($rutaAnterior)) {
+                    unlink($rutaAnterior);
+                }
             }
             
-            $imagen = $request->file('imagen');
-            $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-            $rutaImagen = $imagen->storeAs('productos', $nombreImagen, 'public');
-            $data['imagen'] = $rutaImagen;
+            $file = $request->file('imagen');
+            $nombreImagen = Str::random(10) . '_' . time() . '.jpg';
+            
+            // Asegurar que existe el directorio
+            $directorio = public_path('storage/productos');
+            if (!file_exists($directorio)) {
+                mkdir($directorio, 0755, true);
+            }
+            
+            $rutaCompleta = $directorio . '/' . $nombreImagen;
+            
+            // Optimizar imagen: redimensionar y comprimir
+            Image::read($file)
+                ->scaleDown(width: 800, height: 800)
+                ->toJpeg(quality: 80)
+                ->save($rutaCompleta);
+            
+            $data['imagen'] = 'productos/' . $nombreImagen;
         }
 
         // Procesar checkboxes
