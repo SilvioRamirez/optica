@@ -43,8 +43,8 @@ class ProductosDataTable extends DataTable
                 })
                 ->addColumn('imagen', function ($query) {
                     return $query->imagen ? 
-                    '<a href="' . $query->imagen . '" target="_blank" class="">
-                        <img src="' . $query->imagen . '" class="rounded m-1" style="width: 50px; height: 50px;">
+                    '<a href="storage/' . $query->imagen . '" target="_blank" class="">
+                        <img src="storage/' . $query->imagen . '" class="rounded m-1" style="width: 50px; height: 50px;">
                     </a>'
                   
                     : '';
