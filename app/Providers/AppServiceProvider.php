@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Configuracion;
 use Illuminate\Support\ServiceProvider;
+use App\Services\WhatsAppApiService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
         if(config('app.env') === 'production') {
             \URL::forceScheme('https');
         }
+
+        $this->app->singleton(WhatsAppApiService::class, function ($app) {
+            return new WhatsAppApiService();
+        });
     }
 
     /**

@@ -6,6 +6,9 @@ use App\DataTables\PaymentsDataTable;
 use App\Models\Payment;
 use App\Models\Pago;
 use Illuminate\Http\Request;
+use App\Services\WhatsAppApiService;
+use App\Services\GroqAIService;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -41,6 +44,22 @@ class PaymentController extends Controller
         $payment->save();
 
         $payment->formulario->calculoPagos();
+
+        // Generar mensaje personalizado con IA
+        $groqService = app(GroqAIService::class);
+        $mensajeResult = $groqService->generarMensajeConfirmacionPago([
+            'nombre_paciente' => $payment->paciente,
+            'monto' => number_format($payment->monto_usd, 2),
+            'referencia' => $payment->referencia,
+            'fecha_pago' => Carbon::parse($payment->fecha_pago)->format('d/m/Y'),
+            'numero_orden' => $payment->numero_orden,
+        ]);
+
+        $mensaje = $mensajeResult['mensaje'] ?? 'Pago confirmado exitosamente';
+
+        // Enviar mensaje por WhatsApp
+        $whatsappApiService = app(WhatsAppApiService::class);
+        $whatsappApiService->sendMessage($payment->formulario->telefono, $mensaje);
 
         return response()->json($payment);
     }

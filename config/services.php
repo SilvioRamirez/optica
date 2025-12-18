@@ -31,4 +31,20 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'whatsapp' => [
+    'url' => env('WHATSAPP_API_URL', 'https://whatsapp.gruponexa.app/api/mcp'),
+    'key' => env('WHATSAPP_API_KEY'),
+    'timeout' => env('WHATSAPP_API_TIMEOUT', 30),
+
+    'groq' => [
+        'api_key' => env('GROQ_API_KEY'),
+        'model' => env('GROQ_MODEL', 'llama-3.3-70b-versatile'),
+        'base_url' => env('GROQ_BASE_URL', 'https://api.groq.com/openai/v1'),
+        'temperature' => env('GROQ_TEMPERATURE', 0.7),
+        'max_tokens' => env('GROQ_MAX_TOKENS', 8000),
+        'top_p' => env('GROQ_TOP_P', 0.95),
+        'timeout' => env('GROQ_TIMEOUT', 60),
+    ],
+],
+
 ];
