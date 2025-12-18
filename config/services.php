@@ -32,9 +32,10 @@ return [
     ],
 
     'whatsapp' => [
-    'url' => env('WHATSAPP_API_URL', 'https://whatsapp.gruponexa.app/api/mcp'),
-    'key' => env('WHATSAPP_API_KEY'),
-    'timeout' => env('WHATSAPP_API_TIMEOUT', 30),
+        'url' => env('WHATSAPP_API_URL', 'https://whatsapp.gruponexa.app/api/mcp'),
+        'key' => env('WHATSAPP_API_KEY'),
+        'timeout' => env('WHATSAPP_API_TIMEOUT', 30),
+    ],
 
     'groq' => [
         'api_key' => env('GROQ_API_KEY'),
@@ -45,6 +46,5 @@ return [
         'top_p' => env('GROQ_TOP_P', 0.95),
         'timeout' => env('GROQ_TIMEOUT', 60),
     ],
-],
 
 ];

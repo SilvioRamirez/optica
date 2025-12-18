@@ -289,7 +289,7 @@ class GroqAIService
                     ],
                     'temperature' => $this->temperature,
                     'max_tokens' => $this->maxTokens,
-                    'top_p' => config('services.groq.top_p'),
+                    'top_p' => (float) config('services.groq.top_p', 0.95),
                     'stream' => false
                 ]);
 

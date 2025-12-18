@@ -135,7 +135,7 @@ class ProductoController extends Controller
                 ->scaleDown(width: 800, height: 800)
                 ->toJpeg(quality: 80)
                 ->save($rutaCompleta);
-            
+            2
             $data['imagen'] = 'productos/' . $nombreImagen;
         }
 
