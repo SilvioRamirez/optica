@@ -481,5 +481,272 @@ class GroqAIService
 
         return $mensaje;
     }
+
+    /**
+     * Genera un mensaje de bienvenida para una nueva orden
+     * 
+     * @param array $datosOrden Información de la orden creada
+     * @return array
+     */
+    public function generarMensajeBienvenidaNuevaOrden(array $datosOrden): array
+    {
+        // Si no está configurada la API, usar mensaje predeterminado
+        if (!$this->isConfigured()) {
+            Log::warning('Groq API no configurada. Variable GROQ_API_KEY no encontrada en .env');
+            
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoBienvenida($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'API no configurada',
+            ];
+        }
+
+        try {
+            $prompt = $this->construirPromptBienvenidaNuevaOrden($datosOrden);
+            
+            $response = $this->llamarGroqAPI($prompt);
+            
+            if (!$response['success']) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoBienvenida($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Error en API',
+                ];
+            }
+
+            $mensaje = trim($response['contenido']);
+            
+            // Si el mensaje es muy largo (WhatsApp tiene límite), usar predeterminado
+            if (strlen($mensaje) > 1000) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoBienvenida($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Mensaje muy largo',
+                ];
+            }
+
+            return [
+                'success' => true,
+                'mensaje' => $mensaje,
+                'tokens_usados' => $response['tokens_usados'] ?? 0,
+                'es_ia' => true,
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Error generando mensaje de bienvenida', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoBienvenida($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'Excepción: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Construye el prompt para el mensaje de bienvenida
+     */
+    protected function construirPromptBienvenidaNuevaOrden(array $datos): string
+    {
+        $nombrePaciente = $datos['nombre_paciente'] ?? 'Cliente';
+        $numeroOrden = $datos['numero_orden'] ?? 'N/A';
+        $fecha = $datos['fecha'] ?? date('Y-m-d');
+        $total = $datos['total'] ?? '0.00';
+
+        $prompt = "Eres un asistente corporativo profesional de una óptica llamada Optirango. ";
+        $prompt .= "Genera un mensaje de WhatsApp cálido, profesional y acogedor para dar la bienvenida a un nuevo cliente que acaba de realizar una orden.\n\n";
+        
+        $prompt .= "## INFORMACIÓN DE LA ORDEN\n";
+        $prompt .= "- Paciente: {$nombrePaciente}\n";
+        $prompt .= "- Número de orden: {$numeroOrden}\n";
+        $prompt .= "- Fecha: {$fecha}\n";
+        $prompt .= "- Total: \${$total} USD\n\n";
+        
+        $prompt .= "## INSTRUCCIONES\n";
+        $prompt .= "1. El mensaje debe ser profesional, cálido y cercano\n";
+        $prompt .= "2. Da la bienvenida y agradece la confianza en Optirango\n";
+        $prompt .= "3. Confirma que la orden ha sido registrada exitosamente\n";
+        $prompt .= "4. Incluye el número de orden para referencia\n";
+        $prompt .= "5. Menciona que se le notificará cuando su pedido esté listo\n";
+        $prompt .= "6. Ofrece disponibilidad para cualquier consulta\n";
+        $prompt .= "7. Usa emojis de forma moderada y profesional (máximo 2-3)\n";
+        $prompt .= "8. El mensaje debe ser CORTO (máximo 600 caracteres)\n";
+        $prompt .= "9. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
+        $prompt .= "10. NO uses HTML ni código\n";
+        $prompt .= "11. El tono debe transmitir confianza y cercanía\n\n";
+        
+        $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
+
+        return $prompt;
+    }
+
+    /**
+     * Mensaje predeterminado de bienvenida
+     */
+    protected function mensajePredeterminadoBienvenida(array $datos): string
+    {
+        $nombrePaciente = $datos['nombre_paciente'] ?? 'Cliente';
+        $numeroOrden = $datos['numero_orden'] ?? 'N/A';
+
+        $mensaje = "👋 *¡Bienvenido/a a Optirango!*\n\n";
+        $mensaje .= "Estimado/a *{$nombrePaciente}*,\n\n";
+        $mensaje .= "Le damos la bienvenida y agradecemos su confianza. Su orden ha sido registrada exitosamente:\n\n";
+        $mensaje .= "📋 *Orden:* {$numeroOrden}\n\n";
+        $mensaje .= "Le notificaremos cuando su pedido esté listo para retirar. Si tiene alguna consulta, estamos a su disposición.\n\n";
+        $mensaje .= "_Optirango - Cuidamos tu visión_";
+
+        return $mensaje;
+    }
+
+    /**
+     * Genera un mensaje de notificación cuando la orden está lista
+     * 
+     * @param array $datosOrden Información de la orden lista
+     * @return array
+     */
+    public function generarMensajeOrdenLista(array $datosOrden): array
+    {
+        // Si no está configurada la API, usar mensaje predeterminado
+        if (!$this->isConfigured()) {
+            Log::warning('Groq API no configurada. Variable GROQ_API_KEY no encontrada en .env');
+            
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoOrdenLista($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'API no configurada',
+            ];
+        }
+
+        try {
+            $prompt = $this->construirPromptOrdenLista($datosOrden);
+            
+            $response = $this->llamarGroqAPI($prompt);
+            
+            if (!$response['success']) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoOrdenLista($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Error en API',
+                ];
+            }
+
+            $mensaje = trim($response['contenido']);
+            
+            // Si el mensaje es muy largo, usar predeterminado
+            if (strlen($mensaje) > 1000) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoOrdenLista($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Mensaje muy largo',
+                ];
+            }
+
+            return [
+                'success' => true,
+                'mensaje' => $mensaje,
+                'tokens_usados' => $response['tokens_usados'] ?? 0,
+                'es_ia' => true,
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Error generando mensaje de orden lista', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoOrdenLista($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'Excepción: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Construye el prompt para el mensaje de orden lista
+     */
+    protected function construirPromptOrdenLista(array $datos): string
+    {
+        $nombrePaciente = $datos['nombre_paciente'] ?? 'Cliente';
+        $numeroOrden = $datos['numero_orden'] ?? 'N/A';
+        $estatus = $datos['estatus'] ?? 'LISTO';
+        $fechaEntrega = $datos['fecha_entrega'] ?? null;
+        $rutaEntrega = $datos['ruta_entrega'] ?? null;
+
+        $prompt = "Eres un asistente corporativo profesional de una óptica llamada Optirango. ";
+        $prompt .= "Genera un mensaje de WhatsApp profesional y entusiasta para notificar que el pedido del cliente está listo.\n\n";
+        
+        $prompt .= "## INFORMACIÓN DE LA ORDEN\n";
+        $prompt .= "- Paciente: {$nombrePaciente}\n";
+        $prompt .= "- Número de orden: {$numeroOrden}\n";
+        $prompt .= "- Estatus: {$estatus}\n";
+        
+        if ($fechaEntrega) {
+            $prompt .= "- Fecha de entrega: {$fechaEntrega}\n";
+        }
+        
+        if ($rutaEntrega) {
+            $prompt .= "- Ruta de entrega: {$rutaEntrega}\n";
+        }
+        
+        $prompt .= "\n## INSTRUCCIONES\n";
+        $prompt .= "1. El mensaje debe ser profesional pero entusiasta\n";
+        $prompt .= "2. Notifica que su pedido está listo para retirar/entregar\n";
+        $prompt .= "3. Incluye el número de orden\n";
+        
+        if ($fechaEntrega) {
+            $prompt .= "4. Menciona la fecha de entrega programada\n";
+        }
+        
+        if ($rutaEntrega) {
+            $prompt .= "5. Indica la ruta de entrega si aplica\n";
+        }
+        
+        $prompt .= "6. Invita al cliente a retirar su pedido o confirma la entrega\n";
+        $prompt .= "7. Agradece su paciencia y confianza\n";
+        $prompt .= "8. Usa emojis de forma moderada (máximo 2-3)\n";
+        $prompt .= "9. El mensaje debe ser CORTO (máximo 600 caracteres)\n";
+        $prompt .= "10. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
+        $prompt .= "11. NO uses HTML ni código\n";
+        $prompt .= "12. El tono debe ser positivo y generar satisfacción\n\n";
+        
+        $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
+
+        return $prompt;
+    }
+
+    /**
+     * Mensaje predeterminado de orden lista
+     */
+    protected function mensajePredeterminadoOrdenLista(array $datos): string
+    {
+        $nombrePaciente = $datos['nombre_paciente'] ?? 'Cliente';
+        $numeroOrden = $datos['numero_orden'] ?? 'N/A';
+        $estatus = $datos['estatus'] ?? 'LISTO';
+        $fechaEntrega = $datos['fecha_entrega'] ?? null;
+
+        $mensaje = "✅ *¡Buenas noticias!*\n\n";
+        $mensaje .= "Estimado/a *{$nombrePaciente}*,\n\n";
+        $mensaje .= "Su pedido está *{$estatus}*:\n\n";
+        $mensaje .= "📋 *Orden:* {$numeroOrden}\n";
+        
+        if ($fechaEntrega) {
+            $mensaje .= "📅 *Fecha de entrega:* {$fechaEntrega}\n";
+        }
+        
+        $mensaje .= "\nPuede pasar a retirar su pedido. Agradecemos su confianza en Optirango.\n\n";
+        $mensaje .= "_Optirango - Cuidamos tu visión_";
+
+        return $mensaje;
+    }
 }
 

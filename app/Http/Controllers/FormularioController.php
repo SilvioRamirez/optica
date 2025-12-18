@@ -24,6 +24,11 @@ use App\Http\Requests\UpdateFormularioRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
+
+use App\Services\WhatsAppApiService;
+use App\Services\GroqAIService;
+use Carbon\Carbon;
 
 class FormularioController extends Controller
 {
@@ -168,6 +173,36 @@ class FormularioController extends Controller
         $formulario = Formulario::create($data);
 
         $formulario->calculoPagos();
+
+        // Enviar mensaje de bienvenida por WhatsApp
+        try {
+            if ($formulario->telefono) {
+                $groqService = app(GroqAIService::class);
+                $mensajeResult = $groqService->generarMensajeBienvenidaNuevaOrden([
+                    'nombre_paciente' => $formulario->paciente,
+                    'numero_orden' => $formulario->numero_orden,
+                    'fecha' => Carbon::parse($formulario->fecha)->format('d/m/Y'),
+                    'total' => number_format($formulario->total, 2),
+                ]);
+
+                if ($mensajeResult['success'] && !empty($mensajeResult['mensaje'])) {
+                    $whatsappService = app(WhatsAppApiService::class);
+                    $whatsappService->sendMessage($formulario->telefono, $mensajeResult['mensaje']);
+                    
+                    Log::info('Mensaje de bienvenida enviado', [
+                        'orden' => $formulario->numero_orden,
+                        'telefono' => $formulario->telefono,
+                        'es_ia' => $mensajeResult['es_ia'] ?? false,
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            // No detener el flujo si falla el envío del mensaje
+            Log::error('Error al enviar mensaje de bienvenida', [
+                'orden' => $formulario->numero_orden,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         return redirect()->route('formularios.index', $formulario->id)
             ->with('success', 'Registro creado exitosamente. Orden Nro. ' . $formulario->numero_orden . '.');
@@ -373,15 +408,57 @@ class FormularioController extends Controller
 
     public function cambiarEstatus(Formulario $formulario, Request $request)
     {
+        $estatusAnterior = $formulario->estatus;
+        $nuevoEstatus = $request->params['estatus'];
 
         $formulario->update([
-            'estatus'           => $request->params['estatus'],
+            'estatus'           => $nuevoEstatus,
             'ruta_entrega_id'   => $request->params['ruta_entrega_id'],
             'laboratorio'       => $request->params['laboratorio'],
             'fecha_entrega'     => $request->params['fecha_entrega'],
         ]);
 
         $formulario->calculoPagos();
+
+        // Enviar mensaje cuando el estatus cambie a LISTO o POR ENTREGAR
+        $estatusParaNotificar = ['LISTO', 'POR ENTREGAR'];
+        
+        if (in_array($nuevoEstatus, $estatusParaNotificar) && $estatusAnterior !== $nuevoEstatus) {
+            try {
+                if ($formulario->telefono) {
+                    $groqService = app(GroqAIService::class);
+                    
+                    $datosOrden = [
+                        'nombre_paciente' => $formulario->paciente,
+                        'numero_orden' => $formulario->numero_orden,
+                        'estatus' => $nuevoEstatus,
+                        'fecha_entrega' => $formulario->fecha_entrega ? Carbon::parse($formulario->fecha_entrega)->format('d/m/Y') : null,
+                        'ruta_entrega' => $formulario->rutaEntrega ? $formulario->rutaEntrega->ruta_entrega : null,
+                    ];
+
+                    $mensajeResult = $groqService->generarMensajeOrdenLista($datosOrden);
+
+                    if ($mensajeResult['success'] && !empty($mensajeResult['mensaje'])) {
+                        $whatsappService = app(WhatsAppApiService::class);
+                        $whatsappService->sendMessage($formulario->telefono, $mensajeResult['mensaje']);
+                        
+                        Log::info('Mensaje de orden lista enviado', [
+                            'orden' => $formulario->numero_orden,
+                            'estatus' => $nuevoEstatus,
+                            'telefono' => $formulario->telefono,
+                            'es_ia' => $mensajeResult['es_ia'] ?? false,
+                        ]);
+                    }
+                }
+            } catch (\Exception $e) {
+                // No detener el flujo si falla el envío del mensaje
+                Log::error('Error al enviar mensaje de orden lista', [
+                    'orden' => $formulario->numero_orden,
+                    'estatus' => $nuevoEstatus,
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
 
         return $formulario->toJson();
     }
