@@ -11,7 +11,13 @@
 
             @canany(['refractante-telefono','refractante-create','refractante-edit'])
                 {{ Form::textComp('telefono','Telefono', null, null, '') }}
+                {{ Form::checkboxComp('whatsapp_send', 'Enviar mensaje de bienvenida por WhatsApp', is_object($refractante) ? $refractante->whatsapp_send : null, null, '') }}
+
             @endcanany
+
+            {{ Form::dateComp('fecha_nacimiento','Fecha de Nacimiento', null, null, '') }}
+
+            {{ Form::selectComp('genero', 'Genero', '', ['' => '-- Seleccione --', 'MASCULINO' => 'MASCULINO', 'FEMENINO' => 'FEMENINO']) }}
             
         </div>
     </div>

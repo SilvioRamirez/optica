@@ -47,7 +47,10 @@
                 @foreach ($refractantes as $refractante)
                     <option value="{{ $refractante['id'] }}" data-telefono="{{ $refractante['telefono'] }}"
                         data-nombre-apellido="{{ $refractante['nombre_apellido'] }}"
-                        data-id-operativo="{{ $refractante['operativo_id'] }}">
+                        data-id-operativo="{{ $refractante['operativo_id'] }}"
+                        data-fecha-nacimiento="{{ $refractante['fecha_nacimiento'] }}"
+                        data-genero="{{ $refractante['genero'] }}"
+                        data-whatsapp-send="{{ $refractante['whatsapp_send'] }}">
                         {{ $refractante['text'] }}
                     </option>
                 @endforeach
@@ -72,9 +75,13 @@
 
             @canany(['formulario-telefono', 'formulario-create', 'formulario-edit'])
                 {{ Form::textComp('telefono', 'Telefono', null, null, '+584121234567') }}
+                {{ Form::checkboxComp('whatsapp_send', 'Enviar mensaje de bienvenida por WhatsApp', is_object($formulario) ? $formulario->whatsapp_send : null, null, '') }}
+
             @endcanany
 
             {{ Form::textComp('cedula', 'Cedula', null, null, '') }}
+
+            {{ Form::dateComp('fecha_nacimiento', 'Fecha de Nacimiento', null, null, '') }}
 
             {{ Form::textComp('edad', 'Edad', null, null, '') }}
 
@@ -481,10 +488,16 @@
                         var telefono = selectedOption.getAttribute('data-telefono');
                         var nombreApellido = selectedOption.getAttribute('data-nombre-apellido');
                         var idOperativo = selectedOption.getAttribute('data-id-operativo');
+                        var fechaNacimiento = selectedOption.getAttribute('data-fecha-nacimiento');
+                        var genero = selectedOption.getAttribute('data-genero');
+                        var whatsappSend = selectedOption.getAttribute('data-whatsapp-send');
 
                         // Autocompletar campos del formulario
                         var pacienteInput = document.getElementById('paciente');
                         var telefonoInput = document.getElementById('telefono');
+                        var fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+                        var generoInput = document.getElementById('genero');
+                        var whatsappSendInput = document.getElementById('whatsapp_send');
 
                         if (idOperativo) {
                             // Actualizar el TomSelect de operativo
@@ -497,6 +510,18 @@
 
                         if (telefonoInput && telefono) {
                             telefonoInput.value = telefono;
+                        }
+
+                        if (fechaNacimientoInput && fechaNacimiento) {
+                            fechaNacimientoInput.value = fechaNacimiento;
+                        }
+
+                        if (generoInput && genero) {
+                            generoInput.value = genero;
+                        }
+
+                        if (whatsappSendInput && whatsappSend) {
+                            whatsappSendInput.checked = whatsappSend;
                         }
 
                         // Actualizar el span de información
