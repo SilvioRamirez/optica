@@ -94,7 +94,7 @@ class FormularioController extends Controller
         $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
         $refractantes = Refractante::orderBy('id', 'desc')
-            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
+            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id', 'fecha_nacimiento', 'genero', 'whatsapp_send')
             ->take(100)
             ->get()
             ->map(function ($item) {
@@ -103,10 +103,13 @@ class FormularioController extends Controller
                     'text' => $item->nombre_apellido . ' (' . $item->telefono . ')',
                     'telefono' => $item->telefono,
                     'nombre_apellido' => $item->nombre_apellido,
-                    'operativo_id' => $item->operativo_id
+                    'operativo_id' => $item->operativo_id,
+                    'fecha_nacimiento' => $item->fecha_nacimiento,
+                    'genero' => $item->genero,
+                    'whatsapp_send' => $item->whatsapp_send,
                 ];
             })
-            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0, 'fecha_nacimiento' => 0, 'genero' => 0, 'whatsapp_send' => 0]);
 
         $operativos = Operativo::orderBy('id', 'desc')
             ->select('id', 'nombre_operativo')
@@ -232,7 +235,7 @@ class FormularioController extends Controller
         $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
         $refractantes = Refractante::orderBy('id', 'desc')
-            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
+            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id', 'fecha_nacimiento', 'genero', 'whatsapp_send')
             ->take(100)
             ->get()
             ->map(function ($item) {
@@ -241,10 +244,13 @@ class FormularioController extends Controller
                     'text' => $item->nombre_apellido . ' (' . $item->telefono . ')',
                     'telefono' => $item->telefono,
                     'nombre_apellido' => $item->nombre_apellido,
-                    'operativo_id' => $item->operativo_id
+                    'operativo_id' => $item->operativo_id,
+                    'fecha_nacimiento' => $item->fecha_nacimiento,
+                    'genero' => $item->genero,
+                    'whatsapp_send' => $item->whatsapp_send,
                 ];
             })
-            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0, 'fecha_nacimiento' => 0, 'genero' => 0, 'whatsapp_send' => 0]);
 
         $operativos = Operativo::orderBy('id', 'desc')
             ->select('id', 'nombre_operativo')
@@ -298,7 +304,7 @@ class FormularioController extends Controller
         $origens = Origen::orderBy('nombre', 'asc')->pluck('nombre', 'id')->prepend('-- Seleccione --', '');
 
         $refractantes = Refractante::orderBy('id', 'desc')
-            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id')
+            ->select('id', 'nombre_apellido', 'telefono', 'operativo_id', 'fecha_nacimiento', 'genero', 'whatsapp_send')
             ->take(100)
             ->get()
             ->map(function ($item) {
@@ -307,10 +313,13 @@ class FormularioController extends Controller
                     'text' => $item->nombre_apellido . ' (' . $item->telefono . ')',
                     'telefono' => $item->telefono,
                     'nombre_apellido' => $item->nombre_apellido,
-                    'operativo_id' => $item->operativo_id
+                    'operativo_id' => $item->operativo_id,
+                    'fecha_nacimiento' => $item->fecha_nacimiento,
+                    'genero' => $item->genero,
+                    'whatsapp_send' => $item->whatsapp_send,
                 ];
             })
-            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
+            ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0, 'fecha_nacimiento' => 0, 'genero' => 0, 'whatsapp_send' => 0]);
 
         $operativos = Operativo::orderBy('id', 'desc')
             ->select('id', 'nombre_operativo')
