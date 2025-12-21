@@ -59,4 +59,9 @@ class Refractante extends Model
         return $this->belongsTo(Operativo::class);
     }
 
+    public function whatsappSend(): bool
+    {
+        return $this->whatsapp_send ?? false;
+    }
+
 }

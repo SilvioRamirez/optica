@@ -34,235 +34,6 @@ class GroqAIService
     }
 
     /**
-     * Genera un informe médico completo usando Groq AI
-     */
-    public function generarInformeMedico(array $datosPaciente, string $motivoConsulta): array
-    {
-        // Verificar si está configurada la API
-        if (!$this->isConfigured()) {
-            Log::warning('Groq API no configurada. Variable GROQ_API_KEY no encontrada en .env');
-            
-            return [
-                'success' => false,
-                'error' => 'El servicio de IA no está configurado. Por favor, configure GROQ_API_KEY en el archivo .env',
-                'contenido' => null,
-            ];
-        }
-
-        try {
-            $prompt = $this->construirPromptInformeMedico($datosPaciente, $motivoConsulta);
-            
-            $response = $this->llamarGroqAPI($prompt);
-            
-            if (!$response['success']) {
-                return [
-                    'success' => false,
-                    'error' => $response['error'],
-                    'contenido' => null,
-                ];
-            }
-
-            return [
-                'success' => true,
-                'contenido' => $response['contenido'],
-                'tokens_usados' => $response['tokens_usados'] ?? 0,
-                'modelo' => $this->model,
-            ];
-
-        } catch (\Exception $e) {
-            Log::error('Error generando informe médico con Groq', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
-            return [
-                'success' => false,
-                'error' => 'Error al conectar con el servicio de IA: ' . $e->getMessage(),
-                'contenido' => null,
-            ];
-        }
-    }
-
-    /**
-     * Construye el prompt para el informe médico
-     */
-    protected function construirPromptInformeMedico(array $datos, string $motivoConsulta): string
-    {
-        $paciente = $datos['datos_paciente'];
-        $agudeza = $datos['agudeza_visual'];
-        $evaluacionMotora = $datos['evaluacion_motora'];
-        $examenExterno = $datos['examen_externo'];
-        $antecedentes = $datos['antecedentes'];
-
-        $prompt = "Eres un médico oftalmólogo especialista con amplia experiencia. Genera un informe médico completo, profesional y detallado en formato HTML (sin las etiquetas <html>, <body>, solo el contenido interno) basado en los siguientes datos del paciente:\n\n";
-
-        $prompt .= "## INFORMACIÓN DEL PACIENTE\n";
-        $prompt .= "Nombre: {$paciente['nombre_completo']}\n";
-        $prompt .= "Edad: {$paciente['edad']} años\n";
-        $prompt .= "Género: {$paciente['genero']}\n";
-        $prompt .= "Documento: {$paciente['documento']}\n\n";
-
-        $prompt .= "## MOTIVO DE CONSULTA\n";
-        $prompt .= $motivoConsulta . "\n\n";
-
-        // Antecedentes
-        if ($antecedentes['tiene_datos']) {
-            $prompt .= "## ANTECEDENTES MÉDICOS\n";
-            
-            if (isset($antecedentes['categorizados'])) {
-                foreach ($antecedentes['categorizados'] as $categoria => $items) {
-                    $prompt .= "### $categoria\n";
-                    foreach ($items as $item) {
-                        if ($item['es_positivo']) {
-                            $prompt .= "- {$item['nombre']}";
-                            if ($item['detalles']) {
-                                $prompt .= ": {$item['detalles']}";
-                            }
-                            $prompt .= "\n";
-                        }
-                    }
-                }
-            }
-            $prompt .= "\n";
-        }
-
-        // Agudeza Visual
-        if ($agudeza['tiene_datos']) {
-            $prompt .= "## AGUDEZA VISUAL\n";
-            $ultima = $agudeza['ultima_evaluacion'];
-            $prompt .= "Fecha de evaluación: {$ultima['fecha']}\n\n";
-            
-            $prompt .= "### Visión de Lejos:\n";
-            $prompt .= "**OD (Ojo Derecho):**\n";
-            $prompt .= "- Sin corrección: {$ultima['vision_lejos']['od']['sin_correccion']}\n";
-            $prompt .= "- Con corrección: {$ultima['vision_lejos']['od']['con_correccion']}\n";
-            $prompt .= "**OI (Ojo Izquierdo):**\n";
-            $prompt .= "- Sin corrección: {$ultima['vision_lejos']['oi']['sin_correccion']}\n";
-            $prompt .= "- Con corrección: {$ultima['vision_lejos']['oi']['con_correccion']}\n\n";
-
-            $prompt .= "### Visión de Cerca:\n";
-            $prompt .= "**OD:** SC: {$ultima['vision_cerca']['od']['sin_correccion']}, CC: {$ultima['vision_cerca']['od']['con_correccion']}\n";
-            $prompt .= "**OI:** SC: {$ultima['vision_cerca']['oi']['sin_correccion']}, CC: {$ultima['vision_cerca']['oi']['con_correccion']}\n\n";
-        }
-
-        // Examen Externo
-        if ($examenExterno['tiene_datos']) {
-            $prompt .= "## EXAMEN EXTERNO\n";
-            $prompt .= "Fecha: {$examenExterno['fecha']}\n";
-            $prompt .= "**Postura:** {$examenExterno['postura']['corporal']} / {$examenExterno['postura']['cabeza']}\n";
-            $prompt .= "**Párpados OD/OI:** {$examenExterno['parpados']['od']} / {$examenExterno['parpados']['oi']}\n";
-            $prompt .= "**Conjuntiva OD/OI:** {$examenExterno['conjuntiva']['od']} / {$examenExterno['conjuntiva']['oi']}\n";
-            $prompt .= "**Córnea OD/OI:** {$examenExterno['cornea']['od']} / {$examenExterno['cornea']['oi']}\n";
-            $prompt .= "**Iris OD/OI:** {$examenExterno['iris']['od']} / {$examenExterno['iris']['oi']}\n";
-            $prompt .= "**Pupilas OD/OI:** {$examenExterno['pupilas']['od']} / {$examenExterno['pupilas']['oi']}\n\n";
-        }
-
-        // Evaluación Motora
-        if ($evaluacionMotora['tiene_datos']) {
-            $prompt .= "## EVALUACIÓN MOTORA\n";
-            $prompt .= "Fecha: {$evaluacionMotora['fecha_evaluacion']}\n";
-            $prompt .= "Estado: {$evaluacionMotora['estado']}\n\n";
-
-            // Motilidad Ocular
-            if ($evaluacionMotora['motilidad_ocular']['tiene_datos']) {
-                $motilidad = $evaluacionMotora['motilidad_ocular'];
-                $prompt .= "### Motilidad Ocular (9 posiciones de mirada)\n";
-                
-                if ($motilidad['resumen']['hay_hallazgos_anormales']) {
-                    $prompt .= "**Hallazgos anormales en:** " . implode(', ', $motilidad['resumen']['posiciones_con_hallazgos']) . "\n";
-                } else {
-                    $prompt .= "Motilidad ocular normal en todas las posiciones.\n";
-                }
-                $prompt .= "\n";
-            }
-
-            // Cover Test
-            if ($evaluacionMotora['cover_tests']['tiene_datos']) {
-                $coverTests = $evaluacionMotora['cover_tests'];
-                $prompt .= "### Cover Test\n";
-                
-                foreach ($coverTests['tests_realizados'] as $test) {
-                    $prompt .= "**{$test['tipo_test']}** a {$test['distancia']}:\n";
-                    $prompt .= "- OD: {$test['ojo_derecho']['resultado']}\n";
-                    $prompt .= "- OI: {$test['ojo_izquierdo']['resultado']}\n";
-                    
-                    if ($test['tiene_desviacion']) {
-                        $prompt .= "- Desviación: {$test['magnitud_desviacion']} {$test['unidad_medida']}\n";
-                    }
-                }
-                $prompt .= "\n";
-            }
-
-            // Punto Próximo de Convergencia
-            if ($evaluacionMotora['punto_proximo_convergencia']['tiene_datos']) {
-                $ppc = $evaluacionMotora['punto_proximo_convergencia'];
-                $prompt .= "### Punto Próximo de Convergencia (PPC)\n";
-                $prompt .= "- Medición: {$ppc['medicion_cm']} cm\n";
-                $prompt .= "- Clasificación: {$ppc['interpretacion']}\n";
-                
-                if ($ppc['sintomas']['tiene_sintomas']) {
-                    $prompt .= "- Síntomas: " . implode(', ', $ppc['sintomas']['lista']) . "\n";
-                }
-                $prompt .= "\n";
-            }
-
-            // Test de Hirschberg
-            if ($evaluacionMotora['test_hirschberg']['tiene_datos']) {
-                $hirsch = $evaluacionMotora['test_hirschberg'];
-                $prompt .= "### Test de Hirschberg\n";
-                $prompt .= "- Estado: {$hirsch['estado']}\n";
-                
-                if ($hirsch['tiene_desviacion']) {
-                    $prompt .= "- OD: {$hirsch['ojo_derecho']['tipo_desviacion']} ({$hirsch['ojo_derecho']['desviacion_estimada']})\n";
-                    $prompt .= "- OI: {$hirsch['ojo_izquierdo']['tipo_desviacion']} ({$hirsch['ojo_izquierdo']['desviacion_estimada']})\n";
-                }
-                $prompt .= "\n";
-            }
-
-            // Reflejo Pupilar
-            if ($evaluacionMotora['reflejo_pupilar']['tiene_datos']) {
-                $reflejo = $evaluacionMotora['reflejo_pupilar'];
-                $prompt .= "### Reflejos Pupilares\n";
-                $prompt .= "**Reflejo Directo:** OD: {$reflejo['reflejo_directo']['od']}, OI: {$reflejo['reflejo_directo']['oi']}\n";
-                $prompt .= "**Reflejo Consensual:** OD: {$reflejo['reflejo_consensual']['od']}, OI: {$reflejo['reflejo_consensual']['oi']}\n";
-                $prompt .= "**Tamaño Pupilar en Luz:** OD: {$reflejo['tamano_pupilar']['od_luz']}mm, OI: {$reflejo['tamano_pupilar']['oi_luz']}mm\n";
-                
-                if ($reflejo['anisocoria']['presente']) {
-                    $prompt .= "**Anisocoria:** Presente ({$reflejo['anisocoria']['diferencia_mm']}mm)\n";
-                }
-                $prompt .= "\n";
-            }
-        }
-
-        // Órdenes de lentes previas
-        if (isset($datos['ordenes_lentes']) && $datos['ordenes_lentes']['tiene_datos']) {
-            $orden = $datos['ordenes_lentes']['ultima_orden'];
-            $prompt .= "## PRESCRIPCIÓN ACTUAL DE LENTES\n";
-            $prompt .= "Tipo: {$orden['tipo']}\n";
-            $prompt .= "OD: Esf {$orden['ojo_derecho']['esfera']} Cil {$orden['ojo_derecho']['cilindro']} Eje {$orden['ojo_derecho']['eje']}\n";
-            $prompt .= "OI: Esf {$orden['ojo_izquierdo']['esfera']} Cil {$orden['ojo_izquierdo']['cilindro']} Eje {$orden['ojo_izquierdo']['eje']}\n";
-            $prompt .= "DP: {$orden['distancia_pupilar']}\n\n";
-        }
-
-        $prompt .= "\n## INSTRUCCIONES PARA EL INFORME\n";
-        $prompt .= "Genera un informe médico oftalmológico completo y profesional que incluya:\n\n";
-        $prompt .= "1. **Resumen de la consulta**: Breve descripción del motivo y hallazgos principales\n";
-        $prompt .= "2. **Diagnóstico**: Diagnóstico clínico basado en los hallazgos (mínimo 2-3 párrafos detallados)\n";
-        $prompt .= "3. **Plan de tratamiento**: Recomendaciones terapéuticas específicas\n";
-        $prompt .= "4. **Recomendaciones**: Consejos para el paciente\n";
-        $prompt .= "5. **Seguimiento**: Indicaciones de control\n\n";
-        $prompt .= "IMPORTANTE:\n";
-        $prompt .= "- Usa terminología médica profesional pero comprensible\n";
-        $prompt .= "- Sé específico con los hallazgos y correlaciónalos con los datos\n";
-        $prompt .= "- El diagnóstico debe ser coherente con los datos presentados\n";
-        $prompt .= "- Usa formato HTML con etiquetas <h2>, <h3>, <p>, <ul>, <li>, <strong>, etc.\n";
-        $prompt .= "- NO incluyas etiquetas <html>, <head>, o <body>, solo el contenido\n";
-        $prompt .= "- Incluye estilos inline si es necesario para mejorar la presentación\n";
-
-        return $prompt;
-    }
-
-    /**
      * Llama a la API de Groq (compatible con OpenAI)
      */
     protected function llamarGroqAPI(string $prompt): array
@@ -280,7 +51,7 @@ class GroqAIService
                     'messages' => [
                         [
                             'role' => 'system',
-                            'content' => 'Eres un médico oftalmólogo especialista con amplia experiencia en diagnóstico y tratamiento de patologías oculares. Genera informes médicos profesionales, detallados y estructurados.'
+                            'content' => 'Eres un optometrista especialista con amplia experiencia en diagnóstico y tratamiento de patologías oculares. Genera mensajes profesionales y cortos para whatsapp para una óptica llamada Optirango.'
                         ],
                         [
                             'role' => 'user',
@@ -339,19 +110,6 @@ class GroqAIService
                 'error' => $e->getMessage(),
             ];
         }
-    }
-
-    /**
-     * Mejora o regenera una sección del informe
-     */
-    public function mejorarSeccion(string $seccion, string $contexto): array
-    {
-        $prompt = "Eres un médico oftalmólogo experto. Mejora la siguiente sección del informe médico:\n\n";
-        $prompt .= "SECCIÓN ACTUAL:\n{$seccion}\n\n";
-        $prompt .= "CONTEXTO:\n{$contexto}\n\n";
-        $prompt .= "Genera una versión mejorada de esta sección en formato HTML, más detallada y profesional.";
-
-        return $this->llamarGroqAPI($prompt);
     }
 
     /**
@@ -455,7 +213,8 @@ class GroqAIService
         $prompt .= "7. El mensaje debe ser CORTO (máximo 600 caracteres)\n";
         $prompt .= "8. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
         $prompt .= "9. NO uses HTML ni código\n";
-        $prompt .= "10. El tono debe ser de una clínica médica profesional\n\n";
+        $prompt .= "10. El tono debe ser de una óptica llamada Optirango\n\n";
+        $prompt .= "11. Indicale que puede revisar también el estatus de su orden en optirango.com\n";
         
         $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
 
@@ -580,6 +339,7 @@ class GroqAIService
         $prompt .= "9. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
         $prompt .= "10. NO uses HTML ni código\n";
         $prompt .= "11. El tono debe transmitir confianza y cercanía\n\n";
+        $prompt .= "12. Indicale que puede revisar también el estatus de su orden en optirango.com\n";
         
         $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
 
@@ -718,6 +478,7 @@ class GroqAIService
         $prompt .= "10. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
         $prompt .= "11. NO uses HTML ni código\n";
         $prompt .= "12. El tono debe ser positivo y generar satisfacción\n\n";
+        $prompt .= "13. Indicale que puede revisar también el estatus de su orden en optirango.com\n";
         
         $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
 
@@ -744,6 +505,128 @@ class GroqAIService
         }
         
         $mensaje .= "\nPuede pasar a retirar su pedido. Agradecemos su confianza en Optirango.\n\n";
+        $mensaje .= "_Optirango - La Claridad Que Tus Ojos Merecen _";
+
+        return $mensaje;
+    }
+
+    /**
+     * Genera un mensaje de bienvenida para una nueva orden
+     * 
+     * @param array $datosOrden Información de la orden creada
+     * @return array
+     */
+    public function generarMensajeBienvenidaRefractante(array $datosOrden): array
+    {
+        // Si no está configurada la API, usar mensaje predeterminado
+        if (!$this->isConfigured()) {
+            Log::warning('Groq API no configurada. Variable GROQ_API_KEY no encontrada en .env');
+            
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoBienvenidaRefractante($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'API no configurada',
+            ];
+        }
+
+        try {
+            $prompt = $this->construirPromptBienvenidaRefractante($datosOrden);
+            
+            $response = $this->llamarGroqAPI($prompt);
+            
+            if (!$response['success']) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoBienvenidaRefractante($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Error en API',
+                ];
+            }
+
+            $mensaje = trim($response['contenido']);
+            
+            // Si el mensaje es muy largo (WhatsApp tiene límite), usar predeterminado
+            if (strlen($mensaje) > 1000) {
+                return [
+                    'success' => true,
+                    'mensaje' => $this->mensajePredeterminadoBienvenidaRefractante($datosOrden),
+                    'es_ia' => false,
+                    'motivo' => 'Mensaje muy largo',
+                ];
+            }
+
+            return [
+                'success' => true,
+                'mensaje' => $mensaje,
+                'tokens_usados' => $response['tokens_usados'] ?? 0,
+                'es_ia' => true,
+            ];
+
+        } catch (\Exception $e) {
+            Log::error('Error generando mensaje de bienvenida refractante', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return [
+                'success' => true,
+                'mensaje' => $this->mensajePredeterminadoBienvenidaRefractante($datosOrden),
+                'es_ia' => false,
+                'motivo' => 'Excepción: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Construye el prompt para el mensaje de bienvenida
+     */
+    protected function construirPromptBienvenidaRefractante(array $datos): string
+    {
+        $nombreRefractante = $datos['nombre_refractante'] ?? 'Refractante';
+        $telefono = $datos['telefono'] ?? 'N/A';
+        $fechaNacimiento = $datos['fecha_nacimiento'] ?? null;
+        $genero = $datos['genero'] ?? null;
+
+        $prompt = "Eres un asistente corporativo profesional de una óptica llamada Optirango. ";
+        $prompt .= "Genera un mensaje de WhatsApp cálido, profesional y acogedor para dar la bienvenida a un nuevo refractante (paciente atendido pero no ha realizado una orden, es un cliente potencial).\n\n";
+        
+        $prompt .= "## INFORMACIÓN DEL REFRACTANTE\n";
+        $prompt .= "- Paciente: {$nombreRefractante}\n";
+        $prompt .= "- Teléfono: {$telefono}\n";
+        $prompt .= "- Fecha de nacimiento: {$fechaNacimiento}\n";
+        $prompt .= "- Genero: {$genero}\n\n";
+        
+        $prompt .= "## INSTRUCCIONES\n";
+        $prompt .= "1. El mensaje debe ser profesional, cálido y cercano\n";
+        $prompt .= "2. Da la bienvenida y agradece la confianza en Optirango\n";
+        $prompt .= "3. Ofrece disponibilidad para cualquier consulta\n";
+        $prompt .= "4. Usa emojis de forma moderada y profesional (máximo 2-3)\n";
+        $prompt .= "5. El mensaje debe ser CORTO (máximo 600 caracteres)\n";
+        $prompt .= "6. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
+        $prompt .= "7. NO uses HTML ni código\n";
+        $prompt .= "8. El tono debe transmitir confianza y cercanía\n\n";
+        
+        $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
+
+        return $prompt;
+    }
+
+    /**
+     * Mensaje predeterminado de bienvenida
+     */
+    protected function mensajePredeterminadoBienvenidaRefractante(array $datos): string
+    {
+        $nombreRefractante = $datos['nombre_refractante'] ?? 'Refractante';
+        $telefono = $datos['telefono'] ?? 'N/A';
+        $fechaNacimiento = $datos['fecha_nacimiento'] ?? null;
+        $genero = $datos['genero'] ?? null;
+
+        $mensaje = "👋 *¡Bienvenido/a a Optirango!*\n\n";
+        $mensaje .= "Estimado/a *{$nombreRefractante}*,\n\n";
+        $mensaje .= "Le damos la bienvenida y agradecemos su confianza. Si tiene alguna consulta, estamos a su disposición.\n\n";
+        $mensaje .= "📞 *Teléfono:* {$telefono}\n";
+        $mensaje .= "📅 *Fecha de nacimiento:* {$fechaNacimiento}\n";
+        $mensaje .= "👤 *Genero:* {$genero}\n\n";
         $mensaje .= "_Optirango - Cuidamos tu visión_";
 
         return $mensaje;

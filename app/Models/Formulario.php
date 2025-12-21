@@ -214,4 +214,9 @@ class Formulario extends Model
     {
         return $this->hasMany(FormularioLaboratorio::class);
     }
+
+    public function whatsappSend(): bool
+    {
+        return $this->whatsapp_send ?? false;
+    }
 }

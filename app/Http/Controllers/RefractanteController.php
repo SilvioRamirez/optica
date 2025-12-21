@@ -10,6 +10,11 @@ use App\Models\Operativo;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use App\Services\GroqAIService;
+use App\Services\WhatsAppApiService;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 class RefractanteController extends Controller
 {
 
@@ -52,6 +57,36 @@ class RefractanteController extends Controller
         $data = $request->all();
 
         $refractante = Refractante::create($data);
+
+        // Enviar mensaje de bienvenida por WhatsApp
+        try {
+            if ($refractante->telefono && $refractante->whatsappSend()) {
+                $groqService = app(GroqAIService::class);
+                $mensajeResult = $groqService->generarMensajeBienvenidaRefractante([
+                    'nombre_refractante' => $refractante->nombre_apellido,
+                    'telefono' => $refractante->telefono,
+                    'fecha_nacimiento' => $refractante->fecha_nacimiento,
+                    'genero' => $refractante->genero,
+                ]);
+
+                if ($mensajeResult['success'] && !empty($mensajeResult['mensaje'])) {
+                    $whatsappService = app(WhatsAppApiService::class);
+                    $whatsappService->sendMessage($refractante->telefono, $mensajeResult['mensaje']);
+
+                    Log::info('Mensaje de bienvenida enviado', [
+                        'refractante' => $refractante->nombre_apellido,
+                        'telefono' => $refractante->telefono,
+                        'es_ia' => $mensajeResult['es_ia'] ?? false,
+                    ]);
+                }
+            }
+        } catch (\Exception $e) {
+            // No detener el flujo si falla el envío del mensaje
+            Log::error('Error al enviar mensaje de bienvenida', [
+                'refractante' => $refractante->nombre_apellido,
+                'error' => $e->getMessage(),
+            ]);
+        }
 
         return redirect()->route('refractantes.index', $refractante->id)
                             ->with('success','Registro creado exitosamente.');

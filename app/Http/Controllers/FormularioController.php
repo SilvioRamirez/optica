@@ -176,7 +176,7 @@ class FormularioController extends Controller
 
         // Enviar mensaje de bienvenida por WhatsApp
         try {
-            if ($formulario->telefono) {
+            if ($formulario->telefono && $formulario->whatsappSend()) {
                 $groqService = app(GroqAIService::class);
                 $mensajeResult = $groqService->generarMensajeBienvenidaNuevaOrden([
                     'nombre_paciente' => $formulario->paciente,
@@ -188,7 +188,7 @@ class FormularioController extends Controller
                 if ($mensajeResult['success'] && !empty($mensajeResult['mensaje'])) {
                     $whatsappService = app(WhatsAppApiService::class);
                     $whatsappService->sendMessage($formulario->telefono, $mensajeResult['mensaje']);
-                    
+
                     Log::info('Mensaje de bienvenida enviado', [
                         'orden' => $formulario->numero_orden,
                         'telefono' => $formulario->telefono,
@@ -312,7 +312,7 @@ class FormularioController extends Controller
             })
             ->prepend(['id' => '', 'text' => '-- Seleccione --', 'telefono' => 0, 'nombre_apellido' => 0, 'operativo_id' => 0]);
 
-        $operativos = Operativo::orderBy('id','desc')
+        $operativos = Operativo::orderBy('id', 'desc')
             ->select('id', 'nombre_operativo')
             ->get()
             ->map(function ($item) {
@@ -422,12 +422,12 @@ class FormularioController extends Controller
 
         // Enviar mensaje cuando el estatus cambie a LISTO o POR ENTREGAR
         $estatusParaNotificar = ['LISTO', 'POR ENTREGAR'];
-        
+
         if (in_array($nuevoEstatus, $estatusParaNotificar) && $estatusAnterior !== $nuevoEstatus) {
             try {
-                if ($formulario->telefono) {
+                if ($formulario->telefono && $formulario->whatsappSend()) {
                     $groqService = app(GroqAIService::class);
-                    
+
                     $datosOrden = [
                         'nombre_paciente' => $formulario->paciente,
                         'numero_orden' => $formulario->numero_orden,
@@ -441,7 +441,7 @@ class FormularioController extends Controller
                     if ($mensajeResult['success'] && !empty($mensajeResult['mensaje'])) {
                         $whatsappService = app(WhatsAppApiService::class);
                         $whatsappService->sendMessage($formulario->telefono, $mensajeResult['mensaje']);
-                        
+
                         Log::info('Mensaje de orden lista enviado', [
                             'orden' => $formulario->numero_orden,
                             'estatus' => $nuevoEstatus,
