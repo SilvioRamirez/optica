@@ -514,6 +514,8 @@
 
                         if (fechaNacimientoInput && fechaNacimiento) {
                             fechaNacimientoInput.value = fechaNacimiento;
+                            // Calcular edad automáticamente
+                            calcularEdad(fechaNacimiento);
                         }
 
                         if (generoInput && genero) {
@@ -659,6 +661,36 @@
         /* Función que agrega un listener al precio del cristal y el precio de la montura para obtener el precio total automáticamente */
         document.getElementById('precio_cristal').addEventListener('keyup', calcularPrecioTotal);
         document.getElementById('precio_montura').addEventListener('keyup', calcularPrecioTotal);
+
+        /* Función que calcula la edad basándose en la fecha de nacimiento */
+        function calcularEdad(fechaNacimiento) {
+            if (!fechaNacimiento) {
+                return;
+            }
+
+            var fechaNac = new Date(fechaNacimiento);
+            var hoy = new Date();
+            var edad = hoy.getFullYear() - fechaNac.getFullYear();
+            var mes = hoy.getMonth() - fechaNac.getMonth();
+
+            // Ajustar la edad si aún no ha cumplido años este año
+            if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+                edad--;
+            }
+
+            var edadInput = document.getElementById('edad');
+            if (edadInput) {
+                edadInput.value = edad >= 0 ? edad : '';
+            }
+        }
+
+        /* Event listener para calcular la edad cuando cambia la fecha de nacimiento */
+        var fechaNacimientoInput = document.getElementById('fecha_nacimiento');
+        if (fechaNacimientoInput) {
+            fechaNacimientoInput.addEventListener('change', function() {
+                calcularEdad(this.value);
+            });
+        }
 
         /* Funcion que agrega un año a la fecha seleccionada */
 
