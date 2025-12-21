@@ -421,7 +421,7 @@ class FormularioController extends Controller
         $formulario->calculoPagos();
 
         // Enviar mensaje cuando el estatus cambie a LISTO o POR ENTREGAR
-        $estatusParaNotificar = ['LISTO', 'POR ENTREGAR'];
+        $estatusParaNotificar = ['LISTO, POR ENTREGAR'];
 
         if (in_array($nuevoEstatus, $estatusParaNotificar) && $estatusAnterior !== $nuevoEstatus) {
             try {

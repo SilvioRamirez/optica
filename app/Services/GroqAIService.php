@@ -236,7 +236,7 @@ class GroqAIService
         $mensaje .= "💵 *Monto:* \${$monto} USD\n";
         $mensaje .= "📝 *Referencia:* {$referencia}\n\n";
         $mensaje .= "Agradecemos su confianza. Si tiene alguna consulta, estamos a su disposición.\n\n";
-        $mensaje .= "_Optirango_";
+        $mensaje .= "_Optirango.com - La Claridad Que Tus Ojos Merecen _";
 
         return $mensaje;
     }
@@ -359,7 +359,7 @@ class GroqAIService
         $mensaje .= "Le damos la bienvenida y agradecemos su confianza. Su orden ha sido registrada exitosamente:\n\n";
         $mensaje .= "📋 *Orden:* {$numeroOrden}\n\n";
         $mensaje .= "Le notificaremos cuando su pedido esté listo para retirar. Si tiene alguna consulta, estamos a su disposición.\n\n";
-        $mensaje .= "_Optirango - Cuidamos tu visión_";
+        $mensaje .= "_Optirango.com - La Claridad Que Tus Ojos Merecen _";
 
         return $mensaje;
     }
@@ -505,7 +505,7 @@ class GroqAIService
         }
         
         $mensaje .= "\nPuede pasar a retirar su pedido. Agradecemos su confianza en Optirango.\n\n";
-        $mensaje .= "_Optirango - La Claridad Que Tus Ojos Merecen _";
+        $mensaje .= "_Optirango.com - La Claridad Que Tus Ojos Merecen _";
 
         return $mensaje;
     }
@@ -605,6 +605,7 @@ class GroqAIService
         $prompt .= "6. Usa formato WhatsApp: *negritas*, _cursivas_ si es necesario\n";
         $prompt .= "7. NO uses HTML ni código\n";
         $prompt .= "8. El tono debe transmitir confianza y cercanía\n\n";
+        $prompt .= "9. Indicale que puede revisar nuestra web en optirango.com\n";
         
         $prompt .= "Genera SOLO el mensaje, sin introducción ni explicación adicional.";
 
@@ -627,7 +628,7 @@ class GroqAIService
         $mensaje .= "📞 *Teléfono:* {$telefono}\n";
         $mensaje .= "📅 *Fecha de nacimiento:* {$fechaNacimiento}\n";
         $mensaje .= "👤 *Genero:* {$genero}\n\n";
-        $mensaje .= "_Optirango - Cuidamos tu visión_";
+        $mensaje .= "_Optirango.com - La Claridad Que Tus Ojos Merecen _";
 
         return $mensaje;
     }
