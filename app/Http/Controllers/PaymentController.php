@@ -46,20 +46,29 @@ class PaymentController extends Controller
         $payment->formulario->calculoPagos();
 
         // Generar mensaje personalizado con IA
+        if ($payment->formulario->whatsapp_send) {
+            try {
         $groqService = app(GroqAIService::class);
         $mensajeResult = $groqService->generarMensajeConfirmacionPago([
-            'nombre_paciente' => $payment->paciente,
+            'nombre_paciente' => $payment->formulario->paciente,
             'monto' => number_format($payment->monto_usd, 2),
             'referencia' => $payment->referencia,
             'fecha_pago' => Carbon::parse($payment->fecha_pago)->format('d/m/Y'),
-            'numero_orden' => $payment->numero_orden,
-        ]);
+                'numero_orden' => $payment->numero_orden,
+            ]);
 
-        $mensaje = $mensajeResult['mensaje'] ?? 'Pago confirmado exitosamente';
+            $mensaje = $mensajeResult['mensaje'] ?? 'Pago confirmado exitosamente';
 
-        // Enviar mensaje por WhatsApp
-        $whatsappApiService = app(WhatsAppApiService::class);
-        $whatsappApiService->sendMessage($payment->formulario->telefono, $mensaje);
+            // Enviar mensaje por WhatsApp
+                $whatsappApiService = app(WhatsAppApiService::class);
+                $whatsappApiService->sendMessage($payment->formulario->telefono, $mensaje);
+            } catch (\Exception $e) {
+                // No detener el flujo si falla el envío del mensaje
+                Log::error('Error al enviar mensaje de confirmación de pago', [
+                    'error' => $e->getMessage(),
+                ]);
+            }
+        }
 
         return response()->json($payment);
     }
